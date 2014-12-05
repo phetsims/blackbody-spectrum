@@ -1,0 +1,22 @@
+{
+  "blackbody-spectrum.name": "Blackbody Spectrum",
+  "units.cm": "cm",
+  "verticallabel:Intensity": "Intensity (MW/m\u00b2/\u00b5m)",
+  "horizontal_label.wavelength": "Wavelength (\u00b5m)",
+  "subtitle_intensity": "1 \u00b5m  =  1000 nm",
+  "b": "B",
+  "g": "G",
+  "r": "R",
+  "save": "Save",
+  "clear": " Clear",
+  "sun": "Sun",
+  "lightbulb": "Lightbulb",
+  "oven": "Oven",
+  "earth": "Earth",
+  "tempInK": "T(K)",
+  "showRuler": "Show Ruler",
+  "wavelength": "wavelength",
+  "patternValueUnitHz": "{0} Hz",
+  "patternValueUnitCm": "{0} cm",
+  "intensity": "intensity"
+}
