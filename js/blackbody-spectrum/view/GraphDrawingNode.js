@@ -16,7 +16,6 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Shape = require( 'KITE/Shape' );
   //  var ScientificNotation = require('SCENERY_PHET/ScientificNotationNode');
-//  var Spectrum = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/SpectrumNode' );
   var Spectrum = require( 'SCENERY_PHET/SpectrumNode' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
@@ -29,9 +28,16 @@ define( function( require ) {
   var VERTICAL_GRAPH_LENGTH = 500; //size of graph in pixels
   var COLOR_TICK_LABEL = 'yellow';
   var COLOR_AXIS_LABEL = '#00EBEB'; //greenish blue
+  var GRAPH_CURVE_LINE_WIDTH = 5;
+  var GRAPH_AXES_COLOR = 'white';
 
   var HorizontalZoomScalingFactor = 2;
   var verticalZoomScalingFactor = Math.sqrt( 10 );
+
+  // strings
+  var verticalLabelIntensityString = require( 'string!BLACKBODY_SPECTRUM/verticalLabelIntensity' );
+  var horizontalLabelWavelengthString = require( 'string!BLACKBODY_SPECTRUM/horizontalLabelWavelength' );
+  var subtitleLabelString = require( 'string!BLACKBODY_SPECTRUM/subtitleLabel' );
 
   /**
    *
@@ -48,22 +54,22 @@ define( function( require ) {
     var verticalMax = 100; // initial value for the maximum Y coordinate label in MW per m^2 per micron;
     this.savedTemperature; // temperature associated with the save graph;
 
-    var verticalAxisLabelNode = new Text( 'Intensity (MW/m\u00b2/\u00b5m)', {
+    var verticalAxisLabelNode = new Text( verticalLabelIntensityString, {
       font: new PhetFont( 28 ),
       fill: COLOR_AXIS_LABEL,
       rotation: -Math.PI / 2
     } );
-    var horizontalAxisTopLabelNode = new Text( 'Wavelength (\u00b5m)', {
+    var horizontalAxisTopLabelNode = new Text( horizontalLabelWavelengthString, {
       font: new PhetFont( 32 ),
       fill: COLOR_AXIS_LABEL
     } );
-    var horizontalAxisBottomLabelNode = new Text( '1 \u00b5m  =  1000 nm ', {
+    var horizontalAxisBottomLabelNode = new Text( subtitleLabelString, {
       font: new PhetFont( 24 ),
       fill: COLOR_AXIS_LABEL
     } );
 
     // graph: blackbody curve
-    this.graph = new Path( null, {stroke: 'red', lineWidth: 5} );
+    this.graph = new Path( null, {stroke: 'red', lineWidth: GRAPH_CURVE_LINE_WIDTH} );
 
     var scaleY = 1;
     var updateGraph = function( graph, temperature ) {
@@ -75,7 +81,7 @@ define( function( require ) {
       var numberPoints = y.length;
       var deltaX = HORIZONTAL_GRAPH_LENGTH / (numberPoints - 1);
       var deltaY = VERTICAL_GRAPH_LENGTH / (verticalMax);
-      var newScaleY = scaleY * 1e33 * deltaY;
+      var newScaleY = scaleY * 1e33 * deltaY; // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
       shape.moveTo( 0, -newScaleY * y[0] );
 
       for ( i = 1; i < lengthArray; i++ ) {
@@ -94,7 +100,7 @@ define( function( require ) {
 
     var axesPath = new Path( axesShape,
       {
-        stroke: 'white',
+        stroke: GRAPH_AXES_COLOR,
         lineWidth: 3,
         lineCap: 'round',
         lineJoin: 'round'
@@ -110,7 +116,7 @@ define( function( require ) {
 
     // horizontal tick marks
 
-    var ticks = new Path( null, {stroke: 'white', lineWidth: 2, lineCap: 'butt', lineJoin: 'bevel'} );
+    var ticks = new Path( null, {stroke: GRAPH_AXES_COLOR, lineWidth: 2, lineCap: 'butt', lineJoin: 'bevel'} );
 
     var graphBottom = 0;
 
@@ -291,7 +297,7 @@ define( function( require ) {
     save: function( temperature ) {
       this.clear();
       this.savedTemperature = temperature;
-      this.savedGraph = new Path( null, {stroke: 'yellow', lineWidth: 5} );
+      this.savedGraph = new Path( null, {stroke: 'yellow', lineWidth: GRAPH_CURVE_LINE_WIDTH} );
       this.savedGraph.shape = this.graph.shape;
       this.addChild( this.savedGraph );
     },

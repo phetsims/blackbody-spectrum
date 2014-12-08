@@ -31,7 +31,7 @@ define( function( require ) {
   var COLOR_FONT = "yellow";
 
   /**
-   * @param temperature property
+   * @param {Property.<number>} temperatureProperty
    * @param options see comments in the constructor for options parameter values
    * @constructor
    */
@@ -66,10 +66,10 @@ define( function( require ) {
 
     function Label( object, temperature ) {
       this.text = object;
-      this.temperature = temperature;
+      this.temperature = temperature; // in kelvin
     }
 
-    this.labels = [
+    var labels = [
       new Label( sunString, 5700 ),
       new Label( lightbulbString, 3000 ),
       new Label( ovenString, 660 ),
@@ -79,10 +79,9 @@ define( function( require ) {
 
     /**
      * creates text label for thermometer
-     * @param  label
+     * @param  {Label} label
      * @constructor
      */
-
     function labelMaker( label ) {
       var fluidOffset = -options.bulbDiameter; // the 0 temperature point of the rectangle
       var maxFluidHeight = options.tubeHeight;
@@ -93,6 +92,7 @@ define( function( require ) {
       shape.moveTo( options.tubeWidth / 2, objectHeight ).horizontalLineToRelative( tickMarkLength );
       var tickNode = new Path( shape, {stroke: options.outlineStroke, lineWidth: options.lineWidth} );
       var textNode = new Text( label.text, {font: VALUE_FONT, fill: COLOR_FONT} );
+
       thisThermometerNode.addChild( tickNode );
       thisThermometerNode.addChild( textNode );
 
@@ -103,9 +103,9 @@ define( function( require ) {
     }
 
 
-    for ( var i = 0; i < this.labels.length; i++ ) {
-      var label = this.labels[i];
-      labelMaker( label );
+    for ( var i = 0; i < labels.length; i++ ) {
+      var label = labels[i];
+      new labelMaker( label );
     }
 
 

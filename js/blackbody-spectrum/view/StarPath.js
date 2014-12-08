@@ -1,7 +1,7 @@
 //  Copyright 2002-2014, University of Colorado Boulder
 
 /**
- * Star Node
+ * Star Path
  *
  * @author Martin Veillette ( Berea College)
  */
@@ -10,7 +10,6 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
@@ -19,16 +18,16 @@ define( function( require ) {
 
     options = _.extend( {
       //Distance from the center to the tip of a star limb
-      outerRadius: 15,
+      outerRadius: 35,
       //Distance from the center to the closest point on the exterior of the star.  Sets the "thickness" of the star limbs
-      innerRadius: 7.5
+      innerRadius: 20
     }, options );
 
     Shape.call( this );
 
-    //Create the points for a filled-in star, which will be used to compute the geometry of a partial star.
+    //Create the points for a star.
     var points = [];
-    var i = 0;
+    var i;
     var imax = 18; // number of segments
     for ( i = 0; i < imax; i++ ) {
       //Start at the top and proceed clockwise
@@ -43,44 +42,37 @@ define( function( require ) {
     for ( i = 1; i < points.length; i++ ) {
       this.lineToPoint( points[i] );
     }
-    this.close(); // is it necessary
-
+    this.close(); // is it necessary ?
 
   }
 
   inherit( Shape, StarShape );
 
   /**
-   * @param {property} starColorProperty
    * @param options see comments in the constructor for options parameter values
    * @constructor
    */
-  function StarNode( starColorProperty, options ) {
+  function StarPath( options ) {
 
     options = _.extend( {
-      filledLineWidth: 1.5,
-      filledLineJoin: 'round'
+      lineWidth: 1.5,
+      lineJoin: 'round',
+      fill: 'red',
+      stroke: 'red'
     }, options );
 
-    Node.call( this );
-
     var starShape = new StarShape( options );
-    var starPath = new Path( starShape, {
-      lineWidth: options.filledLineWidth,
-      lineJoin: options.filledLineJoin
-    } );
-    this.addChild( starPath );
 
-    // observers
-    starColorProperty.link( function( color ) {
-      starPath.fill = color;
-      starPath.stroke = color;
+    Path.call( this, starShape, {
+      lineWidth: options.lineWidth,
+      lineJoin: options.lineJoin,
+      fill: options.fill,
+      stroke: options.stroke
     } );
 
     this.mutate( options );
   }
 
-
-  return inherit( Node, StarNode );
+  return inherit( Path, StarPath );
 } )
 ;

@@ -22,17 +22,15 @@ define( function( require ) {
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Shape = require( 'KITE/Shape' );
-  var StarNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/StarNode' );
+  var StarPath = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/StarPath' );
   var Text = require( 'SCENERY/nodes/Text' );
   var ThermometerNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/ThermometerNode' );
   var VerticalSlider = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/VerticalSlider' );
   var VerticalLabRuler = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/VerticalLabRuler' );
 
-  // strings
-
-  //  var pattern_parentheses_0text = require( 'string!MOLARITY/pattern.parentheses.0text' );
-
   // Resources
+
+  // strings
 
   var tempInKString = require( 'string!BLACKBODY_SPECTRUM/tempInK' );
   var showRulerString = require( 'string!BLACKBODY_SPECTRUM/showRuler' );
@@ -44,14 +42,19 @@ define( function( require ) {
 
   // constants
 
-  var circleLabelColor = "#00EBEB";
+  var CIRCLE_LABEL_COLOR = "#00EBEB";
+  var SAVE_BUTTON_COLOR = 'yellow';
+  var CLEAR_BUTTON_COLOR = 'red';
+  var BUTTON_FONT = new PhetFont( 15 );
+  var CIRCLE_RADIUS = 15;
+  var LABEL_FONT = new PhetFont( 22 );
 
   /**
    * Constructor for the BlackbodySpectrumView
-   * @param {BlackbodySpectrumModel} blackbodySpectrumModel the model for the entire screen
+   * @param {BlackbodySpectrumModel} model for the simulation
    * @constructor
    */
-  function BlackbodySpectrumView( blackbodySpectrumModel ) {
+  function BlackbodySpectrumView( model ) {
 
     var thisView = this;
 
@@ -59,10 +62,9 @@ define( function( require ) {
 
     this.layoutBounds = new Bounds2( 0, 0, 1100, 700 );
 
-    var modelViewTransform = new ModelViewTransform.createRectangleInvertedYMapping( blackbodySpectrumModel.bounds, this.layoutBounds );
+    var modelViewTransform = new ModelViewTransform.createRectangleInvertedYMapping( model.bounds, this.layoutBounds );
 
-
-    var thermometerNode = new ThermometerNode( blackbodySpectrumModel.temperatureProperty, {
+    var thermometerNode = new ThermometerNode( model.temperatureProperty, {
       minTemperature: 0,
       maxTemperature: 6000,
       bulbDiameter: 50,
@@ -77,49 +79,51 @@ define( function( require ) {
     // temperature slider
     var minTemperatureSlider = 0; //in kelvin
     var maxTemperatureSlider = 9000;
-    var simpleRange = new Range( minTemperatureSlider, maxTemperatureSlider, blackbodySpectrumModel.temperature ); //  kelvin
+    var simpleRange = new Range( minTemperatureSlider, maxTemperatureSlider, model.temperature ); //  kelvin
     var temperatureSlider = new VerticalSlider(
       tempInKString,
       new Dimension2( 5, 200 ),
-      blackbodySpectrumModel.temperatureProperty,
+      model.temperatureProperty,
       simpleRange,
       0 );
 
     // Show Ruler check box
     var showRulerCheckBox = CheckBox.createTextCheckBox( showRulerString, {
-      font: new PhetFont( 22 ),
-      fill: "#FFF"
-    }, blackbodySpectrumModel.isRulerVisibleProperty );
+      font: LABEL_FONT,
+      fill: 'white'
+    }, model.isRulerVisibleProperty );
     showRulerCheckBox.touchArea = Shape.rectangle( showRulerCheckBox.left, showRulerCheckBox.top - 15, showRulerCheckBox.width, showRulerCheckBox.height + 30 );
 
     //
-    var circleBlu = new Circle( 15 );
-    var circleGre = new Circle( 15 );
-    var circleRed = new Circle( 15 );
-    var circleBluLabel = new Text( bString, {font: new PhetFont( 28 ), fill: circleLabelColor} );
-    var circleGreLabel = new Text( gString, {font: new PhetFont( 28 ), fill: circleLabelColor} );
-    var circleRedLabel = new Text( rString, {font: new PhetFont( 28 ), fill: circleLabelColor} );
+    var circleBlu = new Circle( CIRCLE_RADIUS );
+    var circleGre = new Circle( CIRCLE_RADIUS );
+    var circleRed = new Circle( CIRCLE_RADIUS );
+    var circleBluLabel = new Text( bString, {font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR} );
+    var circleGreLabel = new Text( gString, {font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR} );
+    var circleRedLabel = new Text( rString, {font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR} );
 
-    var glowingHaloStar = new Circle( 10 );
-    var starNode = new StarNode( blackbodySpectrumModel.starColorProperty, {innerRadius: 20, outerRadius: 35} );
+    var glowingStarHalo = new Circle( 10 );
+    var starPath = new StarPath();
 
 
-    blackbodySpectrumModel.temperatureProperty.link( function() {
-      circleBlu.fill = blackbodySpectrumModel.getBluColor();
-      circleGre.fill = blackbodySpectrumModel.getGreColor();
-      circleRed.fill = blackbodySpectrumModel.getRedColor();
-      glowingHaloStar.fill = blackbodySpectrumModel.getGlowingStarHaloColor();
-      glowingHaloStar.radius = blackbodySpectrumModel.getGlowingStarHaloRadius();
+    model.temperatureProperty.link( function( temperature ) {
+      circleBlu.fill = model.getBluColor( temperature );
+      circleGre.fill = model.getGreColor( temperature );
+      circleRed.fill = model.getRedColor( temperature );
+      glowingStarHalo.fill = model.getGlowingStarHaloColor( temperature );
+      glowingStarHalo.radius = model.getGlowingStarHaloRadius( temperature );
+      starPath.fill = model.getStarColor( temperature );
+      starPath.stroke = model.getStarColor( temperature );
     } );
 
 
-    var verticalLabRuler = new VerticalLabRuler( blackbodySpectrumModel.rulerPositionProperty, blackbodySpectrumModel.isRulerVisibleProperty );
+    var verticalLabRuler = new VerticalLabRuler( model.rulerPositionProperty, model.isRulerVisibleProperty );
 
 
     // Create and add the Reset All Button in the bottom right
     var resetAllButton = new ResetAllButton( {
       listener: function() {
-        blackbodySpectrumModel.reset();
+        model.reset();
         graphNode.clear();
       },
       right:  this.layoutBounds.maxX - 10,
@@ -128,19 +132,19 @@ define( function( require ) {
 
 
     // create graph with zoom buttons
-    var graphNode = new GraphDrawingNode( blackbodySpectrumModel, modelViewTransform );
+    var graphNode = new GraphDrawingNode( model, modelViewTransform );
 
 
     // create the save and clear buttons
     var saveButton = new RectangularPushButton( {
-      content: new Text( saveString, {font: new PhetFont( 15 )} ),
-      baseColor: 'yellow',
-      listener: function() {graphNode.save( blackbodySpectrumModel.temperature ); }
+      content: new Text( saveString, {font: BUTTON_FONT} ),
+      baseColor: SAVE_BUTTON_COLOR,
+      listener: function() {graphNode.save( model.temperature ); }
     } );
 
     var clearButton = new RectangularPushButton( {
-      content: new Text( clearString, {font: new PhetFont( 15 )} ),
-      baseColor: 'red',
+      content: new Text( clearString, {font: BUTTON_FONT} ),
+      baseColor: CLEAR_BUTTON_COLOR,
       listener: function() {graphNode.clear(); }
     } );
 
@@ -151,8 +155,8 @@ define( function( require ) {
     this.addChild( showRulerCheckBox );
     this.addChild( temperatureSlider );
     this.addChild( thermometerNode );
-    this.addChild( starNode );
-    this.addChild( glowingHaloStar );
+    this.addChild( starPath );
+    this.addChild( glowingStarHalo );
     this.addChild( circleBlu );
     this.addChild( circleGre );
     this.addChild( circleRed );
@@ -162,8 +166,6 @@ define( function( require ) {
     this.addChild( resetAllButton );
     this.addChild( verticalLabRuler );
 
-//        graphNode.spectrum.moveToBack();
-    //   graphNode.graph.moveToFront();
     graphNode.moveChildToBack( graphNode.spectrum );
     graphNode.moveChildToFront( graphNode.graph );
     // layout for things that don't have a location in the model
@@ -196,10 +198,10 @@ define( function( require ) {
       circleGreLabel.centerY = circleBluLabel.centerY;
       circleRedLabel.centerX = circleRed.centerX;
       circleRedLabel.centerY = circleBluLabel.centerY;
-      starNode.left = circleRed.right + 60;
-      starNode.centerY = circleBlu.centerY;
-      glowingHaloStar.centerX = starNode.centerX;
-      glowingHaloStar.centerY = starNode.centerY;
+      starPath.left = circleRed.right + 60;
+      starPath.centerY = circleBlu.centerY;
+      glowingStarHalo.centerX = starPath.centerX;
+      glowingStarHalo.centerY = starPath.centerY;
 
     }
   }

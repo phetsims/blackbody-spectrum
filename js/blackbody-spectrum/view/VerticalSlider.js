@@ -1,7 +1,7 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * Vertical sliders
+ * Vertical slider
  *
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Martin Veillette (Berea College)
@@ -74,7 +74,6 @@ define( function( require ) {
    * @param {Dimension2} size
    * @param {Property<Number>} property
    * @param {Range} valueRange
-   * @param {Number} decimalPlaces
    * @param {Range} positionRange
    * @constructor
    */

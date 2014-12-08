@@ -16,6 +16,21 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
 
+
+  //constants
+  var GRAPH_NUMBER_POINTS = 300; //number of points blackbody curve is evaluated at
+  var FIRST_RADIATION_CONSTANT = 1.191042e-16; // is equal to 2 hc^2  in units of watts*m^2/steradian
+  var SECOND_RADIATION_CONSTANT = 1.438770e7; // is equal to  hc/k  in units of nanometer-kelvin
+
+  var POWER_EXPONENT = 0.7;   // an exponent to calculate the renormalized temperature
+  // colors used for glowing star and circles
+  var RED_WAVELENGTH = 650; //red wavelength in nanometers
+  var GRE_WAVELENGTH = 550; //green wavelength in nanometers
+  var BLU_WAVELENGTH = 450; //blue wavelength in nanometers
+  var GLOWING_STAR_HALO_MINIMUM_RADIUS = 5;  // in pixels
+  var GLOWING_STAR_HALO_MAXIMUM_RADIUS = 40; // in pixels
+
+
   /**
    * Main constructor for BlackbodySpectrumModel, which contains all of the model logic for the entire sim screen.
    * @constructor
@@ -24,25 +39,14 @@ define( function( require ) {
 
     var thisModel = this;
 
-    this.numberPoints = 300; //number of points blackbody curve is evaluated at
-    this.firstRadiationConstant = 1.191042e-16; // is equal to 2 hc^2  in units of watts*m^2/steradian
-    this.secondRadiationConstant = 1.438770e7; // is equal to  hc/k  in units of nanometer-kelvin
-    this.lambdaMax = 3000; // max wavelength in nanometers
-    this.intensityArray = new Array( this.numberPoints ); //Blackbody spectrum intensity
-    this.temperatureMinimum = 700; //temp(K) at which color of the circles and star turns on
-    this.temperatureMaximum = 3000; //temp(K) at which color of the circles maxes out
-    this.powerLaw = 0.7;   // an exponent to calculate the renormalized temperature
-    // colors used for glowing star and circles
-    this.redWavelength = 650; //red wavelength in nanometers
-    this.greWavelength = 550; //green wavelength in nanometers
-    this.bluWavelength = 450; //blue wavelength in nanometers
-    this.radiusGlowingStarHaloMinimum = 5;
-    this.radiusGlowingStarHaloMaximum = 40;
+    // private
+    this.intensityArray = new Array( GRAPH_NUMBER_POINTS ); //Blackbody spectrum intensity
 
+    // public
+    this.lambdaMax = 3000; // max wavelength in nanometers
 
     // bounds of the graph
     this.bounds = new Bounds2( 0, 0, 1, 1 );
-
 
     PropertySet.call( thisModel, {
         rulerPosition: new Vector2( 120, 310 ),
@@ -53,64 +57,21 @@ define( function( require ) {
       }
     );
 
-
-    this.addDerivedProperty( 'redColor', ['temperature'], function( temperature ) {
-      var red = thisModel.renormalizedColorIntensity( thisModel.redWavelength, temperature );
-      return new Color( red, 0, 0, 1 ); //a string
-    } );
-
-    this.addDerivedProperty( 'greColor', ['temperature'], function( temperature ) {
-      var gre = thisModel.renormalizedColorIntensity( thisModel.greWavelength, temperature );
-      return new Color( 0, gre, 0, 1 );
-    } );
-
-    this.addDerivedProperty( 'bluColor', ['temperature'], function( temperature ) {
-      var blu = thisModel.renormalizedColorIntensity( thisModel.bluWavelength, temperature );
-      return new Color( 0, 0, blu, 1 );
-    } );
-
-    this.addDerivedProperty( 'starColor', ['temperature'], function( temperature ) {
-      var red = thisModel.renormalizedColorIntensity( thisModel.redWavelength, temperature );
-      var gre = thisModel.renormalizedColorIntensity( thisModel.greWavelength, temperature );
-      var blu = thisModel.renormalizedColorIntensity( thisModel.bluWavelength, temperature );
-      return new Color( red, gre, blu, 1 );
-    } );
-
-    this.addDerivedProperty( 'glowingStarHaloColor', ['temperature'], function( temperature ) {
-      var red = thisModel.renormalizedColorIntensity( thisModel.redWavelength, temperature );
-      var gre = thisModel.renormalizedColorIntensity( thisModel.greWavelength, temperature );
-      var blu = thisModel.renormalizedColorIntensity( thisModel.bluWavelength, temperature );
-      var renTemp = thisModel.renormalizedTemperature( temperature );
-      var alpha = Util.linear( 0, 1, 0, 0.1, renTemp ); // renormalizedtemperature -> transparency
-      return new Color( red, gre, blu, alpha ); //a string
-    } );
-
-    this.addDerivedProperty( 'glowingStarHaloRadius', ['temperature'], function( temperature ) {
-      var renTemp = thisModel.renormalizedTemperature( temperature );
-      var radius = Util.linear( 0, 1, thisModel.radiusGlowingStarHaloMinimum, thisModel.radiusGlowingStarHaloMaximum, renTemp ); // temperature -> radius
-      return radius;
-    } );
-
-    this.addDerivedProperty( 'glowingStarHaloColorTransparency', ['temperature'], function( temperature ) {
-      var renTemp = thisModel.renormalizedTemperature( temperature );
-      var alpha = Util.linear( 0, 1, 0, 0.1, renTemp ); // temperature -> transparency
-      return alpha;
-    } );
-
   }
 
   return inherit( PropertySet, BlackbodySpectrumModel, {
 
-    intensityRadiation: function( lambda, temperature ) {
+    intensityRadiation: function( wavelength, temperature ) {
       var intensityRadiation;
       var prefactor;
       var exponentialTerm;
-      if ( lambda === 0 ) {
+      if ( wavelength === 0 ) {
+        // let's avoid division by zero.
         intensityRadiation = 0;
       }
       else {
-        prefactor = (this.firstRadiationConstant / Math.pow( lambda, 5 ));
-        exponentialTerm = 1 / (Math.exp( this.secondRadiationConstant / (lambda * temperature) ) - 1);
+        prefactor = (FIRST_RADIATION_CONSTANT / Math.pow( wavelength, 5 ));
+        exponentialTerm = 1 / (Math.exp( SECOND_RADIATION_CONSTANT / (wavelength * temperature) ) - 1);
         intensityRadiation = prefactor * exponentialTerm;
       }
       return intensityRadiation;
@@ -122,15 +83,18 @@ define( function( require ) {
        This renormalized temperature is above 0 but it can exceed one.
        i dont know why you would want to raise it to a power of 0.7
        */
-      var renTemp = Math.pow( Math.max( temperature - this.temperatureMinimum, 0 ) / (this.temperatureMaximum - this.temperatureMinimum), this.powerLaw );
+      var temperatureMinimum = 700; //temp(K) at which color of the circles and star turns on
+      var temperatureMaximum = 3000; //temp(K) at which color of the circles maxes out
+
+      var renTemp = Math.pow( Math.max( temperature - temperatureMinimum, 0 ) / (temperatureMaximum - temperatureMinimum), POWER_EXPONENT );
       return renTemp; //
     },
 
     // @private
     renormalizedColorIntensity: function( wavelength, temperature ) {
-      var red = this.intensityRadiation( this.redWavelength, temperature ); // intensity as a function of wavelength in nm
-      var gre = this.intensityRadiation( this.greWavelength, temperature );
-      var blu = this.intensityRadiation( this.bluWavelength, temperature );
+      var red = this.intensityRadiation( RED_WAVELENGTH, temperature ); // intensity as a function of wavelength in nm
+      var gre = this.intensityRadiation( GRE_WAVELENGTH, temperature );
+      var blu = this.intensityRadiation( BLU_WAVELENGTH, temperature );
       var largestColorIntensity = Math.max( red, gre, blu );
       var colorIntensity = this.intensityRadiation( wavelength, temperature );
       var boundedRenormalizedTemp = Math.min( this.renormalizedTemperature( temperature ), 1 );
@@ -138,39 +102,54 @@ define( function( require ) {
     },
 
     coordinatesY: function( temperature ) {
-      for ( var i = 0; i < this.numberPoints; i++ ) {
-        var lambda = i * this.lambdaMax / this.numberPoints;
-        this.intensityArray[i] = this.intensityRadiation( lambda, temperature );
+      for ( var i = 0; i < GRAPH_NUMBER_POINTS; i++ ) {
+        var wavelength = i * this.lambdaMax / GRAPH_NUMBER_POINTS;
+        this.intensityArray[i] = this.intensityRadiation( wavelength, temperature );
       }
       return this.intensityArray;
     },
     // @public
-    getRedColor: function() {
-      return this.redColor;
+    getRedColor: function( temperature ) {
+      var red = this.renormalizedColorIntensity( RED_WAVELENGTH, temperature );
+      return new Color( red, 0, 0, 1 );
     },
     // @public
-    getBluColor: function() {
-      return this.bluColor;
+    getBluColor: function( temperature ) {
+      var blu = this.renormalizedColorIntensity( BLU_WAVELENGTH, temperature );
+      return new Color( 0, 0, blu, 1 );
     },
     // @public
-    getGreColor: function() {
-      return this.greColor;
+    getGreColor: function( temperature ) {
+      var gre = this.renormalizedColorIntensity( GRE_WAVELENGTH, temperature );
+      return new Color( 0, gre, 0, 1 );
     },
     // @public
-    getGlowingStarHaloRadius: function() {
-      return this.glowingStarHaloRadius;
+    getGlowingStarHaloRadius: function( temperature ) {
+      var renTemp = this.renormalizedTemperature( temperature );
+      var radius = Util.linear( 0, 1, GLOWING_STAR_HALO_MINIMUM_RADIUS, GLOWING_STAR_HALO_MAXIMUM_RADIUS, renTemp ); // temperature -> radius
+      return radius;
     },
     // @public
-    getGlowingStarHaloColor: function() {
-      return this.glowingStarHaloColor;
+    getGlowingStarHaloColor: function( temperature ) {
+      var red = this.renormalizedColorIntensity( RED_WAVELENGTH, temperature );
+      var gre = this.renormalizedColorIntensity( GRE_WAVELENGTH, temperature );
+      var blu = this.renormalizedColorIntensity( BLU_WAVELENGTH, temperature );
+      var renTemp = this.renormalizedTemperature( temperature );
+      var alpha = Util.linear( 0, 1, 0, 0.1, renTemp ); // temperature -> transparency
+      return new Color( red, gre, blu, alpha );
     },
+
+    // @public
+    getStarColor: function( temperature ) {
+      var red = this.renormalizedColorIntensity( RED_WAVELENGTH, temperature );
+      var gre = this.renormalizedColorIntensity( GRE_WAVELENGTH, temperature );
+      var blu = this.renormalizedColorIntensity( BLU_WAVELENGTH, temperature );
+      return new Color( red, gre, blu, 1 );
+    },
+
     // @public
     reset: function() {
-      this.rulerPositionProperty.reset();
-      this.isRulerVisibleProperty.reset();
-      this.temperatureProperty.reset();
-      this.horizontalZoomProperty.reset();
-      this.verticalZoomProperty.reset();
+      PropertySet.prototype.reset.call( this );
     }
   } );
 } );

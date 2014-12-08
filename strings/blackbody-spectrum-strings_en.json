@@ -1,9 +1,9 @@
 {
   "blackbody-spectrum.name": "Blackbody Spectrum",
   "units.cm": "cm",
-  "verticallabel:Intensity": "Intensity (MW/m\u00b2/\u00b5m)",
-  "horizontal_label.wavelength": "Wavelength (\u00b5m)",
-  "subtitle_intensity": "1 \u00b5m  =  1000 nm",
+  "verticalLabelIntensity": "Intensity (MW/m\u00b2/\u00b5m)",
+  "horizontalLabelWavelength": "Wavelength (\u00b5m)",
+  "subtitleLabel": "1 \u00b5m  =  1000 nm",
   "b": "B",
   "g": "G",
   "r": "R",
