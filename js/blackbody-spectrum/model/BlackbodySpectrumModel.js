@@ -39,13 +39,14 @@ define( function( require ) {
 
     var thisModel = this;
 
-    // private
+    // @private
     this.intensityArray = new Array( GRAPH_NUMBER_POINTS ); //Blackbody spectrum intensity
 
-    // public
-    this.lambdaMax = 3000; // max wavelength in nanometers
+    // @public
+    this.wavelengthMax = 3000; // max wavelength in nanometers
 
     // bounds of the graph
+    // @public read-only
     this.bounds = new Bounds2( 0, 0, 1, 1 );
 
     PropertySet.call( thisModel, {
@@ -60,7 +61,7 @@ define( function( require ) {
   }
 
   return inherit( PropertySet, BlackbodySpectrumModel, {
-
+    // @private
     intensityRadiation: function( wavelength, temperature ) {
       var intensityRadiation;
       var prefactor;
@@ -77,6 +78,7 @@ define( function( require ) {
       return intensityRadiation;
     },
 
+    // @private
     renormalizedTemperature: function( temperature ) {
       /*
        the function below seems very hacky but it was found in MD flash implementation.
@@ -86,8 +88,7 @@ define( function( require ) {
       var temperatureMinimum = 700; //temp(K) at which color of the circles and star turns on
       var temperatureMaximum = 3000; //temp(K) at which color of the circles maxes out
 
-      var renTemp = Math.pow( Math.max( temperature - temperatureMinimum, 0 ) / (temperatureMaximum - temperatureMinimum), POWER_EXPONENT );
-      return renTemp; //
+      return Math.pow( Math.max( temperature - temperatureMinimum, 0 ) / (temperatureMaximum - temperatureMinimum), POWER_EXPONENT ); //
     },
 
     // @private
@@ -103,7 +104,7 @@ define( function( require ) {
 
     coordinatesY: function( temperature ) {
       for ( var i = 0; i < GRAPH_NUMBER_POINTS; i++ ) {
-        var wavelength = i * this.lambdaMax / GRAPH_NUMBER_POINTS;
+        var wavelength = i * this.wavelengthMax / GRAPH_NUMBER_POINTS;
         this.intensityArray[i] = this.intensityRadiation( wavelength, temperature );
       }
       return this.intensityArray;
@@ -126,8 +127,7 @@ define( function( require ) {
     // @public
     getGlowingStarHaloRadius: function( temperature ) {
       var renTemp = this.renormalizedTemperature( temperature );
-      var radius = Util.linear( 0, 1, GLOWING_STAR_HALO_MINIMUM_RADIUS, GLOWING_STAR_HALO_MAXIMUM_RADIUS, renTemp ); // temperature -> radius
-      return radius;
+      return Util.linear( 0, 1, GLOWING_STAR_HALO_MINIMUM_RADIUS, GLOWING_STAR_HALO_MAXIMUM_RADIUS, renTemp ); // temperature -> radius
     },
     // @public
     getGlowingStarHaloColor: function( temperature ) {

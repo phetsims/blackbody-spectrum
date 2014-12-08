@@ -52,7 +52,6 @@ define( function( require ) {
     var thisGraph = this;
 
     var verticalMax = 100; // initial value for the maximum Y coordinate label in MW per m^2 per micron;
-    this.savedTemperature; // temperature associated with the save graph;
 
     var verticalAxisLabelNode = new Text( verticalLabelIntensityString, {
       font: new PhetFont( 28 ),
@@ -86,7 +85,6 @@ define( function( require ) {
 
       for ( i = 1; i < lengthArray; i++ ) {
         shape.lineTo( deltaX * i, -newScaleY * y[i] ); /// need to flip y axis
-        //      shape.smoothQuadraticCurveTo( deltaX * i, -newScaleY * y[i] ); /// need to flip y axis
       }
       graph.shape = shape;
     };
@@ -140,7 +138,7 @@ define( function( require ) {
 
     //label for ticks
     var horizontalTickLabelZero = new Text( '0', {font: new PhetFont( 32 ), fill: COLOR_TICK_LABEL} );
-    var horizontalTickLabelMax = new Text( model.lambdaMax / 1000, {font: new PhetFont( 32 ), fill: COLOR_TICK_LABEL} );
+    var horizontalTickLabelMax = new Text( model.wavelengthMax / 1000, {font: new PhetFont( 32 ), fill: COLOR_TICK_LABEL} );
     var verticalTickLabelMax = new Text( verticalMax, {
       font: new PhetFont( 32 ),
       direction: 'rtl',
@@ -169,23 +167,27 @@ define( function( require ) {
 
     // rainbow spectrum
     // TODO use clipping instead if the spectrum is to the left.
-    var infraredPosition = Util.linear( 0, model.lambdaMax, 0, HORIZONTAL_GRAPH_LENGTH, INFRARED_WAVELENGTH );
-    var ultravioletPosition = Util.linear( 0, model.lambdaMax, 0, HORIZONTAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH );
+    var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, INFRARED_WAVELENGTH );
+    var ultravioletPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH );
     var widthSpectrum = infraredPosition - ultravioletPosition;
-    this.spectrum = new Spectrum( widthSpectrum, VERTICAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH, INFRARED_WAVELENGTH, 0.9 );
-    this.spectrum.left = ultravioletPosition + axesPath.left;
+    var spectrum = new Spectrum( widthSpectrum, VERTICAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH, INFRARED_WAVELENGTH, 0.9 );
+    spectrum.left = ultravioletPosition + axesPath.left;
 
     var updateSpectrum = function( scaleX ) {
       ultravioletPosition = ultravioletPosition / scaleX;
-      thisGraph.spectrum.scale( {x: 1 / scaleX, y: 1} );
+      spectrum.scale( {x: 1 / scaleX, y: 1} );
       var spectrumPosition = ultravioletPosition + thisGraph.graph.left;
       var isSpectrumOffTheAxis = spectrumPosition > thisGraph.graph.right;
+      spectrum.left = ultravioletPosition + thisGraph.graph.left;
+      // spectrum.visible = true;
+      //  spectrum.clipArea= Shape.rectangle(thisGraph.left,thisGraph.top,HORIZONTAL_GRAPH_LENGTH,VERTICAL_GRAPH_LENGTH);
+      //debugger;
       if ( isSpectrumOffTheAxis ) {
-        thisGraph.spectrum.visible = false;
+        spectrum.visible = false;
       }
       else {
-        thisGraph.spectrum.visible = true;
-        thisGraph.spectrum.left = ultravioletPosition + thisGraph.graph.left;
+        spectrum.visible = true;
+        spectrum.left = ultravioletPosition + thisGraph.graph.left;
       }
     };
 
@@ -198,14 +200,14 @@ define( function( require ) {
 
       var scaleX = Math.pow( HorizontalZoomScalingFactor, horizontalZoom );
 
-      model.lambdaMax = model.lambdaMax * scaleX;
+      model.wavelengthMax = model.wavelengthMax * scaleX;
       minorTickSpacing = minorTickSpacing / scaleX;
 
       //spectrum position and width
       updateSpectrum( scaleX );
 
       //update tick label
-      horizontalTickLabelMax.text = model.lambdaMax / 1000; //from nm to micron
+      horizontalTickLabelMax.text = model.wavelengthMax / 1000; //from nm to micron
 
       //update ticks
       updateTicks( minorTickSpacing );
@@ -250,7 +252,7 @@ define( function( require ) {
       model.verticalZoom = +1;
     } );
 
-    this.addChild( this.spectrum );
+    this.addChild( spectrum );
     this.addChild( horizontalTickLabelZero );
     this.addChild( horizontalTickLabelMax );
     this.addChild( verticalTickLabelMax );
@@ -260,7 +262,6 @@ define( function( require ) {
     this.addChild( axesPath );
     this.addChild( horizontalZoomButtons );
     this.addChild( verticalZoomButtons );
-
     this.addChild( ticks );
     this.addChild( this.graph );
     {
@@ -282,7 +283,7 @@ define( function( require ) {
       verticalZoomButtons.bottom = axesPath.top - 25;
       verticalZoomInButton.centerX = verticalZoomOutButton.centerX;
       verticalZoomInButton.top = verticalZoomOutButton.bottom + 50;
-      thisGraph.spectrum.bottom = axesPath.bottom;
+      spectrum.bottom = axesPath.bottom;
       verticalAxisLabelNode.top = verticalZoomButtons.bottom + 20;
       verticalAxisLabelNode.right = axesPath.left - 20;
       horizontalAxisTopLabelNode.top = axesPath.bottom + 20;
@@ -296,7 +297,7 @@ define( function( require ) {
   return inherit( Node, GraphDrawingNode, {
     save: function( temperature ) {
       this.clear();
-      this.savedTemperature = temperature;
+      this.savedTemperature = temperature; // temperature associated with the save graph;
       this.savedGraph = new Path( null, {stroke: 'yellow', lineWidth: GRAPH_CURVE_LINE_WIDTH} );
       this.savedGraph.shape = this.graph.shape;
       this.addChild( this.savedGraph );

@@ -101,7 +101,6 @@ define( function( require ) {
     var circleBluLabel = new Text( bString, {font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR} );
     var circleGreLabel = new Text( gString, {font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR} );
     var circleRedLabel = new Text( rString, {font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR} );
-
     var glowingStarHalo = new Circle( 10 );
     var starPath = new StarPath();
 
@@ -118,7 +117,6 @@ define( function( require ) {
 
 
     var verticalLabRuler = new VerticalLabRuler( model.rulerPositionProperty, model.isRulerVisibleProperty );
-
 
     // Create and add the Reset All Button in the bottom right
     var resetAllButton = new ResetAllButton( {
@@ -166,8 +164,6 @@ define( function( require ) {
     this.addChild( resetAllButton );
     this.addChild( verticalLabRuler );
 
-    graphNode.moveChildToBack( graphNode.spectrum );
-    graphNode.moveChildToFront( graphNode.graph );
     // layout for things that don't have a location in the model
     {
 
