@@ -41,8 +41,8 @@ define( function( require ) {
 
   /**
    *
-   * @param {BlackbodySpectrumModel}  model for the entire screen
-   * @param (ModelViewTransform2} modelViewTransform
+   * @param {BlackbodySpectrumModel}  model - model for the entire screen
+   * @param (ModelViewTransform} modelViewTransform
    * @constructor
    */
   function GraphDrawingNode( model, modelViewTransform ) {
