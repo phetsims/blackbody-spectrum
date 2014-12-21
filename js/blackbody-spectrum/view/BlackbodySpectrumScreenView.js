@@ -51,7 +51,7 @@ define( function( require ) {
 
   /**
    * Constructor for the BlackbodySpectrumView
-   * @param {BlackbodySpectrumModel} model for the simulation
+   * @param {BlackbodySpectrumModel} model - main model for the simulation
    * @constructor
    */
   function BlackbodySpectrumView( model ) {
