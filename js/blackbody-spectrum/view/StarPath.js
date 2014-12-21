@@ -1,7 +1,7 @@
 //  Copyright 2002-2014, University of Colorado Boulder
 
 /**
- * Star Path
+ * Scenery Node of a Star
  *
  * @author Martin Veillette ( Berea College)
  */
