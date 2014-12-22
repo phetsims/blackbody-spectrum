@@ -64,6 +64,12 @@ define( function( require ) {
 
     // label and ticks
 
+    /**
+     *
+     * @param {String} object
+     * @param {number} temperature
+     * @constructor
+     */
     function Label( object, temperature ) {
       this.text = object;
       this.temperature = temperature; // in kelvin
@@ -105,7 +111,7 @@ define( function( require ) {
 
     for ( var i = 0; i < labels.length; i++ ) {
       var label = labels[i];
-      new labelMaker( label );
+      labelMaker( label );
     }
 
 
