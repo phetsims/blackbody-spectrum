@@ -1,7 +1,7 @@
 //  Copyright 2002-2014, University of Colorado Boulder
 
 /**
- * Thermometer Nodes with label
+ * Scenery Node that displays a thermometer with labels attached to the right hand side of the thermometer
  *
  * @author Martin Veillette (Berea College)
  */
@@ -32,10 +32,9 @@ define( function( require ) {
 
   /**
    * @param {Property.<number>} temperatureProperty
-   * @param options see comments in the constructor for options parameter values
+   * @param {Object} [options]
    * @constructor
    */
-
   function ThermometerNode( temperatureProperty, options ) {
 
     var thisThermometerNode = this;
@@ -46,6 +45,8 @@ define( function( require ) {
       bulbDiameter: 50,
       tubeWidth: 30,
       tubeHeight: 300,
+      fluidRectSpacing: 4,
+      fluidSphereSpacing: 4,
       lineWidth: 4,
       outlineStroke: 'white',
       tickSpacing: 15
@@ -57,10 +58,15 @@ define( function( require ) {
       bulbDiameter: options.bulbDiameter,
       tubeWidth: options.tubeWidth,
       tubeHeight: options.tubeHeight,
+      fluidRectSpacing: options.fluidRectSpacing,
+      fluidSphereSpacing: options.fluidSphereSpacing,
       lineWidth: options.lineWidth,
       outlineStroke: options.outlineStroke,
       tickSpacing: options.tickSpacing
     } );
+
+    // rendering order
+    this.addChild( thermometer );
 
     // label and ticks
 
@@ -82,6 +88,24 @@ define( function( require ) {
       new Label( earthString, 300 )
     ];
 
+    /**
+     * map function that relates a temperature to a height
+     * this function was reverse engineered from ThermometerNode in Scenery-Phet
+     *
+     * @returns {LinearFunction}
+     */
+    var temperatureToHeightLinearFunction = function() {
+      var fluidWidth = options.tubeWidth - options.lineWidth - options.fluidRectSpacing;
+      var clipBulbRadius = ( options.bulbDiameter - options.lineWidth - options.fluidSphereSpacing ) / 2;
+      var clipStartAngle = -Math.acos( ( fluidWidth / 2 ) / clipBulbRadius );
+      var clipEndAngle = Math.PI - clipStartAngle;
+      var fluidSphereDiameter = options.bulbDiameter - options.lineWidth - options.fluidSphereSpacing;
+      var fluidBottomCutoff = fluidSphereDiameter / 2 * Math.sin( clipEndAngle );
+      var height = options.tubeHeight + options.tubeWidth / 2; // need the halfcap on top
+      var maxFluidHeight = height - fluidBottomCutoff;
+      return new LinearFunction( options.minTemperature, options.maxTemperature, fluidBottomCutoff, -maxFluidHeight, true /* clamp */ );
+    };
+
 
     /**
      * creates text label for thermometer
@@ -89,10 +113,7 @@ define( function( require ) {
      * @constructor
      */
     function labelMaker( label ) {
-      var fluidOffset = -options.bulbDiameter; // the 0 temperature point of the rectangle
-      var maxFluidHeight = options.tubeHeight;
-      var temperatureLinearFunction = new LinearFunction( options.minTemperature, options.maxTemperature, fluidOffset, -maxFluidHeight + fluidOffset );
-      var objectHeight = temperatureLinearFunction( label.temperature );
+      var objectHeight = temperatureToHeightLinearFunction()( label.temperature );
       var tickMarkLength = options.tubeWidth * 0.5;
       var shape = new Shape();
       shape.moveTo( options.tubeWidth / 2, objectHeight ).horizontalLineToRelative( tickMarkLength );
@@ -108,20 +129,11 @@ define( function( require ) {
       textNode.left = tickNode.right + 10;
     }
 
-
+    //  runs over all the labels to be added
     for ( var i = 0; i < labels.length; i++ ) {
       var label = labels[i];
       labelMaker( label );
     }
-
-
-    // rendering order
-    thisThermometerNode.addChild( thermometer );
-    {
-      thermometer.centerX = 0;
-      thermometer.bottom = 0;
-    }
-
 
     this.mutate( options );
   }
