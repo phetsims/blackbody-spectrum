@@ -16,6 +16,7 @@ define( function( require ) {
   var GraphDrawingNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GraphDrawingNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ModelViewTransform = require( 'PHETCOMMON/view/ModelViewTransform2' );
+  var MovableLabRuler = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/MovableLabRuler' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Range = require( 'DOT/Range' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
@@ -26,7 +27,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var ThermometerNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/ThermometerNode' );
   var VerticalSlider = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/VerticalSlider' );
-  var VerticalLabRuler = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/VerticalLabRuler' );
+
 
   // Resources
 
@@ -58,7 +59,7 @@ define( function( require ) {
 
     var thisView = this;
 
-    ScreenView.call( thisView, {renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 1100, 700 ) } );
+    ScreenView.call( thisView, {renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 1100, 700 )} );
 
     var modelViewTransform = new ModelViewTransform.createRectangleInvertedYMapping( model.bounds, this.layoutBounds );
 
@@ -114,7 +115,20 @@ define( function( require ) {
     } );
 
 
-    var verticalLabRuler = new VerticalLabRuler( model.rulerPositionProperty, model.isRulerVisibleProperty );
+    var movableLabRuler = new MovableLabRuler( model.rulerPositionProperty,
+      model.rulerUnitsProperty,
+      model.isRulerVisibleProperty,
+      {
+        rulerLength: 0.25, // in model coordinates
+        rulerHeightInModel: 0.05, // in model coordinates
+        majorTickSeparation: 0.05, // in model coordinates
+        angle: Math.PI / 2,
+        modelViewTransform: modelViewTransform,
+        dragBounds: this.layoutBounds,
+        minorTicksPerMajorTick: 4,
+        unitsFont: new PhetFont( 16 )
+      }
+    );
 
     // Create and add the Reset All Button in the bottom right
     var resetAllButton = new ResetAllButton( {
@@ -160,7 +174,7 @@ define( function( require ) {
     this.addChild( circleGreLabel );
     this.addChild( circleRedLabel );
     this.addChild( resetAllButton );
-    this.addChild( verticalLabRuler );
+    this.addChild( movableLabRuler );
 
     // layout for things that don't have a location in the model
     {

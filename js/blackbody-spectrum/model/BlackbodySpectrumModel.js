@@ -50,7 +50,8 @@ define( function( require ) {
     this.bounds = new Bounds2( 0, 0, 1, 1 );
 
     PropertySet.call( thisModel, {
-        rulerPosition: new Vector2( 120, 310 ), // position in view coordinates
+        rulerPosition: new Vector2( 120, 310 ), // position in view coordinates,
+        rulerUnits: {name: 'cm', multiplier: 100},
         isRulerVisible: false,
         temperature: 6000, //initial temperature in Kelvin
         horizontalZoom: 0,
