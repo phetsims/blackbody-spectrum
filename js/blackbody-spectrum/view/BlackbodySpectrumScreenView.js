@@ -18,6 +18,7 @@ define( function( require ) {
   var ModelViewTransform = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var MovableLabRuler = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/MovableLabRuler' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Property = require( 'AXON/Property' );
   var Range = require( 'DOT/Range' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
@@ -26,6 +27,7 @@ define( function( require ) {
   var StarPath = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/StarPath' );
   var Text = require( 'SCENERY/nodes/Text' );
   var ThermometerNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/ThermometerNode' );
+  var Vector2 = require( 'DOT/Vector2' );
   var VerticalSlider = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/VerticalSlider' );
 
 
@@ -87,12 +89,6 @@ define( function( require ) {
       simpleRange,
       0 );
 
-    // Show Ruler check box
-    var showRulerCheckBox = CheckBox.createTextCheckBox( showRulerString, {
-      font: LABEL_FONT,
-      fill: 'white'
-    }, model.isRulerVisibleProperty );
-    showRulerCheckBox.touchArea = Shape.rectangle( showRulerCheckBox.left, showRulerCheckBox.top - 15, showRulerCheckBox.width, showRulerCheckBox.height + 30 );
 
     //
     var circleBlu = new Circle( CIRCLE_RADIUS );
@@ -115,9 +111,17 @@ define( function( require ) {
       starPath.stroke = model.getStarColor( temperature );
     } );
 
+    var isRulerVisibleProperty = new Property( false );
+    // Show Ruler check box
+    var showRulerCheckBox = CheckBox.createTextCheckBox( showRulerString, {
+      font: LABEL_FONT,
+      fill: 'white'
+    }, isRulerVisibleProperty );
+    showRulerCheckBox.touchArea = Shape.rectangle( showRulerCheckBox.left, showRulerCheckBox.top - 15, showRulerCheckBox.width, showRulerCheckBox.height + 30 );
 
-    var movableLabRuler = new MovableLabRuler( model.rulerPositionProperty,
-      model.isRulerVisibleProperty,
+    var movableLabRuler = new MovableLabRuler(
+      new Property( new Vector2( 120, 310 ) ),
+      isRulerVisibleProperty,
       {
         rulerLength: 0.25, // in model coordinates, i.e. 0.25 meters
         multiplier: 100, // multiplier of base units
