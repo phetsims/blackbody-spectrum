@@ -19,70 +19,77 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
 
   /**
-   * Returns an array of strings starting with startingNumber to endingNumber in steps of 'increment'
+   * Returns an array of strings starting with 'startingNumber' to 'endingNumber' in steps of 'increment'
    *
    * @param {number} startingNumber - e.g. 0
-   * @param {number} endingNumber - e.g. 25
+   * @param {number} endingNumber - e.g. 27
    * @param {number} increment - e.g. 5
-   * @returns {Array.<Strings>} - e.g. ['0', '5', '10', '15', '20', '25']
+   * @param {number} decimalPlaces -  the precision of the string eg. 1.
+   * @returns {Array.<Strings>} - e.g. ['0.0', '5.0', '10.0', '15.0', '20.0', '25.0']
    */
-  function majorTickLabelsGenerator( startingNumber, endingNumber, increment ) {
+  function majorTickLabelsGenerator( startingNumber, endingNumber, increment, decimalPlaces ) {
     var majorTickLabels = [];
     var numberOfTicks = Math.floor( endingNumber / increment ) - Math.ceil( startingNumber / increment );
     var currentTick;
     for ( currentTick = 0; currentTick <= numberOfTicks; currentTick++ ) {
-      var currentMajorTickLabel = Util.toFixed( currentTick * increment + startingNumber, 0 );
+      var currentMajorTickLabel = Util.toFixed( currentTick * increment + startingNumber, decimalPlaces );
       majorTickLabels.push( currentMajorTickLabel );
     }
     return majorTickLabels;
   }
 
   /**
-   * Creates a vertical lab ruler with listener
+   * Creates a lab ruler with listener
    * @param {Property.<Vector2>} positionProperty - position of the center of the ruler in the view
-   * @param {Property.<Object>} unitsProperty - it has two fields, (1) name <string> and (2) multiplier <number>, eg. {name: 'cm', multiplier: 100},
-   * @param {Property.<Vector2>} isVisibleProperty
+   * @param {Property.<boolean>} isVisibleProperty
    * @param {Object} [options]
    * @constructor
    */
-  function MovableLabRuler( positionProperty, unitsProperty, isVisibleProperty, options ) {
+  function MovableLabRuler( positionProperty, isVisibleProperty, options ) {
     Node.call( this, {cursor: 'pointer', renderer: 'svg', cssTransform: true} );
 
     options = _.extend( {
       rulerLength: 1.00, // in model coordinates
-      rulerHeightInModel: 0.1, // in model coordinates
+      rulerHeightInModel: 0.1, // in model coordinates,
       majorTickSeparation: 0.1, // in model coordinates
       modelViewTransform: ModelViewTransform2.createIdentity(),
       dragBounds: Bounds2.EVERYTHING,  // bounds for the measuring tape (in the parent Node Coordinates reference frame), default value is no (effective) bounds
       angle: 0, // rotation angle in radians of the ruler Node. (a positive angle corresponds to a clockwise rotation),
+      units: 'm', // string of the base units
       majorTickLabels: null // array of major tick Labels, eg. ['0', '5', '10', '15', '20', '25'], automatically generated if set to null
     }, options );
 
-    var rulerWidth = options.modelViewTransform.modelToViewDeltaX( options.rulerLength );
-    var rulerHeight = options.modelViewTransform.modelToViewDeltaX( options.rulerHeightInModel );
-    var majorTickWidth = options.modelViewTransform.modelToViewDeltaX( options.majorTickSeparation );
-    var units = unitsProperty.value.name;
 
+    // create majorTicksLabel automatically if they dont exist
     var majorTickLabels;
     if ( options.majorTickLabels ) {
       majorTickLabels = options.majorTickLabels;
     }
     else {
-      majorTickLabels = majorTickLabelsGenerator( 0, options.rulerLength * unitsProperty.value.multiplier, options.majorTickSeparation * unitsProperty.value.multiplier );
+
+      options = _.extend( {
+        decimalPlaces: 0, // the number of decimal places, i.e. precision in the strings of majorTickLabels (if they are generated automatically)
+        multiplier: 1  // multiplier of base units. e.g.  100, if the model uses meter but the ruler is expressed centimeter
+      }, options );
+
+      majorTickLabels = majorTickLabelsGenerator(
+        0,
+        options.rulerLength * options.multiplier,
+        options.majorTickSeparation * options.multiplier,
+        options.decimalPlaces
+      );
     }
 
+    // create and add ruler (assumes the ruler is in the horizontal position and rotate it afterwards if necessary)
+    var rulerWidth = options.modelViewTransform.modelToViewDeltaX( options.rulerLength ); // length of the ruler
+    var rulerHeight = options.modelViewTransform.modelToViewDeltaX( options.rulerHeightInModel ); // height
+    var majorTickWidth = options.modelViewTransform.modelToViewDeltaX( options.majorTickSeparation ); // i.e. separation between the ticks
+    var units = options.units; // a string
 
-    /**
-     * @param {number} rulerWidth - distance between left-most and right-most tick in view coordinates, insets will be added to this
-     * @param {number} rulerHeight - height of ruler in view coordinates
-     * @param {number} majorTickWidth - distance (in view coordinates) between the major ticks
-     * @param {string[]} majorTickLabels - array of major tick Labels, eg. ['0', '5', '10', '15', '20', '25']
-     * @param {string} units - text label that will show the model units
-     * @param {Object} [options]
-     */
     var ruler = new RulerNode( rulerWidth, rulerHeight, majorTickWidth, majorTickLabels, units, options );
     ruler.rotation = options.angle;
     this.addChild( ruler );
+
 
     // @private
     this.positionPropertyObserver = function( position ) {
@@ -97,7 +104,6 @@ define( function( require ) {
     };
     this.isVisibleProperty = isVisibleProperty;
     this.isVisibleProperty.link( this.isVisiblePropertyObserver ); // must be unlinked in dispose
-
 
     // add listener for drag events
     // the position and the dragBounds are both in the view so we should pass the
@@ -114,8 +120,8 @@ define( function( require ) {
   return inherit( Node, MovableLabRuler, {
     // Ensures that this node is eligible for GC.
     dispose: function() {
-      this.isVisibleProperty.unlink( this.isVisiblePropertyObserver );
       this.positionProperty.unlink( this.positionPropertyObserver );
+      this.isVisibleProperty.unlink( this.isVisiblePropertyObserver );
     }
   } );
 } )

@@ -40,6 +40,7 @@ define( function( require ) {
   var rString = require( 'string!BLACKBODY_SPECTRUM/r' );
   var saveString = require( 'string!BLACKBODY_SPECTRUM/save' );
   var clearString = require( 'string!BLACKBODY_SPECTRUM/clear' );
+  var unitsString = require( 'string!BLACKBODY_SPECTRUM/units.cm' );
 
   // constants
 
@@ -116,17 +117,18 @@ define( function( require ) {
 
 
     var movableLabRuler = new MovableLabRuler( model.rulerPositionProperty,
-      model.rulerUnitsProperty,
       model.isRulerVisibleProperty,
       {
-        rulerLength: 0.25, // in model coordinates
+        rulerLength: 0.25, // in model coordinates, i.e. 0.25 meters
+        multiplier: 100, // multiplier of base units
+        units: unitsString,  //
+        unitsFont: new PhetFont( 16 ),
         rulerHeightInModel: 0.05, // in model coordinates
         majorTickSeparation: 0.05, // in model coordinates
         angle: Math.PI / 2,
         modelViewTransform: modelViewTransform,
         dragBounds: this.layoutBounds,
-        minorTicksPerMajorTick: 4,
-        unitsFont: new PhetFont( 16 )
+        minorTicksPerMajorTick: 4
       }
     );
 
@@ -149,7 +151,7 @@ define( function( require ) {
     var saveButton = new RectangularPushButton( {
       content: new Text( saveString, {font: BUTTON_FONT} ),
       baseColor: SAVE_BUTTON_COLOR,
-      listener: function() {graphNode.save( model.temperature ); }
+      listener: function() {graphNode.save( model.temperature );}
     } );
 
     var clearButton = new RectangularPushButton( {
