@@ -108,9 +108,8 @@ define( function( require ) {
 
 
     /**
-     * creates text label for thermometer
+     * add and create text and tick label for thermometer
      * @param  {Label} label
-     * @constructor
      */
     function labelMaker( label ) {
       var objectHeight = temperatureToHeightLinearFunction()( label.temperature );
