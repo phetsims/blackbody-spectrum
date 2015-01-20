@@ -17,10 +17,12 @@ define( function( require ) {
   function StarShape( options ) {
 
     options = _.extend( {
-      //Distance from the center to the tip of a star limb
+      //Distance from the center to the tip of a star limb in scenery coordinates
       outerRadius: 35,
       //Distance from the center to the closest point on the exterior of the star.  Sets the "thickness" of the star limbs
-      innerRadius: 20
+      innerRadius: 20,
+      //Number of star points, must be an integer
+      numberStarPoints: 9
     }, options );
 
     Shape.call( this );
@@ -28,7 +30,7 @@ define( function( require ) {
     //Create the points for a star.
     var points = [];
     var i;
-    var imax = 18; // number of segments
+    var imax = 2 * options.numberStarPoints; // number of segments
     for ( i = 0; i < imax; i++ ) {
       //Start at the top and proceed clockwise
       var angle = (i / imax) * 2 * Math.PI - Math.PI / 2;
@@ -63,12 +65,7 @@ define( function( require ) {
 
     var starShape = new StarShape( options );
 
-    Path.call( this, starShape, {
-      lineWidth: options.lineWidth,
-      lineJoin: options.lineJoin,
-      fill: options.fill,
-      stroke: options.stroke
-    } );
+    Path.call( this, starShape, options );
 
     this.mutate( options );
   }
