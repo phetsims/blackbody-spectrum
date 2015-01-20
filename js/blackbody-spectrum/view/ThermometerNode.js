@@ -14,6 +14,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Range = require( 'DOT/Range' );
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Thermometer = require( 'SCENERY_PHET/ThermometerNode' );
@@ -40,6 +41,10 @@ define( function( require ) {
     var thisThermometerNode = this;
 
     options = _.extend( {
+      tempRange: new Range( 0, 6000 )
+    }, options );
+
+    options.thermometer = _.extend( {
       minTemperature: 0,
       maxTemperature: 6000,
       bulbDiameter: 50,
@@ -50,20 +55,12 @@ define( function( require ) {
       lineWidth: 4,
       outlineStroke: 'white',
       tickSpacing: 15
-    }, options );
+    }, options.thermometer );
+
 
     Node.call( thisThermometerNode );
 
-    var thermometer = new Thermometer( options.minTemperature, options.maxTemperature, temperatureProperty, {
-      bulbDiameter: options.bulbDiameter,
-      tubeWidth: options.tubeWidth,
-      tubeHeight: options.tubeHeight,
-      fluidRectSpacing: options.fluidRectSpacing,
-      fluidSphereSpacing: options.fluidSphereSpacing,
-      lineWidth: options.lineWidth,
-      outlineStroke: options.outlineStroke,
-      tickSpacing: options.tickSpacing
-    } );
+    var thermometer = new Thermometer( options.tempRange.min, options.tempRange.max, temperatureProperty, options.thermometer );
 
     // rendering order
     this.addChild( thermometer );
@@ -95,28 +92,28 @@ define( function( require ) {
      * @returns {LinearFunction}
      */
     var temperatureToHeightLinearFunction = function() {
-      var fluidWidth = options.tubeWidth - options.lineWidth - options.fluidRectSpacing;
-      var clipBulbRadius = ( options.bulbDiameter - options.lineWidth - options.fluidSphereSpacing ) / 2;
+      var fluidWidth = options.thermometer.tubeWidth - options.thermometer.lineWidth - options.thermometer.fluidRectSpacing;
+      var clipBulbRadius = ( options.thermometer.bulbDiameter - options.thermometer.lineWidth - options.thermometer.fluidSphereSpacing ) / 2;
       var clipStartAngle = -Math.acos( ( fluidWidth / 2 ) / clipBulbRadius );
       var clipEndAngle = Math.PI - clipStartAngle;
-      var fluidSphereDiameter = options.bulbDiameter - options.lineWidth - options.fluidSphereSpacing;
+      var fluidSphereDiameter = options.thermometer.bulbDiameter - options.thermometer.lineWidth - options.thermometer.fluidSphereSpacing;
       var fluidBottomCutoff = fluidSphereDiameter / 2 * Math.sin( clipEndAngle );
-      var height = options.tubeHeight + options.tubeWidth / 2; // need the halfcap on top
+      var height = options.thermometer.tubeHeight + options.thermometer.tubeWidth / 2; // need the halfcap on top
       var maxFluidHeight = height - fluidBottomCutoff;
-      return new LinearFunction( options.minTemperature, options.maxTemperature, fluidBottomCutoff, -maxFluidHeight, true /* clamp */ );
+      return new LinearFunction( options.tempRange.min, options.tempRange.max, fluidBottomCutoff, -maxFluidHeight, true /* clamp */ );
     };
 
 
     /**
-     * add and create text and tick label for thermometer
+     * Create and add text and tick label for thermometer
      * @param  {Label} label
      */
     function labelMaker( label ) {
       var objectHeight = temperatureToHeightLinearFunction()( label.temperature );
-      var tickMarkLength = options.tubeWidth * 0.5;
+      var tickMarkLength = options.thermometer.tubeWidth * 0.5;
       var shape = new Shape();
-      shape.moveTo( options.tubeWidth / 2, objectHeight ).horizontalLineToRelative( tickMarkLength );
-      var tickNode = new Path( shape, { stroke: options.outlineStroke, lineWidth: options.lineWidth } );
+      shape.moveTo( options.thermometer.tubeWidth / 2, objectHeight ).horizontalLineToRelative( tickMarkLength );
+      var tickNode = new Path( shape, { stroke: options.thermometer.outlineStroke, lineWidth: options.thermometer.lineWidth } );
       var textNode = new Text( label.text, { font: VALUE_FONT, fill: COLOR_FONT } );
 
       thisThermometerNode.addChild( tickNode );
