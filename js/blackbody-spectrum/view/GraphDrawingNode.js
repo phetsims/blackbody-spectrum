@@ -11,6 +11,7 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
+  //var Events = require('AXON/Events');
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -22,14 +23,16 @@ define( function( require ) {
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
 
   // constants
-  var INFRARED_WAVELENGTH = 700; //in nm
-  var ULTRAVIOLET_WAVELENGTH = 380; //in nm
-  var HORIZONTAL_GRAPH_LENGTH = 600; //size of graph in pixels
-  var VERTICAL_GRAPH_LENGTH = 500; //size of graph in pixels
+  var INFRARED_WAVELENGTH = 700; //in nm, max bounds for the rainbow spectrum
+  var ULTRAVIOLET_WAVELENGTH = 380; //in nm, min bound for the rainbow spectrum
+  var HORIZONTAL_GRAPH_LENGTH = 550; //size of graph in scenery coordinates
+  var VERTICAL_GRAPH_LENGTH = 400; //size of graph in scenery coordinates
   var COLOR_TICK_LABEL = 'yellow';
-  var COLOR_AXIS_LABEL = '#00EBEB'; //greenish blue
+  var COLOR_AXIS_LABEL = 'rgb(0,235,235)'; //greenish blue
   var GRAPH_CURVE_LINE_WIDTH = 5;
   var GRAPH_AXES_COLOR = 'white';
+  var GRAPH_CURVE_STROKE = 'red';
+  var SAVED_GRAPH_CURVE_STROKE = 'yellow';
 
   var HorizontalZoomScalingFactor = 2;
   var verticalZoomScalingFactor = Math.sqrt( 10 );
@@ -42,7 +45,7 @@ define( function( require ) {
   /**
    *
    * @param {BlackbodySpectrumModel}  model - model for the entire screen
-   * @param (ModelViewTransform} modelViewTransform
+   * @param (ModelViewTransform2} modelViewTransform
    * @constructor
    */
   function GraphDrawingNode( model, modelViewTransform ) {
@@ -68,7 +71,7 @@ define( function( require ) {
     } );
 
     // graph: blackbody curve
-    this.graph = new Path( null, { stroke: 'red', lineWidth: GRAPH_CURVE_LINE_WIDTH } );
+    this.graph = new Path( null, { stroke: GRAPH_CURVE_STROKE, lineWidth: GRAPH_CURVE_LINE_WIDTH } );
 
     var scaleY = 1;
     var updateGraph = function( graph, temperature ) {
@@ -238,6 +241,11 @@ define( function( require ) {
       model.verticalZoom = 0; //reset zoom
     } );
 
+
+    //TODO use trigger and axon/Events instead
+    // this.trigger( 'buttonPressed' )
+
+
     ////// handle zoom of graph
     horizontalZoomInButton.addListener( function() {
       model.horizontalZoom = -1;
@@ -301,7 +309,7 @@ define( function( require ) {
     save: function( temperature ) {
       this.clear();
       this.savedTemperature = temperature; // temperature associated with the save graph;
-      this.savedGraph = new Path( null, { stroke: 'yellow', lineWidth: GRAPH_CURVE_LINE_WIDTH } );
+      this.savedGraph = new Path( null, { stroke: SAVED_GRAPH_CURVE_STROKE, lineWidth: GRAPH_CURVE_LINE_WIDTH } );
       this.savedGraph.shape = this.graph.shape;
       this.addChild( this.savedGraph );
     },

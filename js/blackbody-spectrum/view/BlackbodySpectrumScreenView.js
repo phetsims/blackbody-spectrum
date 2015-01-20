@@ -15,7 +15,7 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var GraphDrawingNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GraphDrawingNode' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var ModelViewTransform = require( 'PHETCOMMON/view/ModelViewTransform2' );
+  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var MovableLabRuler = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/MovableLabRuler' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
@@ -52,6 +52,7 @@ define( function( require ) {
   var BUTTON_FONT = new PhetFont( 15 );
   var CIRCLE_RADIUS = 15;
   var LABEL_FONT = new PhetFont( 22 );
+  var CHECK_BOX_TEXT_FILL = 'white';
 
   /**
    * Constructor for the BlackbodySpectrumView
@@ -62,9 +63,9 @@ define( function( require ) {
 
     var thisView = this;
 
-    ScreenView.call( thisView, { renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 1100, 700 ) } );
+    ScreenView.call( thisView, { renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 1024, 618 ) } );
 
-    var modelViewTransform = new ModelViewTransform.createRectangleInvertedYMapping( model.bounds, this.layoutBounds );
+    var modelViewTransform = new ModelViewTransform2.createRectangleInvertedYMapping( model.bounds, this.layoutBounds );
 
     var thermometerNode = new ThermometerNode( model.temperatureProperty, {
       minTemperature: 0,
@@ -115,7 +116,7 @@ define( function( require ) {
     // Show Ruler check box
     var showRulerCheckBox = CheckBox.createTextCheckBox( showRulerString, {
       font: LABEL_FONT,
-      fill: 'white'
+      fill: CHECK_BOX_TEXT_FILL
     }, isRulerVisibleProperty );
     showRulerCheckBox.touchArea = Shape.rectangle( showRulerCheckBox.left, showRulerCheckBox.top - 15, showRulerCheckBox.width, showRulerCheckBox.height + 30 );
 
@@ -191,8 +192,8 @@ define( function( require ) {
 
       graphNode.left = 20;
       graphNode.bottom = this.layoutBounds.maxY - 10;
-      showRulerCheckBox.right = 1000;
-      showRulerCheckBox.centerY = 650;
+      showRulerCheckBox.right = this.layoutBounds.maxX - 60;
+      showRulerCheckBox.centerY = this.layoutBounds.maxY - 90;
       thermometerNode.right = this.layoutBounds.maxX - 10;
       thermometerNode.top = 100;
 
@@ -204,7 +205,7 @@ define( function( require ) {
       temperatureSlider.right = thermometerNode.left - 20;
       temperatureSlider.centerY = thermometerNode.centerY;
 
-      circleBlu.centerX = 500;
+      circleBlu.centerX = 300;
       circleBlu.centerY = 100;
       circleGre.centerX = circleBlu.centerX + 50;
       circleGre.centerY = circleBlu.centerY;
