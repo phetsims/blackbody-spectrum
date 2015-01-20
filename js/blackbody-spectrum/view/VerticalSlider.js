@@ -40,7 +40,7 @@ define( function( require ) {
   /**
    * Track that the thumb moves in, origin at upper left. Clicking in the track changes the value.
    * @param {Dimension2} size
-   * @param {Property<Number>} property
+   * @param {Property.<number>} property
    * @param {Range} range
    * @constructor
    */
@@ -72,7 +72,7 @@ define( function( require ) {
   /**
    * The slider thumb, a rounded rectangle with a horizontal line through its center. Origin is at the thumb's geometric center.
    * @param {Dimension2} size
-   * @param {Property<Number>} property
+   * @param {Property.<number>} property
    * @param {Range} valueRange
    * @param {Range} positionRange
    * @constructor
@@ -109,7 +109,7 @@ define( function( require ) {
   /**
    * Drag handler for the slider thumb.
    * @param {Node} dragNode
-   * @param {Property<Number>} property
+   * @param {Property.<number>} property
    * @param {Range} valueRange
    * @param {Range} positionRange
    * @constructor
@@ -135,7 +135,7 @@ define( function( require ) {
   /**
    * @param {String} subtitle
    * @param {Dimension2} trackSize
-   * @param {Property<Number>} property
+   * @param {Property.<number>} property
    * @param {Range} range
    * @constructor
    */
