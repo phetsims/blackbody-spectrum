@@ -50,8 +50,8 @@ define( function( require ) {
       bulbDiameter: 50,
       tubeWidth: 30,
       tubeHeight: 300,
-      fluidRectSpacing: 4,
-      fluidSphereSpacing: 4,
+      fluidTubeSpacing: 4,
+      fluidBulbSpacing: 4,
       lineWidth: 4,
       outlineStroke: 'white',
       tickSpacing: 15
@@ -92,7 +92,7 @@ define( function( require ) {
      * @returns {LinearFunction}
      */
     var temperatureToHeightLinearFunction = function() {
-      var fluidWidth = options.thermometer.tubeWidth - options.thermometer.lineWidth - options.thermometer.fluidRectSpacing;
+      var fluidWidth = options.thermometer.tubeWidth - options.thermometer.lineWidth - options.thermometer.fluidTubeSpacing;
       var clipBulbRadius = ( options.thermometer.bulbDiameter - options.thermometer.lineWidth - options.thermometer.fluidSphereSpacing ) / 2;
       var clipStartAngle = -Math.acos( ( fluidWidth / 2 ) / clipBulbRadius );
       var clipEndAngle = Math.PI - clipStartAngle;
