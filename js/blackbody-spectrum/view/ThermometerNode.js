@@ -50,8 +50,7 @@ define( function( require ) {
       bulbDiameter: 50,
       tubeWidth: 30,
       tubeHeight: 300,
-      fluidTubeSpacing: 4,
-      fluidBulbSpacing: 4,
+      glassThickness: 4,
       lineWidth: 4,
       outlineStroke: 'white',
       tickSpacing: 15
@@ -92,11 +91,11 @@ define( function( require ) {
      * @returns {LinearFunction}
      */
     var temperatureToHeightLinearFunction = function() {
-      var fluidWidth = options.thermometer.tubeWidth - options.thermometer.lineWidth - options.thermometer.fluidTubeSpacing;
-      var clipBulbRadius = ( options.thermometer.bulbDiameter - options.thermometer.lineWidth - options.thermometer.fluidSphereSpacing ) / 2;
+      var fluidWidth = options.thermometer.tubeWidth - options.thermometer.lineWidth - options.thermometer.glassThickness;
+      var clipBulbRadius = ( options.thermometer.bulbDiameter - options.thermometer.lineWidth - options.thermometer.glassThickness ) / 2;
       var clipStartAngle = -Math.acos( ( fluidWidth / 2 ) / clipBulbRadius );
       var clipEndAngle = Math.PI - clipStartAngle;
-      var fluidSphereDiameter = options.thermometer.bulbDiameter - options.thermometer.lineWidth - options.thermometer.fluidSphereSpacing;
+      var fluidSphereDiameter = options.thermometer.bulbDiameter - options.thermometer.lineWidth - options.thermometer.glassThickness;
       var fluidBottomCutoff = fluidSphereDiameter / 2 * Math.sin( clipEndAngle );
       var height = options.thermometer.tubeHeight + options.thermometer.tubeWidth / 2; // need the halfcap on top
       var maxFluidHeight = height - fluidBottomCutoff;
