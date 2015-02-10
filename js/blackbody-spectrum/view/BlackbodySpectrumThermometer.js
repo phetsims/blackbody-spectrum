@@ -11,13 +11,12 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearFunction = require( 'DOT/LinearFunction' );
-  var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Range = require( 'DOT/Range' );
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var Thermometer = require( 'SCENERY_PHET/ThermometerNode' );
+  var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
 
   //string
 
@@ -36,9 +35,9 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function ThermometerNode( temperatureProperty, options ) {
+  function BlackbodySpectrumThermometer( temperatureProperty, options ) {
 
-    var thisThermometerNode = this;
+    var thisThermometer = this;
 
     options = _.extend( {
       tempRange: new Range( 0, 6000 )
@@ -57,12 +56,7 @@ define( function( require ) {
     }, options.thermometer );
 
 
-    Node.call( thisThermometerNode );
-
-    var thermometer = new Thermometer( options.tempRange.min, options.tempRange.max, temperatureProperty, options.thermometer );
-
-    // rendering order
-    this.addChild( thermometer );
+    ThermometerNode.call( this, options.tempRange.min, options.tempRange.max, temperatureProperty, options.thermometer );
 
     // label and ticks
 
@@ -115,8 +109,8 @@ define( function( require ) {
       var tickNode = new Path( shape, { stroke: options.thermometer.outlineStroke, lineWidth: options.thermometer.lineWidth } );
       var textNode = new Text( label.text, { font: VALUE_FONT, fill: COLOR_FONT } );
 
-      thisThermometerNode.addChild( tickNode );
-      thisThermometerNode.addChild( textNode );
+      thisThermometer.addChild( tickNode );
+      thisThermometer.addChild( textNode );
 
       tickNode.left = tickMarkLength;
       tickNode.centerY = objectHeight;
@@ -133,5 +127,5 @@ define( function( require ) {
     this.mutate( options );
   }
 
-  return inherit( Node, ThermometerNode );
+  return inherit( ThermometerNode, BlackbodySpectrumThermometer );
 } );

@@ -26,7 +26,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var StarPath = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/StarPath' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var ThermometerNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/ThermometerNode' );
+  var BlackbodySpectrumThermometer = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumThermometer' );
   var Vector2 = require( 'DOT/Vector2' );
   var VerticalSlider = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/VerticalSlider' );
 
@@ -67,7 +67,7 @@ define( function( require ) {
 
     var modelViewTransform = new ModelViewTransform2.createRectangleInvertedYMapping( model.bounds, this.layoutBounds );
 
-    var thermometerNode = new ThermometerNode( model.temperatureProperty, {
+    var blackbodySpectrumThermometer = new BlackbodySpectrumThermometer( model.temperatureProperty, {
       minTemperature: 0,
       maxTemperature: 6000,
       bulbDiameter: 50,
@@ -175,7 +175,7 @@ define( function( require ) {
     this.addChild( saveButton );
     this.addChild( showRulerCheckBox );
     this.addChild( temperatureSlider );
-    this.addChild( thermometerNode );
+    this.addChild( blackbodySpectrumThermometer );
     this.addChild( starPath );
     this.addChild( glowingStarHalo );
     this.addChild( circleBlu );
@@ -194,16 +194,16 @@ define( function( require ) {
       graphNode.bottom = this.layoutBounds.maxY - 10;
       showRulerCheckBox.right = this.layoutBounds.maxX - 60;
       showRulerCheckBox.centerY = this.layoutBounds.maxY - 90;
-      thermometerNode.right = this.layoutBounds.maxX - 10;
-      thermometerNode.top = 100;
+      blackbodySpectrumThermometer.right = this.layoutBounds.maxX - 10;
+      blackbodySpectrumThermometer.top = 100;
 
       saveButton.right = this.layoutBounds.maxX - 10;
       saveButton.top = 10;
       clearButton.right = saveButton.right;
       clearButton.top = saveButton.bottom + 10;
 
-      temperatureSlider.right = thermometerNode.left - 20;
-      temperatureSlider.centerY = thermometerNode.centerY;
+      temperatureSlider.right = blackbodySpectrumThermometer.left - 20;
+      temperatureSlider.centerY = blackbodySpectrumThermometer.centerY;
 
       circleBlu.centerX = 300;
       circleBlu.centerY = 100;
