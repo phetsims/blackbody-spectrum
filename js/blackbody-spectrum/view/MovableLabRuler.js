@@ -108,11 +108,9 @@ define( function( require ) {
     // add listener for drag events
     // the position and the dragBounds are both in the view so we should pass the
     // identity transformation for the modelViewTransform
-    ruler.addInputListener( new MovableDragHandler( {
-      locationProperty: positionProperty,
+    ruler.addInputListener( new MovableDragHandler( positionProperty, {
       dragBounds: options.dragBounds
-    }, ModelViewTransform2.createIdentity() ) );
-
+    } ) );
 
     this.mutate( options );
   }
