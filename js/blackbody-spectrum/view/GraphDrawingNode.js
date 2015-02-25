@@ -166,10 +166,10 @@ define( function( require ) {
     var verticalZoomButtons = new Node( { children: [ verticalZoomOutButton, verticalZoomInButton ] } );
 
     // expand touch area
-    horizontalZoomInButton.touchArea = horizontalZoomInButton.localBounds.dilate( 5, 5 );
-    horizontalZoomOutButton.touchArea = horizontalZoomOutButton.localBounds.dilate( 5, 5 );
-    verticalZoomInButton.touchArea = verticalZoomInButton.localBounds.dilate( 5, 5 );
-    verticalZoomOutButton.touchArea = verticalZoomOutButton.localBounds.dilate( 5, 5 );
+    horizontalZoomInButton.touchArea = horizontalZoomInButton.localBounds.dilated( 5, 5 );
+    horizontalZoomOutButton.touchArea = horizontalZoomOutButton.localBounds.dilated( 5, 5 );
+    verticalZoomInButton.touchArea = verticalZoomInButton.localBounds.dilated( 5, 5 );
+    verticalZoomOutButton.touchArea = verticalZoomOutButton.localBounds.dilated( 5, 5 );
 
     // rainbow spectrum
     // TODO use clipping instead if the spectrum is to the left.
