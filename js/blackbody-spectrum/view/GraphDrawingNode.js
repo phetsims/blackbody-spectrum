@@ -23,12 +23,12 @@ define( function( require ) {
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
 
   // constants
-  var INFRARED_WAVELENGTH = 700; //in nm, max bounds for the rainbow spectrum
-  var ULTRAVIOLET_WAVELENGTH = 380; //in nm, min bound for the rainbow spectrum
-  var HORIZONTAL_GRAPH_LENGTH = 550; //size of graph in scenery coordinates
-  var VERTICAL_GRAPH_LENGTH = 400; //size of graph in scenery coordinates
+  var INFRARED_WAVELENGTH = 700; // in nm, max bounds for the rainbow spectrum
+  var ULTRAVIOLET_WAVELENGTH = 380; // in nm, min bound for the rainbow spectrum
+  var HORIZONTAL_GRAPH_LENGTH = 550; // size of graph in scenery coordinates
+  var VERTICAL_GRAPH_LENGTH = 400; // size of graph in scenery coordinates
   var COLOR_TICK_LABEL = 'yellow';
-  var COLOR_AXIS_LABEL = 'rgb(0,235,235)'; //greenish blue
+  var COLOR_AXIS_LABEL = 'rgb(0,235,235)'; // greenish blue
   var GRAPH_CURVE_LINE_WIDTH = 5;
   var GRAPH_AXES_COLOR = 'white';
   var GRAPH_CURVE_STROKE = 'red';
@@ -107,10 +107,7 @@ define( function( require ) {
         lineJoin: 'round'
       } );
 
-    //ticks
-
-    //constants
-
+    // constants
     var MINOR_TICKS_PER_MAJOR_TICK = 5;
     var MAJOR_TICK_LENGTH = 30;
     var MINOR_TICK_LENGTH = 15;
@@ -139,7 +136,7 @@ define( function( require ) {
       ticks.shape = shape;
     };
 
-    //label for ticks
+    // label for ticks
     var horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 32 ), fill: COLOR_TICK_LABEL } );
     var horizontalTickLabelMax = new Text( model.wavelengthMax / 1000, {
       font: new PhetFont( 32 ),
@@ -157,7 +154,7 @@ define( function( require ) {
 //            fill: COLOR_TICK_LABEL}
 //      );
 
-    //zoom Buttons
+    // zoom Buttons
     var horizontalZoomInButton = new ZoomButton( { in: true } );
     var horizontalZoomOutButton = new ZoomButton( { in: false } );
     var verticalZoomInButton = new ZoomButton( { in: true } );
@@ -187,7 +184,6 @@ define( function( require ) {
       spectrum.left = ultravioletPosition + thisGraph.graph.left;
       // spectrum.visible = true;
       //  spectrum.clipArea= Shape.rectangle(thisGraph.left,thisGraph.top,HORIZONTAL_GRAPH_LENGTH,VERTICAL_GRAPH_LENGTH);
-      //debugger;
       if ( isSpectrumOffTheAxis ) {
         spectrum.visible = false;
       }
@@ -209,16 +205,16 @@ define( function( require ) {
       model.wavelengthMax = model.wavelengthMax * scaleX;
       minorTickSpacing = minorTickSpacing / scaleX;
 
-      //spectrum position and width
+      // spectrum position and width
       updateSpectrum( scaleX );
 
-      //update tick label
-      horizontalTickLabelMax.text = model.wavelengthMax / 1000; //from nm to micron
+      // update tick label
+      horizontalTickLabelMax.text = model.wavelengthMax / 1000; // from nm to micron
 
-      //update ticks
+      // update ticks
       updateTicks( minorTickSpacing );
 
-      //redraw blackbody curves
+      // redraw blackbody curves
       updateGraph( thisGraph.graph, model.temperature );
       if ( thisGraph.savedGraph ) {
         updateGraph( thisGraph.savedGraph, thisGraph.savedTemperature );
@@ -231,14 +227,14 @@ define( function( require ) {
     model.verticalZoomProperty.link( function( verticalZoom ) {
 
       verticalMax = verticalMax * Math.pow( verticalZoomScalingFactor, verticalZoom );
-      verticalTickLabelMax.text = verticalMax.toFixed( 0 ); //from nm to micron
+      verticalTickLabelMax.text = verticalMax.toFixed( 0 ); // from nm to micron
 
 
       updateGraph( thisGraph.graph, model.temperature );
       if ( thisGraph.savedGraph ) {
         updateGraph( thisGraph.savedGraph, thisGraph.savedTemperature );
       }
-      model.verticalZoom = 0; //reset zoom
+      model.verticalZoom = 0; // reset zoom
     } );
 
 

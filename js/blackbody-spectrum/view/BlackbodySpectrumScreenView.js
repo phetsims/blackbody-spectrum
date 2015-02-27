@@ -80,9 +80,9 @@ define( function( require ) {
 
 
     // temperature slider
-    var minTemperatureSlider = 0; //in kelvin
+    var minTemperatureSlider = 0; // in kelvin
     var maxTemperatureSlider = 9000;
-    var simpleRange = new Range( minTemperatureSlider, maxTemperatureSlider, model.temperature ); //  kelvin
+    var simpleRange = new Range( minTemperatureSlider, maxTemperatureSlider, model.temperature ); // in kelvin
     var temperatureSlider = new VerticalSlider(
       tempInKString,
       new Dimension2( 5, 200 ),

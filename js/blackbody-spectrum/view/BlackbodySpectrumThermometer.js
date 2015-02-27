@@ -18,8 +18,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
 
-  //string
-
+  // string
   var sunString = require( 'string!BLACKBODY_SPECTRUM/sun' );
   var lightbulbString = require( 'string!BLACKBODY_SPECTRUM/lightbulb' );
   var ovenString = require( 'string!BLACKBODY_SPECTRUM/oven' );

@@ -16,16 +16,16 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
 
 
-  //constants
-  var GRAPH_NUMBER_POINTS = 300; //number of points blackbody curve is evaluated at
+  // constants
+  var GRAPH_NUMBER_POINTS = 300; // number of points blackbody curve is evaluated at
   var FIRST_RADIATION_CONSTANT = 1.191042e-16; // is equal to 2 hc^2  in units of watts*m^2/steradian
   var SECOND_RADIATION_CONSTANT = 1.438770e7; // is equal to  hc/k  in units of nanometer-kelvin
 
   var POWER_EXPONENT = 0.7;   // an exponent to calculate the renormalized temperature
   // colors used for glowing star and circles
-  var RED_WAVELENGTH = 650; //red wavelength in nanometers
-  var GRE_WAVELENGTH = 550; //green wavelength in nanometers
-  var BLU_WAVELENGTH = 450; //blue wavelength in nanometers
+  var RED_WAVELENGTH = 650; // red wavelength in nanometers
+  var GRE_WAVELENGTH = 550; // green wavelength in nanometers
+  var BLU_WAVELENGTH = 450; // blue wavelength in nanometers
   var GLOWING_STAR_HALO_MINIMUM_RADIUS = 5;  // in pixels
   var GLOWING_STAR_HALO_MAXIMUM_RADIUS = 40; // in pixels
 
@@ -49,7 +49,7 @@ define( function( require ) {
     this.bounds = new Bounds2( 0, 0, 1, 1 );
 
     PropertySet.call( thisModel, {
-        temperature: 6000, //initial temperature in Kelvin
+        temperature: 6000, // initial temperature in Kelvin
         horizontalZoom: 0,
         verticalZoom: 0
       }
@@ -82,8 +82,8 @@ define( function( require ) {
        This renormalized temperature is above 0 but it can exceed one.
        i dont know why you would want to raise it to a power of 0.7
        */
-      var temperatureMinimum = 700; //temp(K) at which color of the circles and star turns on
-      var temperatureMaximum = 3000; //temp(K) at which color of the circles maxes out
+      var temperatureMinimum = 700; // temp(K) at which color of the circles and star turns on
+      var temperatureMaximum = 3000; // temp(K) at which color of the circles maxes out
 
       return Math.pow( Math.max( temperature - temperatureMinimum, 0 ) / (temperatureMaximum - temperatureMinimum), POWER_EXPONENT ); //
     },
