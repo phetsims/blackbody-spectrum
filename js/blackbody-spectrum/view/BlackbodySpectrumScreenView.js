@@ -63,7 +63,7 @@ define( function( require ) {
 
     var thisView = this;
 
-    ScreenView.call( thisView, { renderer: 'svg', layoutBounds: new Bounds2( 0, 0, 1024, 618 ) } );
+    ScreenView.call( thisView, { layoutBounds: new Bounds2( 0, 0, 1024, 618 ) } );
 
     var modelViewTransform = new ModelViewTransform2.createRectangleInvertedYMapping( model.bounds, this.layoutBounds );
 
