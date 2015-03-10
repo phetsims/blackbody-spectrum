@@ -46,7 +46,7 @@ define( function( require ) {
    * @constructor
    */
   function MovableLabRuler( positionProperty, isVisibleProperty, options ) {
-    Node.call( this, { cursor: 'pointer', renderer: 'svg', cssTransform: true } );
+    Node.call( this, { cursor: 'pointer' } );
 
     options = _.extend( {
       rulerLength: 1.00, // in model coordinates
