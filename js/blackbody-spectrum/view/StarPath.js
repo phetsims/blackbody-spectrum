@@ -51,7 +51,7 @@ define( function( require ) {
   inherit( Shape, StarShape );
 
   /**
-   * @param options see comments in the constructor for options parameter values
+   * @param {Object} [options] see comments in the constructor for options parameter values
    * @constructor
    */
   function StarPath( options ) {
