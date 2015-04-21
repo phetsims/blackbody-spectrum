@@ -15,7 +15,6 @@ define( function( require ) {
   var PropertySet = require( 'AXON/PropertySet' );
   var Util = require( 'DOT/Util' );
 
-
   // constants
   var GRAPH_NUMBER_POINTS = 300; // number of points blackbody curve is evaluated at
   var FIRST_RADIATION_CONSTANT = 1.191042e-16; // is equal to 2 hc^2  in units of watts*m^2/steradian
@@ -28,7 +27,6 @@ define( function( require ) {
   var BLU_WAVELENGTH = 450; // blue wavelength in nanometers
   var GLOWING_STAR_HALO_MINIMUM_RADIUS = 5;  // in pixels
   var GLOWING_STAR_HALO_MAXIMUM_RADIUS = 40; // in pixels
-
 
   /**
    * Main constructor for BlackbodySpectrumModel, which contains all of the model logic for the entire sim screen.

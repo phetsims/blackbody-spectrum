@@ -73,7 +73,6 @@ define( function( require ) {
       tickSpacing: 15
     } );
 
-
     // temperature slider
     var minTemperatureSlider = 0; // in kelvin
     var maxTemperatureSlider = 9000;
@@ -85,7 +84,6 @@ define( function( require ) {
       simpleRange,
       0 );
 
-
     //
     var circleBlu = new Circle( CIRCLE_RADIUS );
     var circleGre = new Circle( CIRCLE_RADIUS );
@@ -95,7 +93,6 @@ define( function( require ) {
     var circleRedLabel = new Text( rString, { font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR } );
     var glowingStarHalo = new Circle( 10 );
     var starPath = new StarPath();
-
 
     model.temperatureProperty.link( function( temperature ) {
       circleBlu.fill = model.getBluColor( temperature );
@@ -142,10 +139,8 @@ define( function( require ) {
       bottom: this.layoutBounds.maxY - 10
     } );
 
-
     // create graph with zoom buttons
     var graphNode = new GraphDrawingNode( model, modelViewTransform );
-
 
     // create the save and clear buttons
     var saveButton = new RectangularPushButton( {
@@ -163,7 +158,6 @@ define( function( require ) {
         graphNode.clear();
       }
     } );
-
 
     this.addChild( graphNode );
     this.addChild( clearButton );

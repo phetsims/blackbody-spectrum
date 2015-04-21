@@ -229,7 +229,6 @@ define( function( require ) {
       verticalMax = verticalMax * Math.pow( verticalZoomScalingFactor, verticalZoom );
       verticalTickLabelMax.text = verticalMax.toFixed( 0 ); // from nm to micron
 
-
       updateGraph( thisGraph.graph, model.temperature );
       if ( thisGraph.savedGraph ) {
         updateGraph( thisGraph.savedGraph, thisGraph.savedTemperature );
@@ -237,10 +236,8 @@ define( function( require ) {
       model.verticalZoom = 0; // reset zoom
     } );
 
-
     //TODO use trigger and axon/Events instead
     // this.trigger( 'buttonPressed' )
-
 
     ////// handle zoom of graph
     horizontalZoomInButton.addListener( function() {

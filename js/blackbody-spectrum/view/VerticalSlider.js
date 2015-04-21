@@ -157,7 +157,6 @@ define( function( require ) {
       lineWidth: 1
     } );
 
-
     // rendering order
     this.addChild( rectangleTitle );
     this.addChild( titleNode );
@@ -167,7 +166,6 @@ define( function( require ) {
     this.addChild( thumbNode );
 
     // layout
-
     thumbNode.centerX = trackNode.centerX;
     thumbNode.centerY = trackNode.centerY;
     titleNode.centerX = backgroundNode.centerX + 40;
@@ -176,7 +174,6 @@ define( function( require ) {
     rectangleTitle.centerY = titleNode.centerY;
     subtitleNode.centerX = backgroundNode.centerX;
     subtitleNode.top = backgroundNode.bottom + ( thumbNode.height / 2 ) + 15;
-
 
     // move the slider thumb to reflect the model value
     property.link( function( value ) {

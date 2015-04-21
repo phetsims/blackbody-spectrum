@@ -59,7 +59,6 @@ define( function( require ) {
       majorTickLabels: null // array of major tick Labels, eg. ['0', '5', '10', '15', '20', '25'], automatically generated if set to null
     }, options );
 
-
     // create majorTicksLabel automatically if they dont exist
     var majorTickLabels;
     if ( options.majorTickLabels ) {
@@ -89,7 +88,6 @@ define( function( require ) {
     var ruler = new RulerNode( rulerWidth, rulerHeight, majorTickWidth, majorTickLabels, units, options );
     ruler.rotation = options.angle;
     this.addChild( ruler );
-
 
     // @private
     this.positionPropertyObserver = function( position ) {

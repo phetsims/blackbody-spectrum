@@ -53,7 +53,6 @@ define( function( require ) {
       tickSpacing: 15
     }, options.thermometer );
 
-
     ThermometerNode.call( this, options.tempRange.min, options.tempRange.max, temperatureProperty, options.thermometer );
 
     // label and ticks
@@ -93,7 +92,6 @@ define( function( require ) {
       var maxFluidHeight = height - fluidBottomCutoff;
       return new LinearFunction( options.tempRange.min, options.tempRange.max, fluidBottomCutoff, -maxFluidHeight, true /* clamp */ );
     };
-
 
     /**
      * Create and add text and tick label for thermometer
