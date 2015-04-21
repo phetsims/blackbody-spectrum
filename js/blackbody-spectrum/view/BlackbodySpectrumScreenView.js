@@ -30,11 +30,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var VerticalSlider = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/VerticalSlider' );
 
-
-  // Resources
-
   // strings
-
   var tempInKString = require( 'string!BLACKBODY_SPECTRUM/tempInK' );
   var showRulerString = require( 'string!BLACKBODY_SPECTRUM/showRuler' );
   var bString = require( 'string!BLACKBODY_SPECTRUM/b' );
@@ -45,7 +41,6 @@ define( function( require ) {
   var unitsString = require( 'string!BLACKBODY_SPECTRUM/units.cm' );
 
   // constants
-
   var CIRCLE_LABEL_COLOR = "#00EBEB";
   var SAVE_BUTTON_COLOR = 'yellow';
   var CLEAR_BUTTON_COLOR = 'red';

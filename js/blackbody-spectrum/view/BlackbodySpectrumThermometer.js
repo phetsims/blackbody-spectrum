@@ -24,7 +24,6 @@ define( function( require ) {
   var ovenString = require( 'string!BLACKBODY_SPECTRUM/oven' );
   var earthString = require( 'string!BLACKBODY_SPECTRUM/earth' );
 
-
   // constants
   var VALUE_FONT = new PhetFont( { size: 24, weight: 'bold' } );
   var COLOR_FONT = "yellow";

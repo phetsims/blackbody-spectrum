@@ -58,7 +58,14 @@ define( function( require ) {
   }
 
   return inherit( PropertySet, BlackbodySpectrumModel, {
-    // @private
+    /**
+     * Function that returns the intensity radiation for a given wavelength (in nm) and temperature (in kelvin)
+     * The units of intensity radiation are in megaWatts per meter^2 per micrometer
+     * @private
+     * @param {number} wavelength
+     * @param {number} temperature
+     * @returns {number}
+     */
     intensityRadiation: function( wavelength, temperature ) {
       var intensityRadiation;
       var prefactor;
@@ -75,7 +82,12 @@ define( function( require ) {
       return intensityRadiation;
     },
 
-    // @private
+    /**
+     * Returns a dimensionless temperature parameter
+     * @private
+     * @param {number} temperature - in kelvin
+     * @returns {number}
+     */
     renormalizedTemperature: function( temperature ) {
       /*
        the function below seems very hacky but it was found in MD flash implementation.
@@ -88,7 +100,13 @@ define( function( require ) {
       return Math.pow( Math.max( temperature - temperatureMinimum, 0 ) / (temperatureMaximum - temperatureMinimum), POWER_EXPONENT ); //
     },
 
-    // @private
+    /**
+     * Function that returns a color intensity (an integer ranging from 0 to 255) for a given wavelength and temperature
+     * @private
+     * @param {number} wavelength - in nanometer
+     * @param {number} temperature - in meter
+     * @returns {number}
+     */
     renormalizedColorIntensity: function( wavelength, temperature ) {
       var red = this.intensityRadiation( RED_WAVELENGTH, temperature ); // intensity as a function of wavelength in nm
       var gre = this.intensityRadiation( GRE_WAVELENGTH, temperature );
@@ -99,6 +117,14 @@ define( function( require ) {
       return Math.floor( 255 * boundedRenormalizedTemp * colorIntensity / largestColorIntensity );
     },
 
+    /**
+     * Function that returns an array of radiation intensity (the y axis) for a given temperature.
+     * The x axis is determined based on the current value of wavelengthMax. The y axis
+     * is given in model coordinates , i.e. with units of MW/m^2/micrometer
+     * @public
+     * @param {number} temperature
+     * @returns {Array.<number>}
+     */
     coordinatesY: function( temperature ) {
       for ( var i = 0; i < GRAPH_NUMBER_POINTS; i++ ) {
         var wavelength = i * this.wavelengthMax / GRAPH_NUMBER_POINTS;
@@ -106,37 +132,73 @@ define( function( require ) {
       }
       return this.intensityArray;
     },
-    // @public
+
+    /**
+     * Function that returns a red color with an intensity that matches the blackbody temperature
+     * @public
+     * @param {number} temperature
+     * @returns {Color}
+     */
     getRedColor: function( temperature ) {
       var red = this.renormalizedColorIntensity( RED_WAVELENGTH, temperature );
       return new Color( red, 0, 0, 1 );
     },
-    // @public
+
+    /**
+     * Function that returns a blue color with an intensity that matches the blackbody temperature
+     * @public
+     * @param {number} temperature
+     * @returns {Color}
+     */
     getBluColor: function( temperature ) {
       var blu = this.renormalizedColorIntensity( BLU_WAVELENGTH, temperature );
       return new Color( 0, 0, blu, 1 );
     },
-    // @public
+
+    /**
+     * Function that returns a green color with an intensity that matches the blackbody temperature
+     * @public
+     * @param {number} temperature
+     * @returns {Color}
+     */
     getGreColor: function( temperature ) {
       var gre = this.renormalizedColorIntensity( GRE_WAVELENGTH, temperature );
       return new Color( 0, gre, 0, 1 );
     },
-    // @public
+
+    /**
+     * Function that returns a radius (in scenery coordinates) for a given temperature.
+     * The radius increases as the temperature increases
+     * @public
+     * @param {number} temperature
+     * @returns {number}
+     */
     getGlowingStarHaloRadius: function( temperature ) {
       var renTemp = this.renormalizedTemperature( temperature );
       return Util.linear( 0, 1, GLOWING_STAR_HALO_MINIMUM_RADIUS, GLOWING_STAR_HALO_MAXIMUM_RADIUS, renTemp ); // temperature -> radius
     },
-    // @public
+
+    /**
+     * Function that returns a color corresponding to the temperature of the star.
+     * In addition, it sets the transparency (less transparent as the temperature increases)
+     * @public
+     * @param {number} temperature - in kelvins
+     * @returns {Color}
+     */
     getGlowingStarHaloColor: function( temperature ) {
-      var red = this.renormalizedColorIntensity( RED_WAVELENGTH, temperature );
-      var gre = this.renormalizedColorIntensity( GRE_WAVELENGTH, temperature );
-      var blu = this.renormalizedColorIntensity( BLU_WAVELENGTH, temperature );
+      var color = this.getStarColor( temperature );
       var renTemp = this.renormalizedTemperature( temperature );
       var alpha = Util.linear( 0, 1, 0, 0.1, renTemp ); // temperature -> transparency
-      return new Color( red, gre, blu, alpha );
+      return color.withAlpha( alpha );
     },
 
-    // @public
+    /**
+     * Function that returns a color corresponding the temperature of a star
+     * The star is approximated as a blackbody
+     * @public
+     * @param {number} temperature - in kelvin
+     * @returns {Color}
+     */
     getStarColor: function( temperature ) {
       var red = this.renormalizedColorIntensity( RED_WAVELENGTH, temperature );
       var gre = this.renormalizedColorIntensity( GRE_WAVELENGTH, temperature );
@@ -144,9 +206,12 @@ define( function( require ) {
       return new Color( red, gre, blu, 1 );
     },
 
-    // @public
+    /**
+     * Resets the properties of this model
+     * @public
+     */
     reset: function() {
-      PropertySet.prototype.reset.call( this );
+      this.reset();
     }
   } );
 } );
