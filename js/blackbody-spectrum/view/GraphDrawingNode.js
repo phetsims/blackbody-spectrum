@@ -299,6 +299,11 @@ define( function( require ) {
   }
 
   return inherit( Node, GraphDrawingNode, {
+    /**
+     * Save the state of a graph at temperature 'temperature' and add it to the scene graph
+     * @public
+     * @param {number} temperature - in kelvin
+     */
     save: function( temperature ) {
       this.clear();
       this.savedTemperature = temperature; // temperature associated with the save graph;
@@ -306,6 +311,10 @@ define( function( require ) {
       this.savedGraph.shape = this.graph.shape;
       this.addChild( this.savedGraph );
     },
+    /**
+     * Clear the savedGraph form the scene graph
+     * @public
+     */
     clear: function() {
       if ( this.indexOfChild( this.savedGraph ) !== -1 ) {
         this.removeChild( this.savedGraph );
