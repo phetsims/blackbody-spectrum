@@ -1,0 +1,62 @@
+{
+  "blackbody-spectrum.name": {
+    "value": "Blackbody Spectrum"
+  },
+  "units.cm": {
+    "value": "cm"
+  },
+  "verticalLabelIntensity": {
+    "value": "Intensity (MW/m²/µm)"
+  },
+  "horizontalLabelWavelength": {
+    "value": "Wavelength (µm)"
+  },
+  "subtitleLabel": {
+    "value": "1 µm  =  1000 nm"
+  },
+  "b": {
+    "value": "B"
+  },
+  "g": {
+    "value": "G"
+  },
+  "r": {
+    "value": "R"
+  },
+  "save": {
+    "value": "Save"
+  },
+  "clear": {
+    "value": " Clear"
+  },
+  "sun": {
+    "value": "Sun"
+  },
+  "lightbulb": {
+    "value": "Lightbulb"
+  },
+  "oven": {
+    "value": "Oven"
+  },
+  "earth": {
+    "value": "Earth"
+  },
+  "tempInK": {
+    "value": "T(K)"
+  },
+  "showRuler": {
+    "value": "Show Ruler"
+  },
+  "wavelength": {
+    "value": "wavelength"
+  },
+  "patternValueUnitHz": {
+    "value": "{0} Hz"
+  },
+  "patternValueUnitCm": {
+    "value": "{0} cm"
+  },
+  "intensity": {
+    "value": "intensity"
+  }
+}
