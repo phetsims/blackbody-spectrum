@@ -89,19 +89,17 @@ define( function( require ) {
     ruler.rotation = options.angle;
     this.addChild( ruler );
 
-    // @private
-    this.positionPropertyObserver = function( position ) {
+
+    var positionPropertyObserver = function( position ) {
       ruler.center = position;
     };
-    this.positionProperty = positionProperty;
-    this.positionProperty.link( this.positionPropertyObserver ); // must be unlinked in dispose
+    positionProperty.link( positionPropertyObserver ); // must be unlinked in dispose
 
-    // @private
-    this.isVisiblePropertyObserver = function( isVisible ) {
+
+    var isVisiblePropertyObserver = function( isVisible ) {
       ruler.visible = isVisible;
     };
-    this.isVisibleProperty = isVisibleProperty;
-    this.isVisibleProperty.link( this.isVisiblePropertyObserver ); // must be unlinked in dispose
+    isVisibleProperty.link( isVisiblePropertyObserver ); // must be unlinked in dispose
 
     // add listener for drag events
     // the position and the dragBounds are both in the view so we should pass the
@@ -111,13 +109,18 @@ define( function( require ) {
     } ) );
 
     this.mutate( options );
+
+    this.disposeMovableLabRuler = function() {
+      positionProperty.unlink( positionPropertyObserver );
+      isVisibleProperty.unlink( isVisiblePropertyObserver );
+    }
+
   }
 
   return inherit( Node, MovableLabRuler, {
     // Ensures that this node is eligible for GC.
     dispose: function() {
-      this.positionProperty.unlink( this.positionPropertyObserver );
-      this.isVisibleProperty.unlink( this.isVisiblePropertyObserver );
+      this.disposeMovableLabRuler();
     }
   } );
 } )
