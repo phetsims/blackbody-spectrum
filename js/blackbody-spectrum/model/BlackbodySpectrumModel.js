@@ -56,6 +56,7 @@ define( function( require ) {
   }
 
   return inherit( PropertySet, BlackbodySpectrumModel, {
+
     /**
      * Function that returns the intensity radiation for a given wavelength (in nm) and temperature (in kelvin)
      * The units of intensity radiation are in megaWatts per meter^2 per micrometer
@@ -202,14 +203,6 @@ define( function( require ) {
       var gre = this.renormalizedColorIntensity( GRE_WAVELENGTH, temperature );
       var blu = this.renormalizedColorIntensity( BLU_WAVELENGTH, temperature );
       return new Color( red, gre, blu, 1 );
-    },
-
-    /**
-     * Resets the properties of this model
-     * @public
-     */
-    reset: function() {
-      this.reset();
     }
   } );
 } );

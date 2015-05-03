@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BlackbodySpectrumThermometer = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumThermometer' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var CheckBox = require( 'SUN/CheckBox' );
   var Circle = require( 'SCENERY/nodes/Circle' );
@@ -26,7 +27,6 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var StarPath = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/StarPath' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var BlackbodySpectrumThermometer = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumThermometer' );
   var Vector2 = require( 'DOT/Vector2' );
   var VerticalSlider = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/VerticalSlider' );
 
@@ -112,9 +112,8 @@ define( function( require ) {
     }, isRulerVisibleProperty );
     showRulerCheckBox.touchArea = Shape.rectangle( showRulerCheckBox.left, showRulerCheckBox.top - 15, showRulerCheckBox.width, showRulerCheckBox.height + 30 );
 
-    var movableLabRuler = new MovableLabRuler(
-      new Property( new Vector2( 120, 310 ) ),
-      isRulerVisibleProperty,
+    var rulerPositionProperty = new Property( new Vector2( 120, 310 ) );
+    var movableLabRuler = new MovableLabRuler( rulerPositionProperty, isRulerVisibleProperty,
       {
         rulerLength: 0.25, // in model coordinates, i.e. 0.25 meters
         multiplier: 100, // multiplier of base units
@@ -133,9 +132,11 @@ define( function( require ) {
     var resetAllButton = new ResetAllButton( {
       listener: function() {
         model.reset();
+        rulerPositionProperty.reset();
+        isRulerVisibleProperty.reset();
         graphNode.clear();
       },
-      right:  this.layoutBounds.maxX - 10,
+      right: this.layoutBounds.maxX - 10,
       bottom: this.layoutBounds.maxY - 10
     } );
 
