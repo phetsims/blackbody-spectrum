@@ -113,7 +113,7 @@ define( function( require ) {
     this.disposeMovableLabRuler = function() {
       positionProperty.unlink( positionPropertyObserver );
       isVisibleProperty.unlink( isVisiblePropertyObserver );
-    }
+    };
 
   }
 
