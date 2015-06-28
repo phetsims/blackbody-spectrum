@@ -227,7 +227,7 @@ define( function( require ) {
     model.verticalZoomProperty.link( function( verticalZoom ) {
 
       verticalMax = verticalMax * Math.pow( verticalZoomScalingFactor, verticalZoom );
-      verticalTickLabelMax.text = verticalMax.toFixed( 0 ); // from nm to micron
+      verticalTickLabelMax.text = Util.toFixed( verticalMax, 0 ); // from nm to micron
 
       updateGraph( thisGraph.graph, model.temperature );
       if ( thisGraph.savedGraph ) {

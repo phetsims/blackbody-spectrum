@@ -181,7 +181,7 @@ define( function( require ) {
       var y = Util.linear( range.min, range.max, trackSize.height, 0, value );
       thumbNode.y = Util.clamp( y, 0, trackSize.height );
       // update the titleNode
-      titleNode.text = value.toFixed( VALUE_DECIMAL_PLACES );
+      titleNode.text = Util.toFixed( value,VALUE_DECIMAL_PLACES );
     } );
   }
 
