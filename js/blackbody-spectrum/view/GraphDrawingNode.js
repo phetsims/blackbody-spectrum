@@ -122,7 +122,7 @@ define( function( require ) {
 
     var updateTicks = function( minorTickSpacing ) {
 
-      var numberOfTicks = Math.round( HORIZONTAL_GRAPH_LENGTH / minorTickSpacing );
+      var numberOfTicks = Util.roundSymmetric( HORIZONTAL_GRAPH_LENGTH / minorTickSpacing );
       var deltaX = HORIZONTAL_GRAPH_LENGTH / numberOfTicks;
       var shape = new Shape();
 
