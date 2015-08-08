@@ -11,13 +11,11 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  //var Events = require('AXON/Events');
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Shape = require( 'KITE/Shape' );
-  //  var ScientificNotation = require('SCENERY_PHET/ScientificNotationNode');
-  var Spectrum = require( 'SCENERY_PHET/SpectrumNode' );
+  var SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
@@ -173,7 +171,7 @@ define( function( require ) {
     var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, INFRARED_WAVELENGTH );
     var ultravioletPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH );
     var widthSpectrum = infraredPosition - ultravioletPosition;
-    var spectrum = new Spectrum( widthSpectrum, VERTICAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH, INFRARED_WAVELENGTH, 0.9 );
+    var spectrum = new SpectrumNode( widthSpectrum, VERTICAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH, INFRARED_WAVELENGTH, 0.9 );
     spectrum.left = ultravioletPosition + axesPath.left;
 
     var updateSpectrum = function( scaleX ) {
