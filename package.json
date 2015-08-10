@@ -2,6 +2,7 @@
   "name": "blackbody-spectrum",
   "version": "1.0.0-dev.2",
   "license": "GPLv3",
+  "requirejsNamespace": "BLACKBODY_SPECTRUM",
   "simTitleStringKey": "BLACKBODY_SPECTRUM/blackbody-spectrum.name",
   "phetLibs": [
     "blackbody-spectrum"
