@@ -2,11 +2,6 @@
   "name": "blackbody-spectrum",
   "version": "1.0.0-dev.2",
   "license": "GPLv3",
-  "requirejsNamespace": "BLACKBODY_SPECTRUM",
-  "simTitleStringKey": "BLACKBODY_SPECTRUM/blackbody-spectrum.name",
-  "phetLibs": [
-    "blackbody-spectrum"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/phetsims/blackbody-spectrum.git"
@@ -17,5 +12,12 @@
     "grunt-contrib-jshint": "~0.6.4",
     "uglify-js": "~2.4.0",
     "requirejs": "~2.1.8"
+  },
+  "phet": {
+    "requirejsNamespace": "BLACKBODY_SPECTRUM",
+    "simTitleStringKey": "BLACKBODY_SPECTRUM/blackbody-spectrum.name",
+    "phetLibs": [
+      "blackbody-spectrum"
+    ]
   }
 }
