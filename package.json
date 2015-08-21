@@ -14,7 +14,6 @@
     "requirejs": "~2.1.8"
   },
   "phet": {
-    "requirejsNamespace": "BLACKBODY_SPECTRUM",
-    "simTitleStringKey": "BLACKBODY_SPECTRUM/blackbody-spectrum.name"
+    "requirejsNamespace": "BLACKBODY_SPECTRUM"
   }
 }
