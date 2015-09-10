@@ -15,7 +15,7 @@ define( function( require ) {
   var Screen = require( 'JOIST/Screen' );
 
   // strings
-  var blackbodySpectrumSimString = require( 'string!BLACKBODY_SPECTRUM/blackbody-spectrum.name' );
+  var blackbodySpectrumSimString = require( 'string!BLACKBODY_SPECTRUM/blackbody-spectrum.title' );
 
   /**
    * Creates the model and view for the BlackbodySpectrumScreen
