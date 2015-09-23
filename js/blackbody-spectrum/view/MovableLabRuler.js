@@ -9,7 +9,7 @@
 define( function( require ) {
   "use strict";
 
-  // Imports
+  // modules
   var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
