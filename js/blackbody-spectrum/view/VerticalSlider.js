@@ -29,7 +29,7 @@ define( function( require ) {
   var TITLE_FONT = new PhetFont( { size: 30, weight: 'bold' } );
   var SUBTITLE_FONT = new PhetFont( { size: 30, weight: 'bold' } );
   var TITLE_COLOR = Color.BLUE;
-  var SUBTITLE_COLOR = "#00EBEB";
+  var SUBTITLE_COLOR = '#00EBEB';
   var VALUE_DECIMAL_PLACES = 0;
   var THUMB_SIZE = new Dimension2( 68, 30 );
   var THUMB_NORMAL_COLOR = new Color( 89, 156, 212 );

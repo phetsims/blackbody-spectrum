@@ -26,7 +26,7 @@ define( function( require ) {
 
   // constants
   var VALUE_FONT = new PhetFont( { size: 24, weight: 'bold' } );
-  var COLOR_FONT = "yellow";
+  var COLOR_FONT = 'yellow';
 
   /**
    * @param {Property.<number>} temperatureProperty

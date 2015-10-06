@@ -41,7 +41,7 @@ define( function( require ) {
   var unitsString = require( 'string!BLACKBODY_SPECTRUM/units.cm' );
 
   // constants
-  var CIRCLE_LABEL_COLOR = "#00EBEB";
+  var CIRCLE_LABEL_COLOR = '#00EBEB';
   var SAVE_BUTTON_COLOR = 'yellow';
   var CLEAR_BUTTON_COLOR = 'red';
   var BUTTON_FONT = new PhetFont( 15 );
