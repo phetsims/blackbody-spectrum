@@ -146,7 +146,9 @@ define( function( require ) {
     // nodes
     var titleNode = new Text( '?', { font: TITLE_FONT, direction: 'rtl', fill: TITLE_COLOR } );
     var subtitleNode = new Text( subtitle, { font: SUBTITLE_FONT, fill: SUBTITLE_COLOR } );
-    var xMargin = 7, yMargin = 7, cornerRadius = 10;
+    var xMargin = 7;
+    var yMargin = 7;
+    var cornerRadius = 10;
     var backgroundNode = new Rectangle( -xMargin, -yMargin, trackSize.width + ( 2 * xMargin ), trackSize.height + ( 2 * yMargin ), cornerRadius, cornerRadius,
       { fill: new Color( 200, 200, 200, 140 ) } );
     var trackNode = new Track( trackSize, property, range );
