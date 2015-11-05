@@ -38,7 +38,7 @@ define( function( require ) {
   var rString = require( 'string!BLACKBODY_SPECTRUM/r' );
   var saveString = require( 'string!BLACKBODY_SPECTRUM/save' );
   var clearString = require( 'string!BLACKBODY_SPECTRUM/clear' );
-  var unitsString = require( 'string!BLACKBODY_SPECTRUM/units.cm' );
+  var unitsCmString = require( 'string!BLACKBODY_SPECTRUM/units.cm' );
 
   // constants
   var CIRCLE_LABEL_COLOR = '#00EBEB';
@@ -117,7 +117,7 @@ define( function( require ) {
       {
         rulerLength: 0.25, // in model coordinates, i.e. 0.25 meters
         multiplier: 100, // multiplier of base units
-        units: unitsString,  //
+        units: unitsCmString,  //
         unitsFont: new PhetFont( 16 ),
         rulerHeightInModel: 0.05, // in model coordinates
         majorTickSeparation: 0.05, // in model coordinates

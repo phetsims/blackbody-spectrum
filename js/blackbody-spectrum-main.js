@@ -14,7 +14,7 @@ define( function( require ) {
   var SimLauncher = require( 'JOIST/SimLauncher' );
 
   // strings
-  var simTitle = require( 'string!BLACKBODY_SPECTRUM/blackbody-spectrum.title' );
+  var blackbodySpectrumTitleString = require( 'string!BLACKBODY_SPECTRUM/blackbody-spectrum.title' );
 
   var simOptions = {
     credits: {
@@ -36,7 +36,7 @@ define( function( require ) {
   }
 
   SimLauncher.launch( function() {
-    var sim = new Sim( simTitle, [ new BlackbodySpectrumScreen() ], simOptions );
+    var sim = new Sim( blackbodySpectrumTitleString, [ new BlackbodySpectrumScreen() ], simOptions );
     sim.start();
   } );
 } );

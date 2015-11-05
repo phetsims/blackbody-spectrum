@@ -15,14 +15,14 @@ define( function( require ) {
   var Screen = require( 'JOIST/Screen' );
 
   // strings
-  var blackbodySpectrumSimString = require( 'string!BLACKBODY_SPECTRUM/blackbody-spectrum.title' );
+  var blackbodySpectrumTitleString = require( 'string!BLACKBODY_SPECTRUM/blackbody-spectrum.title' );
 
   /**
    * Creates the model and view for the BlackbodySpectrumScreen
    * @constructor
    */
   function BlackbodySpectrumScreen() {
-    Screen.call( this, blackbodySpectrumSimString, null /* no icon, single-screen sim */,
+    Screen.call( this, blackbodySpectrumTitleString, null /* no icon, single-screen sim */,
       function() {
         return new BlackbodySpectrumModel();
       },
