@@ -1,4 +1,4 @@
-// Copyright 2002-2013, University of Colorado Boulder
+// Copyright 2014-2015, University of Colorado Boulder
 
 /**
  * Graph Node responsible for drawing axes, spectrum, zoom buttons, axe titles and graph
