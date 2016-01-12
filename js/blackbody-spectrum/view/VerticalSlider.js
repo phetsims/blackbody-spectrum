@@ -93,10 +93,10 @@ define( function( require ) {
     thisNode.addChild( centerLineNode );
 
     // touch area
-    var touchXMargin = 0 * bodyNode.width; // thumb seems wide enough, so zero for now
-    var touchYMargin = 1 * bodyNode.height; // expand height since thumb is not very tall and drag direction is vertical
-    bodyNode.touchArea = Shape.rectangle( bodyNode.left - touchXMargin, bodyNode.top - touchYMargin,
-      bodyNode.width + ( 2 * touchXMargin ), bodyNode.height + ( 2 * touchYMargin ) );
+    var touchAreaXDilation = 0 * bodyNode.width; // thumb seems wide enough, so zero for now
+    var touchAreaYDilation = 1 * bodyNode.height; // expand height since thumb is not very tall and drag direction is vertical
+    bodyNode.touchArea = Shape.rectangle( bodyNode.left - touchAreaXDilation, bodyNode.top - touchAreaYDilation,
+      bodyNode.width + ( 2 * touchAreaXDilation ), bodyNode.height + ( 2 * touchAreaYDilation ) );
 
     // interactivity
     thisNode.cursor = 'pointer';
