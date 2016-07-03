@@ -50,6 +50,7 @@ define( function( require ) {
 
     Node.call( this );
 
+    // TODO Use modelviewtransform for laying out the graph
     var thisGraph = this;
 
     var verticalMax = 100; // initial value for the maximum Y coordinate label in MW per m^2 per micron;
