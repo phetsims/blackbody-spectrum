@@ -59,7 +59,7 @@ define( function( require ) {
 
     /**
      *
-     * @param {String} object
+     * @param {string} object
      * @param {number} temperature
      * @constructor
      */

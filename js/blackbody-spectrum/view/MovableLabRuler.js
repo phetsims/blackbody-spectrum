@@ -25,7 +25,7 @@ define( function( require ) {
    * @param {number} endingNumber - e.g. 27
    * @param {number} increment - e.g. 5
    * @param {number} decimalPlaces -  the precision of the string eg. 1.
-   * @returns {Array.<Strings>} - e.g. ['0.0', '5.0', '10.0', '15.0', '20.0', '25.0']
+   * @returns {Array.<strings>} - e.g. ['0.0', '5.0', '10.0', '15.0', '20.0', '25.0']
    */
   function majorTickLabelsGenerator( startingNumber, endingNumber, increment, decimalPlaces ) {
     var majorTickLabels = [];
