@@ -52,7 +52,7 @@ define( function( require ) {
   var CIRCLE_RADIUS = 15;
   var LABEL_FONT = new PhetFont( 22 );
   var CHECK_BOX_TEXT_FILL = 'white';
-  var MIN_TEMPERATURE = 0; // in kelvin
+  var MIN_TEMPERATURE = 100; // in kelvin
   var MAX_TEMPERATURE = 9000;
   var TITLE_FONT = new PhetFont( { size: 30, weight: 'bold' } );
   var SUBTITLE_FONT = new PhetFont( { size: 30, weight: 'bold' } );
@@ -113,6 +113,7 @@ define( function( require ) {
     var starPath = new StarPath();
 
     model.temperatureProperty.link( function( temperature ) {
+      console.log( temperature );
       circleBlu.fill = model.getBluColor( temperature );
       circleGre.fill = model.getGreColor( temperature );
       circleRed.fill = model.getRedColor( temperature );
@@ -148,7 +149,6 @@ define( function( require ) {
       fill: CHECK_BOX_TEXT_FILL
     }, isRulerVisibleProperty );
     showRulerCheckBox.touchArea = Shape.rectangle( showRulerCheckBox.left, showRulerCheckBox.top - 15, showRulerCheckBox.width, showRulerCheckBox.height + 30 );
-
 
 
     // create the Reset All Button in the bottom right
@@ -243,6 +243,7 @@ define( function( require ) {
       subtitleNode.top = temperatureSlider.bottom + 30;
     }
   }
+
   blackbodySpectrum.register( 'BlackbodySpectrumScreenView', BlackbodySpectrumScreenView );
 
   return inherit( ScreenView, BlackbodySpectrumScreenView );
