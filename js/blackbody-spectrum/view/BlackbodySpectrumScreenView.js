@@ -13,22 +13,25 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var CheckBox = require( 'SUN/CheckBox' );
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var Color = require( 'SCENERY/util/Color' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var GraphDrawingNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GraphDrawingNode' );
+  var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var MovableLabRuler = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/MovableLabRuler' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var Range = require( 'DOT/Range' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Shape = require( 'KITE/Shape' );
   var StarPath = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/StarPath' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
-  var VerticalSlider = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/VerticalSlider' );
 
   // strings
   var tempInKString = require( 'string!BLACKBODY_SPECTRUM/tempInK' );
@@ -48,6 +51,13 @@ define( function( require ) {
   var CIRCLE_RADIUS = 15;
   var LABEL_FONT = new PhetFont( 22 );
   var CHECK_BOX_TEXT_FILL = 'white';
+  var MIN_TEMPERATURE = 0; // in kelvin
+  var MAX_TEMPERATURE = 9000;
+  var TITLE_FONT = new PhetFont( { size: 30, weight: 'bold' } );
+  var SUBTITLE_FONT = new PhetFont( { size: 30, weight: 'bold' } );
+  var TITLE_COLOR = Color.BLUE;
+  var SUBTITLE_COLOR = '#00EBEB';
+  var VALUE_DECIMAL_PLACES = 0;
 
   /**
    * Constructor for the BlackbodySpectrumView
@@ -74,17 +84,24 @@ define( function( require ) {
     } );
 
     // temperature slider
-    var minTemperatureSlider = 0; // in kelvin
-    var maxTemperatureSlider = 9000;
-    var simpleRange = new Range( minTemperatureSlider, maxTemperatureSlider, model.temperature ); // in kelvin
-    var temperatureSlider = new VerticalSlider(
-      tempInKString,
-      new Dimension2( 5, 200 ),
-      model.temperatureProperty,
-      simpleRange,
-      0 );
+    var temperatureRange = new Range( MIN_TEMPERATURE, MAX_TEMPERATURE, model.temperature ); // in kelvin
+    var temperatureSlider = new HSlider( model.temperatureProperty, temperatureRange,
+      {
+        trackSize: new Dimension2( 200, 5 ),
+        thumbSize: new Dimension2( 30, 60 )
+      } );
+    temperatureSlider.rotation = -Math.PI / 2; // set it to vertical
 
-    //
+    var titleNode = new Text( '?', { font: TITLE_FONT, fill: TITLE_COLOR } );
+    var subtitleNode = new Text( tempInKString, { font: SUBTITLE_FONT, fill: SUBTITLE_COLOR } );
+    var cornerRadius = 10;
+    var rectangleTitle = new Rectangle( 0, 0, 100, 40, cornerRadius, cornerRadius, {
+      fill: '#FFF',
+      stroke: '#000',
+      lineWidth: 1
+    } );
+
+
     var circleBlu = new Circle( CIRCLE_RADIUS );
     var circleGre = new Circle( CIRCLE_RADIUS );
     var circleRed = new Circle( CIRCLE_RADIUS );
@@ -102,17 +119,13 @@ define( function( require ) {
       glowingStarHalo.radius = model.getGlowingStarHaloRadius( temperature );
       starPath.fill = model.getStarColor( temperature );
       starPath.stroke = model.getStarColor( temperature );
+      titleNode.text = Util.toFixed( temperature, VALUE_DECIMAL_PLACES );
     } );
 
+    // create movable lab ruler
     var isRulerVisibleProperty = new Property( false );
-    // Show Ruler check box
-    var showRulerCheckBox = CheckBox.createTextCheckBox( showRulerString, {
-      font: LABEL_FONT,
-      fill: CHECK_BOX_TEXT_FILL
-    }, isRulerVisibleProperty );
-    showRulerCheckBox.touchArea = Shape.rectangle( showRulerCheckBox.left, showRulerCheckBox.top - 15, showRulerCheckBox.width, showRulerCheckBox.height + 30 );
-
     var rulerPositionProperty = new Property( new Vector2( 120, 310 ) );
+
     var movableLabRuler = new MovableLabRuler( rulerPositionProperty, isRulerVisibleProperty,
       {
         rulerLength: 0.25, // in model coordinates, i.e. 0.25 meters
@@ -128,7 +141,16 @@ define( function( require ) {
       }
     );
 
-    // Create and add the Reset All Button in the bottom right
+    // create ruler check box
+    var showRulerCheckBox = CheckBox.createTextCheckBox( showRulerString, {
+      font: LABEL_FONT,
+      fill: CHECK_BOX_TEXT_FILL
+    }, isRulerVisibleProperty );
+    showRulerCheckBox.touchArea = Shape.rectangle( showRulerCheckBox.left, showRulerCheckBox.top - 15, showRulerCheckBox.width, showRulerCheckBox.height + 30 );
+
+
+
+    // create the Reset All Button in the bottom right
     var resetAllButton = new ResetAllButton( {
       listener: function() {
         model.reset();
@@ -160,6 +182,10 @@ define( function( require ) {
       }
     } );
 
+    // rendering order
+    this.addChild( rectangleTitle );
+    this.addChild( titleNode );
+    this.addChild( subtitleNode );
     this.addChild( graphNode );
     this.addChild( clearButton );
     this.addChild( saveButton );
@@ -186,15 +212,12 @@ define( function( require ) {
       showRulerCheckBox.centerY = this.layoutBounds.maxY - 90;
       blackbodySpectrumThermometer.right = this.layoutBounds.maxX - 10;
       blackbodySpectrumThermometer.top = 100;
-
       saveButton.right = this.layoutBounds.maxX - 10;
       saveButton.top = 10;
       clearButton.right = saveButton.right;
       clearButton.top = saveButton.bottom + 10;
-
-      temperatureSlider.right = blackbodySpectrumThermometer.left - 20;
+      temperatureSlider.right = blackbodySpectrumThermometer.left - 50;
       temperatureSlider.centerY = blackbodySpectrumThermometer.centerY;
-
       circleBlu.centerX = 300;
       circleBlu.centerY = 100;
       circleGre.centerX = circleBlu.centerX + 50;
@@ -211,7 +234,12 @@ define( function( require ) {
       starPath.centerY = circleBlu.centerY;
       glowingStarHalo.centerX = starPath.centerX;
       glowingStarHalo.centerY = starPath.centerY;
-
+      titleNode.centerX = temperatureSlider.centerX;
+      titleNode.bottom = temperatureSlider.top - 30;
+      rectangleTitle.centerX = temperatureSlider.centerX;
+      rectangleTitle.centerY = titleNode.centerY;
+      subtitleNode.centerX = temperatureSlider.centerX;
+      subtitleNode.top = temperatureSlider.bottom + 30;
     }
   }
 

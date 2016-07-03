@@ -14,6 +14,11 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
 
+  /**
+   *
+   * @param {Object} [options]
+   * @constructor
+   */
   function StarShape( options ) {
 
     options = _.extend( {
