@@ -241,11 +241,25 @@ define( function( require ) {
 
     ////// handle zoom of graph
     horizontalZoomInButton.addListener( function() {
-      model.horizontalZoom = -1;
+      horizontalZoomOutButton.setEnabled( true );
+      if ( model.wavelengthMax > 100 ) {
+        model.horizontalZoom = -1;
+        horizontalZoomInButton.setEnabled( true );
+      }
+      else {
+        horizontalZoomInButton.setEnabled( false );
+      }
     } );
 
     horizontalZoomOutButton.addListener( function() {
-      model.horizontalZoom = +1;
+      horizontalZoomInButton.setEnabled( true );
+      if ( model.wavelengthMax < 10000 ) {
+        model.horizontalZoom = +1;
+        horizontalZoomOutButton.setEnabled( true );
+      }
+      else {
+        horizontalZoomOutButton.setEnabled( false );
+      }
     } );
 
     ////// handle zoom of graph
@@ -295,9 +309,9 @@ define( function( require ) {
       horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
       horizontalAxisBottomLabelNode.centerX = axesPath.centerX;
     }
-
-    blackbodySpectrum.register( 'GraphDrawingNode', GraphDrawingNode);
   }
+
+  blackbodySpectrum.register( 'GraphDrawingNode', GraphDrawingNode );
 
   return inherit( Node, GraphDrawingNode, {
     /**
