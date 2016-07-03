@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var LinearFunction = require( 'DOT/LinearFunction' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -68,6 +69,8 @@ define( function( require ) {
       this.temperature = temperature; // in kelvin
     }
 
+    blackbodySpectrum.register( 'Label', Label );
+
     var labels = [
       new Label( sunString, 5700 ),
       new Label( lightbulbString, 3000 ),
@@ -122,6 +125,8 @@ define( function( require ) {
 
     this.mutate( options );
   }
+
+  blackbodySpectrum.register( 'BlackbodySpectrumThermometer', BlackbodySpectrumThermometer );
 
   return inherit( ThermometerNode, BlackbodySpectrumThermometer );
 } );

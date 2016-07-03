@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var BlackbodySpectrumModel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/model/BlackbodySpectrumModel' );
   var BlackbodySpectrumScreenView = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumScreenView' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -32,6 +33,7 @@ define( function( require ) {
       { backgroundColor: 'black' }
     );
   }
-
+  blackbodySpectrum.register( 'BlackbodySpectrumScreen', BlackbodySpectrumScreen );
+  
   return inherit( Screen, BlackbodySpectrumScreen );
 } );

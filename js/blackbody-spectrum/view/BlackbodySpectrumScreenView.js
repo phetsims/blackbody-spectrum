@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var BlackbodySpectrumThermometer = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumThermometer' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var CheckBox = require( 'SUN/CheckBox' );
@@ -64,7 +65,7 @@ define( function( require ) {
    * @param {BlackbodySpectrumModel} model - main model for the simulation
    * @constructor
    */
-  function BlackbodySpectrumView( model ) {
+  function BlackbodySpectrumScreenView( model ) {
 
     var thisView = this;
 
@@ -242,6 +243,7 @@ define( function( require ) {
       subtitleNode.top = temperatureSlider.bottom + 30;
     }
   }
+  blackbodySpectrum.register( 'BlackbodySpectrumScreenView', BlackbodySpectrumScreenView );
 
-  return inherit( ScreenView, BlackbodySpectrumView );
+  return inherit( ScreenView, BlackbodySpectrumScreenView );
 } );

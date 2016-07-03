@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -52,9 +53,9 @@ define( function( require ) {
         verticalZoom: 0
       }
     );
-
   }
-
+  blackbodySpectrum.register( 'BlackbodySpectrumModel', BlackbodySpectrumModel );
+  
   return inherit( PropertySet, BlackbodySpectrumModel, {
 
     /**

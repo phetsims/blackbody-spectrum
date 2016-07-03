@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
@@ -52,6 +53,7 @@ define( function( require ) {
     this.close(); // is it necessary ?
 
   }
+  blackbodySpectrum.register( 'StarShape', StarShape );
 
   inherit( Shape, StarShape );
 
@@ -74,6 +76,8 @@ define( function( require ) {
 
     this.mutate( options );
   }
+  
+  blackbodySpectrum.register( 'StarPath', StarPath );
 
   return inherit( Path, StarPath );
 } )

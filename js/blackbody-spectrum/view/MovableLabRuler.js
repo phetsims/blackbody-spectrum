@@ -10,6 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
@@ -115,6 +116,7 @@ define( function( require ) {
       isVisibleProperty.unlink( isVisiblePropertyObserver );
     };
 
+    blackbodySpectrum.register( 'MovableLabRuler', MovableLabRuler );
   }
 
   return inherit( Node, MovableLabRuler, {
