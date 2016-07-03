@@ -113,7 +113,6 @@ define( function( require ) {
     var starPath = new StarPath();
 
     model.temperatureProperty.link( function( temperature ) {
-      console.log( temperature );
       circleBlu.fill = model.getBluColor( temperature );
       circleGre.fill = model.getGreColor( temperature );
       circleRed.fill = model.getRedColor( temperature );
