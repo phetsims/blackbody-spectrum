@@ -14,7 +14,7 @@ define( function( require ) {
   var LinearFunction = require( 'DOT/LinearFunction' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Range = require( 'DOT/Range' );
+  var RangeWithValue = require( 'DOT/RangeWithValue' );
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
@@ -39,7 +39,7 @@ define( function( require ) {
     var thisThermometer = this;
 
     options = _.extend( {
-      tempRange: new Range( 0, 6000 )
+      tempRange: new RangeWithValue( 0, 6000 )
     }, options );
 
     options.thermometer = _.extend( {

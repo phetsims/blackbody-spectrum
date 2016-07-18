@@ -23,7 +23,7 @@ define( function( require ) {
   var MovableLabRuler = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/MovableLabRuler' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
-  var Range = require( 'DOT/Range' );
+  var RangeWithValue = require( 'DOT/RangeWithValue' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
@@ -85,7 +85,7 @@ define( function( require ) {
     } );
 
     // temperature slider
-    var temperatureRange = new Range( MIN_TEMPERATURE, MAX_TEMPERATURE, model.temperature ); // in kelvin
+    var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.temperature ); // in kelvin
     var temperatureSlider = new HSlider( model.temperatureProperty, temperatureRange,
       {
         trackSize: new Dimension2( 200, 5 ),
