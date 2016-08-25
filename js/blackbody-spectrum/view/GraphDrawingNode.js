@@ -11,6 +11,7 @@ define( function( require ) {
 
   // modules
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -173,8 +174,13 @@ define( function( require ) {
     var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, INFRARED_WAVELENGTH );
     var ultravioletPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH );
     var widthSpectrum = infraredPosition - ultravioletPosition;
-    var spectrum = new SpectrumNode( widthSpectrum, VERTICAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH, INFRARED_WAVELENGTH, 0.9 );
-    spectrum.left = ultravioletPosition + axesPath.left;
+    var spectrum = new SpectrumNode( {
+      size: new Dimension2( widthSpectrum, VERTICAL_GRAPH_LENGTH ),
+      minWavelength: ULTRAVIOLET_WAVELENGTH,
+      maxWavelength: INFRARED_WAVELENGTH,
+      opacity: 0.9,
+      left: ultravioletPosition + axesPath.left
+    } );
 
     var updateSpectrum = function( scaleX ) {
       ultravioletPosition = ultravioletPosition / scaleX;
