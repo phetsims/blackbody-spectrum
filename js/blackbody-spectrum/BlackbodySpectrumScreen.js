@@ -15,15 +15,12 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Screen = require( 'JOIST/Screen' );
 
-  // strings
-  var blackbodySpectrumTitleString = require( 'string!BLACKBODY_SPECTRUM/blackbody-spectrum.title' );
-
   /**
    * Creates the model and view for the BlackbodySpectrumScreen
    * @constructor
    */
   function BlackbodySpectrumScreen() {
-    Screen.call( this, blackbodySpectrumTitleString, null /* no icon, single-screen sim */,
+    Screen.call( this,
       function() {
         return new BlackbodySpectrumModel();
       },
