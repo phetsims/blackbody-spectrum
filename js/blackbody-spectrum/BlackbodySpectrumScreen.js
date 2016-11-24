@@ -14,6 +14,8 @@ define( function( require ) {
   var BlackbodySpectrumScreenView = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumScreenView' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Screen = require( 'JOIST/Screen' );
+  var Property = require( 'AXON/Property' );
+  var Color = require( 'SCENERY/util/Color' );
 
   /**
    * Creates the model and view for the BlackbodySpectrumScreen
@@ -27,7 +29,7 @@ define( function( require ) {
       function( model ) {
         return new BlackbodySpectrumScreenView( model );
       },
-      { backgroundColor: 'black' }
+      { backgroundColorProperty: new Property( Color.toColor( 'black' ) ) }
     );
   }
   blackbodySpectrum.register( 'BlackbodySpectrumScreen', BlackbodySpectrumScreen );
