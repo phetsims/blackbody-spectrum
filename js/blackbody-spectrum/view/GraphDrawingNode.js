@@ -53,7 +53,7 @@ define( function( require ) {
     Node.call( this );
 
     // TODO Use modelviewtransform for laying out the graph
-    var thisGraph = this;
+    var self = this;
 
     var verticalMax = 100; // initial value for the maximum Y coordinate label in MW per m^2 per micron;
 
@@ -185,23 +185,23 @@ define( function( require ) {
     var updateSpectrum = function( scaleX ) {
       ultravioletPosition = ultravioletPosition / scaleX;
       spectrum.scale( { x: 1 / scaleX, y: 1 } );
-      var spectrumPosition = ultravioletPosition + thisGraph.graph.left;
-      var isSpectrumOffTheAxis = spectrumPosition > thisGraph.graph.right;
-      spectrum.left = ultravioletPosition + thisGraph.graph.left;
+      var spectrumPosition = ultravioletPosition + self.graph.left;
+      var isSpectrumOffTheAxis = spectrumPosition > self.graph.right;
+      spectrum.left = ultravioletPosition + self.graph.left;
       // spectrum.visible = true;
-      //  spectrum.clipArea= Shape.rectangle(thisGraph.left,thisGraph.top,HORIZONTAL_GRAPH_LENGTH,VERTICAL_GRAPH_LENGTH);
+      //  spectrum.clipArea= Shape.rectangle(self.left,self.top,HORIZONTAL_GRAPH_LENGTH,VERTICAL_GRAPH_LENGTH);
       if ( isSpectrumOffTheAxis ) {
         spectrum.visible = false;
       }
       else {
         spectrum.visible = true;
-        spectrum.left = ultravioletPosition + thisGraph.graph.left;
+        spectrum.left = ultravioletPosition + self.graph.left;
       }
     };
 
     // observers
     model.temperatureProperty.link( function( temperature ) {
-      updateGraph( thisGraph.graph, temperature );
+      updateGraph( self.graph, temperature );
     } );
 
     model.horizontalZoomProperty.link( function( horizontalZoom ) {
@@ -221,9 +221,9 @@ define( function( require ) {
       updateTicks( minorTickSpacing );
 
       // redraw blackbody curves
-      updateGraph( thisGraph.graph, model.temperature );
-      if ( thisGraph.savedGraph ) {
-        updateGraph( thisGraph.savedGraph, thisGraph.savedTemperature );
+      updateGraph( self.graph, model.temperature );
+      if ( self.savedGraph ) {
+        updateGraph( self.savedGraph, self.savedTemperature );
       }
 
       // reset zoom level to zero
@@ -235,9 +235,9 @@ define( function( require ) {
       verticalMax = verticalMax * Math.pow( verticalZoomScalingFactor, verticalZoom );
       verticalTickLabelMax.text = Util.toFixed( verticalMax, 0 ); // from nm to micron
 
-      updateGraph( thisGraph.graph, model.temperature );
-      if ( thisGraph.savedGraph ) {
-        updateGraph( thisGraph.savedGraph, thisGraph.savedTemperature );
+      updateGraph( self.graph, model.temperature );
+      if ( self.savedGraph ) {
+        updateGraph( self.savedGraph, self.savedTemperature );
       }
       model.verticalZoom = 0; // reset zoom
     } );

@@ -36,7 +36,7 @@ define( function( require ) {
    */
   function BlackbodySpectrumThermometer( temperatureProperty, options ) {
 
-    var thisThermometer = this;
+    var self = this;
 
     options = _.extend( {
       tempRange: new RangeWithValue( 0, 6000 )
@@ -108,8 +108,8 @@ define( function( require ) {
       var tickNode = new Path( shape, { stroke: options.thermometer.outlineStroke, lineWidth: options.thermometer.lineWidth } );
       var textNode = new Text( label.text, { font: VALUE_FONT, fill: COLOR_FONT } );
 
-      thisThermometer.addChild( tickNode );
-      thisThermometer.addChild( textNode );
+      self.addChild( tickNode );
+      self.addChild( textNode );
 
       tickNode.left = tickMarkLength;
       tickNode.centerY = objectHeight;

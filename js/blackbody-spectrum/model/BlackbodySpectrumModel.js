@@ -35,8 +35,6 @@ define( function( require ) {
    */
   function BlackbodySpectrumModel() {
 
-    var thisModel = this;
-
     // @private
     this.intensityArray = new Array( GRAPH_NUMBER_POINTS ); //Blackbody spectrum intensity
 
@@ -47,7 +45,7 @@ define( function( require ) {
     // @public read-only
     this.bounds = new Bounds2( 0, 0, 1, 1 );
 
-    PropertySet.call( thisModel, {
+    PropertySet.call( this, {
         temperature: 6000, // initial temperature in Kelvin
         horizontalZoom: 0,
         verticalZoom: 0

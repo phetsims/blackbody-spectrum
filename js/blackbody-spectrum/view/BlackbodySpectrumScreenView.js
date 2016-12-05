@@ -67,9 +67,7 @@ define( function( require ) {
    */
   function BlackbodySpectrumScreenView( model ) {
 
-    var thisView = this;
-
-    ScreenView.call( thisView, { layoutBounds: new Bounds2( 0, 0, 1024, 618 ) } );
+    ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 1024, 618 ) } );
 
     var modelViewTransform = new ModelViewTransform2.createRectangleInvertedYMapping( model.bounds, this.layoutBounds );
 
