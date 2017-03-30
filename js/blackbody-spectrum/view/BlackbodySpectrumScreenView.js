@@ -146,20 +146,24 @@ define( function( require ) {
     }, isRulerVisibleProperty );
     showRulerCheckBox.touchArea = Shape.rectangle( showRulerCheckBox.left, showRulerCheckBox.top - 15, showRulerCheckBox.width, showRulerCheckBox.height + 30 );
 
+
+    // create graph with zoom buttons
+    var graphNode = new GraphDrawingNode( model, modelViewTransform );
+
     // create the Reset All Button in the bottom right
     var resetAllButton = new ResetAllButton( {
       listener: function() {
-        model.reset();
+        model.temperatureProperty.reset();
         rulerPositionProperty.reset();
         isRulerVisibleProperty.reset();
+     //   model.wavelengthMax = 100;
+        graphNode.reset();
         graphNode.clear();
       },
       right: this.layoutBounds.maxX - 10,
       bottom: this.layoutBounds.maxY - 10
     } );
 
-    // create graph with zoom buttons
-    var graphNode = new GraphDrawingNode( model, modelViewTransform );
 
     // create the save and clear buttons
     var saveButton = new RectangularPushButton( {

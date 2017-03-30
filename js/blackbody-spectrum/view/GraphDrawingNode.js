@@ -323,6 +323,14 @@ define( function( require ) {
       horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
       horizontalAxisBottomLabelNode.centerX = axesPath.centerX;
     }
+
+    // TODO this approach to rest the ZOOM is flawed
+    // Zooming should use an absolute scale rather than relative zoom increment
+    this.resetGraphDrawingNode = function() {
+      verticalZoomProperty.reset();
+      horizontalZoomProperty.reset();
+      //verticalMax = 100;
+    };
   }
 
   blackbodySpectrum.register( 'GraphDrawingNode', GraphDrawingNode );
@@ -349,6 +357,13 @@ define( function( require ) {
         this.removeChild( this.savedGraph );
         this.savedGraph = {};
       }
+    },
+    /**
+     * Reset Properties associated with this Node
+     * @public
+     */
+    reset: function() {
+      this.resetGraphDrawingNode();
     }
   } );
 } );
