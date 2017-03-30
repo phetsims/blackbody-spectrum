@@ -13,7 +13,7 @@ define( function( require ) {
   var Bounds2 = require( 'DOT/Bounds2' );
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var PropertySet = require( 'AXON/PropertySet' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
   var Util = require( 'DOT/Util' );
 
   // constants
@@ -45,16 +45,14 @@ define( function( require ) {
     // @public read-only
     this.bounds = new Bounds2( 0, 0, 1, 1 );
 
-    PropertySet.call( this, {
-        temperature: 6000, // initial temperature in Kelvin
-        horizontalZoom: 0,
-        verticalZoom: 0
-      }
-    );
-  }
+    // @public {Property.<number>}  initial temperature in kelvin
+    this.temperatureProperty = new NumberProperty( 6000 );
+
+   }
+
   blackbodySpectrum.register( 'BlackbodySpectrumModel', BlackbodySpectrumModel );
-  
-  return inherit( PropertySet, BlackbodySpectrumModel, {
+
+  return inherit( Object, BlackbodySpectrumModel, {
 
     /**
      * Function that returns the intensity radiation for a given wavelength (in nm) and temperature (in kelvin)

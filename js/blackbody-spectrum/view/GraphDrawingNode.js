@@ -14,6 +14,7 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Shape = require( 'KITE/Shape' );
@@ -34,8 +35,13 @@ define( function( require ) {
   var GRAPH_CURVE_STROKE = 'red';
   var SAVED_GRAPH_CURVE_STROKE = 'yellow';
 
-  var HorizontalZoomScalingFactor = 2;
-  var verticalZoomScalingFactor = Math.sqrt( 10 );
+  var HORIZONTAL_ZOOM_SCALING_FACTOR = 2;
+  var VERTICAL_ZOOM_SCALING_FACTOR = Math.sqrt( 10 );
+
+  // constants for ticks
+  var MINOR_TICKS_PER_MAJOR_TICK = 5;
+  var MAJOR_TICK_LENGTH = 30;
+  var MINOR_TICK_LENGTH = 15;
 
   // strings
   var verticalLabelIntensityString = require( 'string!BLACKBODY_SPECTRUM/verticalLabelIntensity' );
@@ -55,6 +61,13 @@ define( function( require ) {
     // TODO Use modelviewtransform for laying out the graph
     var self = this;
 
+    // {Property.<number>}  zoom number for the horizontal axis of the graph, positive means zooming in
+    var horizontalZoomProperty = new NumberProperty( 0 ); // effective zoom is HORIZONTAL_ZOOM_SCALING_FACTOR^horizontalZoomProperty.value
+
+    // {Property.<number>}  zoom number for the vertical axis of the graph
+    var verticalZoomProperty = new NumberProperty( 0 );
+
+
     var verticalMax = 100; // initial value for the maximum Y coordinate label in MW per m^2 per micron;
 
     var verticalAxisLabelNode = new Text( verticalLabelIntensityString, {
@@ -72,6 +85,7 @@ define( function( require ) {
     } );
 
     // graph: blackbody curve
+    // TODO annotate:  public/private ?
     this.graph = new Path( null, { stroke: GRAPH_CURVE_STROKE, lineWidth: GRAPH_CURVE_LINE_WIDTH } );
 
     var scaleY = 1;
@@ -108,17 +122,10 @@ define( function( require ) {
         lineJoin: 'round'
       } );
 
-    // constants
-    var MINOR_TICKS_PER_MAJOR_TICK = 5;
-    var MAJOR_TICK_LENGTH = 30;
-    var MINOR_TICK_LENGTH = 15;
-
     // horizontal tick marks
 
     var ticks = new Path( null, { stroke: GRAPH_AXES_COLOR, lineWidth: 2, lineCap: 'butt', lineJoin: 'bevel' } );
-
     var graphBottom = 0;
-
     var minorTickSpacing = 20; // initial value
 
     var updateTicks = function( minorTickSpacing ) {
@@ -204,9 +211,9 @@ define( function( require ) {
       updateGraph( self.graph, temperature );
     } );
 
-    model.horizontalZoomProperty.link( function( horizontalZoom ) {
+    horizontalZoomProperty.link( function( horizontalZoom ) {
 
-      var scaleX = Math.pow( HorizontalZoomScalingFactor, horizontalZoom );
+      var scaleX = Math.pow( HORIZONTAL_ZOOM_SCALING_FACTOR, horizontalZoom );
 
       model.wavelengthMax = model.wavelengthMax * scaleX;
       minorTickSpacing = minorTickSpacing / scaleX;
@@ -221,25 +228,26 @@ define( function( require ) {
       updateTicks( minorTickSpacing );
 
       // redraw blackbody curves
-      updateGraph( self.graph, model.temperature );
+      updateGraph( self.graph, model.temperatureProperty.value );
       if ( self.savedGraph ) {
         updateGraph( self.savedGraph, self.savedTemperature );
       }
 
       // reset zoom level to zero
-      model.horizontalZoom = 0;
+      // TODO: this is not best practice: it generate two calls.
+      horizontalZoomProperty.reset();
     } );
 
-    model.verticalZoomProperty.link( function( verticalZoom ) {
+    verticalZoomProperty.link( function( verticalZoom ) {
 
-      verticalMax = verticalMax * Math.pow( verticalZoomScalingFactor, verticalZoom );
+      verticalMax = verticalMax * Math.pow( VERTICAL_ZOOM_SCALING_FACTOR, verticalZoom );
       verticalTickLabelMax.text = Util.toFixed( verticalMax, 0 ); // from nm to micron
 
-      updateGraph( self.graph, model.temperature );
+      updateGraph( self.graph, model.temperatureProperty.value );
       if ( self.savedGraph ) {
         updateGraph( self.savedGraph, self.savedTemperature );
       }
-      model.verticalZoom = 0; // reset zoom
+      verticalZoomProperty.reset(); // reset zoom
     } );
 
     //TODO use trigger and axon/Events instead
@@ -249,7 +257,7 @@ define( function( require ) {
     horizontalZoomInButton.addListener( function() {
       horizontalZoomOutButton.setEnabled( true );
       if ( model.wavelengthMax > 100 ) {
-        model.horizontalZoom = -1;
+        horizontalZoomProperty.set( -1 );
         horizontalZoomInButton.setEnabled( true );
       }
       else {
@@ -260,7 +268,7 @@ define( function( require ) {
     horizontalZoomOutButton.addListener( function() {
       horizontalZoomInButton.setEnabled( true );
       if ( model.wavelengthMax < 10000 ) {
-        model.horizontalZoom = +1;
+        horizontalZoomProperty.set( +1 );
         horizontalZoomOutButton.setEnabled( true );
       }
       else {
@@ -270,10 +278,10 @@ define( function( require ) {
 
     ////// handle zoom of graph
     verticalZoomInButton.addListener( function() {
-      model.verticalZoom = -1;
+      verticalZoomProperty.set( -1 );
     } );
     verticalZoomOutButton.addListener( function() {
-      model.verticalZoom = +1;
+      verticalZoomProperty.set( +1 );
     } );
 
     this.addChild( spectrum );

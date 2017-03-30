@@ -83,7 +83,7 @@ define( function( require ) {
     } );
 
     // temperature slider
-    var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.temperature ); // in kelvin
+    var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.temperatureProperty.value ); // in kelvin
     var temperatureSlider = new HSlider( model.temperatureProperty, temperatureRange,
       {
         trackSize: new Dimension2( 200, 5 ),
@@ -99,7 +99,6 @@ define( function( require ) {
       stroke: '#000',
       lineWidth: 1
     } );
-
 
     var circleBlu = new Circle( CIRCLE_RADIUS );
     var circleGre = new Circle( CIRCLE_RADIUS );
@@ -147,7 +146,6 @@ define( function( require ) {
     }, isRulerVisibleProperty );
     showRulerCheckBox.touchArea = Shape.rectangle( showRulerCheckBox.left, showRulerCheckBox.top - 15, showRulerCheckBox.width, showRulerCheckBox.height + 30 );
 
-
     // create the Reset All Button in the bottom right
     var resetAllButton = new ResetAllButton( {
       listener: function() {
@@ -168,7 +166,7 @@ define( function( require ) {
       content: new Text( saveString, { font: BUTTON_FONT } ),
       baseColor: SAVE_BUTTON_COLOR,
       listener: function() {
-        graphNode.save( model.temperature );
+        graphNode.save( model.temperatureProperty.value );
       }
     } );
 
@@ -203,7 +201,6 @@ define( function( require ) {
 
     // layout for things that don't have a location in the model
     {
-
       graphNode.left = 20;
       graphNode.bottom = this.layoutBounds.maxY - 10;
       showRulerCheckBox.right = this.layoutBounds.maxX - 60;

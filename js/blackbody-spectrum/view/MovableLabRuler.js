@@ -125,5 +125,4 @@ define( function( require ) {
       this.disposeMovableLabRuler();
     }
   } );
-} )
-;
+} );
