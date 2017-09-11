@@ -20,10 +20,10 @@ define( function( require ) {
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
 
   // string
-  var sunString = require( 'string!BLACKBODY_SPECTRUM/sun' );
+  var earthString = require( 'string!BLACKBODY_SPECTRUM/earth' );
   var lightbulbString = require( 'string!BLACKBODY_SPECTRUM/lightbulb' );
   var ovenString = require( 'string!BLACKBODY_SPECTRUM/oven' );
-  var earthString = require( 'string!BLACKBODY_SPECTRUM/earth' );
+  var sunString = require( 'string!BLACKBODY_SPECTRUM/sun' );
 
   // constants
   var VALUE_FONT = new PhetFont( { size: 24, weight: 'bold' } );

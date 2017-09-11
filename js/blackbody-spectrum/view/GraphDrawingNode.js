@@ -44,9 +44,9 @@ define( function( require ) {
   var MINOR_TICK_LENGTH = 15;
 
   // strings
-  var verticalLabelIntensityString = require( 'string!BLACKBODY_SPECTRUM/verticalLabelIntensity' );
   var horizontalLabelWavelengthString = require( 'string!BLACKBODY_SPECTRUM/horizontalLabelWavelength' );
   var subtitleLabelString = require( 'string!BLACKBODY_SPECTRUM/subtitleLabel' );
+  var verticalLabelIntensityString = require( 'string!BLACKBODY_SPECTRUM/verticalLabelIntensity' );
 
   /**
    *

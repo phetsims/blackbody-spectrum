@@ -35,13 +35,13 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
 
   // strings
-  var tempInKString = require( 'string!BLACKBODY_SPECTRUM/tempInK' );
-  var showRulerString = require( 'string!BLACKBODY_SPECTRUM/showRuler' );
   var bString = require( 'string!BLACKBODY_SPECTRUM/b' );
+  var clearString = require( 'string!BLACKBODY_SPECTRUM/clear' );
   var gString = require( 'string!BLACKBODY_SPECTRUM/g' );
   var rString = require( 'string!BLACKBODY_SPECTRUM/r' );
   var saveString = require( 'string!BLACKBODY_SPECTRUM/save' );
-  var clearString = require( 'string!BLACKBODY_SPECTRUM/clear' );
+  var showRulerString = require( 'string!BLACKBODY_SPECTRUM/showRuler' );
+  var tempInKString = require( 'string!BLACKBODY_SPECTRUM/tempInK' );
   var unitsCmString = require( 'string!BLACKBODY_SPECTRUM/units.cm' );
 
   // constants
