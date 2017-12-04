@@ -10,6 +10,12 @@
     "grunt": "~1.0.0"
   },
   "phet": {
-    "requirejsNamespace": "BLACKBODY_SPECTRUM"
+    "automatedTest": false,
+    "requirejsNamespace": "BLACKBODY_SPECTRUM",
+    "runnable": true,
+    "simulation": true,
+    "supportedBrands": [
+      "phet"
+    ]
   }
 }
