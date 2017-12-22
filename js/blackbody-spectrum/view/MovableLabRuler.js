@@ -115,9 +115,9 @@ define( function( require ) {
       positionProperty.unlink( positionPropertyObserver );
       isVisibleProperty.unlink( isVisiblePropertyObserver );
     };
-
-    blackbodySpectrum.register( 'MovableLabRuler', MovableLabRuler );
   }
+
+  blackbodySpectrum.register( 'MovableLabRuler', MovableLabRuler );
 
   return inherit( Node, MovableLabRuler, {
     // Ensures that this node is eligible for GC.

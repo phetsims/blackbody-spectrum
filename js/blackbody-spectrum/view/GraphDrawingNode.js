@@ -21,6 +21,7 @@ define( function( require ) {
   var SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
+  var Vector2 = require( 'DOT/Vector2' );
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
 
   // constants
@@ -96,8 +97,8 @@ define( function( require ) {
       var lengthArray = y.length;
 
       var numberPoints = y.length;
-      var deltaX = HORIZONTAL_GRAPH_LENGTH / (numberPoints - 1);
-      var deltaY = VERTICAL_GRAPH_LENGTH / (verticalMax);
+      var deltaX = HORIZONTAL_GRAPH_LENGTH / ( numberPoints - 1 );
+      var deltaY = VERTICAL_GRAPH_LENGTH / ( verticalMax );
       var newScaleY = scaleY * 1e33 * deltaY; // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
       shape.moveTo( 0, -newScaleY * y[ 0 ] );
 
@@ -191,7 +192,7 @@ define( function( require ) {
 
     var updateSpectrum = function( scaleX ) {
       ultravioletPosition = ultravioletPosition / scaleX;
-      spectrum.scale( { x: 1 / scaleX, y: 1 } );
+      spectrum.scale( new Vector2( 1 / scaleX, 1 ) );
       var spectrumPosition = ultravioletPosition + self.graph.left;
       var isSpectrumOffTheAxis = spectrumPosition > self.graph.right;
       spectrum.left = ultravioletPosition + self.graph.left;
