@@ -56,27 +56,12 @@ define( function( require ) {
 
     ThermometerNode.call( this, options.tempRange.min, options.tempRange.max, temperatureProperty, options.thermometer );
 
-    // label and ticks
-
-    //TODO this is an inner type, should not be defined inside constructor
-    /**
-     *
-     * @param {string} object
-     * @param {number} temperature
-     * @constructor
-     */
-    function Label( object, temperature ) {
-      this.text = object;
-      this.temperature = temperature; // in kelvin
-    }
-
-    blackbodySpectrum.register( 'Label', Label );
-
+    // label and their associated values
     var labels = [
-      new Label( sunString, 5700 ),
-      new Label( lightbulbString, 3000 ),
-      new Label( ovenString, 660 ),
-      new Label( earthString, 300 )
+      { text: sunString, temperature: 5700 },
+      { text: lightbulbString, temperature: 3000 },
+      { text: ovenString, temperature: 660 },
+      { text: earthString, temperature: 300 }
     ];
 
     //TODO move this function out of the constructor
@@ -101,7 +86,7 @@ define( function( require ) {
     //TODO move this function out of the constructor
     /**
      * Create and add text and tick label for thermometer
-     * @param  {Label} label
+     * @param {Label} label
      */
     function labelMaker( label ) {
       var objectHeight = temperatureToHeightLinearFunction()( label.temperature );
