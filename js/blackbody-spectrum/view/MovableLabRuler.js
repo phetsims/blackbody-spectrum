@@ -5,7 +5,6 @@
  *
  * @author Martin Veillette (Berea College)
  */
-
 define( function( require ) {
   'use strict';
 
@@ -18,26 +17,6 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var RulerNode = require( 'SCENERY_PHET/RulerNode' );
   var Util = require( 'DOT/Util' );
-
-  /**
-   * Returns an array of strings starting with 'startingNumber' to 'endingNumber' in steps of 'increment'
-   *
-   * @param {number} startingNumber - e.g. 0
-   * @param {number} endingNumber - e.g. 27
-   * @param {number} increment - e.g. 5
-   * @param {number} decimalPlaces -  the precision of the string eg. 1.
-   * @returns {Array.<strings>} - e.g. ['0.0', '5.0', '10.0', '15.0', '20.0', '25.0']
-   */
-  function majorTickLabelsGenerator( startingNumber, endingNumber, increment, decimalPlaces ) {
-    var majorTickLabels = [];
-    var numberOfTicks = Math.floor( endingNumber / increment ) - Math.ceil( startingNumber / increment );
-    var currentTick;
-    for ( currentTick = 0; currentTick <= numberOfTicks; currentTick++ ) {
-      var currentMajorTickLabel = Util.toFixed( currentTick * increment + startingNumber, decimalPlaces );
-      majorTickLabels.push( currentMajorTickLabel );
-    }
-    return majorTickLabels;
-  }
 
   /**
    * Creates a lab ruler with listener
@@ -90,12 +69,10 @@ define( function( require ) {
     ruler.rotation = options.angle;
     this.addChild( ruler );
 
-
     var positionPropertyObserver = function( position ) {
       ruler.center = position;
     };
     positionProperty.link( positionPropertyObserver ); // must be unlinked in dispose
-
 
     var isVisiblePropertyObserver = function( isVisible ) {
       ruler.visible = isVisible;
@@ -109,7 +86,7 @@ define( function( require ) {
       dragBounds: options.dragBounds
     } ) );
 
-    this.mutate( options );
+    this.mutate( options ); //TODO #17 should not be passing options via supertype constructor and mutate
 
     this.disposeMovableLabRuler = function() {
       positionProperty.unlink( positionPropertyObserver );
@@ -119,8 +96,29 @@ define( function( require ) {
 
   blackbodySpectrum.register( 'MovableLabRuler', MovableLabRuler );
 
+  /**
+   * Returns an array of strings starting with 'startingNumber' to 'endingNumber' in steps of 'increment'
+   *
+   * @param {number} startingNumber - e.g. 0
+   * @param {number} endingNumber - e.g. 27
+   * @param {number} increment - e.g. 5
+   * @param {number} decimalPlaces -  the precision of the string eg. 1.
+   * @returns {Array.<strings>} - e.g. ['0.0', '5.0', '10.0', '15.0', '20.0', '25.0']
+   */
+  function majorTickLabelsGenerator( startingNumber, endingNumber, increment, decimalPlaces ) {
+    var majorTickLabels = [];
+    var numberOfTicks = Math.floor( endingNumber / increment ) - Math.ceil( startingNumber / increment );
+    var currentTick;
+    for ( currentTick = 0; currentTick <= numberOfTicks; currentTick++ ) {
+      var currentMajorTickLabel = Util.toFixed( currentTick * increment + startingNumber, decimalPlaces );
+      majorTickLabels.push( currentMajorTickLabel );
+    }
+    return majorTickLabels;
+  }
+
   return inherit( Node, MovableLabRuler, {
-    // Ensures that this node is eligible for GC.
+
+    // @public Ensures that this node is eligible for GC.
     dispose: function() {
       this.disposeMovableLabRuler();
     }
