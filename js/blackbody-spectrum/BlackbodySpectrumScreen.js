@@ -17,7 +17,6 @@ define( function( require ) {
   var Screen = require( 'JOIST/Screen' );
 
   /**
-   * Creates the model and view for the BlackbodySpectrumScreen
    * @constructor
    */
   function BlackbodySpectrumScreen() {

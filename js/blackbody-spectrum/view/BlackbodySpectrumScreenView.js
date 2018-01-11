@@ -82,13 +82,12 @@ define( function( require ) {
       tickSpacing: 15
     } );
 
-    // temperature slider
-    var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.temperatureProperty.value ); // in kelvin
-    var temperatureSlider = new HSlider( model.temperatureProperty, temperatureRange,
-      {
-        trackSize: new Dimension2( 200, 5 ),
-        thumbSize: new Dimension2( 30, 60 )
-      } );
+    // temperature slider, in kelvin
+    var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.temperatureProperty.value );
+    var temperatureSlider = new HSlider( model.temperatureProperty, temperatureRange, {
+      trackSize: new Dimension2( 200, 5 ),
+      thumbSize: new Dimension2( 30, 60 )
+    } );
     temperatureSlider.rotation = -Math.PI / 2; // set it to vertical
 
     var titleNode = new Text( '?', { font: TITLE_FONT, fill: TITLE_COLOR } );
@@ -124,28 +123,26 @@ define( function( require ) {
     var isRulerVisibleProperty = new Property( false );
     var rulerPositionProperty = new Property( new Vector2( 120, 310 ) );
 
-    var movableLabRuler = new MovableLabRuler( rulerPositionProperty, isRulerVisibleProperty,
-      {
-        rulerLength: 0.25, // in model coordinates, i.e. 0.25 meters
-        multiplier: 100, // multiplier of base units
-        units: unitsCmString,  //
-        unitsFont: new PhetFont( 16 ),
-        rulerHeightInModel: 0.05, // in model coordinates
-        majorTickSeparation: 0.05, // in model coordinates
-        angle: Math.PI / 2,
-        modelViewTransform: modelViewTransform,
-        dragBounds: this.layoutBounds,
-        minorTicksPerMajorTick: 4
-      }
-    );
+    var movableLabRuler = new MovableLabRuler( rulerPositionProperty, isRulerVisibleProperty, {
+      rulerLength: 0.25, // in model coordinates, i.e. 0.25 meters
+      multiplier: 100, // multiplier of base units
+      units: unitsCmString,  //
+      unitsFont: new PhetFont( 16 ),
+      rulerHeightInModel: 0.05, // in model coordinates
+      majorTickSeparation: 0.05, // in model coordinates
+      angle: Math.PI / 2,
+      modelViewTransform: modelViewTransform,
+      dragBounds: this.layoutBounds,
+      minorTicksPerMajorTick: 4
+    } );
 
     // create ruler check box
     var showRulerCheckBox = CheckBox.createTextCheckBox( showRulerString, {
       font: LABEL_FONT,
       fill: CHECK_BOX_TEXT_FILL
     }, isRulerVisibleProperty );
-    showRulerCheckBox.touchArea = Shape.rectangle( showRulerCheckBox.left, showRulerCheckBox.top - 15, showRulerCheckBox.width, showRulerCheckBox.height + 30 );
-
+    showRulerCheckBox.touchArea = Shape.rectangle( showRulerCheckBox.left, showRulerCheckBox.top - 15,
+      showRulerCheckBox.width, showRulerCheckBox.height + 30 );
 
     // create graph with zoom buttons
     var graphNode = new GraphDrawingNode( model, modelViewTransform );
@@ -156,14 +153,13 @@ define( function( require ) {
         model.temperatureProperty.reset();
         rulerPositionProperty.reset();
         isRulerVisibleProperty.reset();
-     //   model.wavelengthMax = 100;
+        //   model.wavelengthMax = 100;
         graphNode.reset();
         graphNode.clear();
       },
       right: this.layoutBounds.maxX - 10,
       bottom: this.layoutBounds.maxY - 10
     } );
-
 
     // create the save and clear buttons
     var saveButton = new RectangularPushButton( {
@@ -204,42 +200,40 @@ define( function( require ) {
     this.addChild( movableLabRuler );
 
     // layout for things that don't have a location in the model
-    {
-      graphNode.left = 20;
-      graphNode.bottom = this.layoutBounds.maxY - 10;
-      showRulerCheckBox.right = this.layoutBounds.maxX - 60;
-      showRulerCheckBox.centerY = this.layoutBounds.maxY - 90;
-      blackbodySpectrumThermometer.right = this.layoutBounds.maxX - 10;
-      blackbodySpectrumThermometer.top = 100;
-      saveButton.right = this.layoutBounds.maxX - 10;
-      saveButton.top = 10;
-      clearButton.right = saveButton.right;
-      clearButton.top = saveButton.bottom + 10;
-      temperatureSlider.right = blackbodySpectrumThermometer.left - 50;
-      temperatureSlider.centerY = blackbodySpectrumThermometer.centerY;
-      circleBlu.centerX = 300;
-      circleBlu.centerY = 100;
-      circleGre.centerX = circleBlu.centerX + 50;
-      circleGre.centerY = circleBlu.centerY;
-      circleRed.centerX = circleGre.centerX + 50;
-      circleRed.centerY = circleBlu.centerY;
-      circleBluLabel.centerX = circleBlu.centerX;
-      circleBluLabel.centerY = circleBlu.centerY + 35;
-      circleGreLabel.centerX = circleGre.centerX;
-      circleGreLabel.centerY = circleBluLabel.centerY;
-      circleRedLabel.centerX = circleRed.centerX;
-      circleRedLabel.centerY = circleBluLabel.centerY;
-      starPath.left = circleRed.right + 60;
-      starPath.centerY = circleBlu.centerY;
-      glowingStarHalo.centerX = starPath.centerX;
-      glowingStarHalo.centerY = starPath.centerY;
-      titleNode.centerX = temperatureSlider.centerX;
-      titleNode.bottom = temperatureSlider.top - 30;
-      rectangleTitle.centerX = temperatureSlider.centerX;
-      rectangleTitle.centerY = titleNode.centerY;
-      subtitleNode.centerX = temperatureSlider.centerX;
-      subtitleNode.top = temperatureSlider.bottom + 30;
-    }
+    graphNode.left = 20;
+    graphNode.bottom = this.layoutBounds.maxY - 10;
+    showRulerCheckBox.right = this.layoutBounds.maxX - 60;
+    showRulerCheckBox.centerY = this.layoutBounds.maxY - 90;
+    blackbodySpectrumThermometer.right = this.layoutBounds.maxX - 10;
+    blackbodySpectrumThermometer.top = 100;
+    saveButton.right = this.layoutBounds.maxX - 10;
+    saveButton.top = 10;
+    clearButton.right = saveButton.right;
+    clearButton.top = saveButton.bottom + 10;
+    temperatureSlider.right = blackbodySpectrumThermometer.left - 50;
+    temperatureSlider.centerY = blackbodySpectrumThermometer.centerY;
+    circleBlu.centerX = 300;
+    circleBlu.centerY = 100;
+    circleGre.centerX = circleBlu.centerX + 50;
+    circleGre.centerY = circleBlu.centerY;
+    circleRed.centerX = circleGre.centerX + 50;
+    circleRed.centerY = circleBlu.centerY;
+    circleBluLabel.centerX = circleBlu.centerX;
+    circleBluLabel.centerY = circleBlu.centerY + 35;
+    circleGreLabel.centerX = circleGre.centerX;
+    circleGreLabel.centerY = circleBluLabel.centerY;
+    circleRedLabel.centerX = circleRed.centerX;
+    circleRedLabel.centerY = circleBluLabel.centerY;
+    starPath.left = circleRed.right + 60;
+    starPath.centerY = circleBlu.centerY;
+    glowingStarHalo.centerX = starPath.centerX;
+    glowingStarHalo.centerY = starPath.centerY;
+    titleNode.centerX = temperatureSlider.centerX;
+    titleNode.bottom = temperatureSlider.top - 30;
+    rectangleTitle.centerX = temperatureSlider.centerX;
+    rectangleTitle.centerY = titleNode.centerY;
+    subtitleNode.centerX = temperatureSlider.centerX;
+    subtitleNode.top = temperatureSlider.bottom + 30;
   }
 
   blackbodySpectrum.register( 'BlackbodySpectrumScreenView', BlackbodySpectrumScreenView );

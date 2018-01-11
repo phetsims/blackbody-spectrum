@@ -68,7 +68,6 @@ define( function( require ) {
     // {Property.<number>}  zoom number for the vertical axis of the graph
     var verticalZoomProperty = new NumberProperty( 0 );
 
-
     var verticalMax = 100; // initial value for the maximum Y coordinate label in MW per m^2 per micron;
 
     var verticalAxisLabelNode = new Text( verticalLabelIntensityString, {
@@ -124,7 +123,6 @@ define( function( require ) {
       } );
 
     // horizontal tick marks
-
     var ticks = new Path( null, { stroke: GRAPH_AXES_COLOR, lineWidth: 2, lineCap: 'butt', lineJoin: 'bevel' } );
     var graphBottom = 0;
     var minorTickSpacing = 20; // initial value
@@ -157,6 +155,7 @@ define( function( require ) {
       fill: COLOR_TICK_LABEL
     } );
 
+    //TODO dead code, fix it or delete it
 //      var verticalTickLabelMax = new ScientificNotation( model.temperatureProperty,{
 //            font: new PhetFont(28),
 //            direction: 'rtl',
@@ -254,7 +253,7 @@ define( function( require ) {
     //TODO use trigger and axon/Events instead
     // this.trigger( 'buttonPressed' )
 
-    ////// handle zoom of graph
+    // handle zoom of graph
     horizontalZoomInButton.addListener( function() {
       horizontalZoomOutButton.setEnabled( true );
       if ( model.wavelengthMax > 100 ) {
@@ -277,7 +276,7 @@ define( function( require ) {
       }
     } );
 
-    ////// handle zoom of graph
+    // handle zoom of graph
     verticalZoomInButton.addListener( function() {
       verticalZoomProperty.set( -1 );
     } );
@@ -297,33 +296,33 @@ define( function( require ) {
     this.addChild( verticalZoomButtons );
     this.addChild( ticks );
     this.addChild( this.graph );
-    {
-      axesPath.bottom = 0;
-      axesPath.left = 0;
-      this.graph.bottom = axesPath.bottom;
-      this.graph.left = axesPath.left;
-      horizontalTickLabelZero.top = axesPath.bottom;
-      horizontalTickLabelZero.centerX = axesPath.left;
-      horizontalTickLabelMax.top = axesPath.bottom;
-      horizontalTickLabelMax.centerX = axesPath.right;
-      verticalTickLabelMax.right = axesPath.left;
-      verticalTickLabelMax.centerY = axesPath.top;
-      horizontalZoomButtons.left = axesPath.right + 60;
-      horizontalZoomButtons.top = axesPath.bottom + 20;
-      horizontalZoomInButton.right = horizontalZoomOutButton.left - 80;
-      horizontalZoomInButton.centerY = horizontalZoomOutButton.centerY;
-      verticalZoomButtons.right = axesPath.left - 40;
-      verticalZoomButtons.bottom = axesPath.top - 25;
-      verticalZoomInButton.centerX = verticalZoomOutButton.centerX;
-      verticalZoomInButton.top = verticalZoomOutButton.bottom + 50;
-      spectrum.bottom = axesPath.bottom;
-      verticalAxisLabelNode.top = verticalZoomButtons.bottom + 20;
-      verticalAxisLabelNode.right = axesPath.left - 20;
-      horizontalAxisTopLabelNode.top = axesPath.bottom + 20;
-      horizontalAxisTopLabelNode.centerX = axesPath.centerX;
-      horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
-      horizontalAxisBottomLabelNode.centerX = axesPath.centerX;
-    }
+
+    // layout
+    axesPath.bottom = 0;
+    axesPath.left = 0;
+    this.graph.bottom = axesPath.bottom;
+    this.graph.left = axesPath.left;
+    horizontalTickLabelZero.top = axesPath.bottom;
+    horizontalTickLabelZero.centerX = axesPath.left;
+    horizontalTickLabelMax.top = axesPath.bottom;
+    horizontalTickLabelMax.centerX = axesPath.right;
+    verticalTickLabelMax.right = axesPath.left;
+    verticalTickLabelMax.centerY = axesPath.top;
+    horizontalZoomButtons.left = axesPath.right + 60;
+    horizontalZoomButtons.top = axesPath.bottom + 20;
+    horizontalZoomInButton.right = horizontalZoomOutButton.left - 80;
+    horizontalZoomInButton.centerY = horizontalZoomOutButton.centerY;
+    verticalZoomButtons.right = axesPath.left - 40;
+    verticalZoomButtons.bottom = axesPath.top - 25;
+    verticalZoomInButton.centerX = verticalZoomOutButton.centerX;
+    verticalZoomInButton.top = verticalZoomOutButton.bottom + 50;
+    spectrum.bottom = axesPath.bottom;
+    verticalAxisLabelNode.top = verticalZoomButtons.bottom + 20;
+    verticalAxisLabelNode.right = axesPath.left - 20;
+    horizontalAxisTopLabelNode.top = axesPath.bottom + 20;
+    horizontalAxisTopLabelNode.centerX = axesPath.centerX;
+    horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
+    horizontalAxisBottomLabelNode.centerX = axesPath.centerX;
 
     // TODO this approach to rest the ZOOM is flawed
     // Zooming should use an absolute scale rather than relative zoom increment
@@ -337,6 +336,7 @@ define( function( require ) {
   blackbodySpectrum.register( 'GraphDrawingNode', GraphDrawingNode );
 
   return inherit( Node, GraphDrawingNode, {
+
     /**
      * Save the state of a graph at temperature 'temperature' and add it to the scene graph
      * @public
@@ -349,6 +349,7 @@ define( function( require ) {
       this.savedGraph.shape = this.graph.shape;
       this.addChild( this.savedGraph );
     },
+
     /**
      * Clear the savedGraph form the scene graph
      * @public
@@ -359,6 +360,7 @@ define( function( require ) {
         this.savedGraph = {};
       }
     },
+
     /**
      * Reset Properties associated with this Node
      * @public

@@ -58,6 +58,7 @@ define( function( require ) {
 
     // label and ticks
 
+    //TODO this is an inner type, should not be defined inside constructor
     /**
      *
      * @param {string} object
@@ -78,6 +79,7 @@ define( function( require ) {
       new Label( earthString, 300 )
     ];
 
+    //TODO move this function out of the constructor
     /**
      * map function that relates a temperature to a height
      * this function was reverse engineered from ThermometerNode in Scenery-Phet
@@ -96,6 +98,7 @@ define( function( require ) {
       return new LinearFunction( options.tempRange.min, options.tempRange.max, fluidBottomCutoff, -maxFluidHeight, true /* clamp */ );
     };
 
+    //TODO move this function out of the constructor
     /**
      * Create and add text and tick label for thermometer
      * @param  {Label} label
@@ -117,7 +120,7 @@ define( function( require ) {
       textNode.left = tickNode.right + 10;
     }
 
-    //  runs over all the labels to be added
+    // runs over all the labels to be added
     for ( var i = 0; i < labels.length; i++ ) {
       var label = labels[ i ];
       labelMaker( label );
