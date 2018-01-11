@@ -19,12 +19,13 @@ define( function( require ) {
   var simOptions = {
     credits: {
 
-      // all credits fields are optional
-      leadDesign: 'Groucho',
-      softwareDevelopment: 'Kirk',
-      team: 'Curly, Larry, Moe',
-      interviews: 'Wile E. Coyote',
-      thanks: 'Thanks to the ACME Dynamite Company for funding this sim!'
+      //TODO complete the credits, see https://github.com/phetsims/blackbody-spectrum/issues/16
+      leadDesign: '',
+      softwareDevelopment: '',
+      team: '',
+      qualityAssurance: '',
+      graphicArts: '',
+      thanks: ''
     }
   };
 
