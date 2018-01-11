@@ -71,16 +71,7 @@ define( function( require ) {
 
     var modelViewTransform = new ModelViewTransform2.createRectangleInvertedYMapping( model.bounds, this.layoutBounds );
 
-    var blackbodySpectrumThermometer = new BlackbodySpectrumThermometer( model.temperatureProperty, {
-      minTemperature: 0,
-      maxTemperature: 6000,
-      bulbDiameter: 50,
-      tubeWidth: 30,
-      tubeHeight: 400,
-      lineWidth: 4,
-      outlineStroke: 'white',
-      tickSpacing: 15
-    } );
+    var blackbodySpectrumThermometer = new BlackbodySpectrumThermometer( model.temperatureProperty );
 
     // temperature slider, in kelvin
     var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.temperatureProperty.value );

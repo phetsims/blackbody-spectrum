@@ -14,7 +14,6 @@ define( function( require ) {
   var LinearFunction = require( 'DOT/LinearFunction' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Range = require( 'DOT/Range' );
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
@@ -39,10 +38,6 @@ define( function( require ) {
     var self = this;
 
     options = _.extend( {
-      tempRange: new Range( 0, 6000 )
-    }, options );
-
-    options.thermometer = _.extend( {
       minTemperature: 0,
       maxTemperature: 6000,
       bulbDiameter: 50,
@@ -52,9 +47,9 @@ define( function( require ) {
       lineWidth: 4,
       outlineStroke: 'white',
       tickSpacing: 15
-    }, options.thermometer );
+    }, options );
 
-    ThermometerNode.call( this, options.tempRange.min, options.tempRange.max, temperatureProperty, options.thermometer );
+    ThermometerNode.call( this, options.minTemperature, options.maxTemperature, temperatureProperty, options );
 
     // label and their associated values
     var labels = [
@@ -72,28 +67,28 @@ define( function( require ) {
      * @returns {LinearFunction}
      */
     var temperatureToHeightLinearFunction = function() {
-      var fluidWidth = options.thermometer.tubeWidth - options.thermometer.lineWidth - options.thermometer.glassThickness;
-      var clipBulbRadius = ( options.thermometer.bulbDiameter - options.thermometer.lineWidth - options.thermometer.glassThickness ) / 2;
+      var fluidWidth = options.tubeWidth - options.lineWidth - options.glassThickness;
+      var clipBulbRadius = ( options.bulbDiameter - options.lineWidth - options.glassThickness ) / 2;
       var clipStartAngle = -Math.acos( ( fluidWidth / 2 ) / clipBulbRadius );
       var clipEndAngle = Math.PI - clipStartAngle;
-      var fluidSphereDiameter = options.thermometer.bulbDiameter - options.thermometer.lineWidth - options.thermometer.glassThickness;
+      var fluidSphereDiameter = options.bulbDiameter - options.lineWidth - options.glassThickness;
       var fluidBottomCutoff = fluidSphereDiameter / 2 * Math.sin( clipEndAngle );
-      var height = options.thermometer.tubeHeight + options.thermometer.tubeWidth / 2; // need the halfcap on top
+      var height = options.tubeHeight + options.tubeWidth / 2; // need the halfcap on top
       var maxFluidHeight = height - fluidBottomCutoff;
-      return new LinearFunction( options.tempRange.min, options.tempRange.max, fluidBottomCutoff, -maxFluidHeight, true /* clamp */ );
+      return new LinearFunction( options.minTemperature, options.maxTemperature, fluidBottomCutoff, -maxFluidHeight, true /* clamp */ );
     };
 
     //TODO move this function out of the constructor
     /**
      * Create and add text and tick label for thermometer
-     * @param {Label} label
+     * @param {text:{string}, temperature:{number}} label
      */
     function labelMaker( label ) {
       var objectHeight = temperatureToHeightLinearFunction()( label.temperature );
-      var tickMarkLength = options.thermometer.tubeWidth * 0.5;
+      var tickMarkLength = options.tubeWidth * 0.5;
       var shape = new Shape();
-      shape.moveTo( options.thermometer.tubeWidth / 2, objectHeight ).horizontalLineToRelative( tickMarkLength );
-      var tickNode = new Path( shape, { stroke: options.thermometer.outlineStroke, lineWidth: options.thermometer.lineWidth } );
+      shape.moveTo( options.tubeWidth / 2, objectHeight ).horizontalLineToRelative( tickMarkLength );
+      var tickNode = new Path( shape, { stroke: options.outlineStroke, lineWidth: options.lineWidth } );
       var textNode = new Text( label.text, { font: VALUE_FONT, fill: COLOR_FONT } );
 
       self.addChild( tickNode );
@@ -110,8 +105,6 @@ define( function( require ) {
       var label = labels[ i ];
       labelMaker( label );
     }
-
-    this.mutate( options );
   }
 
   blackbodySpectrum.register( 'BlackbodySpectrumThermometer', BlackbodySpectrumThermometer );
