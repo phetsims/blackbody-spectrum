@@ -127,7 +127,7 @@ define( function( require ) {
       minorTicksPerMajorTick: 4
     } );
 
-    // create ruler check box
+    // create ruler checkbox
     var showRulerCheckbox = Checkbox.createTextCheckbox( showRulerString, {
       font: LABEL_FONT,
       fill: CHECK_BOX_TEXT_FILL
