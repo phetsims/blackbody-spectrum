@@ -12,7 +12,7 @@ define( function( require ) {
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var BlackbodySpectrumThermometer = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumThermometer' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var CheckBox = require( 'SUN/CheckBox' );
+  var Checkbox = require( 'SUN/Checkbox' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Color = require( 'SCENERY/util/Color' );
   var Dimension2 = require( 'DOT/Dimension2' );
@@ -128,12 +128,12 @@ define( function( require ) {
     } );
 
     // create ruler check box
-    var showRulerCheckBox = CheckBox.createTextCheckBox( showRulerString, {
+    var showRulerCheckbox = Checkbox.createTextCheckbox( showRulerString, {
       font: LABEL_FONT,
       fill: CHECK_BOX_TEXT_FILL
     }, isRulerVisibleProperty );
-    showRulerCheckBox.touchArea = Shape.rectangle( showRulerCheckBox.left, showRulerCheckBox.top - 15,
-      showRulerCheckBox.width, showRulerCheckBox.height + 30 );
+    showRulerCheckbox.touchArea = Shape.rectangle( showRulerCheckbox.left, showRulerCheckbox.top - 15,
+      showRulerCheckbox.width, showRulerCheckbox.height + 30 );
 
     // create graph with zoom buttons
     var graphNode = new GraphDrawingNode( model, modelViewTransform );
@@ -176,7 +176,7 @@ define( function( require ) {
     this.addChild( graphNode );
     this.addChild( clearButton );
     this.addChild( saveButton );
-    this.addChild( showRulerCheckBox );
+    this.addChild( showRulerCheckbox );
     this.addChild( temperatureSlider );
     this.addChild( blackbodySpectrumThermometer );
     this.addChild( starPath );
@@ -193,8 +193,8 @@ define( function( require ) {
     // layout for things that don't have a location in the model
     graphNode.left = 20;
     graphNode.bottom = this.layoutBounds.maxY - 10;
-    showRulerCheckBox.right = this.layoutBounds.maxX - 60;
-    showRulerCheckBox.centerY = this.layoutBounds.maxY - 90;
+    showRulerCheckbox.right = this.layoutBounds.maxX - 60;
+    showRulerCheckbox.centerY = this.layoutBounds.maxY - 90;
     blackbodySpectrumThermometer.right = this.layoutBounds.maxX - 10;
     blackbodySpectrumThermometer.top = 100;
     saveButton.right = this.layoutBounds.maxX - 10;
