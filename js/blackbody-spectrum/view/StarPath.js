@@ -1,5 +1,6 @@
 // Copyright 2014-2018, University of Colorado Boulder
 
+//TODO this looks generally useful, move to scenery-phet?
 /**
  * Scenery Node of a Star
  *
