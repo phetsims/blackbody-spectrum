@@ -2,7 +2,6 @@
 
 /**
  * Creates the namespace for this simulation.
- *
  */
 define( function( require ) {
   'use strict';
