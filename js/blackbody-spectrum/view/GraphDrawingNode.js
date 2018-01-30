@@ -1,5 +1,6 @@
 // Copyright 2014-2018, University of Colorado Boulder
 
+//TODO break this up into smaller building blocks, see #19
 /**
  * Graph Node responsible for drawing axes, spectrum, zoom buttons, axe titles and graph
  *
