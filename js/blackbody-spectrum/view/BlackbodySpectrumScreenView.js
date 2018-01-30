@@ -90,18 +90,18 @@ define( function( require ) {
       lineWidth: 1
     } );
 
-    var circleBlu = new Circle( CIRCLE_RADIUS );
-    var circleGre = new Circle( CIRCLE_RADIUS );
+    var circleBlue = new Circle( CIRCLE_RADIUS );
+    var circleGreen = new Circle( CIRCLE_RADIUS );
     var circleRed = new Circle( CIRCLE_RADIUS );
-    var circleBluLabel = new Text( bString, { font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR } );
-    var circleGreLabel = new Text( gString, { font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR } );
+    var circleBlueLabel = new Text( bString, { font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR } );
+    var circleGreenLabel = new Text( gString, { font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR } );
     var circleRedLabel = new Text( rString, { font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR } );
     var glowingStarHalo = new Circle( 10 );
     var starPath = new StarPath();
 
     model.temperatureProperty.link( function( temperature ) {
-      circleBlu.fill = model.getBluColor( temperature );
-      circleGre.fill = model.getGreColor( temperature );
+      circleBlue.fill = model.getBluColor( temperature );
+      circleGreen.fill = model.getGreColor( temperature );
       circleRed.fill = model.getRedColor( temperature );
       glowingStarHalo.fill = model.getGlowingStarHaloColor( temperature );
       glowingStarHalo.radius = model.getGlowingStarHaloRadius( temperature );
@@ -181,11 +181,11 @@ define( function( require ) {
     this.addChild( blackbodySpectrumThermometer );
     this.addChild( starPath );
     this.addChild( glowingStarHalo );
-    this.addChild( circleBlu );
-    this.addChild( circleGre );
+    this.addChild( circleBlue );
+    this.addChild( circleGreen );
     this.addChild( circleRed );
-    this.addChild( circleBluLabel );
-    this.addChild( circleGreLabel );
+    this.addChild( circleBlueLabel );
+    this.addChild( circleGreenLabel );
     this.addChild( circleRedLabel );
     this.addChild( resetAllButton );
     this.addChild( movableLabRuler );
@@ -203,20 +203,20 @@ define( function( require ) {
     clearButton.top = saveButton.bottom + 10;
     temperatureSlider.right = blackbodySpectrumThermometer.left - 50;
     temperatureSlider.centerY = blackbodySpectrumThermometer.centerY;
-    circleBlu.centerX = 300;
-    circleBlu.centerY = 100;
-    circleGre.centerX = circleBlu.centerX + 50;
-    circleGre.centerY = circleBlu.centerY;
-    circleRed.centerX = circleGre.centerX + 50;
-    circleRed.centerY = circleBlu.centerY;
-    circleBluLabel.centerX = circleBlu.centerX;
-    circleBluLabel.centerY = circleBlu.centerY + 35;
-    circleGreLabel.centerX = circleGre.centerX;
-    circleGreLabel.centerY = circleBluLabel.centerY;
+    circleBlue.centerX = 300;
+    circleBlue.centerY = 100;
+    circleGreen.centerX = circleBlue.centerX + 50;
+    circleGreen.centerY = circleBlue.centerY;
+    circleRed.centerX = circleGreen.centerX + 50;
+    circleRed.centerY = circleBlue.centerY;
+    circleBlueLabel.centerX = circleBlue.centerX;
+    circleBlueLabel.centerY = circleBlue.centerY + 35;
+    circleGreenLabel.centerX = circleGreen.centerX;
+    circleGreenLabel.centerY = circleBlueLabel.centerY;
     circleRedLabel.centerX = circleRed.centerX;
-    circleRedLabel.centerY = circleBluLabel.centerY;
+    circleRedLabel.centerY = circleBlueLabel.centerY;
     starPath.left = circleRed.right + 60;
-    starPath.centerY = circleBlu.centerY;
+    starPath.centerY = circleBlue.centerY;
     glowingStarHalo.centerX = starPath.centerX;
     glowingStarHalo.centerY = starPath.centerY;
     titleNode.centerX = temperatureSlider.centerX;
