@@ -32,8 +32,6 @@ define( function( require ) {
     var starShape = new StarShape( options );
 
     Path.call( this, starShape, options );
-
-    this.mutate( options );  //TODO #17 should not be passing options via supertype constructor and mutate
   }
 
   blackbodySpectrum.register( 'StarPath', StarPath );

@@ -26,7 +26,7 @@ define( function( require ) {
    * @constructor
    */
   function MovableLabRuler( positionProperty, isVisibleProperty, options ) {
-    Node.call( this, { cursor: 'pointer' } );
+    Node.call( this );
 
     options = _.extend( {
       rulerLength: 1.00, // in model coordinates
@@ -36,7 +36,8 @@ define( function( require ) {
       dragBounds: Bounds2.EVERYTHING,  // bounds for the measuring tape (in the parent Node Coordinates reference frame), default value is no (effective) bounds
       angle: 0, // rotation angle in radians of the ruler Node. (a positive angle corresponds to a clockwise rotation),
       units: 'm', // string of the base units
-      majorTickLabels: null // array of major tick Labels, eg. ['0', '5', '10', '15', '20', '25'], automatically generated if set to null
+      majorTickLabels: null, // array of major tick Labels, eg. ['0', '5', '10', '15', '20', '25'], automatically generated if set to null
+      cursor: 'pointer'
     }, options );
 
     // create majorTicksLabel automatically if they dont exist
@@ -86,7 +87,7 @@ define( function( require ) {
       dragBounds: options.dragBounds
     } ) );
 
-    this.mutate( options ); //TODO #17 should not be passing options via supertype constructor and mutate
+    this.mutate( options );
 
     this.disposeMovableLabRuler = function() {
       positionProperty.unlink( positionPropertyObserver );
