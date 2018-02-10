@@ -46,17 +46,5 @@
   },
   "showRuler": {
     "value": "Show Ruler"
-  },
-  "wavelength": {
-    "value": "wavelength"
-  },
-  "patternValueUnitHz": {
-    "value": "{0} Hz"
-  },
-  "patternValueUnitCm": {
-    "value": "{0} cm"
-  },
-  "intensity": {
-    "value": "intensity"
   }
 }
