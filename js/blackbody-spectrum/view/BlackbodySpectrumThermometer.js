@@ -96,10 +96,8 @@ define( function( require ) {
     return parentNode;
   }
 
-  //TODO This function uses internal knowledge of ThermometerNode, see #18
   /**
    * map function that relates a temperature to a height
-   * this function was reverse engineered from ThermometerNode in Scenery-Phet
    * @param {Object} options - options that were provided to BlackbodySpectrumThermometer constructor
    * @returns {LinearFunction}
    */
