@@ -25,7 +25,6 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var RangeWithValue = require( 'DOT/RangeWithValue' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
@@ -43,7 +42,7 @@ define( function( require ) {
   var rString = require( 'string!BLACKBODY_SPECTRUM/r' );
   var saveString = require( 'string!BLACKBODY_SPECTRUM/save' );
   var showRulerString = require( 'string!BLACKBODY_SPECTRUM/showRuler' );
-  var tempInKString = require( 'string!BLACKBODY_SPECTRUM/tempInK' );
+  var blackbodyTemperatureString = require( 'string!BLACKBODY_SPECTRUM/blackbodyTemperature' );
   var unitsCmString = require( 'string!BLACKBODY_SPECTRUM/units.cm' );
 
   // constants
@@ -57,11 +56,12 @@ define( function( require ) {
   var MIN_TEMPERATURE = 300; // in kelvin
   var MAX_TEMPERATURE = 11000;
   var TITLE_FONT = new PhetFont( { size: 30, weight: 'bold' } );
-  var SUBTITLE_FONT = new PhetFont( { size: 30, weight: 'bold' } );
+  var TEMPERATURE_FONT = new PhetFont( { size: 30, weight: 'bold' } );
   var TITLE_COLOR = Color.WHITE;
-  var SUBTITLE_COLOR = '#00EBEB';
+  var TEMPERATURE_COLOR = '#00EBEB';
   var VALUE_DECIMAL_PLACES = 0;
 
+  // noinspection JSAnnotator
   /**
    * Constructor for the BlackbodySpectrumView
    * @param {BlackbodySpectrumModel} model - main model for the simulation
@@ -80,15 +80,15 @@ define( function( require ) {
     var triangleNode = new TriangleSliderThumb( { size: thumbSize } );
     triangleNode.touchArea = triangleNode.localBounds.dilatedXY( 10, 10 );
 
-    var titleNode = new Text( '?', { font: TITLE_FONT, fill: TITLE_COLOR } );
-    titleNode.rotation = Math.PI / 2;
+    var temperatureNode = new Text( '?', { font: TEMPERATURE_FONT, fill: TEMPERATURE_COLOR } );
+    temperatureNode.rotation = Math.PI / 2;
 
     var thumbNode = new Node( { size: new Dimension2( 20, 40 ) } );
     thumbNode.addChild( triangleNode );
-    thumbNode.addChild( titleNode );
+    thumbNode.addChild( temperatureNode );
 
-    titleNode.top = triangleNode.bottom + 5;
-    titleNode.centerX = triangleNode.centerX;
+    temperatureNode.top = triangleNode.bottom + 5;
+    temperatureNode.centerX = triangleNode.centerX;
 
     // temperature slider, in kelvin
     var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.temperatureProperty.value );
@@ -98,6 +98,7 @@ define( function( require ) {
       thumbYOffset: 25
     } );
     temperatureSlider.rotation = -Math.PI / 2; // set it to vertical
+    var thermometerLabel = new Text( blackbodyTemperatureString, { font: TITLE_FONT, fill: TITLE_COLOR } );
 
     var circleBlue = new Circle( CIRCLE_RADIUS );
     var circleGreen = new Circle( CIRCLE_RADIUS );
@@ -116,7 +117,7 @@ define( function( require ) {
       glowingStarHalo.radius = model.getGlowingStarHaloRadius( temperature );
       starPath.fill = model.getStarColor( temperature );
       starPath.stroke = model.getStarColor( temperature );
-      titleNode.text = Util.toFixed( temperature, VALUE_DECIMAL_PLACES );
+      temperatureNode.text = Util.toFixed( temperature, VALUE_DECIMAL_PLACES );
     } );
 
     // create movable lab ruler
@@ -185,6 +186,7 @@ define( function( require ) {
     this.addChild( showRulerCheckbox );
     this.addChild( temperatureSlider );
     this.addChild( blackbodySpectrumThermometer );
+    this.addChild( thermometerLabel );
     this.addChild( starPath );
     this.addChild( glowingStarHalo );
     this.addChild( circleBlue );
@@ -209,6 +211,8 @@ define( function( require ) {
     clearButton.top = saveButton.bottom + 10;
     temperatureSlider.left = blackbodySpectrumThermometer.right;
     temperatureSlider.centerY = blackbodySpectrumThermometer.centerY - 14;
+    thermometerLabel.centerX = blackbodySpectrumThermometer.centerX;
+    thermometerLabel.top = blackbodySpectrumThermometer.bottom + 10;
     circleBlue.centerX = 300;
     circleBlue.centerY = 100;
     circleGreen.centerX = circleBlue.centerX + 50;

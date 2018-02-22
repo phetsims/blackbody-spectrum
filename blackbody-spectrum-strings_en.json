@@ -44,8 +44,8 @@
   "earth": {
     "value": "Earth"
   },
-  "tempInK": {
-    "value": "T(K)"
+  "blackbodyTemperature": {
+    "value": "BlackBody Temperature"
   },
   "showRuler": {
     "value": "Show Ruler"
