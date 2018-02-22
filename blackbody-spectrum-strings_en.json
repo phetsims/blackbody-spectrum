@@ -29,6 +29,9 @@
   "clear": {
     "value": " Clear"
   },
+  "sirius":{
+    "value": "Sirius A"
+  },
   "sun": {
     "value": "Sun"
   },

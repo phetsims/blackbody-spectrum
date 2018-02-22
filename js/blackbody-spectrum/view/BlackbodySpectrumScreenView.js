@@ -29,6 +29,7 @@ define( function( require ) {
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Shape = require( 'KITE/Shape' );
+  var TriangleSliderThumb = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/TriangleSliderThumb' );
   var StarPath = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/StarPath' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
@@ -52,8 +53,8 @@ define( function( require ) {
   var CIRCLE_RADIUS = 15;
   var LABEL_FONT = new PhetFont( 22 );
   var CHECK_BOX_TEXT_FILL = 'white';
-  var MIN_TEMPERATURE = 100; // in kelvin
-  var MAX_TEMPERATURE = 9000;
+  var MIN_TEMPERATURE = 300; // in kelvin
+  var MAX_TEMPERATURE = 11000;
   var TITLE_FONT = new PhetFont( { size: 30, weight: 'bold' } );
   var SUBTITLE_FONT = new PhetFont( { size: 30, weight: 'bold' } );
   var TITLE_COLOR = Color.BLUE;
@@ -73,11 +74,17 @@ define( function( require ) {
 
     var blackbodySpectrumThermometer = new BlackbodySpectrumThermometer( model.temperatureProperty );
 
+    // custom thumb
+    var thumbSize = new Dimension2( 20, 20 );
+    var thumbNode = new TriangleSliderThumb( { size: thumbSize } );
+    thumbNode.touchArea = thumbNode.localBounds.dilatedXY( 10, 10 );
+
     // temperature slider, in kelvin
     var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.temperatureProperty.value );
     var temperatureSlider = new HSlider( model.temperatureProperty, temperatureRange, {
-      trackSize: new Dimension2( 200, 5 ),
-      thumbSize: new Dimension2( 30, 60 )
+      trackSize: new Dimension2( 400, 5 ),
+      thumbNode: thumbNode,
+      thumbYOffset: 10
     } );
     temperatureSlider.rotation = -Math.PI / 2; // set it to vertical
 
@@ -195,14 +202,14 @@ define( function( require ) {
     graphNode.bottom = this.layoutBounds.maxY - 10;
     showRulerCheckbox.right = this.layoutBounds.maxX - 60;
     showRulerCheckbox.centerY = this.layoutBounds.maxY - 90;
-    blackbodySpectrumThermometer.right = this.layoutBounds.maxX - 10;
-    blackbodySpectrumThermometer.top = 100;
+    blackbodySpectrumThermometer.left = graphNode.left + 600;
+    blackbodySpectrumThermometer.top = 50;
     saveButton.right = this.layoutBounds.maxX - 10;
     saveButton.top = 10;
     clearButton.right = saveButton.right;
     clearButton.top = saveButton.bottom + 10;
-    temperatureSlider.right = blackbodySpectrumThermometer.left - 50;
-    temperatureSlider.centerY = blackbodySpectrumThermometer.centerY;
+    temperatureSlider.left = blackbodySpectrumThermometer.right;
+    temperatureSlider.centerY = blackbodySpectrumThermometer.centerY - 17.5;
     circleBlue.centerX = 300;
     circleBlue.centerY = 100;
     circleGreen.centerX = circleBlue.centerX + 50;

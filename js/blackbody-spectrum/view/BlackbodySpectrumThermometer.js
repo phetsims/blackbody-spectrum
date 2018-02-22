@@ -24,10 +24,12 @@ define( function( require ) {
   var lightbulbString = require( 'string!BLACKBODY_SPECTRUM/lightbulb' );
   var ovenString = require( 'string!BLACKBODY_SPECTRUM/oven' );
   var sunString = require( 'string!BLACKBODY_SPECTRUM/sun' );
+  var siriusString = require( 'string!BLACKBODY_SPECTRUM/sirius' );
 
   // constants
   var TICK_MARKS = [
-    { text: sunString, temperature: 5700 },
+    { text: siriusString, temperature: 9940 },
+    { text: sunString, temperature: 5778 },
     { text: lightbulbString, temperature: 3000 },
     { text: ovenString, temperature: 660 },
     { text: earthString, temperature: 300 }
@@ -41,16 +43,18 @@ define( function( require ) {
   function BlackbodySpectrumThermometer( temperatureProperty, options ) {
 
     options = _.extend( {
-      minTemperature: 0,
-      maxTemperature: 6000,
-      bulbDiameter: 50,
-      tubeWidth: 30,
-      tubeHeight: 300,
-      glassThickness: 4,
-      lineWidth: 4,
+      minTemperature: 300,
+      maxTemperature: 11000,
+      bulbDiameter: 35,
+      tubeWidth: 20,
+      tubeHeight: 400,
+      majorTickLength: 10,
+      minorTickLength: 5,
+      glassThickness: 3,
+      lineWidth: 3,
       outlineStroke: 'white',
-      tickSpacing: 15,
-      tickLabelFont: new PhetFont( { size: 24, weight: 'bold' } ),
+      tickSpacing: 20,
+      tickLabelFont: new PhetFont( { size: 18, weight: 'bold' } ),
       tickLabelColor: 'yellow'
     }, options );
 
@@ -88,10 +92,10 @@ define( function( require ) {
       children: [ tickNode, textNode ]
     } );
 
-    tickNode.left = tickMarkLength;
+    tickNode.right = -tickMarkLength;
     tickNode.centerY = objectHeight;
     textNode.centerY = objectHeight;
-    textNode.left = tickNode.right + 10;
+    textNode.right = tickNode.left - 10;
 
     return parentNode;
   }
