@@ -21,6 +21,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var MovableLabRuler = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/MovableLabRuler' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var RangeWithValue = require( 'DOT/RangeWithValue' );
@@ -57,7 +58,7 @@ define( function( require ) {
   var MAX_TEMPERATURE = 11000;
   var TITLE_FONT = new PhetFont( { size: 30, weight: 'bold' } );
   var SUBTITLE_FONT = new PhetFont( { size: 30, weight: 'bold' } );
-  var TITLE_COLOR = Color.BLUE;
+  var TITLE_COLOR = Color.WHITE;
   var SUBTITLE_COLOR = '#00EBEB';
   var VALUE_DECIMAL_PLACES = 0;
 
@@ -76,26 +77,27 @@ define( function( require ) {
 
     // custom thumb
     var thumbSize = new Dimension2( 20, 20 );
-    var thumbNode = new TriangleSliderThumb( { size: thumbSize } );
-    thumbNode.touchArea = thumbNode.localBounds.dilatedXY( 10, 10 );
+    var triangleNode = new TriangleSliderThumb( { size: thumbSize } );
+    triangleNode.touchArea = triangleNode.localBounds.dilatedXY( 10, 10 );
+
+    var titleNode = new Text( '?', { font: TITLE_FONT, fill: TITLE_COLOR } );
+    titleNode.rotation = Math.PI / 2;
+
+    var thumbNode = new Node( { size: new Dimension2( 20, 40 ) } );
+    thumbNode.addChild( triangleNode );
+    thumbNode.addChild( titleNode );
+
+    titleNode.top = triangleNode.bottom + 5;
+    titleNode.centerX = triangleNode.centerX;
 
     // temperature slider, in kelvin
     var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.temperatureProperty.value );
     var temperatureSlider = new HSlider( model.temperatureProperty, temperatureRange, {
       trackSize: new Dimension2( 400, 5 ),
       thumbNode: thumbNode,
-      thumbYOffset: 10
+      thumbYOffset: 25
     } );
     temperatureSlider.rotation = -Math.PI / 2; // set it to vertical
-
-    var titleNode = new Text( '?', { font: TITLE_FONT, fill: TITLE_COLOR } );
-    var subtitleNode = new Text( tempInKString, { font: SUBTITLE_FONT, fill: SUBTITLE_COLOR } );
-    var cornerRadius = 10;
-    var rectangleTitle = new Rectangle( 0, 0, 100, 40, cornerRadius, cornerRadius, {
-      fill: '#FFF',
-      stroke: '#000',
-      lineWidth: 1
-    } );
 
     var circleBlue = new Circle( CIRCLE_RADIUS );
     var circleGreen = new Circle( CIRCLE_RADIUS );
@@ -177,9 +179,6 @@ define( function( require ) {
     } );
 
     // rendering order
-    this.addChild( rectangleTitle );
-    this.addChild( titleNode );
-    this.addChild( subtitleNode );
     this.addChild( graphNode );
     this.addChild( clearButton );
     this.addChild( saveButton );
@@ -209,7 +208,7 @@ define( function( require ) {
     clearButton.right = saveButton.right;
     clearButton.top = saveButton.bottom + 10;
     temperatureSlider.left = blackbodySpectrumThermometer.right;
-    temperatureSlider.centerY = blackbodySpectrumThermometer.centerY - 17.5;
+    temperatureSlider.centerY = blackbodySpectrumThermometer.centerY - 14;
     circleBlue.centerX = 300;
     circleBlue.centerY = 100;
     circleGreen.centerX = circleBlue.centerX + 50;
@@ -226,12 +225,6 @@ define( function( require ) {
     starPath.centerY = circleBlue.centerY;
     glowingStarHalo.centerX = starPath.centerX;
     glowingStarHalo.centerY = starPath.centerY;
-    titleNode.centerX = temperatureSlider.centerX;
-    titleNode.bottom = temperatureSlider.top - 30;
-    rectangleTitle.centerX = temperatureSlider.centerX;
-    rectangleTitle.centerY = titleNode.centerY;
-    subtitleNode.centerX = temperatureSlider.centerX;
-    subtitleNode.top = temperatureSlider.bottom + 30;
   }
 
   blackbodySpectrum.register( 'BlackbodySpectrumScreenView', BlackbodySpectrumScreenView );

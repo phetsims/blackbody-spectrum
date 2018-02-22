@@ -26,7 +26,7 @@ define( function( require ) {
 
     options = _.extend( {
       size: new Dimension2( 15, 15 ),
-      stroke: 'black',
+      stroke: 'white',
       lineWidth: 1,
       fill: 'rgb( 50, 145, 184 )',
       fillHighlighted: 'rgb( 71, 207, 255 )'
