@@ -21,6 +21,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var MovableLabRuler = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/MovableLabRuler' );
+  var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
@@ -98,7 +99,7 @@ define( function( require ) {
       thumbYOffset: 25
     } );
     temperatureSlider.rotation = -Math.PI / 2; // set it to vertical
-    var thermometerLabel = new Text( blackbodyTemperatureString, { font: TITLE_FONT, fill: TITLE_COLOR } );
+    var thermometerLabel = new MultiLineText( blackbodyTemperatureString, { font: TITLE_FONT, fill: TITLE_COLOR } );
 
     var circleBlue = new Circle( CIRCLE_RADIUS );
     var circleGreen = new Circle( CIRCLE_RADIUS );
@@ -211,8 +212,8 @@ define( function( require ) {
     clearButton.top = saveButton.bottom + 10;
     temperatureSlider.left = blackbodySpectrumThermometer.right;
     temperatureSlider.centerY = blackbodySpectrumThermometer.centerY - 14;
-    thermometerLabel.centerX = blackbodySpectrumThermometer.centerX;
-    thermometerLabel.top = blackbodySpectrumThermometer.bottom + 10;
+    thermometerLabel.centerX = blackbodySpectrumThermometer.right - 16;
+    thermometerLabel.top = blackbodySpectrumThermometer.bottom;
     circleBlue.centerX = 300;
     circleBlue.centerY = 100;
     circleGreen.centerX = circleBlue.centerX + 50;
