@@ -14,6 +14,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberProperty = require( 'AXON/NumberProperty' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Util = require( 'DOT/Util' );
 
   // constants
@@ -48,7 +49,15 @@ define( function( require ) {
     // @public {Property.<number>}  initial temperature in kelvin
     this.temperatureProperty = new NumberProperty( 6000 );
 
-   }
+    // @public {Property.<boolean>}
+    this.peakValuesVisibleProperty = new BooleanProperty( false );
+
+    // @public {Property.<boolean>}
+    this.intensityVisibleProperty = new BooleanProperty( false );
+
+    // @public {Property.<boolean>}
+    this.labelsVisibleProperty = new BooleanProperty( false );
+  }
 
   blackbodySpectrum.register( 'BlackbodySpectrumModel', BlackbodySpectrumModel );
 

@@ -49,5 +49,14 @@
   },
   "showRuler": {
     "value": "Show Ruler"
+  },
+  "peakValues": {
+    "value": "Peak Values"
+  },
+  "intensity": {
+    "value": "Intensity"
+  },
+  "labels": {
+    "value": "Labels"
   }
 }

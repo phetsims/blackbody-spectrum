@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var BlackbodySpectrumThermometer = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumThermometer' );
+  var BlackBodySpectrumControlPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackBodySpectrumControlPanel' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Checkbox = require( 'SUN/Checkbox' );
   var Circle = require( 'SCENERY/nodes/Circle' );
@@ -172,6 +173,8 @@ define( function( require ) {
       }
     } );
 
+    var controlPanel = new BlackBodySpectrumControlPanel( model );
+
     var clearButton = new RectangularPushButton( {
       content: new Text( clearString, { font: BUTTON_FONT } ),
       baseColor: CLEAR_BUTTON_COLOR,
@@ -184,6 +187,7 @@ define( function( require ) {
     this.addChild( graphNode );
     this.addChild( clearButton );
     this.addChild( saveButton );
+    this.addChild( controlPanel );
     this.addChild( showRulerCheckbox );
     this.addChild( temperatureSlider );
     this.addChild( blackbodySpectrumThermometer );
@@ -206,8 +210,10 @@ define( function( require ) {
     showRulerCheckbox.centerY = this.layoutBounds.maxY - 90;
     blackbodySpectrumThermometer.left = graphNode.left + 600;
     blackbodySpectrumThermometer.top = 50;
-    saveButton.right = this.layoutBounds.maxX - 10;
-    saveButton.top = 10;
+    controlPanel.right = this.layoutBounds.maxX - 10;
+    controlPanel.top = 10;
+    saveButton.right = controlPanel.right;
+    saveButton.top = controlPanel.bottom + 10;
     clearButton.right = saveButton.right;
     clearButton.top = saveButton.bottom + 10;
     temperatureSlider.left = blackbodySpectrumThermometer.right;
