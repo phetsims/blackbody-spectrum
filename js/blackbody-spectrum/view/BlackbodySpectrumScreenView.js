@@ -27,7 +27,6 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Property = require( 'AXON/Property' );
   var RangeWithValue = require( 'DOT/RangeWithValue' );
-  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var Shape = require( 'KITE/Shape' );
@@ -39,19 +38,14 @@ define( function( require ) {
 
   // strings
   var bString = require( 'string!BLACKBODY_SPECTRUM/b' );
-  var clearString = require( 'string!BLACKBODY_SPECTRUM/clear' );
   var gString = require( 'string!BLACKBODY_SPECTRUM/g' );
   var rString = require( 'string!BLACKBODY_SPECTRUM/r' );
-  var saveString = require( 'string!BLACKBODY_SPECTRUM/save' );
   var showRulerString = require( 'string!BLACKBODY_SPECTRUM/showRuler' );
   var blackbodyTemperatureString = require( 'string!BLACKBODY_SPECTRUM/blackbodyTemperature' );
   var unitsCmString = require( 'string!BLACKBODY_SPECTRUM/units.cm' );
 
   // constants
   var CIRCLE_LABEL_COLOR = '#00EBEB';
-  var SAVE_BUTTON_COLOR = 'yellow';
-  var CLEAR_BUTTON_COLOR = 'red';
-  var BUTTON_FONT = new PhetFont( 15 );
   var CIRCLE_RADIUS = 15;
   var LABEL_FONT = new PhetFont( 22 );
   var CHECK_BOX_TEXT_FILL = 'white';
@@ -164,29 +158,10 @@ define( function( require ) {
       bottom: this.layoutBounds.maxY - 10
     } );
 
-    // create the save and clear buttons
-    var saveButton = new RectangularPushButton( {
-      content: new Text( saveString, { font: BUTTON_FONT } ),
-      baseColor: SAVE_BUTTON_COLOR,
-      listener: function() {
-        graphNode.save( model.temperatureProperty.value );
-      }
-    } );
-
     var controlPanel = new BlackBodySpectrumControlPanel( model, graphNode );
-
-    var clearButton = new RectangularPushButton( {
-      content: new Text( clearString, { font: BUTTON_FONT } ),
-      baseColor: CLEAR_BUTTON_COLOR,
-      listener: function() {
-        graphNode.clear();
-      }
-    } );
 
     // rendering order
     this.addChild( graphNode );
-    this.addChild( clearButton );
-    this.addChild( saveButton );
     this.addChild( controlPanel );
     this.addChild( showRulerCheckbox );
     this.addChild( temperatureSlider );
@@ -212,10 +187,6 @@ define( function( require ) {
     blackbodySpectrumThermometer.top = 50;
     controlPanel.right = this.layoutBounds.maxX - 10;
     controlPanel.top = 10;
-    saveButton.right = controlPanel.right;
-    saveButton.top = controlPanel.bottom + 10;
-    clearButton.right = saveButton.right;
-    clearButton.top = saveButton.bottom + 10;
     temperatureSlider.left = blackbodySpectrumThermometer.right;
     temperatureSlider.centerY = blackbodySpectrumThermometer.centerY - 14;
     thermometerLabel.centerX = blackbodySpectrumThermometer.right - 16;
