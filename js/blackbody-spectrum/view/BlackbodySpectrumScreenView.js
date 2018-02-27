@@ -173,7 +173,7 @@ define( function( require ) {
       }
     } );
 
-    var controlPanel = new BlackBodySpectrumControlPanel( model );
+    var controlPanel = new BlackBodySpectrumControlPanel( model, graphNode );
 
     var clearButton = new RectangularPushButton( {
       content: new Text( clearString, { font: BUTTON_FONT } ),
