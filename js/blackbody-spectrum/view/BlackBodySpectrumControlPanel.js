@@ -27,7 +27,8 @@ define( function( require ) {
 
   // constants
   var DISPLAY_FONT = new PhetFont( 12 );
-  var CONTROL_PANEL_TEXT_FILL = 'white';
+  var CHECKBOX_TEXT_FILL = 'white';
+  var BUTTON_TEXT_FILL = 'black';
   var CONTROL_PANEL_FILL = 'black';
   var CHECKBOX_COLOR = 'white';
   var BUTTON_COLOR = '#8dcad0';
@@ -50,12 +51,13 @@ define( function( require ) {
     }, options );
 
     // create the text nodes
-    var fontInfo = { font: DISPLAY_FONT, fill: CONTROL_PANEL_TEXT_FILL };
-    var saveText = new Text( saveString, fontInfo );
-    var clearText = new Text( clearString, fontInfo );
-    var valuesText = new Text( peakValuesString, fontInfo );
-    var intensityText = new Text( intensityString, fontInfo );
-    var labelsText = new Text( labelsString, fontInfo );
+    var checkboxFont = { font: DISPLAY_FONT, fill: CHECKBOX_TEXT_FILL };
+    var buttonFont = { font: DISPLAY_FONT, fill: BUTTON_TEXT_FILL };
+    var saveText = new Text( saveString, buttonFont );
+    var clearText = new Text( clearString, buttonFont );
+    var valuesText = new Text( peakValuesString, checkboxFont );
+    var intensityText = new Text( intensityString, checkboxFont );
+    var labelsText = new Text( labelsString, checkboxFont );
 
     // 2 buttons: Save, Clear
     var saveButton = new RectangularPushButton( { content: saveText, baseColor: BUTTON_COLOR, listener: function() {
