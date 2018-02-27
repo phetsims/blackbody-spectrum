@@ -32,6 +32,7 @@ define( function( require ) {
   var CONTROL_PANEL_FILL = 'black';
   var CHECKBOX_COLOR = 'white';
   var BUTTON_COLOR = '#8dcad0';
+  var DEFAULT_WIDTH = 140;
 
 
   /**
@@ -47,7 +48,9 @@ define( function( require ) {
       lineWidth: 1,
       fill: CONTROL_PANEL_FILL,
       resize: false,
-      stroke: 'white'
+      stroke: 'white',
+      minWidth: DEFAULT_WIDTH,
+      maxWidth: DEFAULT_WIDTH
     }, options );
 
     // create the text nodes
@@ -60,12 +63,22 @@ define( function( require ) {
     var labelsText = new Text( labelsString, checkboxFont );
 
     // 2 buttons: Save, Clear
-    var saveButton = new RectangularPushButton( { content: saveText, baseColor: BUTTON_COLOR, listener: function() {
+    var saveButton = new RectangularPushButton( {
+      content: saveText,
+      baseColor: BUTTON_COLOR,
+      minWidth: options.minWidth - 40,
+      listener: function() {
         graphNode.save( model.temperatureProperty.value );
-      } } );
-    var clearButton = new RectangularPushButton( { content: clearText, baseColor: BUTTON_COLOR, listener: function() {
+      }
+    } );
+    var clearButton = new RectangularPushButton( {
+      content: clearText,
+      baseColor: BUTTON_COLOR,
+      minWidth: options.minWidth - 40,
+      listener: function() {
         graphNode.clear();
-      } } );
+      }
+    } );
 
     // 3 checkboxes: Peak Values, Intensity, Labels
     var checkboxOptions = { checkboxColorBackground: CONTROL_PANEL_FILL, checkboxColor: CHECKBOX_COLOR };
@@ -73,12 +86,17 @@ define( function( require ) {
     var intensityCheckbox = new Checkbox( intensityText, model.intensityVisibleProperty, checkboxOptions );
     var labelsCheckbox = new Checkbox( labelsText, model.labelsVisibleProperty, checkboxOptions );
 
-    // Adjust touch areas
     var spacing = 15;
-    var content = new VBox( {
+    var buttons = new VBox( {
       children: [
         saveButton,
-        clearButton,
+        clearButton
+      ],
+      align: 'center',
+      spacing: spacing
+    } );
+    var checkboxes = new VBox( {
+      children: [
         valuesCheckbox,
         intensityCheckbox,
         labelsCheckbox
@@ -86,6 +104,16 @@ define( function( require ) {
       align: 'left',
       spacing: spacing,
       resize: false
+    } );
+
+    var content = new VBox( {
+      children: [
+        buttons,
+        checkboxes
+      ],
+      align: 'center',
+      spacing: spacing,
+      resize: true
     } );
 
     Panel.call( this, content, options );

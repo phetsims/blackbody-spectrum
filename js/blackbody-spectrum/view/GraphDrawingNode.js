@@ -163,10 +163,10 @@ define( function( require ) {
 //      );
 
     // zoom Buttons
-    var horizontalZoomInButton = new ZoomButton( { in: true } );
-    var horizontalZoomOutButton = new ZoomButton( { in: false } );
-    var verticalZoomInButton = new ZoomButton( { in: true } );
-    var verticalZoomOutButton = new ZoomButton( { in: false } );
+    var horizontalZoomInButton = new ZoomButton( { in: true, radius: 10 } );
+    var horizontalZoomOutButton = new ZoomButton( { in: false, radius: 10 } );
+    var verticalZoomInButton = new ZoomButton( { in: true, radius: 10 } );
+    var verticalZoomOutButton = new ZoomButton( { in: false, radius: 10 } );
     var horizontalZoomButtons = new Node( { children: [ horizontalZoomOutButton, horizontalZoomInButton ] } );
     var verticalZoomButtons = new Node( { children: [ verticalZoomOutButton, verticalZoomInButton ] } );
 
@@ -308,14 +308,14 @@ define( function( require ) {
     horizontalTickLabelMax.centerX = axesPath.right;
     verticalTickLabelMax.right = axesPath.left;
     verticalTickLabelMax.centerY = axesPath.top;
-    horizontalZoomButtons.left = axesPath.right + 60;
-    horizontalZoomButtons.top = axesPath.bottom + 20;
-    horizontalZoomInButton.right = horizontalZoomOutButton.left - 80;
+    horizontalZoomButtons.left = axesPath.right - 45;
+    horizontalZoomButtons.top = axesPath.bottom + 40;
+    horizontalZoomInButton.left = horizontalZoomOutButton.right + 10;
     horizontalZoomInButton.centerY = horizontalZoomOutButton.centerY;
-    verticalZoomButtons.right = axesPath.left - 40;
-    verticalZoomButtons.bottom = axesPath.top - 25;
+    verticalZoomButtons.right = axesPath.left - 60;
+    verticalZoomButtons.bottom = axesPath.top + 35;
     verticalZoomInButton.centerX = verticalZoomOutButton.centerX;
-    verticalZoomInButton.top = verticalZoomOutButton.bottom + 50;
+    verticalZoomInButton.bottom = verticalZoomOutButton.top - 10;
     spectrum.bottom = axesPath.bottom;
     verticalAxisLabelNode.top = verticalZoomButtons.bottom + 20;
     verticalAxisLabelNode.right = axesPath.left - 20;

@@ -208,7 +208,7 @@ define( function( require ) {
     graphNode.bottom = this.layoutBounds.maxY - 10;
     showRulerCheckbox.right = this.layoutBounds.maxX - 60;
     showRulerCheckbox.centerY = this.layoutBounds.maxY - 90;
-    blackbodySpectrumThermometer.left = graphNode.left + 600;
+    blackbodySpectrumThermometer.left = graphNode.left + 650;
     blackbodySpectrumThermometer.top = 50;
     controlPanel.right = this.layoutBounds.maxX - 10;
     controlPanel.top = 10;
