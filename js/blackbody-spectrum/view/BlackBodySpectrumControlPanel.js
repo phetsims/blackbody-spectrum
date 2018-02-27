@@ -41,7 +41,8 @@ define( function( require ) {
       yMargin: 15,
       lineWidth: 1,
       fill: CONTROL_PANEL_FILL,
-      resize: false
+      resize: false,
+      stroke: 'white'
     }, options );
 
     // create the text nodes
@@ -66,8 +67,7 @@ define( function( require ) {
       ],
       align: 'left',
       spacing: spacing,
-      resize: false,
-      border: 'white'
+      resize: false
     } );
 
     Panel.call( this, content, options );
