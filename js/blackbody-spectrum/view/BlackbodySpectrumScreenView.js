@@ -51,10 +51,10 @@ define( function( require ) {
   var CHECK_BOX_TEXT_FILL = 'white';
   var MIN_TEMPERATURE = 300; // in kelvin
   var MAX_TEMPERATURE = 11000;
-  var TITLE_FONT = new PhetFont( { size: 30, weight: 'bold' } );
-  var TEMPERATURE_FONT = new PhetFont( { size: 30, weight: 'bold' } );
-  var TITLE_COLOR = Color.WHITE;
-  var TEMPERATURE_COLOR = '#00EBEB';
+  var TITLE_FONT = new PhetFont( { size: 25, weight: 'bold' } );
+  var TEMPERATURE_FONT = new PhetFont( { size: 20, weight: 'bold' } );
+  var TITLE_COLOR = '#00EBEB';
+  var TEMPERATURE_COLOR = Color.WHITE;
   var VALUE_DECIMAL_PLACES = 0;
 
   // noinspection JSAnnotator
