@@ -52,6 +52,7 @@ define( function( require ) {
   var TITLE_COLOR = '#00EBEB';
   var TEMPERATURE_COLOR = Color.WHITE;
   var VALUE_DECIMAL_PLACES = 0;
+  var INSET = 10;
 
   // noinspection JSAnnotator
   /**
@@ -113,23 +114,6 @@ define( function( require ) {
       temperatureNode.text = temperatureNode.text + ' K';
     } );
 
-    // create movable lab ruler
-    var isRulerVisibleProperty = new Property( false );
-    var rulerPositionProperty = new Property( new Vector2( 120, 310 ) );
-
-    var movableLabRuler = new MovableLabRuler( rulerPositionProperty, isRulerVisibleProperty, {
-      rulerLength: 0.25, // in model coordinates, i.e. 0.25 meters
-      multiplier: 100, // multiplier of base units
-      units: unitsCmString,  //
-      unitsFont: new PhetFont( 16 ),
-      rulerHeightInModel: 0.05, // in model coordinates
-      majorTickSeparation: 0.05, // in model coordinates
-      angle: Math.PI / 2,
-      modelViewTransform: modelViewTransform,
-      dragBounds: this.layoutBounds,
-      minorTicksPerMajorTick: 4
-    } );
-
     // create graph with zoom buttons
     var graphNode = new GraphDrawingNode( model, modelViewTransform );
 
@@ -137,14 +121,10 @@ define( function( require ) {
     var resetAllButton = new ResetAllButton( {
       listener: function() {
         model.temperatureProperty.reset();
-        rulerPositionProperty.reset();
-        isRulerVisibleProperty.reset();
         //   model.wavelengthMax = 100;
         graphNode.reset();
         graphNode.clear();
-      },
-      right: this.layoutBounds.maxX - 10,
-      bottom: this.layoutBounds.maxY - 10
+      }
     } );
 
     var controlPanel = new BlackBodySpectrumControlPanel( model, graphNode );
@@ -164,15 +144,16 @@ define( function( require ) {
     this.addChild( circleGreenLabel );
     this.addChild( circleRedLabel );
     this.addChild( resetAllButton );
-    this.addChild( movableLabRuler );
 
     // layout for things that don't have a location in the model
     graphNode.left = 20;
-    graphNode.bottom = this.layoutBounds.maxY - 10;
+    graphNode.bottom = this.layoutBounds.maxY - INSET;
+    resetAllButton.right = this.layoutBounds.maxX - INSET;
+    resetAllButton.bottom = this.layoutBounds.maxY - INSET;
     blackbodySpectrumThermometer.left = graphNode.left + 620;
     blackbodySpectrumThermometer.top = 30;
-    controlPanel.right = this.layoutBounds.maxX - 10;
-    controlPanel.top = 10;
+    controlPanel.right = this.layoutBounds.maxX - INSET;
+    controlPanel.top = INSET;
     temperatureSlider.left = blackbodySpectrumThermometer.right;
     temperatureSlider.centerY = blackbodySpectrumThermometer.centerY - 14;
     thermometerLabel.centerX = blackbodySpectrumThermometer.right - 16;
