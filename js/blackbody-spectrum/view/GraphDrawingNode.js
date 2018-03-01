@@ -86,11 +86,25 @@ define( function( require ) {
 
     // graph: blackbody curve
     // TODO annotate:  public/private ?
-    this.graph = new Path( null, { stroke: GRAPH_CURVE_STROKE, lineWidth: GRAPH_CURVE_LINE_WIDTH } );
+    this.graph = new Path( null, {
+      stroke: GRAPH_CURVE_STROKE,
+      lineWidth: GRAPH_CURVE_LINE_WIDTH
+    } );
+    // new path for intensity
+
+    model.intensityVisibleProperty.link( function( intensityVisible ) {
+      if ( intensityVisible ) {
+        self.graph.fill = 'rgba(100,100,100,0.75)';
+      }
+      else {
+        self.graph.fill = null;
+      }
+    } );
 
     var scaleY = 1;
     var updateGraph = function( graph, temperature ) {
-      var shape = new Shape();
+      var graphShape = new Shape();
+      // intensity shape
       var i;
       var y = model.coordinatesY( temperature );
       var lengthArray = y.length;
@@ -99,12 +113,12 @@ define( function( require ) {
       var deltaX = HORIZONTAL_GRAPH_LENGTH / ( numberPoints - 1 );
       var deltaY = VERTICAL_GRAPH_LENGTH / ( verticalMax );
       var newScaleY = scaleY * 1e33 * deltaY; // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
-      shape.moveTo( 0, -newScaleY * y[ 0 ] );
+      graphShape.moveTo( 0, -newScaleY * y[ 0 ] );
 
       for ( i = 1; i < lengthArray; i++ ) {
-        shape.lineTo( deltaX * i, -newScaleY * y[ i ] ); /// need to flip y axis
+        graphShape.lineTo( deltaX * i, -newScaleY * y[ i ] ); /// need to flip y axis
       }
-      graph.shape = shape;
+      graph.shape = graphShape;
     };
 
     // axes for the graph
