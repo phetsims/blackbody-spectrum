@@ -47,7 +47,7 @@ define( function( require ) {
   var LABEL_FONT = new PhetFont( 22 );
   var MIN_TEMPERATURE = 300; // in kelvin
   var MAX_TEMPERATURE = 11000;
-  var TITLE_FONT = new PhetFont( { size: 25, weight: 'bold' } );
+  var TITLE_FONT = new PhetFont( { size: 22, weight: 'bold' } );
   var TEMPERATURE_FONT = new PhetFont( { size: 20, weight: 'bold' } );
   var TITLE_COLOR = '#00EBEB';
   var TEMPERATURE_COLOR = Color.WHITE;
@@ -110,6 +110,7 @@ define( function( require ) {
       starPath.fill = model.getStarColor( temperature );
       starPath.stroke = model.getStarColor( temperature );
       temperatureNode.text = Util.toFixed( temperature, VALUE_DECIMAL_PLACES );
+      temperatureNode.text = temperatureNode.text + ' K';
     } );
 
     // create movable lab ruler
@@ -168,8 +169,8 @@ define( function( require ) {
     // layout for things that don't have a location in the model
     graphNode.left = 20;
     graphNode.bottom = this.layoutBounds.maxY - 10;
-    blackbodySpectrumThermometer.left = graphNode.left + 650;
-    blackbodySpectrumThermometer.top = 50;
+    blackbodySpectrumThermometer.left = graphNode.left + 620;
+    blackbodySpectrumThermometer.top = 30;
     controlPanel.right = this.layoutBounds.maxX - 10;
     controlPanel.top = 10;
     temperatureSlider.left = blackbodySpectrumThermometer.right;
