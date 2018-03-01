@@ -13,7 +13,6 @@ define( function( require ) {
   var BlackbodySpectrumThermometer = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumThermometer' );
   var BlackBodySpectrumControlPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackBodySpectrumControlPanel' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var Checkbox = require( 'SUN/Checkbox' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Color = require( 'SCENERY/util/Color' );
   var Dimension2 = require( 'DOT/Dimension2' );
@@ -29,7 +28,6 @@ define( function( require ) {
   var RangeWithValue = require( 'DOT/RangeWithValue' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
-  var Shape = require( 'KITE/Shape' );
   var TriangleSliderThumb = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/TriangleSliderThumb' );
   var StarPath = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/StarPath' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -40,7 +38,6 @@ define( function( require ) {
   var bString = require( 'string!BLACKBODY_SPECTRUM/b' );
   var gString = require( 'string!BLACKBODY_SPECTRUM/g' );
   var rString = require( 'string!BLACKBODY_SPECTRUM/r' );
-  var showRulerString = require( 'string!BLACKBODY_SPECTRUM/showRuler' );
   var blackbodyTemperatureString = require( 'string!BLACKBODY_SPECTRUM/blackbodyTemperature' );
   var unitsCmString = require( 'string!BLACKBODY_SPECTRUM/units.cm' );
 
@@ -48,7 +45,6 @@ define( function( require ) {
   var CIRCLE_LABEL_COLOR = '#00EBEB';
   var CIRCLE_RADIUS = 15;
   var LABEL_FONT = new PhetFont( 22 );
-  var CHECK_BOX_TEXT_FILL = 'white';
   var MIN_TEMPERATURE = 300; // in kelvin
   var MAX_TEMPERATURE = 11000;
   var TITLE_FONT = new PhetFont( { size: 25, weight: 'bold' } );
@@ -133,14 +129,6 @@ define( function( require ) {
       minorTicksPerMajorTick: 4
     } );
 
-    // create ruler checkbox
-    var showRulerCheckbox = Checkbox.createTextCheckbox( showRulerString, {
-      font: LABEL_FONT,
-      fill: CHECK_BOX_TEXT_FILL
-    }, isRulerVisibleProperty );
-    showRulerCheckbox.touchArea = Shape.rectangle( showRulerCheckbox.left, showRulerCheckbox.top - 15,
-      showRulerCheckbox.width, showRulerCheckbox.height + 30 );
-
     // create graph with zoom buttons
     var graphNode = new GraphDrawingNode( model, modelViewTransform );
 
@@ -163,7 +151,6 @@ define( function( require ) {
     // rendering order
     this.addChild( graphNode );
     this.addChild( controlPanel );
-    this.addChild( showRulerCheckbox );
     this.addChild( temperatureSlider );
     this.addChild( blackbodySpectrumThermometer );
     this.addChild( thermometerLabel );
@@ -181,8 +168,6 @@ define( function( require ) {
     // layout for things that don't have a location in the model
     graphNode.left = 20;
     graphNode.bottom = this.layoutBounds.maxY - 10;
-    showRulerCheckbox.right = this.layoutBounds.maxX - 60;
-    showRulerCheckbox.centerY = this.layoutBounds.maxY - 90;
     blackbodySpectrumThermometer.left = graphNode.left + 650;
     blackbodySpectrumThermometer.top = 50;
     controlPanel.right = this.layoutBounds.maxX - 10;

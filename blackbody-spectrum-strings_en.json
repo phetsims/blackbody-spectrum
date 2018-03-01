@@ -47,9 +47,6 @@
   "blackbodyTemperature": {
     "value": "BlackBody\nTemperature"
   },
-  "showRuler": {
-    "value": "Show Ruler"
-  },
   "peakValues": {
     "value": "Peak Values"
   },
