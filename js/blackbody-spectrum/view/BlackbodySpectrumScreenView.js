@@ -20,11 +20,9 @@ define( function( require ) {
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
-  var MovableLabRuler = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/MovableLabRuler' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Property = require( 'AXON/Property' );
   var RangeWithValue = require( 'DOT/RangeWithValue' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
@@ -32,14 +30,12 @@ define( function( require ) {
   var StarPath = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/StarPath' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
-  var Vector2 = require( 'DOT/Vector2' );
 
   // strings
   var bString = require( 'string!BLACKBODY_SPECTRUM/b' );
   var gString = require( 'string!BLACKBODY_SPECTRUM/g' );
   var rString = require( 'string!BLACKBODY_SPECTRUM/r' );
   var blackbodyTemperatureString = require( 'string!BLACKBODY_SPECTRUM/blackbodyTemperature' );
-  var unitsCmString = require( 'string!BLACKBODY_SPECTRUM/units.cm' );
 
   // constants
   var CIRCLE_LABEL_COLOR = '#00EBEB';
