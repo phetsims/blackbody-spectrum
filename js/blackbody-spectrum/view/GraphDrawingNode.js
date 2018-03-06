@@ -121,7 +121,10 @@ define( function( require ) {
 
       // Easiest way to implement intensity shape is to copy graph shape and bring down to x-axis
       graph.shape = graphShape;
-      intensity.shape = graph.shape.copy().lineTo( HORIZONTAL_GRAPH_LENGTH, 0 );
+      if ( intensity ) {
+        intensity.shape = graphShape.copy().lineTo( HORIZONTAL_GRAPH_LENGTH, 0 );
+      }
+
     };
 
     // axes for the graph
