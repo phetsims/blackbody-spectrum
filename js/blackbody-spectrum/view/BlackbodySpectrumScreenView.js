@@ -19,7 +19,6 @@ define( function( require ) {
   var GraphDrawingNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GraphDrawingNode' );
   var HSlider = require( 'SUN/HSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var ModelViewTransform2 = require( 'PHETCOMMON/view/ModelViewTransform2' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var Node = require( 'SCENERY/nodes/Node' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -59,8 +58,6 @@ define( function( require ) {
   function BlackbodySpectrumScreenView( model ) {
 
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 1024, 618 ) } );
-
-    var modelViewTransform = new ModelViewTransform2.createRectangleInvertedYMapping( model.bounds, this.layoutBounds );
 
     var blackbodySpectrumThermometer = new BlackbodySpectrumThermometer( model.temperatureProperty );
 
@@ -111,7 +108,7 @@ define( function( require ) {
     } );
 
     // create graph with zoom buttons
-    var graphNode = new GraphDrawingNode( model, modelViewTransform );
+    var graphNode = new GraphDrawingNode( model );
 
     // create the Reset All Button in the bottom right
     var resetAllButton = new ResetAllButton( {

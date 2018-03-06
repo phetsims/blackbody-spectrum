@@ -52,14 +52,12 @@ define( function( require ) {
   /**
    *
    * @param {BlackbodySpectrumModel}  model - model for the entire screen
-   * @param {ModelViewTransform2} modelViewTransform
    * @constructor
    */
-  function GraphDrawingNode( model, modelViewTransform ) {
+  function GraphDrawingNode( model ) {
 
     Node.call( this );
 
-    // TODO Use modelviewtransform for laying out the graph
     var self = this;
 
     // {Property.<number>}  zoom number for the horizontal axis of the graph, positive means zooming in
@@ -123,7 +121,7 @@ define( function( require ) {
 
       // Easiest way to implement intensity shape is to copy graph shape and bring down to x-axis
       graph.shape = graphShape;
-      intensity.shape = graph.shape.copy().lineTo( HORIZONTAL_GRAPH_LENGTH, 0 )
+      intensity.shape = graph.shape.copy().lineTo( HORIZONTAL_GRAPH_LENGTH, 0 );
     };
 
     // axes for the graph
