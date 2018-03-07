@@ -52,14 +52,12 @@ define( function( require ) {
   /**
    *
    * @param {BlackbodySpectrumModel}  model - model for the entire screen
-   * @param {ModelViewTransform2} modelViewTransform
    * @constructor
    */
-  function GraphDrawingNode( model, modelViewTransform ) {
+  function GraphDrawingNode( model ) {
 
     Node.call( this );
 
-    // TODO Use modelviewtransform for laying out the graph
     var self = this;
 
     // {Property.<number>}  zoom number for the horizontal axis of the graph, positive means zooming in
@@ -90,21 +88,23 @@ define( function( require ) {
       stroke: GRAPH_CURVE_STROKE,
       lineWidth: GRAPH_CURVE_LINE_WIDTH
     } );
-    // new path for intensity
+
+    // new path for intensity, area under the curve
+    this.intensity = new Path( null );
 
     model.intensityVisibleProperty.link( function( intensityVisible ) {
       if ( intensityVisible ) {
-        self.graph.fill = 'rgba(100,100,100,0.75)';
+        self.intensity.fill = 'rgba(100,100,100,0.75)';
       }
       else {
-        self.graph.fill = null;
+        self.intensity.fill = null;
       }
     } );
 
     var scaleY = 1;
-    var updateGraph = function( graph, temperature ) {
+    var updateGraph = function( graph, temperature, intensity ) {
       var graphShape = new Shape();
-      // intensity shape
+
       var i;
       var y = model.coordinatesY( temperature );
       var lengthArray = y.length;
@@ -118,7 +118,13 @@ define( function( require ) {
       for ( i = 1; i < lengthArray; i++ ) {
         graphShape.lineTo( deltaX * i, -newScaleY * y[ i ] ); /// need to flip y axis
       }
+
+      // Easiest way to implement intensity shape is to copy graph shape and bring down to x-axis
       graph.shape = graphShape;
+      if ( intensity ) {
+        intensity.shape = graphShape.copy().lineTo( HORIZONTAL_GRAPH_LENGTH, 0 );
+      }
+
     };
 
     // axes for the graph
@@ -222,7 +228,7 @@ define( function( require ) {
 
     // observers
     model.temperatureProperty.link( function( temperature ) {
-      updateGraph( self.graph, temperature );
+      updateGraph( self.graph, temperature, self.intensity );
     } );
 
     horizontalZoomProperty.link( function( horizontalZoom ) {
@@ -242,7 +248,7 @@ define( function( require ) {
       updateTicks( minorTickSpacing );
 
       // redraw blackbody curves
-      updateGraph( self.graph, model.temperatureProperty.value );
+      updateGraph( self.graph, model.temperatureProperty.value, self.intensity );
       if ( self.savedGraph ) {
         updateGraph( self.savedGraph, self.savedTemperature );
       }
@@ -257,7 +263,7 @@ define( function( require ) {
       verticalMax = verticalMax * Math.pow( VERTICAL_ZOOM_SCALING_FACTOR, verticalZoom );
       verticalTickLabelMax.text = Util.toFixed( verticalMax, 0 ); // from nm to micron
 
-      updateGraph( self.graph, model.temperatureProperty.value );
+      updateGraph( self.graph, model.temperatureProperty.value, self.intensity );
       if ( self.savedGraph ) {
         updateGraph( self.savedGraph, self.savedTemperature );
       }
@@ -310,12 +316,15 @@ define( function( require ) {
     this.addChild( verticalZoomButtons );
     this.addChild( ticks );
     this.addChild( this.graph );
+    this.addChild( this.intensity );
 
     // layout
     axesPath.bottom = 0;
     axesPath.left = 0;
     this.graph.bottom = axesPath.bottom;
     this.graph.left = axesPath.left;
+    this.intensity.bottom = axesPath.bottom;
+    this.intensity.left - axesPath.left;
     horizontalTickLabelZero.top = axesPath.bottom;
     horizontalTickLabelZero.centerX = axesPath.left;
     horizontalTickLabelMax.top = axesPath.bottom;
