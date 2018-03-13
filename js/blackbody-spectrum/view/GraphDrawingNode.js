@@ -157,7 +157,7 @@ define( function( require ) {
     var graphBottom = 0;
     var minorTickSpacing = 20; // initial value
 
-    var updateTicks = function( minorTickSpacing ) {
+    function updateTicks( minorTickSpacing ) {
 
       var numberOfTicks = Util.roundSymmetric( HORIZONTAL_GRAPH_LENGTH / minorTickSpacing );
       var deltaX = HORIZONTAL_GRAPH_LENGTH / numberOfTicks;
@@ -171,7 +171,7 @@ define( function( require ) {
         shape.moveTo( x, graphBottom ).lineTo( x, graphBottom - tickLength );
       }
       ticks.shape = shape;
-    };
+    }
 
     // label for ticks
     var horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 32 ), fill: COLOR_TICK_LABEL } );
@@ -219,7 +219,7 @@ define( function( require ) {
       left: ultravioletPosition + axesPath.left
     } );
 
-    var updateSpectrum = function( scaleX ) {
+    function updateSpectrum( scaleX ) {
       ultravioletPosition = ultravioletPosition / scaleX;
       spectrum.scale( new Vector2( 1 / scaleX, 1 ) );
       var spectrumPosition = ultravioletPosition + self.graph.left;
@@ -234,7 +234,7 @@ define( function( require ) {
         spectrum.visible = true;
         spectrum.left = ultravioletPosition + self.graph.left;
       }
-    };
+    }
 
     // observers
     model.temperatureProperty.link( function( temperature ) {
