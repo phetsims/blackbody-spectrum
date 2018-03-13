@@ -92,7 +92,8 @@ define( function( require ) {
     // TODO annotate:  public/private ?
     this.graph = new Path( null, {
       stroke: GRAPH_CURVE_STROKE,
-      lineWidth: GRAPH_CURVE_LINE_WIDTH
+      lineWidth: GRAPH_CURVE_LINE_WIDTH,
+      lineJoin: 'round'
     } );
 
     // new path for intensity, area under the curve
