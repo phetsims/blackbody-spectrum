@@ -67,7 +67,7 @@ define( function( require ) {
     // {Property.<number>}  zoom number for the vertical axis of the graph
     var verticalZoomProperty = new NumberProperty( 0 );
 
-    var verticalMax = 100; // initial value for the maximum Y coordinate label in MW per m^2 per micron;
+    var verticalMax = 100; // initial value for the maximum Y coordinate label in MW per m^2 per micron
 
     var verticalAxisLabelNode = new Text( verticalLabelIntensityString, {
       font: new PhetFont( 28 ),
