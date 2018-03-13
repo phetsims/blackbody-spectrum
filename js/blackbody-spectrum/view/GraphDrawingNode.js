@@ -35,6 +35,7 @@ define( function( require ) {
   var GRAPH_AXES_COLOR = 'white';
   var GRAPH_CURVE_STROKE = 'red';
   var SAVED_GRAPH_CURVE_STROKE = 'yellow';
+  var INTENSITY_COLOR = 'white';
 
   var HORIZONTAL_ZOOM_SCALING_FACTOR = 2;
   var VERTICAL_ZOOM_SCALING_FACTOR = Math.sqrt( 10 );
@@ -82,6 +83,11 @@ define( function( require ) {
       fill: COLOR_AXIS_LABEL
     } );
 
+    var intensityTextNode = new Text( '?', {
+      font: new PhetFont( 15 ),
+      fill: INTENSITY_COLOR
+    } );
+
     // graph: blackbody curve
     // TODO annotate:  public/private ?
     this.graph = new Path( null, {
@@ -91,6 +97,9 @@ define( function( require ) {
 
     // new path for intensity, area under the curve
     this.intensity = new Path( null );
+    this.intensity.addChild( intensityTextNode );
+    intensityTextNode.bottom = this.intensity.bottom - 10;
+    intensityTextNode.centerX = this.intensity.centerX;
 
     model.intensityVisibleProperty.link( function( intensityVisible ) {
       if ( intensityVisible ) {
@@ -102,7 +111,8 @@ define( function( require ) {
     } );
 
     var scaleY = 1;
-    var updateGraph = function( graph, temperature, intensity ) {
+
+    function updateGraph( graph, temperature, intensity ) {
       var graphShape = new Shape();
 
       var i;
@@ -124,8 +134,7 @@ define( function( require ) {
       if ( intensity ) {
         intensity.shape = graphShape.copy().lineTo( HORIZONTAL_GRAPH_LENGTH, 0 );
       }
-
-    };
+    }
 
     // axes for the graph
     var axesShape = new Shape()
@@ -254,7 +263,7 @@ define( function( require ) {
       }
 
       // reset zoom level to zero
-      // TODO: this is not best practice: it generate two calls.
+      // TODO: this is not best practice: it generates two calls.
       horizontalZoomProperty.reset();
     } );
 
