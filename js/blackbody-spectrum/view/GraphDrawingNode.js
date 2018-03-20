@@ -136,7 +136,7 @@ define( function( require ) {
         intensity.shape = graphShape.copy();
         var newPoint = new Vector2( HORIZONTAL_GRAPH_LENGTH, 0 );
         if ( intensity.shape.getLastPoint().minus( newPoint ).magnitude() > 0 ) {
-          intensity.shape.lineTo( HORIZONTAL_GRAPH_LENGTH, 0 );
+          intensity.shape.lineToPoint( newPoint );
         }
       }
     }
