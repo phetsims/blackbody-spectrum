@@ -134,7 +134,8 @@ define( function( require ) {
       graph.shape = graphShape;
       if ( intensity ) {
         intensity.shape = graphShape.copy();
-        if ( intensity.shape.containsPoint( new Vector2( HORIZONTAL_GRAPH_LENGTH, 0 ) ) ) {
+        var newPoint = new Vector2( HORIZONTAL_GRAPH_LENGTH, 0 );
+        if ( intensity.shape.getLastPoint().minus( newPoint ).magnitude() > 0 ) {
           intensity.shape.lineTo( HORIZONTAL_GRAPH_LENGTH, 0 );
         }
       }
