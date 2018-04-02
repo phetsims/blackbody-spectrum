@@ -154,6 +154,18 @@ define( function( require ) {
     },
 
     /**
+     * Function that returns the peak wavelength of a blackbody
+     * for a given temperature.
+     * @public
+     * @param {number} temperature
+     * @returns {number}
+     */
+    peakWavelength: function( temperature ) {
+      var peakWavelength = WIEN_CONSTANT / temperature;
+      return peakWavelength;
+    },
+
+    /**
      * Function that returns a red color with an intensity that matches the blackbody temperature
      * @public
      * @param {number} temperature
