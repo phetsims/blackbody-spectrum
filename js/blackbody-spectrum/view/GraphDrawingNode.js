@@ -139,6 +139,9 @@ define( function( require ) {
           intensity.shape.lineToPoint( newPoint );
         }
       }
+
+      intensityTextNode.bottom = self.intensity.bottom - 10;
+      intensityTextNode.centerX = self.intensity.centerX;
     }
 
     // axes for the graph

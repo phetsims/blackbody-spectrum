@@ -21,6 +21,8 @@ define( function( require ) {
   var GRAPH_NUMBER_POINTS = 300; // number of points blackbody curve is evaluated at
   var FIRST_RADIATION_CONSTANT = 1.191042e-16; // is equal to 2 hc^2  in units of watts*m^2/steradian
   var SECOND_RADIATION_CONSTANT = 1.438770e7; // is equal to  hc/k  in units of nanometer-kelvin
+  var WIEN_CONSTANT = 2.897773e-3; // is equal to b in units of meters-kelvin
+  var STEFAN_BOLTZMANN_CONSTANT = 5.670373e-8; // is equal to sigma in units of watts/(m^2*K^4)
 
   var POWER_EXPONENT = 0.7;   // an exponent to calculate the renormalized temperature
   // colors used for glowing star and circles
@@ -80,8 +82,8 @@ define( function( require ) {
         intensityRadiation = 0;
       }
       else {
-        prefactor = (FIRST_RADIATION_CONSTANT / Math.pow( wavelength, 5 ));
-        exponentialTerm = 1 / (Math.exp( SECOND_RADIATION_CONSTANT / (wavelength * temperature) ) - 1);
+        prefactor = ( FIRST_RADIATION_CONSTANT / Math.pow( wavelength, 5 ) );
+        exponentialTerm = 1 / ( Math.exp( SECOND_RADIATION_CONSTANT / ( wavelength * temperature ) ) - 1 );
         intensityRadiation = prefactor * exponentialTerm;
       }
       return intensityRadiation;
@@ -102,14 +104,14 @@ define( function( require ) {
       var temperatureMinimum = 700; // temp(K) at which color of the circles and star turns on
       var temperatureMaximum = 3000; // temp(K) at which color of the circles maxes out
 
-      return Math.pow( Math.max( temperature - temperatureMinimum, 0 ) / (temperatureMaximum - temperatureMinimum), POWER_EXPONENT ); //
+      return Math.pow( Math.max( temperature - temperatureMinimum, 0 ) / ( temperatureMaximum - temperatureMinimum ), POWER_EXPONENT ); //
     },
 
     /**
      * Function that returns a color intensity (an integer ranging from 0 to 255) for a given wavelength and temperature
      * @private
      * @param {number} wavelength - in nanometer
-     * @param {number} temperature - in meter
+     * @param {number} temperature - in kelvin
      * @returns {number}
      */
     renormalizedColorIntensity: function( wavelength, temperature ) {
@@ -136,6 +138,19 @@ define( function( require ) {
         this.intensityArray[ i ] = this.intensityRadiation( wavelength, temperature );
       }
       return this.intensityArray;
+    },
+
+    /**
+     * Function that returns the total intensity (area under the curve) of a blackbody
+     * for a given temperature.
+     * @public
+     * @param {number} temperature
+     * @returns {number}
+     */
+    totalIntensity: function( temperature ) {
+      var powerTerm = Math.pow( temperature, 4 );
+      var totalIntensity = STEFAN_BOLTZMANN_CONSTANT * powerTerm;
+      return totalIntensity;
     },
 
     /**
