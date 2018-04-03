@@ -17,11 +17,12 @@ define( function( require ) {
   var NumberProperty = require( 'AXON/NumberProperty' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var Shape = require( 'KITE/Shape' );
   var SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
   var RichText = require( 'SCENERY/nodes/RichText' );
-  var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
@@ -51,7 +52,7 @@ define( function( require ) {
   var horizontalLabelWavelengthString = require( 'string!BLACKBODY_SPECTRUM/horizontalLabelWavelength' );
   var subtitleLabelString = require( 'string!BLACKBODY_SPECTRUM/subtitleLabel' );
   var verticalLabelIntensityString = require( 'string!BLACKBODY_SPECTRUM/verticalLabelIntensity' );
-  var intensityUnitsString = require( 'string!BLACKBODY_SPECTRUM/intensityUnits' );
+  var intensityLabelPatternString = require( 'string!BLACKBODY_SPECTRUM/intensityLabelPattern' );
 
   /**
    *
@@ -154,8 +155,7 @@ define( function( require ) {
         formattedString += ' X 10<sup>' + notationObject.exponent + '</sup>';
       }
 
-      formattedString += ' ' + intensityUnitsString;
-      intensityTextNode.text = formattedString;
+      intensityTextNode.text = StringUtils.fillIn( intensityLabelPatternString, { intensity: formattedString } );
     }
 
     // axes for the graph
