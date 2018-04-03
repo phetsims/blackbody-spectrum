@@ -141,27 +141,25 @@ define( function( require ) {
     },
 
     /**
-     * Function that returns the total intensity (area under the curve) of a blackbody
-     * for a given temperature.
+     * Function that returns the total intensity (area under the curve) of a blackbody for a given temperature.
      * @public
      * @param {number} temperature
      * @returns {number}
      */
-    totalIntensity: function( temperature ) {
-      var powerTerm = Math.pow( temperature, 4 );
+    get totalIntensity() {
+      var powerTerm = Math.pow( this.temperatureProperty.get(), 4 );
       var totalIntensity = STEFAN_BOLTZMANN_CONSTANT * powerTerm;
       return totalIntensity;
     },
 
     /**
-     * Function that returns the peak wavelength (in nanometers) of a blackbody
-     * for a given temperature.
+     * Function that returns the peak wavelength (in nanometers) of a blackbody for a given temperature.
      * @public
      * @param {number} temperature
      * @returns {number}
      */
-    peakWavelength: function( temperature ) {
-      var peakWavelength = 1e9 * WIEN_CONSTANT / temperature;
+    get peakWavelength() {
+      var peakWavelength = 1e9 * WIEN_CONSTANT / this.temperatureProperty.get();
       return peakWavelength;
     },
 

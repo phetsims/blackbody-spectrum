@@ -143,8 +143,8 @@ define( function( require ) {
       }
 
       intensityTextNode.bottom = self.intensity.bottom - 10;
-      intensityTextNode.centerX = HORIZONTAL_GRAPH_LENGTH * ( model.peakWavelength( temperature ) / model.wavelengthMax );
-      intensityTextNode.text = model.totalIntensity( temperature );
+      intensityTextNode.centerX = HORIZONTAL_GRAPH_LENGTH * ( model.peakWavelength / model.wavelengthMax );
+      intensityTextNode.text = model.totalIntensity;
     }
 
     // axes for the graph
