@@ -105,9 +105,11 @@ define( function( require ) {
     model.intensityVisibleProperty.link( function( intensityVisible ) {
       if ( intensityVisible ) {
         self.intensity.fill = 'rgba(100,100,100,0.75)';
+        intensityTextNode.visible = true;
       }
       else {
         self.intensity.fill = null;
+        intensityTextNode.visible = false;
       }
     } );
 

@@ -154,14 +154,14 @@ define( function( require ) {
     },
 
     /**
-     * Function that returns the peak wavelength of a blackbody
+     * Function that returns the peak wavelength (in nanometers) of a blackbody
      * for a given temperature.
      * @public
      * @param {number} temperature
      * @returns {number}
      */
     peakWavelength: function( temperature ) {
-      var peakWavelength = WIEN_CONSTANT / temperature;
+      var peakWavelength = 1e9 * WIEN_CONSTANT / temperature;
       return peakWavelength;
     },
 
