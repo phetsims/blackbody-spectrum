@@ -20,6 +20,8 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
+  var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
@@ -49,6 +51,7 @@ define( function( require ) {
   var horizontalLabelWavelengthString = require( 'string!BLACKBODY_SPECTRUM/horizontalLabelWavelength' );
   var subtitleLabelString = require( 'string!BLACKBODY_SPECTRUM/subtitleLabel' );
   var verticalLabelIntensityString = require( 'string!BLACKBODY_SPECTRUM/verticalLabelIntensity' );
+  var intensityUnitsString = require( 'string!BLACKBODY_SPECTRUM/intensityUnits' );
 
   /**
    *
@@ -83,7 +86,7 @@ define( function( require ) {
       fill: COLOR_AXIS_LABEL
     } );
 
-    var intensityTextNode = new Text( '?', {
+    var intensityTextNode = new RichText( '?', {
       font: new PhetFont( 15 ),
       fill: INTENSITY_COLOR
     } );
@@ -144,7 +147,15 @@ define( function( require ) {
 
       intensityTextNode.bottom = self.intensity.bottom - 10;
       intensityTextNode.centerX = HORIZONTAL_GRAPH_LENGTH * ( model.peakWavelength / model.wavelengthMax );
-      intensityTextNode.text = model.totalIntensity;
+      var notationObject = ScientificNotationNode.toScientificNotation( model.totalIntensity, { mantissaDecimalPlaces: 2 } );
+      var formattedString = notationObject.mantissa;
+
+      if ( notationObject.exponent !== '0' ) {
+        formattedString += ' X 10<sup>' + notationObject.exponent + '</sup>';
+      }
+
+      formattedString += ' ' + intensityUnitsString;
+      intensityTextNode.text = formattedString;
     }
 
     // axes for the graph

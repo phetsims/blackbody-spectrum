@@ -55,5 +55,8 @@
   },
   "labels": {
     "value": "Labels"
+  },
+  "intensityUnits": {
+    "value": "W/m<sup>2</sup>"
   }
 }
