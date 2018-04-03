@@ -66,7 +66,8 @@ define( function( require ) {
     var self = this;
 
     // {Property.<number>}  zoom number for the horizontal axis of the graph, positive means zooming in
-    var horizontalZoomProperty = new NumberProperty( 0 ); // effective zoom is HORIZONTAL_ZOOM_SCALING_FACTOR^horizontalZoomProperty.value
+    // effective zoom is HORIZONTAL_ZOOM_SCALING_FACTOR^horizontalZoomProperty.value
+    var horizontalZoomProperty = new NumberProperty( 0 );
 
     // {Property.<number>}  zoom number for the vertical axis of the graph
     var verticalZoomProperty = new NumberProperty( 0 );
@@ -148,7 +149,9 @@ define( function( require ) {
 
       intensityTextNode.bottom = self.intensity.bottom - 10;
       intensityTextNode.centerX = HORIZONTAL_GRAPH_LENGTH * ( model.peakWavelength / model.wavelengthMax );
-      var notationObject = ScientificNotationNode.toScientificNotation( model.totalIntensity, { mantissaDecimalPlaces: 2 } );
+      var notationObject = ScientificNotationNode.toScientificNotation( model.totalIntensity, {
+        mantissaDecimalPlaces: 2
+      } );
       var formattedString = notationObject.mantissa;
 
       if ( notationObject.exponent !== '0' ) {
