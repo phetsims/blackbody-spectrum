@@ -141,7 +141,8 @@ define( function( require ) {
       }
 
       intensityTextNode.bottom = self.intensity.bottom - 10;
-      intensityTextNode.centerX = self.intensity.centerX;
+      intensityTextNode.centerX = HORIZONTAL_GRAPH_LENGTH * ( model.peakWavelength( temperature ) / model.wavelengthMax );
+      intensityTextNode.text = model.totalIntensity( temperature );
     }
 
     // axes for the graph
