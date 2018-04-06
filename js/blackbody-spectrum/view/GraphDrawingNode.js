@@ -147,8 +147,12 @@ define( function( require ) {
         }
       }
 
-      intensityTextNode.bottom = self.intensity.bottom - 10;
-      intensityTextNode.centerX = HORIZONTAL_GRAPH_LENGTH * ( model.peakWavelength / model.wavelengthMax );
+      var xPeak = numberPoints * ( model.peakWavelength / model.wavelengthMax );
+      var yPeak = -newScaleY * y[ Math.floor( xPeak ) ];
+      intensityTextNode.bottom = yPeak / 3;
+
+      intensityTextNode.centerX = HORIZONTAL_GRAPH_LENGTH * ( model.peakWavelength / model.wavelengthMax ) + 20;
+
       var notationObject = ScientificNotationNode.toScientificNotation( model.totalIntensity, {
         mantissaDecimalPlaces: 2
       } );
