@@ -118,23 +118,21 @@ define( function( require ) {
       }
     } );
 
-    var scaleY = 1;
-
     function updateGraph( graph, temperature, intensity ) {
       var graphShape = new Shape();
 
       var i;
-      var y = model.coordinatesY( temperature );
-      var lengthArray = y.length;
+      var radianceArray = model.coordinatesY( temperature );
+      var lengthArray = radianceArray.length;
 
-      var numberPoints = y.length;
-      var deltaX = HORIZONTAL_GRAPH_LENGTH / ( numberPoints - 1 );
-      var deltaY = VERTICAL_GRAPH_LENGTH / ( verticalMax );
-      var newScaleY = scaleY * 1e33 * deltaY; // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
-      graphShape.moveTo( 0, -newScaleY * y[ 0 ] );
+      var numberPoints = radianceArray.length;
+      var deltaWavelength = HORIZONTAL_GRAPH_LENGTH / ( numberPoints - 1 );
+      var deltaRadiance = VERTICAL_GRAPH_LENGTH / ( verticalMax );
+      var radianceScale = 1e33 * deltaRadiance; // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
+      graphShape.moveTo( 0, -radianceScale * radianceArray[ 0 ] );
 
       for ( i = 1; i < lengthArray; i++ ) {
-        graphShape.lineTo( deltaX * i, -newScaleY * y[ i ] ); /// need to flip y axis
+        graphShape.lineTo( deltaWavelength * i, -radianceScale * radianceArray[ i ] ); /// need to flip y axis
       }
 
       // Easiest way to implement intensity shape is to copy graph shape and bring down to x-axis
@@ -147,9 +145,9 @@ define( function( require ) {
         }
       }
 
-      var xPeak = numberPoints * ( model.peakWavelength / model.wavelengthMax );
-      var yPeak = -newScaleY * y[ Math.floor( xPeak ) ];
-      intensityTextNode.bottom = yPeak / 3;
+      var wavelengthPeak = numberPoints * ( model.peakWavelength / model.wavelengthMax );
+      var radiancePeak = -radianceScale * radianceArray[ Math.floor( wavelengthPeak ) ];
+      intensityTextNode.bottom = radiancePeak / 3;
 
       intensityTextNode.centerX = HORIZONTAL_GRAPH_LENGTH * ( model.peakWavelength / model.wavelengthMax ) + 20;
 
