@@ -145,11 +145,19 @@ define( function( require ) {
         }
       }
 
-      var wavelengthPeak = numberPoints * ( model.peakWavelength / model.wavelengthMax );
+      var wavelengthPeakScale = model.peakWavelength / model.wavelengthMax;
+      if ( wavelengthPeakScale > 0.85 ) {
+        wavelengthPeakScale = 0.85;
+      }
+      var wavelengthPeak = numberPoints * ( wavelengthPeakScale );
       var radiancePeak = -radianceScale * radianceArray[ Math.floor( wavelengthPeak ) ];
-      intensityTextNode.bottom = radiancePeak / 3;
+      var verticalTextPlacement = radiancePeak / 3;
+      if ( verticalTextPlacement > -20 ) {
+        verticalTextPlacement = -20;
+      }
+      intensityTextNode.bottom = verticalTextPlacement;
 
-      intensityTextNode.centerX = HORIZONTAL_GRAPH_LENGTH * ( model.peakWavelength / model.wavelengthMax ) + 20;
+      intensityTextNode.centerX = HORIZONTAL_GRAPH_LENGTH * ( wavelengthPeakScale ) + 20;
 
       var notationObject = ScientificNotationNode.toScientificNotation( model.totalIntensity, {
         mantissaDecimalPlaces: 2
