@@ -19,7 +19,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var Shape = require( 'KITE/Shape' );
-  var SpectrumNode = require( 'SCENERY_PHET/SpectrumNode' );
+  var WavelengthSpectrumNode = require( 'SCENERY_PHET/WavelengthSpectrumNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
   var RichText = require( 'SCENERY/nodes/RichText' );
@@ -245,7 +245,7 @@ define( function( require ) {
     var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, INFRARED_WAVELENGTH );
     var ultravioletPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH );
     var widthSpectrum = infraredPosition - ultravioletPosition;
-    var spectrum = new SpectrumNode( {
+    var wavelengthSpectrumNode = new WavelengthSpectrumNode( {
       size: new Dimension2( widthSpectrum, VERTICAL_GRAPH_LENGTH ),
       minWavelength: ULTRAVIOLET_WAVELENGTH,
       maxWavelength: INFRARED_WAVELENGTH,
@@ -255,18 +255,18 @@ define( function( require ) {
 
     function updateSpectrum( scaleX ) {
       ultravioletPosition = ultravioletPosition / scaleX;
-      spectrum.scale( new Vector2( 1 / scaleX, 1 ) );
+      wavelengthSpectrumNode.scale( new Vector2( 1 / scaleX, 1 ) );
       var spectrumPosition = ultravioletPosition + self.graph.left;
       var isSpectrumOffTheAxis = spectrumPosition > self.graph.right;
-      spectrum.left = ultravioletPosition + self.graph.left;
+      wavelengthSpectrumNode.left = ultravioletPosition + self.graph.left;
       // spectrum.visible = true;
       //  spectrum.clipArea= Shape.rectangle(self.left,self.top,HORIZONTAL_GRAPH_LENGTH,VERTICAL_GRAPH_LENGTH);
       if ( isSpectrumOffTheAxis ) {
-        spectrum.visible = false;
+        wavelengthSpectrumNode.visible = false;
       }
       else {
-        spectrum.visible = true;
-        spectrum.left = ultravioletPosition + self.graph.left;
+        wavelengthSpectrumNode.visible = true;
+        wavelengthSpectrumNode.left = ultravioletPosition + self.graph.left;
       }
     }
 
@@ -348,7 +348,7 @@ define( function( require ) {
       verticalZoomProperty.set( +1 );
     } );
 
-    this.addChild( spectrum );
+    this.addChild( wavelengthSpectrumNode );
     this.addChild( horizontalTickLabelZero );
     this.addChild( horizontalTickLabelMax );
     this.addChild( verticalTickLabelMax );
@@ -383,7 +383,7 @@ define( function( require ) {
     verticalZoomButtons.bottom = axesPath.top + 35;
     verticalZoomInButton.centerX = verticalZoomOutButton.centerX;
     verticalZoomInButton.bottom = verticalZoomOutButton.top - 10;
-    spectrum.bottom = axesPath.bottom;
+    wavelengthSpectrumNode.bottom = axesPath.bottom;
     verticalAxisLabelNode.top = verticalZoomButtons.bottom + 20;
     verticalAxisLabelNode.right = axesPath.left - 20;
     horizontalAxisTopLabelNode.top = axesPath.bottom + 20;
