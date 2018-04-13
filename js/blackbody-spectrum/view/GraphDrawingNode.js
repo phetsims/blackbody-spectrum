@@ -45,8 +45,8 @@ define( function( require ) {
 
   // constants for ticks
   var MINOR_TICKS_PER_MAJOR_TICK = 5;
-  var MAJOR_TICK_LENGTH = 30;
-  var MINOR_TICK_LENGTH = 15;
+  var MAJOR_TICK_LENGTH = 20;
+  var MINOR_TICK_LENGTH = 10;
 
   // strings
   var horizontalLabelWavelengthString = require( 'string!BLACKBODY_SPECTRUM/horizontalLabelWavelength' );
