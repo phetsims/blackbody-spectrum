@@ -40,6 +40,12 @@ define( function( require ) {
   var SAVED_GRAPH_CURVE_STROKE = 'yellow';
   var INTENSITY_COLOR = 'white';
 
+  var HORIZONTAL_ZOOM_DEFAULT = 3000; // default wavelength in nanometers
+  var VERTICAL_ZOOM_DEFAULT = 100;
+  var HORIZONTAL_MIN_ZOOM = 750;
+  var HORIZONTAL_MAX_ZOOM = 12000;
+  var VERTICAL_MIN_ZOOM = 1000;
+  var VERTICAL_MAX_ZOOM = 10;
   var HORIZONTAL_ZOOM_SCALING_FACTOR = 2;
   var VERTICAL_ZOOM_SCALING_FACTOR = Math.sqrt( 10 );
 
@@ -67,10 +73,10 @@ define( function( require ) {
 
     // {Property.<number>}  zoom number for the horizontal axis of the graph, positive means zooming in
     // effective zoom is HORIZONTAL_ZOOM_SCALING_FACTOR^horizontalZoomProperty.value
-    var horizontalZoomProperty = new NumberProperty( 0 );
+    var horizontalZoomProperty = new NumberProperty( HORIZONTAL_ZOOM_DEFAULT );
 
     // {Property.<number>}  zoom number for the vertical axis of the graph
-    var verticalZoomProperty = new NumberProperty( 0 );
+    var verticalZoomProperty = new NumberProperty( VERTICAL_ZOOM_DEFAULT );
 
     var verticalMax = 100; // initial value for the maximum Y coordinate label in MW per m^2 per micron
 
@@ -253,7 +259,8 @@ define( function( require ) {
       left: ultravioletPosition + axesPath.left
     } );
 
-    function updateSpectrum( scaleX ) {
+    function updateSpectrum() {
+      var scaleX = model.wavelengthMax / HORIZONTAL_ZOOM_DEFAULT;
       ultravioletPosition = ultravioletPosition / scaleX;
       spectrum.scale( new Vector2( 1 / scaleX, 1 ) );
       var spectrumPosition = ultravioletPosition + self.graph.left;
@@ -277,13 +284,12 @@ define( function( require ) {
 
     horizontalZoomProperty.link( function( horizontalZoom ) {
 
-      var scaleX = Math.pow( HORIZONTAL_ZOOM_SCALING_FACTOR, horizontalZoom );
-
-      model.wavelengthMax = model.wavelengthMax * scaleX;
+      model.wavelengthMax = horizontalZoom;
+      var scaleX = model.wavelengthMax / HORIZONTAL_ZOOM_DEFAULT;
       minorTickSpacing = minorTickSpacing / scaleX;
 
       // spectrum position and width
-      updateSpectrum( scaleX );
+      updateSpectrum();
 
       // update tick label
       horizontalTickLabelMax.text = model.wavelengthMax / 1000; // from nm to micron
@@ -297,21 +303,23 @@ define( function( require ) {
         updateGraph( self.savedGraph, self.savedTemperature );
       }
 
-      // reset zoom level to zero
-      // TODO: this is not best practice: it generates two calls.
-      horizontalZoomProperty.reset();
+      horizontalZoomOutButton.setEnabled( horizontalZoom > HORIZONTAL_MIN_ZOOM );
+      horizontalZoomInButton.setEnabled( horizontalZoom < HORIZONTAL_MAX_ZOOM );
+
     } );
 
     verticalZoomProperty.link( function( verticalZoom ) {
 
-      verticalMax = verticalMax * Math.pow( VERTICAL_ZOOM_SCALING_FACTOR, verticalZoom );
-      verticalTickLabelMax.text = Util.toFixed( verticalMax, 0 ); // from nm to micron
+      verticalTickLabelMax.text = Util.toFixed( verticalZoom, 0 ); // from nm to micron
 
       updateGraph( self.graph, model.temperatureProperty.value, self.intensity );
       if ( self.savedGraph ) {
         updateGraph( self.savedGraph, self.savedTemperature );
       }
-      verticalZoomProperty.reset(); // reset zoom
+
+      verticalZoomOutButton.setEnabled( verticalZoom > VERTICAL_MIN_ZOOM );
+      verticalZoomInButton.setEnabled( verticalZoom < VERTICAL_MAX_ZOOM );
+
     } );
 
     //TODO use trigger and axon/Events instead
@@ -319,33 +327,19 @@ define( function( require ) {
 
     // handle zoom of graph
     horizontalZoomInButton.addListener( function() {
-      horizontalZoomOutButton.setEnabled( true );
-      if ( model.wavelengthMax > 100 ) {
-        horizontalZoomProperty.set( -1 );
-        horizontalZoomInButton.setEnabled( true );
-      }
-      else {
-        horizontalZoomInButton.setEnabled( false );
-      }
+      horizontalZoomProperty.value *= HORIZONTAL_ZOOM_SCALING_FACTOR;
     } );
 
     horizontalZoomOutButton.addListener( function() {
-      horizontalZoomInButton.setEnabled( true );
-      if ( model.wavelengthMax < 10000 ) {
-        horizontalZoomProperty.set( +1 );
-        horizontalZoomOutButton.setEnabled( true );
-      }
-      else {
-        horizontalZoomOutButton.setEnabled( false );
-      }
+      horizontalZoomProperty.value *= 1 / HORIZONTAL_ZOOM_SCALING_FACTOR;
     } );
 
     // handle zoom of graph
     verticalZoomInButton.addListener( function() {
-      verticalZoomProperty.set( -1 );
+      verticalZoomProperty.value *= VERTICAL_ZOOM_SCALING_FACTOR;
     } );
     verticalZoomOutButton.addListener( function() {
-      verticalZoomProperty.set( +1 );
+      verticalZoomProperty.value *= 1 / VERTICAL_ZOOM_SCALING_FACTOR;
     } );
 
     this.addChild( spectrum );
