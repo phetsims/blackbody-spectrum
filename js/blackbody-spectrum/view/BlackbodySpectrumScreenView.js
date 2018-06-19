@@ -57,35 +57,41 @@ define( function( require ) {
    */
   function BlackbodySpectrumScreenView( model ) {
 
+    // Note: coordinates go where x axis is from bottom to top, and y axis is from left to right
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 1024, 618 ) } );
 
     var blackbodySpectrumThermometer = new BlackbodySpectrumThermometer( model.temperatureProperty );
 
-    // custom thumb
+    // The selectable triangle for the temperature slider
     var thumbSize = new Dimension2( 20, 20 );
     var triangleNode = new TriangleSliderThumb( { size: thumbSize } );
     triangleNode.touchArea = triangleNode.localBounds.dilatedXY( 10, 10 );
 
+    // The text display for current selected temperature of the slider
     var temperatureNode = new Text( '?', { font: TEMPERATURE_FONT, fill: TEMPERATURE_COLOR } );
     temperatureNode.rotation = Math.PI / 2;
 
+    // Parent that keeps the TriangleSliderThumb bundled with the temperature text
     var thumbNode = new Node( { size: new Dimension2( 20, 40 ) } );
     thumbNode.addChild( triangleNode );
     thumbNode.addChild( temperatureNode );
 
+    // Aligns the temperature text just to the right of the TriangleSliderThumb
     temperatureNode.top = triangleNode.bottom + 5;
+    // Aligns the temperature text to be along the same vertical space as the TriangleSliderThumb
     temperatureNode.centerX = triangleNode.centerX;
 
-    // temperature slider, in kelvin
+    // Creates a temperature slider in Kelvin with a range that is clamped between MIN_TEMPERATURE and MAX_TEMPERATURE
     var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.temperatureProperty.value );
     var temperatureSlider = new HSlider( model.temperatureProperty, temperatureRange, {
       trackSize: new Dimension2( 400, 5 ),
       thumbNode: thumbNode,
       thumbYOffset: 25
     } );
-    temperatureSlider.rotation = -Math.PI / 2; // set it to vertical
+    temperatureSlider.rotation = -Math.PI / 2; // Sets the temperatureSlider to be vertical
     var thermometerLabel = new MultiLineText( blackbodyTemperatureString, { font: TITLE_FONT, fill: TITLE_COLOR } );
 
+    // The indicators that show how much red, blue, and green the current temperature would emit
     var circleBlue = new Circle( CIRCLE_RADIUS );
     var circleGreen = new Circle( CIRCLE_RADIUS );
     var circleRed = new Circle( CIRCLE_RADIUS );
@@ -95,6 +101,7 @@ define( function( require ) {
     var glowingStarHalo = new Circle( 10 );
     var starPath = new StarPath();
 
+    // Links the current temperature to the RGB indicators and the temperature text along the TriangleSliderThumb
     model.temperatureProperty.link( function( temperature ) {
       circleBlue.fill = model.getBluColor( temperature );
       circleGreen.fill = model.getGreColor( temperature );
@@ -103,8 +110,7 @@ define( function( require ) {
       glowingStarHalo.radius = model.getGlowingStarHaloRadius( temperature );
       starPath.fill = model.getStarColor( temperature );
       starPath.stroke = model.getStarColor( temperature );
-      temperatureNode.text = Util.toFixed( temperature, VALUE_DECIMAL_PLACES );
-      temperatureNode.text = temperatureNode.text + ' K';
+      temperatureNode.text = Util.toFixed( temperature, VALUE_DECIMAL_PLACES ) + ' K';
     } );
 
     // create graph with zoom buttons

@@ -1,6 +1,7 @@
 // Copyright 2014-2018, University of Colorado Boulder
 
 /**
+ * CURRENTLY NOT IN USE
  * Ruler Node with a drag handler that is constrained to some (optional) bounds.
  *
  * @author Martin Veillette (Berea College)

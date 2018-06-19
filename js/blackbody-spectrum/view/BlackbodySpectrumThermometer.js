@@ -92,7 +92,7 @@ define( function( require ) {
       children: [ tickNode, textNode ]
     } );
 
-    tickNode.right = -tickMarkLength;
+    tickNode.right = -0.5 * options.tubeWidth;
     tickNode.centerY = objectHeight;
     textNode.centerY = objectHeight;
     textNode.right = tickNode.left - 10;
@@ -101,7 +101,7 @@ define( function( require ) {
   }
 
   /**
-   * map function that relates a temperature to a height
+   * Returns a function that will output a height given a temperature (maps each temperature to a height)
    * @param {Object} options - options that were provided to BlackbodySpectrumThermometer constructor
    * @returns {LinearFunction}
    */

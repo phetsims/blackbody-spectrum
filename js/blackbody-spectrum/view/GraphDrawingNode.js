@@ -113,9 +113,10 @@ define( function( require ) {
     intensityTextNode.bottom = this.intensity.bottom - 10;
     intensityTextNode.centerX = this.intensity.centerX;
 
+    // Whether the area under the curve is filled in is reflected by whether the intensity is set to be visible or not
     model.intensityVisibleProperty.link( function( intensityVisible ) {
       if ( intensityVisible ) {
-        self.intensity.fill = 'rgba(100,100,100,0.75)';
+        self.intensity.fill = 'rgba(100,100,100,0.75)'; //TODO move this color into a constant?
         intensityTextNode.visible = true;
       }
       else {
@@ -127,17 +128,15 @@ define( function( require ) {
     function updateGraph( graph, temperature, intensity ) {
       var graphShape = new Shape();
 
-      var i;
       var radianceArray = model.coordinatesY( temperature );
-      var lengthArray = radianceArray.length;
 
       var numberPoints = radianceArray.length;
       var deltaWavelength = HORIZONTAL_GRAPH_LENGTH / ( numberPoints - 1 );
-      var deltaRadiance = VERTICAL_GRAPH_LENGTH / ( verticalMax );
+      var deltaRadiance = VERTICAL_GRAPH_LENGTH / verticalMax;
       var radianceScale = 1e33 * deltaRadiance; // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
       graphShape.moveTo( 0, -radianceScale * radianceArray[ 0 ] );
 
-      for ( i = 1; i < lengthArray; i++ ) {
+      for ( var i = 1; i < radianceArray.length; i++ ) {
         graphShape.lineTo( deltaWavelength * i, -radianceScale * radianceArray[ i ] ); /// need to flip y axis
       }
 
@@ -204,9 +203,9 @@ define( function( require ) {
       var shape = new Shape();
 
       for ( var i = 1; i <= numberOfTicks; i++ ) {
-        var isMajorTick = ( i % MINOR_TICKS_PER_MAJOR_TICK === 0 );
-        var tickLength = ( isMajorTick ? MAJOR_TICK_LENGTH : MINOR_TICK_LENGTH );
-        var x = ( i * deltaX );
+        var isMajorTick = i % MINOR_TICKS_PER_MAJOR_TICK === 0;
+        var tickLength = isMajorTick ? MAJOR_TICK_LENGTH : MINOR_TICK_LENGTH;
+        var x = i * deltaX;
         // horizontal tick
         shape.moveTo( x, graphBottom ).lineTo( x, graphBottom - tickLength );
       }
@@ -259,6 +258,9 @@ define( function( require ) {
       left: ultravioletPosition + axesPath.left
     } );
 
+    /**
+     * Updates the positioning of the visible light spectrum image
+     */
     function updateSpectrum() {
       var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, INFRARED_WAVELENGTH );
       var ultravioletPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH );
@@ -268,8 +270,9 @@ define( function( require ) {
       var spectrumPosition = ultravioletPosition + self.graph.left;
       var isSpectrumOffTheAxis = spectrumPosition > self.graph.right;
       wavelengthSpectrumNode.left = ultravioletPosition + self.graph.left;
+      // TODO: remove dead code?
       // spectrum.visible = true;
-      //  spectrum.clipArea= Shape.rectangle(self.left,self.top,HORIZONTAL_GRAPH_LENGTH,VERTICAL_GRAPH_LENGTH);
+      // spectrum.clipArea= Shape.rectangle(self.left,self.top,HORIZONTAL_GRAPH_LENGTH,VERTICAL_GRAPH_LENGTH);
       if ( isSpectrumOffTheAxis ) {
         wavelengthSpectrumNode.visible = false;
       }
@@ -284,6 +287,7 @@ define( function( require ) {
       updateGraph( self.graph, temperature, self.intensity );
     } );
 
+    // Updates horizontal ticks, graph, and spectrum no horizontal zoom change
     horizontalZoomProperty.link( function( horizontalZoom ) {
 
       model.wavelengthMax = horizontalZoom;
@@ -309,6 +313,7 @@ define( function( require ) {
 
     } );
 
+    // Updates vertical ticks and graph on vertical zoom change
     verticalZoomProperty.link( function( verticalZoom ) {
 
       verticalMax = verticalZoom;
@@ -324,7 +329,7 @@ define( function( require ) {
 
     } );
 
-    //TODO use trigger and axon/Events instead
+    // TODO use trigger and axon/Events instead
     // this.trigger( 'buttonPressed' )
 
     // handle zoom of graph
@@ -416,10 +421,12 @@ define( function( require ) {
      * @public
      */
     clear: function() {
-      if ( this.indexOfChild( this.savedGraph ) !== -1 ) {
-        this.removeChild( this.savedGraph );
-        this.savedGraph = {};
+      if ( this.indexOfChild( this.savedGraph ) === -1 ) {
+        // Saved graph doesn't exist
+        return;
       }
+      this.removeChild( this.savedGraph );
+      this.savedGraph = {};
     },
 
     /**
