@@ -47,8 +47,8 @@
   "blackbodyTemperature": {
     "value": "BlackBody\nTemperature"
   },
-  "peakValues": {
-    "value": "Peak Values"
+  "graphValues": {
+    "value": "Graph Values"
   },
   "intensity": {
     "value": "Intensity"

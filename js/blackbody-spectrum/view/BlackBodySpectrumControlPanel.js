@@ -21,7 +21,7 @@ define( function( require ) {
   // strings
   var saveString = require( 'string!BLACKBODY_SPECTRUM/save' );
   var clearString = require( 'string!BLACKBODY_SPECTRUM/clear' );
-  var peakValuesString = require( 'string!BLACKBODY_SPECTRUM/peakValues' );
+  var graphValuesString = require( 'string!BLACKBODY_SPECTRUM/graphValues' );
   var intensityString = require( 'string!BLACKBODY_SPECTRUM/intensity' );
   var labelsString = require( 'string!BLACKBODY_SPECTRUM/labels' );
 
@@ -58,7 +58,7 @@ define( function( require ) {
     var buttonFont = { font: DISPLAY_FONT, fill: BUTTON_TEXT_FILL };
     var saveText = new Text( saveString, buttonFont );
     var clearText = new Text( clearString, buttonFont );
-    var valuesText = new Text( peakValuesString, checkboxFont );
+    var valuesText = new Text( graphValuesString, checkboxFont );
     var intensityText = new Text( intensityString, checkboxFont );
     var labelsText = new Text( labelsString, checkboxFont );
 
@@ -82,7 +82,7 @@ define( function( require ) {
 
     // 3 checkboxes: Peak Values, Intensity, Labels
     var checkboxOptions = { checkboxColorBackground: CONTROL_PANEL_FILL, checkboxColor: CHECKBOX_COLOR };
-    var valuesCheckbox = new Checkbox( valuesText, model.peakValuesVisibleProperty, checkboxOptions );
+    var valuesCheckbox = new Checkbox( valuesText, model.graphValuesVisibleProperty, checkboxOptions );
     var intensityCheckbox = new Checkbox( intensityText, model.intensityVisibleProperty, checkboxOptions );
     var labelsCheckbox = new Checkbox( labelsText, model.labelsVisibleProperty, checkboxOptions );
 

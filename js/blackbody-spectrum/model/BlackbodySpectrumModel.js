@@ -52,7 +52,7 @@ define( function( require ) {
     this.temperatureProperty = new NumberProperty( 6000 );
 
     // @public {Property.<boolean>}
-    this.peakValuesVisibleProperty = new BooleanProperty( false );
+    this.graphValuesVisibleProperty = new BooleanProperty( false );
 
     // @public {Property.<boolean>}
     this.intensityVisibleProperty = new BooleanProperty( false );
