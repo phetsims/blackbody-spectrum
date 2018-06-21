@@ -29,6 +29,7 @@ define( function( require ) {
   var StarPath = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/StarPath' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
+  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
 
   // strings
   var bString = require( 'string!BLACKBODY_SPECTRUM/b' );
@@ -48,6 +49,9 @@ define( function( require ) {
   var TEMPERATURE_COLOR = Color.WHITE;
   var VALUE_DECIMAL_PLACES = 0;
   var INSET = 10;
+  var ARROW_OPTIONS = {
+    fill: 'white'
+  };
 
   // noinspection JSAnnotator
   /**
@@ -71,10 +75,16 @@ define( function( require ) {
     var temperatureNode = new Text( '?', { font: TEMPERATURE_FONT, fill: TEMPERATURE_COLOR } );
     temperatureNode.rotation = Math.PI / 2;
 
+    // Arrows that will disappear after first drag
+    var topArrow = new ArrowNode( 12, 0, 27, 0, ARROW_OPTIONS );
+    var bottomArrow = new ArrowNode( -12, 0, -27, 0, ARROW_OPTIONS );
+
     // Parent that keeps the TriangleSliderThumb bundled with the temperature text
     var thumbNode = new Node( { size: new Dimension2( 20, 40 ) } );
     thumbNode.addChild( triangleNode );
     thumbNode.addChild( temperatureNode );
+    thumbNode.addChild( topArrow );
+    thumbNode.addChild( bottomArrow );
 
     // Aligns the temperature text below and just to the right of the TriangleSliderThumb
     temperatureNode.top = triangleNode.bottom + 5;
@@ -86,7 +96,11 @@ define( function( require ) {
     var temperatureSlider = new HSlider( model.temperatureProperty, temperatureRange, {
       trackSize: new Dimension2( 400, 5 ),
       thumbNode: thumbNode,
-      thumbYOffset: 25
+      thumbYOffset: 25,
+      endDrag: function() {
+        topArrow.setVisible( false );
+        bottomArrow.setVisible( false );
+      }
     } );
     temperatureSlider.rotation = -Math.PI / 2; // Sets the temperatureSlider to be vertical
     var thermometerLabel = new MultiLineText( blackbodyTemperatureString, { font: TITLE_FONT, fill: TITLE_COLOR } );
@@ -123,6 +137,8 @@ define( function( require ) {
         //   model.wavelengthMax = 100;
         graphNode.reset();
         graphNode.clear();
+        topArrow.setVisible( true );
+        bottomArrow.setVisible( true );
       }
     } );
 
