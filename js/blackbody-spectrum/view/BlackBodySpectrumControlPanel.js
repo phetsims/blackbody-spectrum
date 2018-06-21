@@ -17,6 +17,9 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
+  var Shape = require( 'KITE/Shape' );
+  var Path = require( 'SCENERY/nodes/Path' );
 
   // strings
   var saveString = require( 'string!BLACKBODY_SPECTRUM/save' );
@@ -56,15 +59,26 @@ define( function( require ) {
     // create the text nodes
     var checkboxFont = { font: DISPLAY_FONT, fill: CHECKBOX_TEXT_FILL };
     var buttonFont = { font: DISPLAY_FONT, fill: BUTTON_TEXT_FILL };
-    var saveText = new Text( saveString, buttonFont );
     var clearText = new Text( clearString, buttonFont );
     var valuesText = new Text( graphValuesString, checkboxFont );
     var intensityText = new Text( intensityString, checkboxFont );
     var labelsText = new Text( labelsString, checkboxFont );
 
+    var saveText = new Text( saveString, buttonFont );
+    var saveCurveShape = new Shape().moveTo( 0, 0 ).cubicCurveTo( 20, -75, 40, 0, 60, 0 ).lineTo( 100, 0 );
+    var saveCurvePath = new Path( saveCurveShape, {
+      stroke: 'black',
+      lineWidth: 3,
+      maxWidth: 30
+    } );
+    var saveButtonContent = new HBox( {
+      children: [ saveText, saveCurvePath ],
+      spacing: 10
+    } );
+
     // 2 buttons: Save, Clear
     var saveButton = new RectangularPushButton( {
-      content: saveText,
+      content: saveButtonContent,
       baseColor: BUTTON_COLOR,
       minWidth: options.minWidth - 40,
       listener: function() {
