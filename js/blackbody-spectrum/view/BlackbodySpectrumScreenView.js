@@ -76,7 +76,7 @@ define( function( require ) {
     thumbNode.addChild( triangleNode );
     thumbNode.addChild( temperatureNode );
 
-    // Aligns the temperature text just to the right of the TriangleSliderThumb
+    // Aligns the temperature text below and just to the right of the TriangleSliderThumb
     temperatureNode.top = triangleNode.bottom + 5;
     // Aligns the temperature text to be along the same vertical space as the TriangleSliderThumb
     temperatureNode.centerX = triangleNode.centerX;
