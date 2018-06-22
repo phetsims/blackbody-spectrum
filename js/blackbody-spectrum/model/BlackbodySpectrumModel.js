@@ -38,6 +38,8 @@ define( function( require ) {
    */
   function BlackbodySpectrumModel() {
 
+    // test commit for Andrea, please ignore
+
     // @private
     this.intensityArray = new Array( GRAPH_NUMBER_POINTS ); //Blackbody spectrum intensity
 
