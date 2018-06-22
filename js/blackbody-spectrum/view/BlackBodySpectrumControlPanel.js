@@ -94,6 +94,11 @@ define( function( require ) {
       }
     } );
 
+    // Makes the clearButton enabled when there is a saved graph to clear, and disabled when there is no graph to clear
+    graphNode.hasSavedGraphProperty.link( function( hasSavedGraph ) {
+      clearButton.setEnabled( hasSavedGraph );
+    } );
+
     // 3 checkboxes: Peak Values, Intensity, Labels
     var checkboxOptions = { checkboxColorBackground: CONTROL_PANEL_FILL, checkboxColor: CHECKBOX_COLOR };
     var valuesCheckbox = new Checkbox( valuesText, model.graphValuesVisibleProperty, checkboxOptions );

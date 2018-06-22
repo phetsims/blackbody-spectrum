@@ -50,7 +50,7 @@ define( function( require ) {
   var VALUE_DECIMAL_PLACES = 0;
   var INSET = 10;
   var ARROW_OPTIONS = {
-    fill: 'white'
+    fill: 'green'
   };
 
   // noinspection JSAnnotator
@@ -61,11 +61,11 @@ define( function( require ) {
    */
   function BlackbodySpectrumScreenView( model ) {
 
-    // Note: coordinates go where x axis is from bottom to top, and y axis is from left to right
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 1024, 618 ) } );
 
     var blackbodySpectrumThermometer = new BlackbodySpectrumThermometer( model.temperatureProperty );
 
+    // Note: for HSlider nodes, coordinates go where x axis is from bottom to top, and y axis is from left to right
     // The selectable triangle for the temperature slider
     var thumbSize = new Dimension2( 20, 20 );
     var triangleNode = new TriangleSliderThumb( { size: thumbSize } );
@@ -90,6 +90,9 @@ define( function( require ) {
     temperatureNode.top = triangleNode.bottom + 5;
     // Aligns the temperature text to be along the same vertical space as the TriangleSliderThumb
     temperatureNode.centerX = triangleNode.centerX;
+    // Aligns the cueing arrows to be centered with the temperatureNode
+    topArrow.centerY = temperatureNode.centerY;
+    bottomArrow.centerY = temperatureNode.centerY;
 
     // Creates a temperature slider in Kelvin with a range that is clamped between MIN_TEMPERATURE and MAX_TEMPERATURE
     var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.temperatureProperty.value );

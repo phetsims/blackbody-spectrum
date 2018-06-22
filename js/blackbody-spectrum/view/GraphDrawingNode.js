@@ -26,6 +26,7 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
+  var Property = require( 'AXON/Property' );
 
   // constants
   var INFRARED_WAVELENGTH = 700; // in nm, max bounds for the rainbow spectrum
@@ -392,10 +393,13 @@ define( function( require ) {
     horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
     horizontalAxisBottomLabelNode.centerX = axesPath.centerX;
 
+    // @public
+    this.hasSavedGraphProperty = new Property( false );
 
     this.resetGraphDrawingNode = function() {
       verticalZoomProperty.reset();
       horizontalZoomProperty.reset();
+      self.hasSavedGraphProperty.reset();
     };
   }
 
@@ -414,6 +418,7 @@ define( function( require ) {
       this.savedGraph = new Path( null, { stroke: SAVED_GRAPH_CURVE_STROKE, lineWidth: GRAPH_CURVE_LINE_WIDTH } );
       this.savedGraph.shape = this.graph.shape;
       this.addChild( this.savedGraph );
+      this.hasSavedGraphProperty.set( true );
     },
 
     /**
@@ -427,6 +432,7 @@ define( function( require ) {
       }
       this.removeChild( this.savedGraph );
       this.savedGraph = {};
+      this.hasSavedGraphProperty.set( false );
     },
 
     /**
