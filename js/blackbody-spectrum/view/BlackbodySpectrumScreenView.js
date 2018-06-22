@@ -90,9 +90,6 @@ define( function( require ) {
     temperatureNode.top = triangleNode.bottom + 5;
     // Aligns the temperature text to be along the same vertical space as the TriangleSliderThumb
     temperatureNode.centerX = triangleNode.centerX;
-    // Aligns the cueing arrows to be centered with the temperatureNode
-    topArrow.centerY = temperatureNode.centerY;
-    bottomArrow.centerY = temperatureNode.centerY;
 
     // Creates a temperature slider in Kelvin with a range that is clamped between MIN_TEMPERATURE and MAX_TEMPERATURE
     var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.temperatureProperty.value );
@@ -192,6 +189,8 @@ define( function( require ) {
     starPath.centerY = circleBlue.centerY;
     glowingStarHalo.centerX = starPath.centerX;
     glowingStarHalo.centerY = starPath.centerY;
+    topArrow.centerY = temperatureNode.centerY;
+    bottomArrow.centerY = temperatureNode.centerY;
   }
 
   blackbodySpectrum.register( 'BlackbodySpectrumScreenView', BlackbodySpectrumScreenView );
