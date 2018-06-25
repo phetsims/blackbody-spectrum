@@ -29,8 +29,10 @@ define( function( require ) {
   var Property = require( 'AXON/Property' );
 
   // constants
-  var INFRARED_WAVELENGTH = 700; // in nm, max bounds for the rainbow spectrum
-  var ULTRAVIOLET_WAVELENGTH = 380; // in nm, min bound for the rainbow spectrum
+  var XRAY_WAVELENGTH = 10; // in nm, max bounds for the x-ray part of the electromagnetic spectrum
+  var ULTRAVIOLET_WAVELENGTH = 380; // in nm, max bounds for the uv part of the electromagnetic spectrum
+  var VISIBLE_WAVELENGTH = 700; // in nm, max bounds for the visible part of the electromagnetic spectrum
+  var INFRARED_WAVELENGTH = 1000; // in nm, max bounds for the visible part of the electromagnetic spectrum
   var HORIZONTAL_GRAPH_LENGTH = 550; // size of graph in scenery coordinates
   var VERTICAL_GRAPH_LENGTH = 400; // size of graph in scenery coordinates
   var COLOR_TICK_LABEL = 'yellow';
@@ -50,7 +52,14 @@ define( function( require ) {
   var HORIZONTAL_ZOOM_SCALING_FACTOR = 2;
   var VERTICAL_ZOOM_SCALING_FACTOR = Math.sqrt( 10 );
 
-  // constants for ticks
+  // constants for ticks and axes
+  var AXES_OPTIONS = {
+    stroke: GRAPH_AXES_COLOR,
+    lineWidth: 3,
+    lineCap: 'round',
+    lineJoin: 'round'
+  };
+  var TICK_OPTIONS = { stroke: GRAPH_AXES_COLOR, lineWidth: 2, lineCap: 'butt', lineJoin: 'bevel' };
   var MINOR_TICKS_PER_MAJOR_TICK = 5;
   var MAJOR_TICK_LENGTH = 20;
   var MINOR_TICK_LENGTH = 10;
@@ -126,6 +135,34 @@ define( function( require ) {
       }
     } );
 
+    // The node that handles displaying the labels for parts of the electromagnetic spectrum
+    var spectrumLabel = new Path( 
+      new Shape().moveTo( 0, -VERTICAL_GRAPH_LENGTH ).lineTo( HORIZONTAL_GRAPH_LENGTH, -VERTICAL_GRAPH_LENGTH ),
+      AXES_OPTIONS
+    );
+    // A function that will update where the ticks are on the spectrumLabel
+    var spectrumLabelTicks = new Path( null, TICK_OPTIONS );
+    function updateSpectrumLabelTicks() {
+      function wavelengthToDistance( wavelength ) {
+        return wavelength * HORIZONTAL_GRAPH_LENGTH / model.wavelengthMax;
+      }
+      var ticksShape = new Shape();
+      function makeTickForWavelength( wavelength ) {
+        var x = wavelengthToDistance( wavelength );
+        if (x < 0) Console.log(x);
+        ticksShape.moveTo( x, -MAJOR_TICK_LENGTH / 2 ).lineTo( x, MAJOR_TICK_LENGTH);
+      }
+      [XRAY_WAVELENGTH, ULTRAVIOLET_WAVELENGTH, VISIBLE_WAVELENGTH, INFRARED_WAVELENGTH]
+        .filter( wavelength => wavelength < model.wavelengthMax )
+        .forEach( wavelength => makeTickForWavelength( wavelength ) );
+      spectrumLabelTicks.shape = ticksShape;
+    }
+    // The spectrumLabel's visibility is derived off of whether the labelsVisible is true or not
+    model.labelsVisibleProperty.link( function ( labelsVisible ) {
+      spectrumLabel.setVisible( labelsVisible );
+      spectrumLabelTicks.setVisible( labelsVisible );
+    } );
+
     function updateGraph( graph, temperature, intensity ) {
       var graphShape = new Shape();
 
@@ -181,19 +218,13 @@ define( function( require ) {
     var axesShape = new Shape()
       .moveTo( HORIZONTAL_GRAPH_LENGTH, 0 )
       .lineTo( 0, 0 )
-      .lineTo( 0, -1 * VERTICAL_GRAPH_LENGTH )
-      .lineTo( 5, -1 * VERTICAL_GRAPH_LENGTH );
+      .lineTo( 0, -VERTICAL_GRAPH_LENGTH )
+      .lineTo( 5, -VERTICAL_GRAPH_LENGTH );
 
-    var axesPath = new Path( axesShape,
-      {
-        stroke: GRAPH_AXES_COLOR,
-        lineWidth: 3,
-        lineCap: 'round',
-        lineJoin: 'round'
-      } );
+    var axesPath = new Path( axesShape, AXES_OPTIONS );
 
     // horizontal tick marks
-    var ticks = new Path( null, { stroke: GRAPH_AXES_COLOR, lineWidth: 2, lineCap: 'butt', lineJoin: 'bevel' } );
+    var ticks = new Path( null, TICK_OPTIONS );
     var graphBottom = 0;
     var minorTickSpacing = 20; // initial value
 
@@ -248,13 +279,13 @@ define( function( require ) {
 
     // rainbow spectrum
     // TODO use clipping instead if the spectrum is to the left.
-    var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, INFRARED_WAVELENGTH );
+    var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, VISIBLE_WAVELENGTH );
     var ultravioletPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH );
     var widthSpectrum = infraredPosition - ultravioletPosition;
     var wavelengthSpectrumNode = new WavelengthSpectrumNode( {
       size: new Dimension2( widthSpectrum, VERTICAL_GRAPH_LENGTH ),
       minWavelength: ULTRAVIOLET_WAVELENGTH,
-      maxWavelength: INFRARED_WAVELENGTH,
+      maxWavelength: VISIBLE_WAVELENGTH,
       opacity: 0.9,
       left: ultravioletPosition + axesPath.left
     } );
@@ -263,7 +294,7 @@ define( function( require ) {
      * Updates the positioning of the visible light spectrum image
      */
     function updateSpectrum() {
-      var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, INFRARED_WAVELENGTH );
+      var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, VISIBLE_WAVELENGTH );
       var ultravioletPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH );
       var widthSpectrum = infraredPosition - ultravioletPosition;
 
@@ -302,6 +333,7 @@ define( function( require ) {
 
       // update ticks
       updateTicks( minorTickSpacing );
+      updateSpectrumLabelTicks();
 
       // redraw blackbody curves
       updateGraph( self.graph, model.temperatureProperty.value, self.intensity );
@@ -361,12 +393,18 @@ define( function( require ) {
     this.addChild( horizontalZoomButtons );
     this.addChild( verticalZoomButtons );
     this.addChild( ticks );
+    this.addChild( spectrumLabel );
+    this.addChild( spectrumLabelTicks );
     this.addChild( this.graph );
     this.addChild( this.intensity );
 
     // layout
     axesPath.bottom = 0;
     axesPath.left = 0;
+    spectrumLabel.top = axesPath.top;
+    spectrumLabel.left = axesPath.left;
+    spectrumLabelTicks.centerY = spectrumLabel.centerY;
+    spectrumLabelTicks.left = axesPath.left;
     this.graph.bottom = axesPath.bottom;
     this.graph.left = axesPath.left;
     this.intensity.bottom = axesPath.bottom;
