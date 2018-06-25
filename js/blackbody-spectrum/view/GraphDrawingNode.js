@@ -140,27 +140,59 @@ define( function( require ) {
       new Shape().moveTo( 0, -VERTICAL_GRAPH_LENGTH ).lineTo( HORIZONTAL_GRAPH_LENGTH, -VERTICAL_GRAPH_LENGTH ),
       AXES_OPTIONS
     );
-    // A function that will update where the ticks are on the spectrumLabel
+    // The ticks and labels for the spectrum label
     var spectrumLabelTicks = new Path( null, TICK_OPTIONS );
-    function updateSpectrumLabelTicks() {
+    var labelOptions = {
+      font: new PhetFont( 20 ),
+      fill: GRAPH_AXES_COLOR
+    };
+    // The parent of all the text labels for the different regions of the electromagnetic spectrum
+    var spectrumLabelTexts = new Node( {
+      children: [
+        new Text( 'X-Ray', labelOptions ),
+        new Text( 'Ultraviolet', labelOptions ),
+        new Text( 'Visible', labelOptions ),
+        new Text( 'Infrared', labelOptions ),
+        new Text( 'Radio', labelOptions )
+      ]
+    } );
+    // A function that will update where the ticks and text labels are on the spectrumLabel
+    function updateSpectrumLabel() {
+      // Converts a given wavelength to a distance along the x-axis
       function wavelengthToDistance( wavelength ) {
         return wavelength * HORIZONTAL_GRAPH_LENGTH / model.wavelengthMax;
       }
       var ticksShape = new Shape();
-      function makeTickForWavelength( wavelength ) {
-        var x = wavelengthToDistance( wavelength );
-        if (x < 0) Console.log(x);
+      // Makes a tick at a given distance along the x-axis
+      function makeTickAt( x ) {
         ticksShape.moveTo( x, -MAJOR_TICK_LENGTH / 2 ).lineTo( x, MAJOR_TICK_LENGTH);
       }
-      [XRAY_WAVELENGTH, ULTRAVIOLET_WAVELENGTH, VISIBLE_WAVELENGTH, INFRARED_WAVELENGTH]
-        .filter( wavelength => wavelength < model.wavelengthMax )
-        .forEach( wavelength => makeTickForWavelength( wavelength ) );
+      // Maps all of the wavelengths to their distance along the axis if they are on the axis
+      var tickLocations = [ XRAY_WAVELENGTH, ULTRAVIOLET_WAVELENGTH, VISIBLE_WAVELENGTH, INFRARED_WAVELENGTH ]
+        .map( function( wavelength ) {
+          return wavelengthToDistance( wavelength );
+        } ).filter( function( distance ) {
+          return distance <= HORIZONTAL_GRAPH_LENGTH;
+        } );
+      // Makes a tick at each distance that was on the axis
+      tickLocations.forEach( function ( distance ) {
+        return makeTickAt( distance );
+      } );
       spectrumLabelTicks.shape = ticksShape;
+      // Sets the location for all of the text labels
+      var labelTextBounds = [ 0 ].concat( tickLocations ).concat( HORIZONTAL_GRAPH_LENGTH );
+      for ( var i = 0; i < labelTextBounds.length - 1; i++ ) {
+        var lowerBoundDistance = labelTextBounds[ i ];
+        var upperBoundDistance = labelTextBounds[ i + 1 ];
+        var wavelengthLabel = spectrumLabelTexts.children[ i ];
+        wavelengthLabel.setCenterX ( ( upperBoundDistance - lowerBoundDistance ) / 2 );
+      }
     }
     // The spectrumLabel's visibility is derived off of whether the labelsVisible is true or not
     model.labelsVisibleProperty.link( function ( labelsVisible ) {
       spectrumLabel.setVisible( labelsVisible );
       spectrumLabelTicks.setVisible( labelsVisible );
+      spectrumLabelTexts.setVisible( labelsVisible );
     } );
 
     function updateGraph( graph, temperature, intensity ) {
@@ -333,7 +365,7 @@ define( function( require ) {
 
       // update ticks
       updateTicks( minorTickSpacing );
-      updateSpectrumLabelTicks();
+      updateSpectrumLabel();
 
       // redraw blackbody curves
       updateGraph( self.graph, model.temperatureProperty.value, self.intensity );
@@ -395,6 +427,7 @@ define( function( require ) {
     this.addChild( ticks );
     this.addChild( spectrumLabel );
     this.addChild( spectrumLabelTicks );
+    this.addChild( spectrumLabelTexts );
     this.addChild( this.graph );
     this.addChild( this.intensity );
 
@@ -405,6 +438,8 @@ define( function( require ) {
     spectrumLabel.left = axesPath.left;
     spectrumLabelTicks.centerY = spectrumLabel.centerY;
     spectrumLabelTicks.left = axesPath.left;
+    spectrumLabelTexts.bottom = spectrumLabel.top;
+    spectrumLabelTexts.left = axesPath.left;
     this.graph.bottom = axesPath.bottom;
     this.graph.left = axesPath.left;
     this.intensity.bottom = axesPath.bottom;
