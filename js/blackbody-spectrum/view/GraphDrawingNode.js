@@ -297,13 +297,6 @@ define( function( require ) {
       fill: COLOR_TICK_LABEL
     } );
 
-    //TODO dead code, fix it or delete it
-//      var verticalTickLabelMax = new ScientificNotation( model.temperatureProperty,{
-//            font: new PhetFont(28),
-//            direction: 'rtl',
-//            fill: COLOR_TICK_LABEL}
-//      );
-
     // zoom Buttons
     var horizontalZoomInButton = new ZoomButton( { in: true, radius: 10 } );
     var horizontalZoomOutButton = new ZoomButton( { in: false, radius: 10 } );
@@ -343,9 +336,6 @@ define( function( require ) {
       var spectrumPosition = ultravioletPosition + self.graph.left;
       var isSpectrumOffTheAxis = spectrumPosition > self.graph.right;
       wavelengthSpectrumNode.left = ultravioletPosition + self.graph.left;
-      // TODO: remove dead code?
-      // spectrum.visible = true;
-      // spectrum.clipArea= Shape.rectangle(self.left,self.top,HORIZONTAL_GRAPH_LENGTH,VERTICAL_GRAPH_LENGTH);
       if ( isSpectrumOffTheAxis ) {
         wavelengthSpectrumNode.visible = false;
       }
