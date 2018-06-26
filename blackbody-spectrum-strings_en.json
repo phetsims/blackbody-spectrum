@@ -6,7 +6,7 @@
     "value": "cm"
   },
   "verticalLabelIntensity": {
-    "value": "Intensity (MW/m²/µm)"
+    "value": "Spectral Radiance (MW/m²/µm)"
   },
   "horizontalLabelWavelength": {
     "value": "Wavelength (µm)"

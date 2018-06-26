@@ -456,7 +456,7 @@ define( function( require ) {
     horizontalTickLabelMax.top = axesPath.bottom;
     horizontalTickLabelMax.centerX = axesPath.right;
     verticalTickLabelMax.right = axesPath.left;
-    verticalTickLabelMax.centerY = axesPath.top;
+    verticalTickLabelMax.centerY = axesPath.top - 10;
     horizontalZoomButtons.left = axesPath.right - 45;
     horizontalZoomButtons.top = axesPath.bottom + 40;
     horizontalZoomInButton.left = horizontalZoomOutButton.right + 10;
@@ -466,8 +466,8 @@ define( function( require ) {
     verticalZoomInButton.centerX = verticalZoomOutButton.centerX;
     verticalZoomInButton.bottom = verticalZoomOutButton.top - 10;
     wavelengthSpectrumNode.bottom = axesPath.bottom;
-    verticalAxisLabelNode.top = verticalZoomButtons.bottom + 20;
     verticalAxisLabelNode.right = axesPath.left - 20;
+    verticalAxisLabelNode.centerY = -VERTICAL_GRAPH_LENGTH / 2;
     horizontalAxisTopLabelNode.top = axesPath.bottom + 20;
     horizontalAxisTopLabelNode.centerX = axesPath.centerX;
     horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
