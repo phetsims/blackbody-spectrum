@@ -236,6 +236,8 @@ define( function( require ) {
       var verticalTextPlacement = radiancePeak / 3;
       if ( verticalTextPlacement > -20 ) {
         verticalTextPlacement = -20;
+      } else if ( verticalTextPlacement < -VERTICAL_GRAPH_LENGTH + intensityTextNode.height ) {
+        verticalTextPlacement = -VERTICAL_GRAPH_LENGTH + intensityTextNode.height;
       }
       intensityTextNode.bottom = verticalTextPlacement;
 
