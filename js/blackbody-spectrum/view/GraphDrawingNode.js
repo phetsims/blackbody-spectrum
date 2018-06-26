@@ -143,7 +143,7 @@ define( function( require ) {
     // The ticks and labels for the spectrum label
     var spectrumLabelTicks = new Path( null, TICK_OPTIONS );
     var labelOptions = {
-      font: new PhetFont( 20 ),
+      font: new PhetFont( 14 ),
       fill: GRAPH_AXES_COLOR
     };
     // The parent of all the text labels for the different regions of the electromagnetic spectrum
@@ -165,7 +165,7 @@ define( function( require ) {
       var ticksShape = new Shape();
       // Makes a tick at a given distance along the x-axis
       function makeTickAt( x ) {
-        ticksShape.moveTo( x, -MAJOR_TICK_LENGTH / 2 ).lineTo( x, MAJOR_TICK_LENGTH);
+        ticksShape.moveTo( x, -MINOR_TICK_LENGTH / 2 ).lineTo( x, MINOR_TICK_LENGTH);
       }
       // Maps all of the wavelengths to their distance along the axis if they are on the axis
       var tickLocations = [ XRAY_WAVELENGTH, ULTRAVIOLET_WAVELENGTH, VISIBLE_WAVELENGTH, INFRARED_WAVELENGTH ]
@@ -179,15 +179,17 @@ define( function( require ) {
         return makeTickAt( distance );
       } );
       spectrumLabelTicks.shape = ticksShape;
+      // Makes all text nodes invisible; they get set to be visible later on if they can be displayed
+      spectrumLabelTexts.children.forEach( function( textNode ) {
+        textNode.setVisible( false );
+      } );
       // Sets the location for all of the text labels
       var labelTextBounds = [ 0 ].concat( tickLocations ).concat( HORIZONTAL_GRAPH_LENGTH );
       for ( var i = 0; i < labelTextBounds.length - 1; i++ ) {
         var lowerBoundDistance = labelTextBounds[ i ];
         var upperBoundDistance = labelTextBounds[ i + 1 ];
         var wavelengthLabel = spectrumLabelTexts.children[ i ];
-        if ( upperBoundDistance - lowerBoundDistance < wavelengthLabel.width ) {
-          wavelengthLabel.setVisible( false );
-        } else {
+        if ( upperBoundDistance - lowerBoundDistance >= wavelengthLabel.width ) {
           wavelengthLabel.setVisible( true );
           wavelengthLabel.setCenterX ( ( upperBoundDistance + lowerBoundDistance ) / 2 );
         }

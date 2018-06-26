@@ -174,7 +174,7 @@ define( function( require ) {
     thermometerLabel.centerX = blackbodySpectrumThermometer.right - 16;
     thermometerLabel.top = blackbodySpectrumThermometer.bottom;
     circleBlue.centerX = 300;
-    circleBlue.centerY = 100;
+    circleBlue.centerY = 50;
     circleGreen.centerX = circleBlue.centerX + 50;
     circleGreen.centerY = circleBlue.centerY;
     circleRed.centerX = circleGreen.centerX + 50;
