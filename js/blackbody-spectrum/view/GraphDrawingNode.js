@@ -185,7 +185,12 @@ define( function( require ) {
         var lowerBoundDistance = labelTextBounds[ i ];
         var upperBoundDistance = labelTextBounds[ i + 1 ];
         var wavelengthLabel = spectrumLabelTexts.children[ i ];
-        wavelengthLabel.setCenterX ( ( upperBoundDistance - lowerBoundDistance ) / 2 );
+        if ( upperBoundDistance - lowerBoundDistance < wavelengthLabel.width ) {
+          wavelengthLabel.setVisible( false );
+        } else {
+          wavelengthLabel.setVisible( true );
+          wavelengthLabel.setCenterX ( ( upperBoundDistance + lowerBoundDistance ) / 2 );
+        }
       }
     }
     // The spectrumLabel's visibility is derived off of whether the labelsVisible is true or not
