@@ -135,8 +135,8 @@ define( function( require ) {
       }
     } );
 
-    // The node that handles displaying the labels for parts of the electromagnetic spectrum
-    var spectrumLabel = new Path( 
+    // The axis for labelling different parts of the electromagnetic spectrum
+    var spectrumLabelAxis = new Path( 
       new Shape().moveTo( 0, -VERTICAL_GRAPH_LENGTH ).lineTo( HORIZONTAL_GRAPH_LENGTH, -VERTICAL_GRAPH_LENGTH ),
       AXES_OPTIONS
     );
@@ -165,7 +165,7 @@ define( function( require ) {
       var ticksShape = new Shape();
       // Makes a tick at a given distance along the x-axis
       function makeTickAt( x ) {
-        ticksShape.moveTo( x, -MINOR_TICK_LENGTH / 2 ).lineTo( x, MINOR_TICK_LENGTH);
+        ticksShape.moveTo( x, -MINOR_TICK_LENGTH / 2 ).lineTo( x, MINOR_TICK_LENGTH );
       }
       // Maps all of the wavelengths to their distance along the axis if they are on the axis
       var tickLocations = [ XRAY_WAVELENGTH, ULTRAVIOLET_WAVELENGTH, VISIBLE_WAVELENGTH, INFRARED_WAVELENGTH ]
@@ -197,7 +197,7 @@ define( function( require ) {
     }
     // The spectrumLabel's visibility is derived off of whether the labelsVisible is true or not
     model.labelsVisibleProperty.link( function ( labelsVisible ) {
-      spectrumLabel.setVisible( labelsVisible );
+      spectrumLabelAxis.setVisible( labelsVisible );
       spectrumLabelTicks.setVisible( labelsVisible );
       spectrumLabelTexts.setVisible( labelsVisible );
     } );
@@ -424,7 +424,7 @@ define( function( require ) {
     this.addChild( horizontalZoomButtons );
     this.addChild( verticalZoomButtons );
     this.addChild( ticks );
-    this.addChild( spectrumLabel );
+    this.addChild( spectrumLabelAxis );
     this.addChild( spectrumLabelTicks );
     this.addChild( spectrumLabelTexts );
     this.addChild( this.graph );
@@ -433,11 +433,11 @@ define( function( require ) {
     // layout
     axesPath.bottom = 0;
     axesPath.left = 0;
-    spectrumLabel.top = axesPath.top;
-    spectrumLabel.left = axesPath.left;
-    spectrumLabelTicks.centerY = spectrumLabel.centerY;
+    spectrumLabelAxis.top = axesPath.top;
+    spectrumLabelAxis.left = axesPath.left;
+    spectrumLabelTicks.centerY = spectrumLabelAxis.centerY;
     spectrumLabelTicks.left = axesPath.left;
-    spectrumLabelTexts.bottom = spectrumLabel.top;
+    spectrumLabelTexts.bottom = spectrumLabelAxis.top;
     spectrumLabelTexts.left = axesPath.left;
     this.graph.bottom = axesPath.bottom;
     this.graph.left = axesPath.left;
