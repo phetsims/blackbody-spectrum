@@ -30,12 +30,19 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
+  var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   // strings
   var bString = require( 'string!BLACKBODY_SPECTRUM/b' );
   var gString = require( 'string!BLACKBODY_SPECTRUM/g' );
   var rString = require( 'string!BLACKBODY_SPECTRUM/r' );
   var blackbodyTemperatureString = require( 'string!BLACKBODY_SPECTRUM/blackbodyTemperature' );
+  var intensityString = require( 'string!BLACKBODY_SPECTRUM/intensity' );
+  var intensityLabelPatternString = require( 'string!BLACKBODY_SPECTRUM/intensityLabelPattern' );
 
   // constants
   var CIRCLE_LABEL_COLOR = '#00EBEB';
@@ -52,6 +59,16 @@ define( function( require ) {
   var ARROW_OPTIONS = {
     fill: 'green'
   };
+  var INTENSITY_LABEL_OPTIONS = {
+    fill: 'white',
+    font: new PhetFont( 16 )
+  };
+  var INTENSITY_TEXT_OPTIONS = {
+    font: new PhetFont( 16 ),
+    fill: 'black'
+  };
+  var INTENSITY_TEXT_BOX_STROKE = 'red';
+  var INTENSITY_TEXT_BOX_FILL = 'gray';
 
   // noinspection JSAnnotator
   /**
@@ -115,6 +132,22 @@ define( function( require ) {
     var glowingStarHalo = new Circle( 10 );
     var starPath = new StarPath();
 
+    // The label above the box that shows the model's current intensity
+    var intensityLabel = new Text( intensityString, INTENSITY_LABEL_OPTIONS );
+    // The actual text that shows the model's intensity
+    var intensityText = new RichText( '?', INTENSITY_TEXT_OPTIONS );
+    // The box that surrounds the text showing the model's intensity
+    var intensityTextBox = new Rectangle( 0, 0, intensityText.width + 5, intensityText.height + 5, 0, 0, {
+      children: [ intensityText ],
+      stroke: INTENSITY_TEXT_BOX_STROKE,
+      fill: INTENSITY_TEXT_BOX_FILL
+    } );
+    // The label and the box containing the intensity value text have the same visibility as the model's intensityVisibleProperty
+    model.intensityVisibleProperty.link( function( intensityVisible ) {
+      intensityTextBox.setVisible( intensityVisible );
+      intensityLabel.setVisible( intensityVisible );
+    } );
+
     // Links the current temperature to the RGB indicators and the temperature text along the TriangleSliderThumb
     model.temperatureProperty.link( function( temperature ) {
       circleBlue.fill = model.getBluColor( temperature );
@@ -125,6 +158,17 @@ define( function( require ) {
       starPath.fill = model.getStarColor( temperature );
       starPath.stroke = model.getStarColor( temperature );
       temperatureNode.text = Util.toFixed( temperature, VALUE_DECIMAL_PLACES ) + ' K';
+      // Gets the model intensity and formats it to a nice scientific notation string to put as the intensityText
+      var notationObject = ScientificNotationNode.toScientificNotation( model.totalIntensity, {
+        mantissaDecimalPlaces: 2
+      } );
+      var formattedString = notationObject.mantissa;
+      if ( notationObject.exponent !== '0' ) {
+        formattedString += ' X 10<sup>' + notationObject.exponent + '</sup>';
+      }
+      intensityText.text = StringUtils.fillIn( intensityLabelPatternString, { intensity: formattedString } );
+      intensityTextBox.setRect( 0, 0, intensityText.width + 5, intensityText.height + 5, 0, 0 );
+      intensityText.setCenter( new Vector2( intensityTextBox.width / 2, intensityTextBox.height / 2 ) );
     } );
 
     // create graph with zoom buttons
@@ -158,6 +202,8 @@ define( function( require ) {
     this.addChild( circleBlueLabel );
     this.addChild( circleGreenLabel );
     this.addChild( circleRedLabel );
+    this.addChild( intensityTextBox );
+    this.addChild( intensityLabel );
     this.addChild( resetAllButton );
 
     // layout for things that don't have a location in the model
@@ -173,7 +219,7 @@ define( function( require ) {
     temperatureSlider.centerY = blackbodySpectrumThermometer.centerY - 14;
     thermometerLabel.centerX = blackbodySpectrumThermometer.right - 16;
     thermometerLabel.top = blackbodySpectrumThermometer.bottom;
-    circleBlue.centerX = 300;
+    circleBlue.centerX = 225;
     circleBlue.centerY = 50;
     circleGreen.centerX = circleBlue.centerX + 50;
     circleGreen.centerY = circleBlue.centerY;
@@ -191,6 +237,11 @@ define( function( require ) {
     glowingStarHalo.centerY = starPath.centerY;
     topArrow.centerY = temperatureNode.centerY;
     bottomArrow.centerY = temperatureNode.centerY;
+    intensityTextBox.centerX = graphNode.right - 150;
+    intensityTextBox.centerY = (circleBlue.centerY + circleBlueLabel.centerY) / 2;
+    intensityText.setCenter( new Vector2( intensityTextBox.width / 2, intensityTextBox.height / 2 ) );
+    intensityLabel.bottom = intensityTextBox.top;
+    intensityLabel.left = intensityTextBox.left;
   }
 
   blackbodySpectrum.register( 'BlackbodySpectrumScreenView', BlackbodySpectrumScreenView );
