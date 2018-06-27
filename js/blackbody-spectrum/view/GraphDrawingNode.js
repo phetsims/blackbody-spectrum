@@ -17,12 +17,9 @@ define( function( require ) {
   var NumberProperty = require( 'AXON/NumberProperty' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var Shape = require( 'KITE/Shape' );
   var WavelengthSpectrumNode = require( 'SCENERY_PHET/WavelengthSpectrumNode' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
@@ -41,7 +38,6 @@ define( function( require ) {
   var GRAPH_AXES_COLOR = 'white';
   var GRAPH_CURVE_STROKE = 'red';
   var SAVED_GRAPH_CURVE_STROKE = 'yellow';
-  var INTENSITY_COLOR = 'white';
 
   var HORIZONTAL_ZOOM_DEFAULT = 3000; // default wavelength in nanometers
   var VERTICAL_ZOOM_DEFAULT = 100;
@@ -68,7 +64,6 @@ define( function( require ) {
   var horizontalLabelWavelengthString = require( 'string!BLACKBODY_SPECTRUM/horizontalLabelWavelength' );
   var subtitleLabelString = require( 'string!BLACKBODY_SPECTRUM/subtitleLabel' );
   var verticalLabelIntensityString = require( 'string!BLACKBODY_SPECTRUM/verticalLabelIntensity' );
-  var intensityLabelPatternString = require( 'string!BLACKBODY_SPECTRUM/intensityLabelPattern' );
 
   /**
    *
@@ -104,11 +99,6 @@ define( function( require ) {
       fill: COLOR_AXIS_LABEL
     } );
 
-    var intensityTextNode = new RichText( '?', {
-      font: new PhetFont( 15 ),
-      fill: INTENSITY_COLOR
-    } );
-
     // graph: blackbody curve
     // TODO annotate:  public/private ?
     this.graph = new Path( null, {
@@ -119,19 +109,14 @@ define( function( require ) {
 
     // new path for intensity, area under the curve
     this.intensity = new Path( null );
-    this.intensity.addChild( intensityTextNode );
-    intensityTextNode.bottom = this.intensity.bottom - 10;
-    intensityTextNode.centerX = this.intensity.centerX;
 
     // Whether the area under the curve is filled in is reflected by whether the intensity is set to be visible or not
     model.intensityVisibleProperty.link( function( intensityVisible ) {
       if ( intensityVisible ) {
         self.intensity.fill = 'rgba(100,100,100,0.75)'; //TODO move this color into a constant?
-        intensityTextNode.visible = true;
       }
       else {
         self.intensity.fill = null;
-        intensityTextNode.visible = false;
       }
     } );
 
@@ -226,33 +211,6 @@ define( function( require ) {
           intensity.shape.lineToPoint( newPoint );
         }
       }
-
-      var wavelengthPeakScale = model.peakWavelength / model.wavelengthMax;
-      if ( wavelengthPeakScale > 0.85 ) {
-        wavelengthPeakScale = 0.85;
-      }
-      var wavelengthPeak = numberPoints * ( wavelengthPeakScale );
-      var radiancePeak = -radianceScale * radianceArray[ Math.floor( wavelengthPeak ) ];
-      var verticalTextPlacement = radiancePeak / 3;
-      if ( verticalTextPlacement > -20 ) {
-        verticalTextPlacement = -20;
-      } else if ( verticalTextPlacement < -VERTICAL_GRAPH_LENGTH + intensityTextNode.height ) {
-        verticalTextPlacement = -VERTICAL_GRAPH_LENGTH + intensityTextNode.height;
-      }
-      intensityTextNode.bottom = verticalTextPlacement;
-
-      intensityTextNode.centerX = HORIZONTAL_GRAPH_LENGTH * ( wavelengthPeakScale ) + 20;
-
-      var notationObject = ScientificNotationNode.toScientificNotation( model.totalIntensity, {
-        mantissaDecimalPlaces: 2
-      } );
-      var formattedString = notationObject.mantissa;
-
-      if ( notationObject.exponent !== '0' ) {
-        formattedString += ' X 10<sup>' + notationObject.exponent + '</sup>';
-      }
-
-      intensityTextNode.text = StringUtils.fillIn( intensityLabelPatternString, { intensity: formattedString } );
     }
 
     // axes for the graph
