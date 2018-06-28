@@ -187,31 +187,37 @@ define( function( require ) {
       spectrumLabelTexts.setVisible( labelsVisible );
     } );
 
-    function updateGraph( graph, temperature, intensity ) {
+    // General function for updating graphs; returns the shape of the graph
+    function updateGraph( graph, temperature ) {
       var graphShape = new Shape();
-
       var radianceArray = model.coordinatesY( temperature );
-
       var numberPoints = radianceArray.length;
       var deltaWavelength = HORIZONTAL_GRAPH_LENGTH / ( numberPoints - 1 );
       var deltaRadiance = VERTICAL_GRAPH_LENGTH / verticalMax;
       var radianceScale = 1e33 * deltaRadiance; // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
       graphShape.moveTo( 0, -radianceScale * radianceArray[ 0 ] );
-
       for ( var i = 1; i < radianceArray.length; i++ ) {
         graphShape.lineTo( deltaWavelength * i, -radianceScale * radianceArray[ i ] ); /// need to flip y axis
       }
-
-      // Easiest way to implement intensity shape is to copy graph shape and bring down to x-axis
       graph.shape = graphShape;
-      if ( intensity ) {
-        intensity.shape = graphShape.copy();
-        var newPoint = new Vector2( HORIZONTAL_GRAPH_LENGTH, 0 );
-        if ( intensity.shape.getLastPoint().minus( newPoint ).magnitude() > 0 ) {
-          intensity.shape.lineToPoint( newPoint );
-        }
-        //TODO: display temperature of saved graph here
+      return graphShape.copy();
+    }
+
+    // Function that updates the main graph the user can directly control
+    function updateMainGraph() {
+      var updatedGraphShape = updateGraph( self.graph, model.temperatureProperty.get() );
+      // Easiest way to implement intensity shape is to copy graph shape and bring down to x-axis
+      self.intensity.shape = updatedGraphShape;
+      var newPoint = new Vector2( HORIZONTAL_GRAPH_LENGTH, 0 );
+      if ( self.intensity.shape.getLastPoint().minus( newPoint ).magnitude() > 0 ) {
+        self.intensity.shape.lineToPoint( newPoint );
       }
+    }
+
+    // Function that updates the saved graph
+    function updateSavedGraph() {
+      /*var updatedGraphShape = */updateGraph( self.savedGraph, self.savedTemperature );
+      //TODO: display saved graph temperature here
     }
 
     // axes for the graph
@@ -306,7 +312,7 @@ define( function( require ) {
 
     // observers
     model.temperatureProperty.link( function( temperature ) {
-      updateGraph( self.graph, temperature, self.intensity );
+      updateMainGraph();
     } );
 
     // Updates horizontal ticks, graph, and spectrum no horizontal zoom change
@@ -326,9 +332,9 @@ define( function( require ) {
       updateSpectrumLabel();
 
       // redraw blackbody curves
-      updateGraph( self.graph, model.temperatureProperty.value, self.intensity );
+      updateMainGraph();
       if ( self.savedGraph ) {
-        updateGraph( self.savedGraph, self.savedTemperature );
+        updateSavedGraph();
       }
 
       horizontalZoomInButton.setEnabled( horizontalZoom > HORIZONTAL_MIN_ZOOM );
@@ -342,9 +348,9 @@ define( function( require ) {
       verticalMax = verticalZoom;
       verticalTickLabelMax.text = Util.toFixed( verticalMax, 0 ); // from nm to micron
 
-      updateGraph( self.graph, model.temperatureProperty.value, self.intensity );
+      updateMainGraph();
       if ( self.savedGraph ) {
-        updateGraph( self.savedGraph, self.savedTemperature );
+        updateSavedGraph();
       }
 
       verticalZoomInButton.setEnabled( verticalZoom > VERTICAL_MIN_ZOOM );
