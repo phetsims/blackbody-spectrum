@@ -37,7 +37,7 @@ define( function( require ) {
   var GRAPH_CURVE_LINE_WIDTH = 5;
   var GRAPH_AXES_COLOR = 'white';
   var GRAPH_CURVE_STROKE = 'red';
-  var SAVED_GRAPH_CURVE_STROKE = 'yellow';
+  var SAVED_GRAPH_CURVE_STROKE = '#996633';
 
   var HORIZONTAL_ZOOM_DEFAULT = 3000; // default wavelength in nanometers
   var VERTICAL_ZOOM_DEFAULT = 100;
@@ -121,7 +121,7 @@ define( function( require ) {
     } );
 
     // The axis for labelling different parts of the electromagnetic spectrum
-    var spectrumLabelAxis = new Path( 
+    var spectrumLabelAxis = new Path(
       new Shape().moveTo( 0, -VERTICAL_GRAPH_LENGTH ).lineTo( HORIZONTAL_GRAPH_LENGTH, -VERTICAL_GRAPH_LENGTH ),
       AXES_OPTIONS
     );
@@ -210,6 +210,7 @@ define( function( require ) {
         if ( intensity.shape.getLastPoint().minus( newPoint ).magnitude() > 0 ) {
           intensity.shape.lineToPoint( newPoint );
         }
+        //TODO: display temperature of saved graph here
       }
     }
 

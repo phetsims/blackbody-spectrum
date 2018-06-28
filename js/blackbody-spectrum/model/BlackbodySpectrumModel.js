@@ -66,6 +66,16 @@ define( function( require ) {
   return inherit( Object, BlackbodySpectrumModel, {
 
     /**
+     * Resets the model's temperature and settings
+     */
+    reset: function() {
+      this.temperatureProperty.reset();
+      this.graphValuesVisibleProperty.reset();
+      this.intensityVisibleProperty.reset();
+      this.labelsVisibleProperty.reset();
+    },
+
+    /**
      * Function that returns the intensity radiation for a given wavelength (in nm) and temperature (in kelvin)
      * The units of intensity radiation are in megaWatts per meter^2 per micrometer
      * @private

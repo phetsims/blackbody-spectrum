@@ -177,8 +177,7 @@ define( function( require ) {
     // create the Reset All Button in the bottom right
     var resetAllButton = new ResetAllButton( {
       listener: function() {
-        model.temperatureProperty.reset();
-        //   model.wavelengthMax = 100;
+        model.reset();
         graphNode.reset();
         graphNode.clear();
         topArrow.setVisible( true );
