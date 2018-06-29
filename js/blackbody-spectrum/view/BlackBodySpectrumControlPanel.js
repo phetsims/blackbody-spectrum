@@ -4,6 +4,7 @@
  * Control panel with Check Boxes that control the graphical Properties of the simulation.
  *
  * @author Arnab Purkayastha
+ * @author Saurabh Totey
  */
 define( function( require ) {
   'use strict';
@@ -96,7 +97,7 @@ define( function( require ) {
 
     // Makes the clearButton enabled when there is a saved graph to clear, and disabled when there is no graph to clear
     graphNode.hasSavedGraphProperty.link( function( hasSavedGraph ) {
-      clearButton.setEnabled( hasSavedGraph );
+      clearButton.enabled = hasSavedGraph;
     } );
 
     // 3 checkboxes: Peak Values, Intensity, Labels

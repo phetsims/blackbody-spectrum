@@ -5,6 +5,7 @@
  * Graph Node responsible for drawing axes, spectrum, zoom buttons, axe titles and graph
  *
  * @author Martin Veillette ( Berea College)
+ * @author Saurabh Totey
  */
 define( function( require ) {
   'use strict';
@@ -128,12 +129,14 @@ define( function( require ) {
       new Shape().moveTo( 0, -VERTICAL_GRAPH_LENGTH ).lineTo( HORIZONTAL_GRAPH_LENGTH, -VERTICAL_GRAPH_LENGTH ),
       AXES_OPTIONS
     );
+
     // The ticks and labels for the spectrum label
     var spectrumLabelTicks = new Path( null, TICK_OPTIONS );
     var labelOptions = {
       font: new PhetFont( 14 ),
       fill: GRAPH_AXES_COLOR
     };
+
     // The parent of all the text labels for the different regions of the electromagnetic spectrum
     var spectrumLabelTexts = new Node( {
       children: [
@@ -144,27 +147,33 @@ define( function( require ) {
         new Text( 'Radio', labelOptions )
       ]
     } );
+
     // Converts a given wavelength to a distance along the x-axis
     function wavelengthToView( wavelength ) {
       return wavelength * HORIZONTAL_GRAPH_LENGTH / model.wavelengthMax;
     }
+
     // Converts a given distance along the x-axis to a wavelength
     function viewToWavelength( viewX ) {
       return viewX * model.wavelengthMax / HORIZONTAL_GRAPH_LENGTH;
     }
+
     // Converts a given spectral radiancce to a distance along the y-axis
     function spectralRadianceToView( spectralRadiance ) {
       var deltaRadiance = VERTICAL_GRAPH_LENGTH / verticalMax;
       var radianceScale = 1e33 * deltaRadiance; // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
       return -radianceScale * spectralRadiance;
     }
+
     // A function that will update where the ticks and text labels are on the spectrumLabel
     function updateSpectrumLabel() {
       var ticksShape = new Shape();
+
       // Makes a tick at a given distance along the x-axis
       function makeTickAt( x ) {
         ticksShape.moveTo( x, -MINOR_TICK_LENGTH / 2 ).lineTo( x, MINOR_TICK_LENGTH );
       }
+
       // Maps all of the wavelengths to their distance along the axis if they are on the axis
       var tickLocations = [ XRAY_WAVELENGTH, ULTRAVIOLET_WAVELENGTH, VISIBLE_WAVELENGTH, INFRARED_WAVELENGTH ]
         .map( function( wavelength ) {
@@ -172,15 +181,18 @@ define( function( require ) {
         } ).filter( function( distance ) {
           return distance <= HORIZONTAL_GRAPH_LENGTH;
         } );
+
       // Makes a tick at each distance that was on the axis
       tickLocations.forEach( function ( distance ) {
         return makeTickAt( distance );
       } );
       spectrumLabelTicks.shape = ticksShape;
+      
       // Makes all text nodes invisible; they get set to be visible later on if they can be displayed
       spectrumLabelTexts.children.forEach( function( textNode ) {
-        textNode.setVisible( false );
+        textNode.visible = false;
       } );
+
       // Sets the location for all of the text labels
       var labelTextBounds = [ 0 ].concat( tickLocations ).concat( HORIZONTAL_GRAPH_LENGTH );
       for ( var i = 0; i < labelTextBounds.length - 1; i++ ) {
@@ -188,22 +200,23 @@ define( function( require ) {
         var upperBoundDistance = labelTextBounds[ i + 1 ];
         var wavelengthLabel = spectrumLabelTexts.children[ i ];
         if ( upperBoundDistance - lowerBoundDistance >= wavelengthLabel.width ) {
-          wavelengthLabel.setVisible( true );
-          wavelengthLabel.setCenterX ( ( upperBoundDistance + lowerBoundDistance ) / 2 );
+          wavelengthLabel.visible = true;
+          wavelengthLabel.centerX = ( upperBoundDistance + lowerBoundDistance ) / 2;
         }
       }
     }
+
     // The spectrumLabel's visibility is derived off of whether the labelsVisible is true or not
     model.labelsVisibleProperty.link( function ( labelsVisible ) {
-      spectrumLabelAxis.setVisible( labelsVisible );
-      spectrumLabelTicks.setVisible( labelsVisible );
-      spectrumLabelTexts.setVisible( labelsVisible );
+      spectrumLabelAxis.visible = labelsVisible;
+      spectrumLabelTicks.visible = labelsVisible;
+      spectrumLabelTexts.visible = labelsVisible;
     } );
 
     // General function for updating graphs; returns an object of what was needed to make the new shape as well as the new shape
     function updateGraph( graph, temperature ) {
       var graphShape = new Shape();
-      var radianceArray = model.coordinatesY( temperature );
+      var radianceArray = model.getCoordinatesY( temperature );
       var numberPoints = radianceArray.length;
       var deltaWavelength = HORIZONTAL_GRAPH_LENGTH / ( numberPoints - 1 );
       var deltaRadiance = VERTICAL_GRAPH_LENGTH / verticalMax;
@@ -226,6 +239,7 @@ define( function( require ) {
     // Function that updates the main graph the user can directly control
     function updateMainGraph() {
       var updatedGraphShape = updateGraph( self.graph, model.temperatureProperty.get() ).graphShape;
+      
       // Easiest way to implement intensity shape is to copy graph shape and bring down to x-axis
       self.intensity.shape = updatedGraphShape;
       var newPoint = new Vector2( HORIZONTAL_GRAPH_LENGTH, 0 );
@@ -238,6 +252,7 @@ define( function( require ) {
       fill: SAVED_GRAPH_COLOR,
       font: SAVED_TEMPERATURE_FONT
     } );
+    
     // Function that updates the saved graph
     this.updateSavedGraph = function() {
       var updatedGraphOptions = updateGraph( self.savedGraph, self.savedTemperature );
@@ -263,6 +278,7 @@ define( function( require ) {
       cursor: 'pointer',
       fill: 'green'
     } );
+    
     // @private variables used in drag handler
     var startPoint;
     var startX;
@@ -274,9 +290,10 @@ define( function( require ) {
       },
       drag: function( event ) {
         mousePoint = event.pointer.point;
+
         // change in x, view units
         var xChange = mousePoint.x - startPoint.x;
-        model.graphValuesPointProperty.set( new Vector2( viewToWavelength( startX + xChange ), model.intensityRadiation( viewToWavelength( startX + xChange ), model.temperatureProperty.get() ) ) );
+        model.graphValuesPointProperty.set( new Vector2( viewToWavelength( startX + xChange ), model.getIntensityRadiation( viewToWavelength( startX + xChange ), model.temperatureProperty.get() ) ) );
       },
 
       allowTouchSnag: true
@@ -314,6 +331,7 @@ define( function( require ) {
         var isMajorTick = i % MINOR_TICKS_PER_MAJOR_TICK === 0;
         var tickLength = isMajorTick ? MAJOR_TICK_LENGTH : MINOR_TICK_LENGTH;
         var x = i * deltaX;
+        
         // horizontal tick
         shape.moveTo( x, graphBottom ).lineTo( x, graphBottom - tickLength );
       }
@@ -381,9 +399,7 @@ define( function( require ) {
     }
 
     // observers
-    model.temperatureProperty.link( function( temperature ) {
-      updateMainGraph();
-    } );
+    model.temperatureProperty.link( updateMainGraph );
 
     // Updates horizontal ticks, graph, and spectrum no horizontal zoom change
     horizontalZoomProperty.link( function( horizontalZoom ) {
@@ -407,8 +423,8 @@ define( function( require ) {
         self.updateSavedGraph();
       }
 
-      horizontalZoomInButton.setEnabled( horizontalZoom > HORIZONTAL_MIN_ZOOM );
-      horizontalZoomOutButton.setEnabled( horizontalZoom < HORIZONTAL_MAX_ZOOM );
+      horizontalZoomInButton.enabled = horizontalZoom > HORIZONTAL_MIN_ZOOM;
+      horizontalZoomOutButton.enabled = horizontalZoom < HORIZONTAL_MAX_ZOOM;
 
       updateGraphValuesPointNodePosition();
 
@@ -425,8 +441,8 @@ define( function( require ) {
         self.updateSavedGraph();
       }
 
-      verticalZoomInButton.setEnabled( verticalZoom > VERTICAL_MIN_ZOOM );
-      verticalZoomOutButton.setEnabled( verticalZoom < VERTICAL_MAX_ZOOM );
+      verticalZoomInButton.enabled = verticalZoom > VERTICAL_MIN_ZOOM;
+      verticalZoomOutButton.enabled = verticalZoom < VERTICAL_MAX_ZOOM;
 
       updateGraphValuesPointNodePosition();
 
@@ -482,7 +498,7 @@ define( function( require ) {
     this.graph.bottom = axesPath.bottom;
     this.graph.left = axesPath.left;
     this.intensity.bottom = axesPath.bottom;
-    this.intensity.left - axesPath.left;
+    this.intensity.left = axesPath.left;
     horizontalTickLabelZero.top = axesPath.bottom;
     horizontalTickLabelZero.centerX = axesPath.left;
     horizontalTickLabelMax.top = axesPath.bottom;

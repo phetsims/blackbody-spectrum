@@ -4,6 +4,7 @@
  * View for the 'BlackbodySpectrum' screen.
  *
  * @author Martin Veillette (Berea College)
+ * @author Saurabh Totey
  */
 define( function( require ) {
   'use strict';
@@ -115,8 +116,8 @@ define( function( require ) {
       thumbNode: thumbNode,
       thumbYOffset: 25,
       endDrag: function() {
-        topArrow.setVisible( false );
-        bottomArrow.setVisible( false );
+        topArrow.visible = false;
+        bottomArrow.visible = false;
       }
     } );
     temperatureSlider.rotation = -Math.PI / 2; // Sets the temperatureSlider to be vertical
@@ -144,8 +145,8 @@ define( function( require ) {
     } );
     // The label and the box containing the intensity value text have the same visibility as the model's intensityVisibleProperty
     model.intensityVisibleProperty.link( function( intensityVisible ) {
-      intensityTextBox.setVisible( intensityVisible );
-      intensityLabel.setVisible( intensityVisible );
+      intensityTextBox.visible = intensityVisible;
+      intensityLabel.visible = intensityVisible;
     } );
 
     // Links the current temperature to the RGB indicators and the temperature text along the TriangleSliderThumb
@@ -168,7 +169,7 @@ define( function( require ) {
       }
       intensityText.text = StringUtils.fillIn( intensityLabelPatternString, { intensity: formattedString } );
       intensityTextBox.setRect( 0, 0, intensityText.width + 5, intensityText.height + 5, 0, 0 );
-      intensityText.setCenter( new Vector2( intensityTextBox.width / 2, intensityTextBox.height / 2 ) );
+      intensityText.center = new Vector2( intensityTextBox.width / 2, intensityTextBox.height / 2 );
     } );
 
     // create graph with zoom buttons
@@ -238,7 +239,7 @@ define( function( require ) {
     bottomArrow.centerY = temperatureNode.centerY;
     intensityTextBox.centerX = graphNode.right - 150;
     intensityTextBox.centerY = (circleBlue.centerY + circleBlueLabel.centerY) / 2;
-    intensityText.setCenter( new Vector2( intensityTextBox.width / 2, intensityTextBox.height / 2 ) );
+    intensityText.center = new Vector2( intensityTextBox.width / 2, intensityTextBox.height / 2 );
     intensityLabel.bottom = intensityTextBox.top;
     intensityLabel.left = intensityTextBox.left;
   }

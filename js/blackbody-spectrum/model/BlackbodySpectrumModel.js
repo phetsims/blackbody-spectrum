@@ -60,13 +60,13 @@ define( function( require ) {
     this.graphValuesPointProperty = new Property( 
       new Vector2(
         self.getPeakWavelength( self.temperatureProperty.get() ),
-        self.intensityRadiation( self.getPeakWavelength( self.temperatureProperty.get() ), self.temperatureProperty.get() )
+        self.getIntensityRadiation( self.getPeakWavelength( self.temperatureProperty.get() ), self.temperatureProperty.get() )
       )
     );
     this.temperatureProperty.link( function( temperature ) {
       self.graphValuesPointProperty.set( new Vector2(
         self.getPeakWavelength( self.temperatureProperty.get() ),
-        self.intensityRadiation( self.getPeakWavelength( self.temperatureProperty.get() ), self.temperatureProperty.get() )
+        self.getIntensityRadiation( self.getPeakWavelength( self.temperatureProperty.get() ), self.temperatureProperty.get() )
       ) );
     } );
 
@@ -100,7 +100,7 @@ define( function( require ) {
      * @param {number} temperature
      * @returns {number}
      */
-    intensityRadiation: function( wavelength, temperature ) {
+    getIntensityRadiation: function( wavelength, temperature ) {
       var intensityRadiation;
       var prefactor;
       var exponentialTerm;
@@ -122,7 +122,7 @@ define( function( require ) {
      * @param {number} temperature - in kelvin
      * @returns {number}
      */
-    renormalizedTemperature: function( temperature ) {
+    getRenormalizedTemperature: function( temperature ) {
       /*
        the function below seems very hacky but it was found in MD flash implementation.
        This renormalized temperature is above 0 but it can exceed one.
@@ -141,13 +141,13 @@ define( function( require ) {
      * @param {number} temperature - in kelvin
      * @returns {number}
      */
-    renormalizedColorIntensity: function( wavelength, temperature ) {
-      var red = this.intensityRadiation( RED_WAVELENGTH, temperature ); // intensity as a function of wavelength in nm
-      var gre = this.intensityRadiation( GRE_WAVELENGTH, temperature );
-      var blu = this.intensityRadiation( BLU_WAVELENGTH, temperature );
+    getRenormalizedColorIntensity: function( wavelength, temperature ) {
+      var red = this.getIntensityRadiation( RED_WAVELENGTH, temperature ); // intensity as a function of wavelength in nm
+      var gre = this.getIntensityRadiation( GRE_WAVELENGTH, temperature );
+      var blu = this.getIntensityRadiation( BLU_WAVELENGTH, temperature );
       var largestColorIntensity = Math.max( red, gre, blu );
-      var colorIntensity = this.intensityRadiation( wavelength, temperature );
-      var boundedRenormalizedTemp = Math.min( this.renormalizedTemperature( temperature ), 1 );
+      var colorIntensity = this.getIntensityRadiation( wavelength, temperature );
+      var boundedRenormalizedTemp = Math.min( this.getRenormalizedTemperature( temperature ), 1 );
       return Math.floor( 255 * boundedRenormalizedTemp * colorIntensity / largestColorIntensity );
     },
 
@@ -159,10 +159,10 @@ define( function( require ) {
      * @param {number} temperature
      * @returns {Array.<number>}
      */
-    coordinatesY: function( temperature ) {
+    getCoordinatesY: function( temperature ) {
       for ( var i = 0; i < GRAPH_NUMBER_POINTS; i++ ) {
         var wavelength = i * this.wavelengthMax / GRAPH_NUMBER_POINTS;
-        this.intensityArray[ i ] = this.intensityRadiation( wavelength, temperature );
+        this.intensityArray[ i ] = this.getIntensityRadiation( wavelength, temperature );
       }
       return this.intensityArray;
     },
@@ -197,7 +197,7 @@ define( function( require ) {
      * @returns {Color}
      */
     getRedColor: function( temperature ) {
-      var red = this.renormalizedColorIntensity( RED_WAVELENGTH, temperature );
+      var red = this.getRenormalizedColorIntensity( RED_WAVELENGTH, temperature );
       return new Color( red, 0, 0, 1 );
     },
 
@@ -208,7 +208,7 @@ define( function( require ) {
      * @returns {Color}
      */
     getBluColor: function( temperature ) {
-      var blu = this.renormalizedColorIntensity( BLU_WAVELENGTH, temperature );
+      var blu = this.getRenormalizedColorIntensity( BLU_WAVELENGTH, temperature );
       return new Color( 0, 0, blu, 1 );
     },
 
@@ -219,7 +219,7 @@ define( function( require ) {
      * @returns {Color}
      */
     getGreColor: function( temperature ) {
-      var gre = this.renormalizedColorIntensity( GRE_WAVELENGTH, temperature );
+      var gre = this.getRenormalizedColorIntensity( GRE_WAVELENGTH, temperature );
       return new Color( 0, gre, 0, 1 );
     },
 
@@ -231,7 +231,7 @@ define( function( require ) {
      * @returns {number}
      */
     getGlowingStarHaloRadius: function( temperature ) {
-      var renTemp = this.renormalizedTemperature( temperature );
+      var renTemp = this.getRenormalizedTemperature( temperature );
       return Util.linear( 0, 1, GLOWING_STAR_HALO_MINIMUM_RADIUS, GLOWING_STAR_HALO_MAXIMUM_RADIUS, renTemp ); // temperature -> radius
     },
 
@@ -244,7 +244,7 @@ define( function( require ) {
      */
     getGlowingStarHaloColor: function( temperature ) {
       var color = this.getStarColor( temperature );
-      var renTemp = this.renormalizedTemperature( temperature );
+      var renTemp = this.getRenormalizedTemperature( temperature );
       var alpha = Util.linear( 0, 1, 0, 0.1, renTemp ); // temperature -> transparency
       return color.withAlpha( alpha );
     },
@@ -257,9 +257,9 @@ define( function( require ) {
      * @returns {Color}
      */
     getStarColor: function( temperature ) {
-      var red = this.renormalizedColorIntensity( RED_WAVELENGTH, temperature );
-      var gre = this.renormalizedColorIntensity( GRE_WAVELENGTH, temperature );
-      var blu = this.renormalizedColorIntensity( BLU_WAVELENGTH, temperature );
+      var red = this.getRenormalizedColorIntensity( RED_WAVELENGTH, temperature );
+      var gre = this.getRenormalizedColorIntensity( GRE_WAVELENGTH, temperature );
+      var blu = this.getRenormalizedColorIntensity( BLU_WAVELENGTH, temperature );
       return new Color( red, gre, blu, 1 );
     }
   } );
