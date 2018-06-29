@@ -282,10 +282,13 @@ define( function( require ) {
       allowTouchSnag: true
     } );
     graphValuesPointNode.addInputListener( horizontalDragHandler );
-    model.graphValuesPointProperty.link( function( point ) {
-      graphValuesPointNode.centerX = wavelengthToView( point.x );
-      graphValuesPointNode.centerY = spectralRadianceToView( point.y );
-    } );
+
+    function updateGraphValuesPointNodePosition() {
+      graphValuesPointNode.centerX = wavelengthToView( model.graphValuesPointProperty.get().x );
+      graphValuesPointNode.centerY = spectralRadianceToView( model.graphValuesPointProperty.get().y );
+    }
+
+    model.graphValuesPointProperty.link( updateGraphValuesPointNodePosition );
 
     // axes for the graph
     var axesShape = new Shape()
@@ -407,6 +410,8 @@ define( function( require ) {
       horizontalZoomInButton.setEnabled( horizontalZoom > HORIZONTAL_MIN_ZOOM );
       horizontalZoomOutButton.setEnabled( horizontalZoom < HORIZONTAL_MAX_ZOOM );
 
+      updateGraphValuesPointNodePosition();
+
     } );
 
     // Updates vertical ticks and graph on vertical zoom change
@@ -422,6 +427,8 @@ define( function( require ) {
 
       verticalZoomInButton.setEnabled( verticalZoom > VERTICAL_MIN_ZOOM );
       verticalZoomOutButton.setEnabled( verticalZoom < VERTICAL_MAX_ZOOM );
+
+      updateGraphValuesPointNodePosition();
 
     } );
 

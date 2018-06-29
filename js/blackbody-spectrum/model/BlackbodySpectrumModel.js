@@ -89,6 +89,7 @@ define( function( require ) {
       this.graphValuesVisibleProperty.reset();
       this.intensityVisibleProperty.reset();
       this.labelsVisibleProperty.reset();
+      this.graphValuesPointProperty.reset();
     },
 
     /**
