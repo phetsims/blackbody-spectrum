@@ -25,6 +25,7 @@ define( function( require ) {
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
   var Property = require( 'AXON/Property' );
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
 
   // constants
   var XRAY_WAVELENGTH = 10; // in nm, max bounds for the x-ray part of the electromagnetic spectrum
@@ -157,12 +158,6 @@ define( function( require ) {
       var radianceScale = 1e33 * deltaRadiance; // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
       return -radianceScale * spectralRadiance;
     }
-    // Converts a given distance along the y-axis to a spectral radiance
-    function viewToSpectralRadiance( viewY ) {
-      var deltaRadiance = VERTICAL_GRAPH_LENGTH / verticalMax;
-      var radianceScale = 1e33 * deltaRadiance; // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
-      return -viewY / radianceScale;
-    }
     // A function that will update where the ticks and text labels are on the spectrumLabel
     function updateSpectrumLabel() {
       var ticksShape = new Shape();
@@ -268,6 +263,25 @@ define( function( require ) {
       cursor: 'pointer',
       fill: 'green'
     } );
+    // @private variables used in drag handler
+    var startPoint;
+    var startX;
+    var mousePoint;
+    var horizontalDragHandler = new SimpleDragHandler( {
+      start: function( event ) {
+        startPoint = event.pointer.point;
+        startX = graphValuesPointNode.centerX; // view units
+      },
+      drag: function( event ) {
+        mousePoint = event.pointer.point;
+        // change in x, view units
+        var xChange = mousePoint.x - startPoint.x;
+        model.graphValuesPointProperty.set( new Vector2( viewToWavelength( startX + xChange ), model.intensityRadiation( viewToWavelength( startX + xChange ), model.temperatureProperty.get() ) ) );
+      },
+
+      allowTouchSnag: true
+    } );
+    graphValuesPointNode.addInputListener( horizontalDragHandler );
     model.graphValuesPointProperty.link( function( point ) {
       graphValuesPointNode.centerX = wavelengthToView( point.x );
       graphValuesPointNode.centerY = spectralRadianceToView( point.y );
