@@ -63,6 +63,12 @@ define( function( require ) {
         self.intensityRadiation( self.getPeakWavelength( self.temperatureProperty.get() ), self.temperatureProperty.get() )
       )
     );
+    this.temperatureProperty.link( function( temperature ) {
+      self.graphValuesPointProperty.set( new Vector2(
+        self.getPeakWavelength( self.temperatureProperty.get() ),
+        self.intensityRadiation( self.getPeakWavelength( self.temperatureProperty.get() ), self.temperatureProperty.get() )
+      ) );
+    } );
 
     // @public {Property.<boolean>}
     this.intensityVisibleProperty = new BooleanProperty( false );
