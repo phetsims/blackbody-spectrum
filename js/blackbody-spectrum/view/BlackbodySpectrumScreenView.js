@@ -159,7 +159,7 @@ define( function( require ) {
       starPath.stroke = model.getStarColor( temperature );
       temperatureNode.text = Util.toFixed( temperature, VALUE_DECIMAL_PLACES ) + ' K';
       // Gets the model intensity and formats it to a nice scientific notation string to put as the intensityText
-      var notationObject = ScientificNotationNode.toScientificNotation( model.totalIntensity, {
+      var notationObject = ScientificNotationNode.toScientificNotation( model.getTotalIntensity( temperature ), {
         mantissaDecimalPlaces: 2
       } );
       var formattedString = notationObject.mantissa;

@@ -156,8 +156,8 @@ define( function( require ) {
      * @param {number} temperature
      * @returns {number}
      */
-    get totalIntensity() {
-      var powerTerm = Math.pow( this.temperatureProperty.get(), 4 );
+    getTotalIntensity: function( temperature ) {
+      var powerTerm = Math.pow( temperature, 4 );
       var totalIntensity = STEFAN_BOLTZMANN_CONSTANT * powerTerm;
       return totalIntensity;
     },
@@ -168,8 +168,8 @@ define( function( require ) {
      * @param {number} temperature
      * @returns {number}
      */
-    get peakWavelength() {
-      var peakWavelength = 1e9 * WIEN_CONSTANT / this.temperatureProperty.get();
+    getPeakWavelength: function( temperature ) {
+      var peakWavelength = 1e9 * WIEN_CONSTANT / temperature;
       return peakWavelength;
     },
 

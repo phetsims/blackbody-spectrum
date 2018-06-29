@@ -37,7 +37,8 @@ define( function( require ) {
   var GRAPH_CURVE_LINE_WIDTH = 5;
   var GRAPH_AXES_COLOR = 'white';
   var GRAPH_CURVE_STROKE = 'red';
-  var SAVED_GRAPH_CURVE_STROKE = '#996633';
+  var SAVED_GRAPH_COLOR = '#996633';
+  var SAVED_TEMPERATURE_FONT = new PhetFont( 22 );
 
   var HORIZONTAL_ZOOM_DEFAULT = 3000; // default wavelength in nanometers
   var VERTICAL_ZOOM_DEFAULT = 100;
@@ -187,7 +188,7 @@ define( function( require ) {
       spectrumLabelTexts.setVisible( labelsVisible );
     } );
 
-    // General function for updating graphs; returns the shape of the graph
+    // General function for updating graphs; returns an object of what was needed to make the new shape as well as the new shape
     function updateGraph( graph, temperature ) {
       var graphShape = new Shape();
       var radianceArray = model.coordinatesY( temperature );
@@ -200,12 +201,19 @@ define( function( require ) {
         graphShape.lineTo( deltaWavelength * i, -radianceScale * radianceArray[ i ] ); /// need to flip y axis
       }
       graph.shape = graphShape;
-      return graphShape.copy();
+      return {
+        graphShape: graphShape.copy(),
+        radianceArray: radianceArray,
+        numberPoints: numberPoints,
+        deltaWavelength: deltaWavelength,
+        deltaRadiance: deltaRadiance,
+        radianceScale: radianceScale
+      };
     }
 
     // Function that updates the main graph the user can directly control
     function updateMainGraph() {
-      var updatedGraphShape = updateGraph( self.graph, model.temperatureProperty.get() );
+      var updatedGraphShape = updateGraph( self.graph, model.temperatureProperty.get() ).graphShape;
       // Easiest way to implement intensity shape is to copy graph shape and bring down to x-axis
       self.intensity.shape = updatedGraphShape;
       var newPoint = new Vector2( HORIZONTAL_GRAPH_LENGTH, 0 );
@@ -214,11 +222,29 @@ define( function( require ) {
       }
     }
 
+    this.savedTemperatureTextNode = new Text( '?', {
+      fill: SAVED_GRAPH_COLOR,
+      font: SAVED_TEMPERATURE_FONT
+    } );
     // Function that updates the saved graph
-    function updateSavedGraph() {
-      /*var updatedGraphShape = */updateGraph( self.savedGraph, self.savedTemperature );
-      //TODO: display saved graph temperature here
-    }
+    this.updateSavedGraph = function() {
+      var updatedGraphOptions = updateGraph( self.savedGraph, self.savedTemperature );
+      self.savedTemperatureTextNode.text = Util.toFixed( self.savedTemperature, 0 ) + 'K';
+      var wavelengthPeakScale = model.getPeakWavelength( self.savedTemperature ) / model.wavelengthMax; 
+      if ( wavelengthPeakScale > 0.85 ) {
+        wavelengthPeakScale = 0.85; 
+      }
+      var wavelengthPeak = updatedGraphOptions.numberPoints * ( wavelengthPeakScale ); 
+      var radiancePeak = -updatedGraphOptions.radianceScale * updatedGraphOptions.radianceArray[ Math.floor( wavelengthPeak ) ]; 
+      var verticalTextPlacement = radiancePeak / 3;
+      if ( verticalTextPlacement > -20 ) {
+        verticalTextPlacement = -20;
+      } else if ( verticalTextPlacement < -VERTICAL_GRAPH_LENGTH + self.savedTemperatureTextNode.height ) {
+        verticalTextPlacement = -VERTICAL_GRAPH_LENGTH + self.savedTemperatureTextNode.height;
+      }
+      self.savedTemperatureTextNode.bottom = verticalTextPlacement; 
+      self.savedTemperatureTextNode.centerX = HORIZONTAL_GRAPH_LENGTH * ( wavelengthPeakScale ) + 20; 
+    };
 
     // axes for the graph
     var axesShape = new Shape()
@@ -334,7 +360,7 @@ define( function( require ) {
       // redraw blackbody curves
       updateMainGraph();
       if ( self.savedGraph ) {
-        updateSavedGraph();
+        self.updateSavedGraph();
       }
 
       horizontalZoomInButton.setEnabled( horizontalZoom > HORIZONTAL_MIN_ZOOM );
@@ -350,7 +376,7 @@ define( function( require ) {
 
       updateMainGraph();
       if ( self.savedGraph ) {
-        updateSavedGraph();
+        self.updateSavedGraph();
       }
 
       verticalZoomInButton.setEnabled( verticalZoom > VERTICAL_MIN_ZOOM );
@@ -452,9 +478,11 @@ define( function( require ) {
     save: function( temperature ) {
       this.clear();
       this.savedTemperature = temperature; // temperature associated with the save graph;
-      this.savedGraph = new Path( null, { stroke: SAVED_GRAPH_CURVE_STROKE, lineWidth: GRAPH_CURVE_LINE_WIDTH } );
+      this.savedGraph = new Path( null, { stroke: SAVED_GRAPH_COLOR, lineWidth: GRAPH_CURVE_LINE_WIDTH } );
       this.savedGraph.shape = this.graph.shape;
       this.addChild( this.savedGraph );
+      this.addChild( this.savedTemperatureTextNode );
+      this.updateSavedGraph();
       this.hasSavedGraphProperty.set( true );
     },
 
@@ -468,6 +496,7 @@ define( function( require ) {
         return;
       }
       this.removeChild( this.savedGraph );
+      this.removeChild( this.savedTemperatureTextNode );
       this.savedGraph = {};
       this.hasSavedGraphProperty.set( false );
     },
