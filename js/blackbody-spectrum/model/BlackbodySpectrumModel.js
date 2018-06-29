@@ -16,6 +16,8 @@ define( function( require ) {
   var NumberProperty = require( 'AXON/NumberProperty' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
   var Util = require( 'DOT/Util' );
+  var Property = require( 'AXON/Property' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // constants
   var GRAPH_NUMBER_POINTS = 300; // number of points blackbody curve is evaluated at
@@ -37,6 +39,7 @@ define( function( require ) {
    * @constructor
    */
   function BlackbodySpectrumModel() {
+    var self = this;
 
     // @private
     this.intensityArray = new Array( GRAPH_NUMBER_POINTS ); //Blackbody spectrum intensity
@@ -53,6 +56,13 @@ define( function( require ) {
 
     // @public {Property.<boolean>}
     this.graphValuesVisibleProperty = new BooleanProperty( false );
+    // @public {Property.<Vector2>}
+    this.graphValuesPointProperty = new Property( 
+      new Vector2(
+        self.getPeakWavelength( self.temperatureProperty.get() ),
+        self.intensityRadiation( self.getPeakWavelength( self.temperatureProperty.get() ), self.temperatureProperty.get() )
+      )
+    );
 
     // @public {Property.<boolean>}
     this.intensityVisibleProperty = new BooleanProperty( false );

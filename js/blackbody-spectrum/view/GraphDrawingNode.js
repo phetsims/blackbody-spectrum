@@ -24,6 +24,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
   var Property = require( 'AXON/Property' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
 
   // constants
   var XRAY_WAVELENGTH = 10; // in nm, max bounds for the x-ray part of the electromagnetic spectrum
@@ -142,12 +143,28 @@ define( function( require ) {
         new Text( 'Radio', labelOptions )
       ]
     } );
+    // Converts a given wavelength to a distance along the x-axis
+    function wavelengthToView( wavelength ) {
+      return wavelength * HORIZONTAL_GRAPH_LENGTH / model.wavelengthMax;
+    }
+    // Converts a given distance along the x-axis to a wavelength
+    function viewToWavelength( viewX ) {
+      return viewX * model.wavelengthMax / HORIZONTAL_GRAPH_LENGTH;
+    }
+    // Converts a given spectral radiancce to a distance along the y-axis
+    function spectralRadianceToView( spectralRadiance ) {
+      var deltaRadiance = VERTICAL_GRAPH_LENGTH / verticalMax;
+      var radianceScale = 1e33 * deltaRadiance; // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
+      return -radianceScale * spectralRadiance;
+    }
+    // Converts a given distance along the y-axis to a spectral radiance
+    function viewToSpectralRadiance( viewY ) {
+      var deltaRadiance = VERTICAL_GRAPH_LENGTH / verticalMax;
+      var radianceScale = 1e33 * deltaRadiance; // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
+      return -viewY / radianceScale;
+    }
     // A function that will update where the ticks and text labels are on the spectrumLabel
     function updateSpectrumLabel() {
-      // Converts a given wavelength to a distance along the x-axis
-      function wavelengthToDistance( wavelength ) {
-        return wavelength * HORIZONTAL_GRAPH_LENGTH / model.wavelengthMax;
-      }
       var ticksShape = new Shape();
       // Makes a tick at a given distance along the x-axis
       function makeTickAt( x ) {
@@ -156,7 +173,7 @@ define( function( require ) {
       // Maps all of the wavelengths to their distance along the axis if they are on the axis
       var tickLocations = [ XRAY_WAVELENGTH, ULTRAVIOLET_WAVELENGTH, VISIBLE_WAVELENGTH, INFRARED_WAVELENGTH ]
         .map( function( wavelength ) {
-          return wavelengthToDistance( wavelength );
+          return wavelengthToView( wavelength );
         } ).filter( function( distance ) {
           return distance <= HORIZONTAL_GRAPH_LENGTH;
         } );
@@ -245,6 +262,16 @@ define( function( require ) {
       self.savedTemperatureTextNode.bottom = verticalTextPlacement; 
       self.savedTemperatureTextNode.centerX = HORIZONTAL_GRAPH_LENGTH * ( wavelengthPeakScale ) + 20; 
     };
+
+    // The circle that the user can drag to see graph values
+    var graphValuesPointNode = new Circle( 5, {
+      cursor: 'pointer',
+      fill: 'green'
+    } );
+    model.graphValuesPointProperty.link( function( point ) {
+      graphValuesPointNode.centerX = wavelengthToView( point.x );
+      graphValuesPointNode.centerY = spectralRadianceToView( point.y );
+    } );
 
     // axes for the graph
     var axesShape = new Shape()
@@ -420,6 +447,7 @@ define( function( require ) {
     this.addChild( spectrumLabelTexts );
     this.addChild( this.graph );
     this.addChild( this.intensity );
+    this.addChild( graphValuesPointNode );
 
     // layout
     axesPath.bottom = 0;
