@@ -180,7 +180,6 @@ define( function( require ) {
       listener: function() {
         model.reset();
         graphNode.reset();
-        graphNode.clear();
         topArrow.setVisible( true );
         bottomArrow.setVisible( true );
       }

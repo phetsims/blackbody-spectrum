@@ -36,23 +36,25 @@ define( function( require ) {
 
   /**
    * Constructs a Blackbody body
+   * @param {BlackbodySpectrumModel} model
+   * @param {number} temperature
    * @constructor
    */
-  function BlackbodyBodyModel() {
+  function BlackbodyBodyModel( model, temperature ) {
     var self = this;
 
     // @private
-    this.intensityArray = new Array( GRAPH_NUMBER_POINTS ); //Blackbody spectrum intensity
+    this.model = model;
 
-    // @public
-    this.wavelengthMax = 3000; // max wavelength in nanometers
+    // @private
+    this.intensityArray = new Array( GRAPH_NUMBER_POINTS ); //Blackbody spectrum intensity
 
     // bounds of the graph
     // @public read-only
     this.bounds = new Bounds2( 0, 0, 1, 1 );
 
     // @public {Property.<number>}  initial temperature in kelvin
-    this.temperatureProperty = new NumberProperty( 6000 );
+    this.temperatureProperty = new NumberProperty( temperature );
 
 
     // @public {Property.<Vector2>}
@@ -147,7 +149,7 @@ define( function( require ) {
      */
     getCoordinatesY: function() {
       for ( var i = 0; i < GRAPH_NUMBER_POINTS; i++ ) {
-        var wavelength = i * this.wavelengthMax / GRAPH_NUMBER_POINTS;
+        var wavelength = i * this.model.wavelengthMax / GRAPH_NUMBER_POINTS;
         this.intensityArray[ i ] = this.getIntensityRadiation( wavelength, this.temperatureProperty.value );
       }
       return this.intensityArray;

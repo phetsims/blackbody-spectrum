@@ -24,7 +24,6 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
-  var Property = require( 'AXON/Property' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
 
@@ -110,6 +109,12 @@ define( function( require ) {
       lineWidth: GRAPH_CURVE_LINE_WIDTH,
       lineJoin: 'round'
     } );
+    
+    this.savedGraph = new Path( null, {
+      stroke: SAVED_GRAPH_COLOR,
+      lineWidth: GRAPH_CURVE_LINE_WIDTH,
+      lineJoin: 'round'
+    } );
 
     // new path for intensity, area under the curve
     this.intensity = new Path( null );
@@ -150,15 +155,15 @@ define( function( require ) {
 
     // Converts a given wavelength to a distance along the x-axis
     function wavelengthToView( wavelength ) {
-      return wavelength * HORIZONTAL_GRAPH_LENGTH / model.mainBody.wavelengthMax;
+      return wavelength * HORIZONTAL_GRAPH_LENGTH / model.wavelengthMax;
     }
 
     // Converts a given distance along the x-axis to a wavelength
     function viewToWavelength( viewX ) {
-      return viewX * model.mainBody.wavelengthMax / HORIZONTAL_GRAPH_LENGTH;
+      return viewX * model.wavelengthMax / HORIZONTAL_GRAPH_LENGTH;
     }
 
-    // Converts a given spectral radiancce to a distance along the y-axis
+    // Converts a given spectral radiance to a distance along the y-axis
     function spectralRadianceToView( spectralRadiance ) {
       var deltaRadiance = VERTICAL_GRAPH_LENGTH / verticalMax;
       var radianceScale = 1e33 * deltaRadiance; // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
@@ -214,9 +219,9 @@ define( function( require ) {
     } );
 
     // General function for updating graphs; returns an object of what was needed to make the new shape as well as the new shape
-    function updateGraph( graph, temperature ) {
+    function updateGraph( graph, body ) {
       var graphShape = new Shape();
-      var radianceArray = model.mainBody.coordinatesY;
+      var radianceArray = body.coordinatesY;
       var numberPoints = radianceArray.length;
       var deltaWavelength = HORIZONTAL_GRAPH_LENGTH / ( numberPoints - 1 );
       var deltaRadiance = VERTICAL_GRAPH_LENGTH / verticalMax;
@@ -238,7 +243,7 @@ define( function( require ) {
 
     // Function that updates the main graph the user can directly control
     function updateMainGraph() {
-      var updatedGraphShape = updateGraph( self.graph, model.mainBody.temperatureProperty.value ).graphShape;
+      var updatedGraphShape = updateGraph( self.graph, model.mainBody ).graphShape;
       
       // Easiest way to implement intensity shape is to copy graph shape and bring down to x-axis
       self.intensity.shape = updatedGraphShape;
@@ -248,16 +253,27 @@ define( function( require ) {
       }
     }
 
-    this.savedTemperatureTextNode = new Text( '?', {
+    var savedTemperatureTextNode = new Text( '?', {
       fill: SAVED_GRAPH_COLOR,
       font: SAVED_TEMPERATURE_FONT
+    } );
+
+    model.savedBodyProperty.link( function( savedBody ) {
+      if ( savedBody === null ) {
+        self.savedGraph.visible = false;
+        savedTemperatureTextNode.visible = false;
+      } else {
+        self.savedGraph.visible = true;
+        savedTemperatureTextNode.visible = true;
+        self.updateSavedGraph();
+      }
     } );
     
     // Function that updates the saved graph
     this.updateSavedGraph = function() {
-      var updatedGraphOptions = updateGraph( self.savedGraph, self.savedTemperature );
-      self.savedTemperatureTextNode.text = Util.toFixed( self.savedTemperature, 0 ) + 'K';
-      var wavelengthPeakScale = model.mainBody.peakWavelength / model.mainBody.wavelengthMax; 
+      var updatedGraphOptions = updateGraph( self.savedGraph, model.savedBodyProperty.value );
+      savedTemperatureTextNode.text = Util.toFixed( model.savedBodyProperty.value.temperatureProperty.value, 0 ) + 'K';
+      var wavelengthPeakScale = model.mainBody.peakWavelength / model.wavelengthMax;
       if ( wavelengthPeakScale > 0.85 ) {
         wavelengthPeakScale = 0.85; 
       }
@@ -266,11 +282,11 @@ define( function( require ) {
       var verticalTextPlacement = radiancePeak / 3;
       if ( verticalTextPlacement > -20 ) {
         verticalTextPlacement = -20;
-      } else if ( verticalTextPlacement < -VERTICAL_GRAPH_LENGTH + self.savedTemperatureTextNode.height ) {
-        verticalTextPlacement = -VERTICAL_GRAPH_LENGTH + self.savedTemperatureTextNode.height;
+      } else if ( verticalTextPlacement < -VERTICAL_GRAPH_LENGTH + savedTemperatureTextNode.height ) {
+        verticalTextPlacement = -VERTICAL_GRAPH_LENGTH + savedTemperatureTextNode.height;
       }
-      self.savedTemperatureTextNode.bottom = verticalTextPlacement; 
-      self.savedTemperatureTextNode.centerX = HORIZONTAL_GRAPH_LENGTH * ( wavelengthPeakScale ) + 20; 
+      savedTemperatureTextNode.bottom = verticalTextPlacement; 
+      savedTemperatureTextNode.centerX = HORIZONTAL_GRAPH_LENGTH * ( wavelengthPeakScale ) + 20; 
     };
 
     // The circle that the user can drag to see graph values
@@ -340,7 +356,7 @@ define( function( require ) {
 
     // label for ticks
     var horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 32 ), fill: COLOR_TICK_LABEL } );
-    var horizontalTickLabelMax = new Text( model.mainBody.wavelengthMax / 1000, {
+    var horizontalTickLabelMax = new Text( model.wavelengthMax / 1000, {
       font: new PhetFont( 32 ),
       fill: COLOR_TICK_LABEL
     } );
@@ -366,8 +382,8 @@ define( function( require ) {
 
     // rainbow spectrum
     // TODO use clipping instead if the spectrum is to the left.
-    var infraredPosition = Util.linear( 0, model.mainBody.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, VISIBLE_WAVELENGTH );
-    var ultravioletPosition = Util.linear( 0, model.mainBody.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH );
+    var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, VISIBLE_WAVELENGTH );
+    var ultravioletPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH );
     var widthSpectrum = infraredPosition - ultravioletPosition;
     var wavelengthSpectrumNode = new WavelengthSpectrumNode( {
       size: new Dimension2( widthSpectrum, VERTICAL_GRAPH_LENGTH ),
@@ -381,8 +397,8 @@ define( function( require ) {
      * Updates the positioning of the visible light spectrum image
      */
     function updateSpectrum() {
-      var infraredPosition = Util.linear( 0, model.mainBody.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, VISIBLE_WAVELENGTH );
-      var ultravioletPosition = Util.linear( 0, model.mainBody.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH );
+      var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, VISIBLE_WAVELENGTH );
+      var ultravioletPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH );
       var widthSpectrum = infraredPosition - ultravioletPosition;
 
       wavelengthSpectrumNode.scale( new Vector2( widthSpectrum / wavelengthSpectrumNode.width, 1 ) );
@@ -404,14 +420,14 @@ define( function( require ) {
     // Updates horizontal ticks, graph, and spectrum no horizontal zoom change
     horizontalZoomProperty.link( function( horizontalZoom ) {
 
-      model.mainBody.wavelengthMax = horizontalZoom;
-      minorTickSpacing = 60000 / model.mainBody.wavelengthMax;
+      model.wavelengthMax = horizontalZoom;
+      minorTickSpacing = 60000 / model.wavelengthMax;
 
       // spectrum position and width
       updateSpectrum();
 
       // update tick label
-      horizontalTickLabelMax.text = model.mainBody.wavelengthMax / 1000; // from nm to micron
+      horizontalTickLabelMax.text = model.wavelengthMax / 1000; // from nm to micron
 
       // update ticks
       updateTicks( minorTickSpacing );
@@ -419,7 +435,7 @@ define( function( require ) {
 
       // redraw blackbody curves
       updateMainGraph();
-      if ( self.savedGraph ) {
+      if ( self.savedGraph.visible ) {
         self.updateSavedGraph();
       }
 
@@ -437,7 +453,7 @@ define( function( require ) {
       verticalTickLabelMax.text = Util.toFixed( verticalMax, 0 ); // from nm to micron
 
       updateMainGraph();
-      if ( self.savedGraph ) {
+      if ( self.savedGraph.visible ) {
         self.updateSavedGraph();
       }
 
@@ -484,6 +500,8 @@ define( function( require ) {
     this.addChild( spectrumLabelTexts );
     this.addChild( this.graph );
     this.addChild( this.intensity );
+    this.addChild( this.savedGraph );
+    this.addChild( savedTemperatureTextNode );
     this.addChild( graphValuesPointNode );
 
     // layout
@@ -521,13 +539,9 @@ define( function( require ) {
     horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
     horizontalAxisBottomLabelNode.centerX = axesPath.centerX;
 
-    // @public
-    this.hasSavedGraphProperty = new Property( false );
-
     this.resetGraphDrawingNode = function() {
       verticalZoomProperty.reset();
       horizontalZoomProperty.reset();
-      self.hasSavedGraphProperty.reset();
     };
   }
 
@@ -536,42 +550,12 @@ define( function( require ) {
   return inherit( Node, GraphDrawingNode, {
 
     /**
-     * Save the state of a graph at temperature 'temperature' and add it to the scene graph
-     * @public
-     * @param {number} temperature - in kelvin
-     */
-    save: function( temperature ) {
-      this.clear();
-      this.savedTemperature = temperature; // temperature associated with the save graph;
-      this.savedGraph = new Path( null, { stroke: SAVED_GRAPH_COLOR, lineWidth: GRAPH_CURVE_LINE_WIDTH } );
-      this.savedGraph.shape = this.graph.shape;
-      this.addChild( this.savedGraph );
-      this.addChild( this.savedTemperatureTextNode );
-      this.updateSavedGraph();
-      this.hasSavedGraphProperty.set( true );
-    },
-
-    /**
-     * Clear the savedGraph form the scene graph
-     * @public
-     */
-    clear: function() {
-      if ( this.indexOfChild( this.savedGraph ) === -1 ) {
-        // Saved graph doesn't exist
-        return;
-      }
-      this.removeChild( this.savedGraph );
-      this.removeChild( this.savedTemperatureTextNode );
-      this.savedGraph = {};
-      this.hasSavedGraphProperty.set( false );
-    },
-
-    /**
      * Reset Properties associated with this Node
      * @public
      */
     reset: function() {
       this.resetGraphDrawingNode();
     }
+
   } );
 } );

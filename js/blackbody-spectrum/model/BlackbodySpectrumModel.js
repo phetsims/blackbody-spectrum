@@ -32,10 +32,13 @@ define( function( require ) {
     this.labelsVisibleProperty = new BooleanProperty( false );
 
     // @public {BlackbodyBodyModel}
-    this.mainBody = new BlackbodyBodyModel();
+    this.mainBody = new BlackbodyBodyModel( this, 6000 );
 
     // @public {Property.<BlackbodyBodyModel>}
     this.savedBodyProperty = new Property( null );
+
+    // @public
+    this.wavelengthMax = 3000; // max wavelength in nanometers
   }
 
   blackbodySpectrum.register( 'BlackbodySpectrumModel', BlackbodySpectrumModel );
@@ -49,6 +52,7 @@ define( function( require ) {
       this.graphValuesVisibleProperty.reset();
       this.intensityVisibleProperty.reset();
       this.labelsVisibleProperty.reset();
+      this.mainBody.reset();
       this.savedBodyProperty.reset();
     },
 
@@ -56,8 +60,7 @@ define( function( require ) {
      * Saves the mainGraph
      */
     saveMainBody: function() {
-      this.savedBodyProperty.value = new BlackbodyBodyModel();
-      this.savedBodyProperty.value.temperatureProperty.value = this.mainBody.temperatureProperty.value;
+      this.savedBodyProperty.value = new BlackbodyBodyModel( this, this.mainBody.temperatureProperty.value );
     }
 
   } );

@@ -83,7 +83,7 @@ define( function( require ) {
       baseColor: BUTTON_COLOR,
       minWidth: options.minWidth - 40,
       listener: function() {
-        graphNode.save( model.mainBody.temperatureProperty.value );
+        model.saveMainBody();
       }
     } );
     var clearButton = new RectangularPushButton( {
@@ -91,13 +91,13 @@ define( function( require ) {
       baseColor: BUTTON_COLOR,
       minWidth: options.minWidth - 40,
       listener: function() {
-        graphNode.clear();
+        model.savedBodyProperty.value = null;
       }
     } );
 
     // Makes the clearButton enabled when there is a saved graph to clear, and disabled when there is no graph to clear
-    graphNode.hasSavedGraphProperty.link( function( hasSavedGraph ) {
-      clearButton.enabled = hasSavedGraph;
+    model.savedBodyProperty.link( function( savedBody ) {
+      clearButton.enabled = savedBody !== null;
     } );
 
     // 3 checkboxes: Peak Values, Intensity, Labels
