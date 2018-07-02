@@ -81,7 +81,7 @@ define( function( require ) {
 
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 1024, 618 ) } );
 
-    var blackbodySpectrumThermometer = new BlackbodySpectrumThermometer( model.temperatureProperty );
+    var blackbodySpectrumThermometer = new BlackbodySpectrumThermometer( model.mainBody.temperatureProperty );
 
     // Note: for HSlider nodes, coordinates go where x axis is from bottom to top, and y axis is from left to right
     // The selectable triangle for the temperature slider
@@ -110,8 +110,8 @@ define( function( require ) {
     temperatureNode.centerX = triangleNode.centerX;
 
     // Creates a temperature slider in Kelvin with a range that is clamped between MIN_TEMPERATURE and MAX_TEMPERATURE
-    var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.temperatureProperty.value );
-    var temperatureSlider = new HSlider( model.temperatureProperty, temperatureRange, {
+    var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.mainBody.temperatureProperty.value );
+    var temperatureSlider = new HSlider( model.mainBody.temperatureProperty, temperatureRange, {
       trackSize: new Dimension2( 400, 5 ),
       thumbNode: thumbNode,
       thumbYOffset: 25,
@@ -150,17 +150,17 @@ define( function( require ) {
     } );
 
     // Links the current temperature to the RGB indicators and the temperature text along the TriangleSliderThumb
-    model.temperatureProperty.link( function( temperature ) {
-      circleBlue.fill = model.getBluColor( temperature );
-      circleGreen.fill = model.getGreColor( temperature );
-      circleRed.fill = model.getRedColor( temperature );
-      glowingStarHalo.fill = model.getGlowingStarHaloColor( temperature );
-      glowingStarHalo.radius = model.getGlowingStarHaloRadius( temperature );
-      starPath.fill = model.getStarColor( temperature );
-      starPath.stroke = model.getStarColor( temperature );
+    model.mainBody.temperatureProperty.link( function( temperature ) {
+      circleBlue.fill = model.mainBody.bluColor;
+      circleGreen.fill = model.mainBody.greColor;
+      circleRed.fill = model.mainBody.redColor;
+      glowingStarHalo.fill = model.mainBody.glowingStarHaloColor;
+      glowingStarHalo.radius = model.mainBody.glowingStarHaloRadius;
+      starPath.fill = model.mainBody.starColor;
+      starPath.stroke = model.mainBody.starColor;
       temperatureNode.text = Util.toFixed( temperature, VALUE_DECIMAL_PLACES ) + ' K';
       // Gets the model intensity and formats it to a nice scientific notation string to put as the intensityText
-      var notationObject = ScientificNotationNode.toScientificNotation( model.getTotalIntensity( temperature ), {
+      var notationObject = ScientificNotationNode.toScientificNotation( model.mainBody.totalIntensity, {
         mantissaDecimalPlaces: 2
       } );
       var formattedString = notationObject.mantissa;

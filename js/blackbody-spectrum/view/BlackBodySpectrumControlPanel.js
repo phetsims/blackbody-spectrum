@@ -83,7 +83,7 @@ define( function( require ) {
       baseColor: BUTTON_COLOR,
       minWidth: options.minWidth - 40,
       listener: function() {
-        graphNode.save( model.temperatureProperty.value );
+        graphNode.save( model.mainBody.temperatureProperty.value );
       }
     } );
     var clearButton = new RectangularPushButton( {

@@ -150,12 +150,12 @@ define( function( require ) {
 
     // Converts a given wavelength to a distance along the x-axis
     function wavelengthToView( wavelength ) {
-      return wavelength * HORIZONTAL_GRAPH_LENGTH / model.wavelengthMax;
+      return wavelength * HORIZONTAL_GRAPH_LENGTH / model.mainBody.wavelengthMax;
     }
 
     // Converts a given distance along the x-axis to a wavelength
     function viewToWavelength( viewX ) {
-      return viewX * model.wavelengthMax / HORIZONTAL_GRAPH_LENGTH;
+      return viewX * model.mainBody.wavelengthMax / HORIZONTAL_GRAPH_LENGTH;
     }
 
     // Converts a given spectral radiancce to a distance along the y-axis
@@ -216,7 +216,7 @@ define( function( require ) {
     // General function for updating graphs; returns an object of what was needed to make the new shape as well as the new shape
     function updateGraph( graph, temperature ) {
       var graphShape = new Shape();
-      var radianceArray = model.getCoordinatesY( temperature );
+      var radianceArray = model.mainBody.coordinatesY;
       var numberPoints = radianceArray.length;
       var deltaWavelength = HORIZONTAL_GRAPH_LENGTH / ( numberPoints - 1 );
       var deltaRadiance = VERTICAL_GRAPH_LENGTH / verticalMax;
@@ -238,7 +238,7 @@ define( function( require ) {
 
     // Function that updates the main graph the user can directly control
     function updateMainGraph() {
-      var updatedGraphShape = updateGraph( self.graph, model.temperatureProperty.get() ).graphShape;
+      var updatedGraphShape = updateGraph( self.graph, model.mainBody.temperatureProperty.value ).graphShape;
       
       // Easiest way to implement intensity shape is to copy graph shape and bring down to x-axis
       self.intensity.shape = updatedGraphShape;
@@ -257,7 +257,7 @@ define( function( require ) {
     this.updateSavedGraph = function() {
       var updatedGraphOptions = updateGraph( self.savedGraph, self.savedTemperature );
       self.savedTemperatureTextNode.text = Util.toFixed( self.savedTemperature, 0 ) + 'K';
-      var wavelengthPeakScale = model.getPeakWavelength( self.savedTemperature ) / model.wavelengthMax; 
+      var wavelengthPeakScale = model.mainBody.peakWavelength / model.mainBody.wavelengthMax; 
       if ( wavelengthPeakScale > 0.85 ) {
         wavelengthPeakScale = 0.85; 
       }
@@ -293,7 +293,7 @@ define( function( require ) {
 
         // change in x, view units
         var xChange = mousePoint.x - startPoint.x;
-        model.graphValuesPointProperty.set( new Vector2( viewToWavelength( startX + xChange ), model.getIntensityRadiation( viewToWavelength( startX + xChange ), model.temperatureProperty.get() ) ) );
+        model.mainBody.graphValuesPointProperty.set( new Vector2( viewToWavelength( startX + xChange ), model.mainBody.getIntensityRadiation( viewToWavelength( startX + xChange ) ) ) );
       },
 
       allowTouchSnag: true
@@ -301,11 +301,11 @@ define( function( require ) {
     graphValuesPointNode.addInputListener( horizontalDragHandler );
 
     function updateGraphValuesPointNodePosition() {
-      graphValuesPointNode.centerX = wavelengthToView( model.graphValuesPointProperty.get().x );
-      graphValuesPointNode.centerY = spectralRadianceToView( model.graphValuesPointProperty.get().y );
+      graphValuesPointNode.centerX = wavelengthToView( model.mainBody.graphValuesPointProperty.value.x );
+      graphValuesPointNode.centerY = spectralRadianceToView( model.mainBody.graphValuesPointProperty.value.y );
     }
 
-    model.graphValuesPointProperty.link( updateGraphValuesPointNodePosition );
+    model.mainBody.graphValuesPointProperty.link( updateGraphValuesPointNodePosition );
 
     // axes for the graph
     var axesShape = new Shape()
@@ -340,7 +340,7 @@ define( function( require ) {
 
     // label for ticks
     var horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 32 ), fill: COLOR_TICK_LABEL } );
-    var horizontalTickLabelMax = new Text( model.wavelengthMax / 1000, {
+    var horizontalTickLabelMax = new Text( model.mainBody.wavelengthMax / 1000, {
       font: new PhetFont( 32 ),
       fill: COLOR_TICK_LABEL
     } );
@@ -366,8 +366,8 @@ define( function( require ) {
 
     // rainbow spectrum
     // TODO use clipping instead if the spectrum is to the left.
-    var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, VISIBLE_WAVELENGTH );
-    var ultravioletPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH );
+    var infraredPosition = Util.linear( 0, model.mainBody.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, VISIBLE_WAVELENGTH );
+    var ultravioletPosition = Util.linear( 0, model.mainBody.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH );
     var widthSpectrum = infraredPosition - ultravioletPosition;
     var wavelengthSpectrumNode = new WavelengthSpectrumNode( {
       size: new Dimension2( widthSpectrum, VERTICAL_GRAPH_LENGTH ),
@@ -381,8 +381,8 @@ define( function( require ) {
      * Updates the positioning of the visible light spectrum image
      */
     function updateSpectrum() {
-      var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, VISIBLE_WAVELENGTH );
-      var ultravioletPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH );
+      var infraredPosition = Util.linear( 0, model.mainBody.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, VISIBLE_WAVELENGTH );
+      var ultravioletPosition = Util.linear( 0, model.mainBody.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH );
       var widthSpectrum = infraredPosition - ultravioletPosition;
 
       wavelengthSpectrumNode.scale( new Vector2( widthSpectrum / wavelengthSpectrumNode.width, 1 ) );
@@ -399,19 +399,19 @@ define( function( require ) {
     }
 
     // observers
-    model.temperatureProperty.link( updateMainGraph );
+    model.mainBody.temperatureProperty.link( updateMainGraph );
 
     // Updates horizontal ticks, graph, and spectrum no horizontal zoom change
     horizontalZoomProperty.link( function( horizontalZoom ) {
 
-      model.wavelengthMax = horizontalZoom;
-      minorTickSpacing = 60000 / model.wavelengthMax;
+      model.mainBody.wavelengthMax = horizontalZoom;
+      minorTickSpacing = 60000 / model.mainBody.wavelengthMax;
 
       // spectrum position and width
       updateSpectrum();
 
       // update tick label
-      horizontalTickLabelMax.text = model.wavelengthMax / 1000; // from nm to micron
+      horizontalTickLabelMax.text = model.mainBody.wavelengthMax / 1000; // from nm to micron
 
       // update ticks
       updateTicks( minorTickSpacing );
