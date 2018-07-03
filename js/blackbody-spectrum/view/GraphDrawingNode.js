@@ -15,7 +15,7 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var NumberProperty = require( 'AXON/NumberProperty' );
+  var ZoomableAxesView = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/ZoomableAxesView' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Shape = require( 'KITE/Shape' );
@@ -42,27 +42,6 @@ define( function( require ) {
   var SAVED_GRAPH_COLOR = '#996633';
   var SAVED_TEMPERATURE_FONT = new PhetFont( 22 );
 
-  var HORIZONTAL_ZOOM_DEFAULT = 3000; // default wavelength in nanometers
-  var VERTICAL_ZOOM_DEFAULT = 100;
-  var HORIZONTAL_MIN_ZOOM = 750;
-  var HORIZONTAL_MAX_ZOOM = 12000;
-  var VERTICAL_MIN_ZOOM = 10;
-  var VERTICAL_MAX_ZOOM = 1000;
-  var HORIZONTAL_ZOOM_SCALING_FACTOR = 2;
-  var VERTICAL_ZOOM_SCALING_FACTOR = Math.sqrt( 10 );
-
-  // constants for ticks and axes
-  var AXES_OPTIONS = {
-    stroke: GRAPH_AXES_COLOR,
-    lineWidth: 3,
-    lineCap: 'round',
-    lineJoin: 'round'
-  };
-  var TICK_OPTIONS = { stroke: GRAPH_AXES_COLOR, lineWidth: 2, lineCap: 'butt', lineJoin: 'bevel' };
-  var MINOR_TICKS_PER_MAJOR_TICK = 5;
-  var MAJOR_TICK_LENGTH = 20;
-  var MINOR_TICK_LENGTH = 10;
-
   // strings
   var horizontalLabelWavelengthString = require( 'string!BLACKBODY_SPECTRUM/horizontalLabelWavelength' );
   var subtitleLabelString = require( 'string!BLACKBODY_SPECTRUM/subtitleLabel' );
@@ -79,14 +58,7 @@ define( function( require ) {
 
     var self = this;
 
-    // {Property.<number>}  zoom number for the horizontal axis of the graph, positive means zooming in
-    // effective zoom is HORIZONTAL_ZOOM_SCALING_FACTOR^horizontalZoomProperty.value
-    var horizontalZoomProperty = new NumberProperty( HORIZONTAL_ZOOM_DEFAULT );
-
-    // {Property.<number>}  zoom number for the vertical axis of the graph
-    var verticalZoomProperty = new NumberProperty( VERTICAL_ZOOM_DEFAULT );
-
-    var verticalMax = 100; // initial value for the maximum Y coordinate label in MW per m^2 per micron
+    this.axes = new ZoomableAxesView( model );
 
     var verticalAxisLabelNode = new Text( verticalLabelSpectralRadianceString, {
       font: new PhetFont( 28 ),
@@ -132,11 +104,21 @@ define( function( require ) {
     // The axis for labelling different parts of the electromagnetic spectrum
     var spectrumLabelAxis = new Path(
       new Shape().moveTo( 0, -VERTICAL_GRAPH_LENGTH ).lineTo( HORIZONTAL_GRAPH_LENGTH, -VERTICAL_GRAPH_LENGTH ),
-      AXES_OPTIONS
+      {
+        stroke: 'white',
+        lineWidth: 3,
+        lineCap: 'round',
+        lineJoin: 'round'
+      }
     );
 
     // The ticks and labels for the spectrum label
-    var spectrumLabelTicks = new Path( null, TICK_OPTIONS );
+    var spectrumLabelTicks = new Path( null, {
+        stroke: 'white',
+        lineWidth: 2,
+        lineCap: 'butt',
+        lineJoin: 'bevel'
+      } );
     var labelOptions = {
       font: new PhetFont( 14 ),
       fill: GRAPH_AXES_COLOR
@@ -153,36 +135,19 @@ define( function( require ) {
       ]
     } );
 
-    // Converts a given wavelength to a distance along the x-axis
-    function wavelengthToView( wavelength ) {
-      return wavelength * HORIZONTAL_GRAPH_LENGTH / model.wavelengthMax;
-    }
-
-    // Converts a given distance along the x-axis to a wavelength
-    function viewToWavelength( viewX ) {
-      return viewX * model.wavelengthMax / HORIZONTAL_GRAPH_LENGTH;
-    }
-
-    // Converts a given spectral radiance to a distance along the y-axis
-    function spectralRadianceToView( spectralRadiance ) {
-      var deltaRadiance = VERTICAL_GRAPH_LENGTH / verticalMax;
-      var radianceScale = 1e33 * deltaRadiance; // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
-      return -radianceScale * spectralRadiance;
-    }
-
     // A function that will update where the ticks and text labels are on the spectrumLabel
     function updateSpectrumLabel() {
       var ticksShape = new Shape();
 
       // Makes a tick at a given distance along the x-axis
       function makeTickAt( x ) {
-        ticksShape.moveTo( x, -MINOR_TICK_LENGTH / 2 ).lineTo( x, MINOR_TICK_LENGTH );
+        ticksShape.moveTo( x, -10 / 2 ).lineTo( x, 10 );
       }
 
       // Maps all of the wavelengths to their distance along the axis if they are on the axis
       var tickLocations = [ XRAY_WAVELENGTH, ULTRAVIOLET_WAVELENGTH, VISIBLE_WAVELENGTH, INFRARED_WAVELENGTH ]
         .map( function( wavelength ) {
-          return wavelengthToView( wavelength );
+          return self.axes.wavelengthToViewX( wavelength );
         } ).filter( function( distance ) {
           return distance <= HORIZONTAL_GRAPH_LENGTH;
         } );
@@ -224,7 +189,7 @@ define( function( require ) {
       var radianceArray = body.coordinatesY;
       var numberPoints = radianceArray.length;
       var deltaWavelength = HORIZONTAL_GRAPH_LENGTH / ( numberPoints - 1 );
-      var deltaRadiance = VERTICAL_GRAPH_LENGTH / verticalMax;
+      var deltaRadiance = VERTICAL_GRAPH_LENGTH / self.axes.verticalZoomProperty.value;
       var radianceScale = 1e33 * deltaRadiance; // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
       graphShape.moveTo( 0, -radianceScale * radianceArray[ 0 ] );
       for ( var i = 1; i < radianceArray.length; i++ ) {
@@ -309,7 +274,7 @@ define( function( require ) {
 
         // change in x, view units
         var xChange = mousePoint.x - startPoint.x;
-        model.mainBody.graphValuesPointProperty.set( new Vector2( viewToWavelength( startX + xChange ), model.mainBody.getIntensityRadiation( viewToWavelength( startX + xChange ) ) ) );
+        model.mainBody.graphValuesPointProperty.set( new Vector2( self.axes.viewXToWavelength( startX + xChange ), model.mainBody.getIntensityRadiation( self.axes.viewXToWavelength( startX + xChange ) ) ) );
       },
 
       allowTouchSnag: true
@@ -317,42 +282,11 @@ define( function( require ) {
     graphValuesPointNode.addInputListener( horizontalDragHandler );
 
     function updateGraphValuesPointNodePosition() {
-      graphValuesPointNode.centerX = wavelengthToView( model.mainBody.graphValuesPointProperty.value.x );
-      graphValuesPointNode.centerY = spectralRadianceToView( model.mainBody.graphValuesPointProperty.value.y );
+      graphValuesPointNode.centerX = self.axes.wavelengthToViewX( model.mainBody.graphValuesPointProperty.value.x );
+      graphValuesPointNode.centerY = self.axes.spectralRadianceToViewY( model.mainBody.graphValuesPointProperty.value.y );
     }
 
     model.mainBody.graphValuesPointProperty.link( updateGraphValuesPointNodePosition );
-
-    // axes for the graph
-    var axesShape = new Shape()
-      .moveTo( HORIZONTAL_GRAPH_LENGTH, 0 )
-      .lineTo( 0, 0 )
-      .lineTo( 0, -VERTICAL_GRAPH_LENGTH )
-      .lineTo( 5, -VERTICAL_GRAPH_LENGTH );
-
-    var axesPath = new Path( axesShape, AXES_OPTIONS );
-
-    // horizontal tick marks
-    var ticks = new Path( null, TICK_OPTIONS );
-    var graphBottom = 0;
-    var minorTickSpacing = 20; // initial value
-
-    function updateTicks( minorTickSpacing ) {
-
-      var numberOfTicks = Util.roundSymmetric( HORIZONTAL_GRAPH_LENGTH / minorTickSpacing );
-      var deltaX = HORIZONTAL_GRAPH_LENGTH / numberOfTicks;
-      var shape = new Shape();
-
-      for ( var i = 1; i <= numberOfTicks; i++ ) {
-        var isMajorTick = i % MINOR_TICKS_PER_MAJOR_TICK === 0;
-        var tickLength = isMajorTick ? MAJOR_TICK_LENGTH : MINOR_TICK_LENGTH;
-        var x = i * deltaX;
-        
-        // horizontal tick
-        shape.moveTo( x, graphBottom ).lineTo( x, graphBottom - tickLength );
-      }
-      ticks.shape = shape;
-    }
 
     // label for ticks
     var horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 32 ), fill: COLOR_TICK_LABEL } );
@@ -360,7 +294,7 @@ define( function( require ) {
       font: new PhetFont( 32 ),
       fill: COLOR_TICK_LABEL
     } );
-    var verticalTickLabelMax = new Text( verticalMax, {
+    var verticalTickLabelMax = new Text( self.axes.verticalZoomProperty.value, {
       font: new PhetFont( 32 ),
       direction: 'rtl',
       fill: COLOR_TICK_LABEL
@@ -390,7 +324,7 @@ define( function( require ) {
       minWavelength: ULTRAVIOLET_WAVELENGTH,
       maxWavelength: VISIBLE_WAVELENGTH,
       opacity: 0.9,
-      left: ultravioletPosition + axesPath.left
+      left: ultravioletPosition + self.axes.left
     } );
 
     /**
@@ -418,20 +352,13 @@ define( function( require ) {
     model.mainBody.temperatureProperty.link( updateMainGraph );
 
     // Updates horizontal ticks, graph, and spectrum no horizontal zoom change
-    horizontalZoomProperty.link( function( horizontalZoom ) {
-
-      model.wavelengthMax = horizontalZoom;
-      minorTickSpacing = 60000 / model.wavelengthMax;
-
+    this.axes.horizontalZoomProperty.link( function( horizontalZoom ) {
       // spectrum position and width
       updateSpectrum();
+      updateSpectrumLabel();
 
       // update tick label
       horizontalTickLabelMax.text = model.wavelengthMax / 1000; // from nm to micron
-
-      // update ticks
-      updateTicks( minorTickSpacing );
-      updateSpectrumLabel();
 
       // redraw blackbody curves
       updateMainGraph();
@@ -439,26 +366,25 @@ define( function( require ) {
         self.updateSavedGraph();
       }
 
-      horizontalZoomInButton.enabled = horizontalZoom > HORIZONTAL_MIN_ZOOM;
-      horizontalZoomOutButton.enabled = horizontalZoom < HORIZONTAL_MAX_ZOOM;
+      horizontalZoomInButton.enabled = horizontalZoom > self.axes.minHorizontalZoom;
+      horizontalZoomOutButton.enabled = horizontalZoom < self.axes.maxHorizontalZoom;
 
       updateGraphValuesPointNodePosition();
 
     } );
 
     // Updates vertical ticks and graph on vertical zoom change
-    verticalZoomProperty.link( function( verticalZoom ) {
+    this.axes.verticalZoomProperty.link( function( verticalZoom ) {
 
-      verticalMax = verticalZoom;
-      verticalTickLabelMax.text = Util.toFixed( verticalMax, 0 ); // from nm to micron
+      verticalTickLabelMax.text = Util.toFixed( verticalZoom, 0 ); // from nm to micron
 
       updateMainGraph();
       if ( self.savedGraph.visible ) {
         self.updateSavedGraph();
       }
 
-      verticalZoomInButton.enabled = verticalZoom > VERTICAL_MIN_ZOOM;
-      verticalZoomOutButton.enabled = verticalZoom < VERTICAL_MAX_ZOOM;
+      verticalZoomInButton.enabled = verticalZoom > self.axes.minVerticalZoom;
+      verticalZoomOutButton.enabled = verticalZoom < self.axes.maxVerticalZoom;
 
       updateGraphValuesPointNodePosition();
 
@@ -468,21 +394,10 @@ define( function( require ) {
     // this.trigger( 'buttonPressed' )
 
     // handle zoom of graph
-    horizontalZoomInButton.addListener( function() {
-      horizontalZoomProperty.value *= 1 / HORIZONTAL_ZOOM_SCALING_FACTOR;
-    } );
-
-    horizontalZoomOutButton.addListener( function() {
-      horizontalZoomProperty.value *= HORIZONTAL_ZOOM_SCALING_FACTOR;
-    } );
-
-    // handle zoom of graph
-    verticalZoomInButton.addListener( function() {
-      verticalZoomProperty.value *= 1 / VERTICAL_ZOOM_SCALING_FACTOR;
-    } );
-    verticalZoomOutButton.addListener( function() {
-      verticalZoomProperty.value *= VERTICAL_ZOOM_SCALING_FACTOR;
-    } );
+    horizontalZoomInButton.addListener( function() { self.axes.zoomInHorizontal(); } );
+    horizontalZoomOutButton.addListener( function() { self.axes.zoomOutHorizontal(); } );
+    verticalZoomInButton.addListener( function() { self.axes.zoomInVertical(); } );
+    verticalZoomOutButton.addListener( function() { self.axes.zoomOutVertical(); } );
 
     this.addChild( wavelengthSpectrumNode );
     this.addChild( horizontalTickLabelZero );
@@ -491,10 +406,9 @@ define( function( require ) {
     this.addChild( verticalAxisLabelNode );
     this.addChild( horizontalAxisTopLabelNode );
     this.addChild( horizontalAxisBottomLabelNode );
-    this.addChild( axesPath );
+    this.addChild( this.axes );
     this.addChild( horizontalZoomButtons );
     this.addChild( verticalZoomButtons );
-    this.addChild( ticks );
     this.addChild( spectrumLabelAxis );
     this.addChild( spectrumLabelTicks );
     this.addChild( spectrumLabelTexts );
@@ -505,44 +419,39 @@ define( function( require ) {
     this.addChild( graphValuesPointNode );
 
     // layout
-    axesPath.bottom = 0;
-    axesPath.left = 0;
-    spectrumLabelAxis.top = axesPath.top;
-    spectrumLabelAxis.left = axesPath.left;
+    this.axes.bottom = 0;
+    this.axes.left = 0;
+    spectrumLabelAxis.top = this.axes.top;
+    spectrumLabelAxis.left = this.axes.left;
     spectrumLabelTicks.centerY = spectrumLabelAxis.centerY;
-    spectrumLabelTicks.left = axesPath.left;
+    spectrumLabelTicks.left = this.axes.left;
     spectrumLabelTexts.bottom = spectrumLabelAxis.top;
-    spectrumLabelTexts.left = axesPath.left;
-    this.graph.bottom = axesPath.bottom;
-    this.graph.left = axesPath.left;
-    this.intensity.bottom = axesPath.bottom;
-    this.intensity.left = axesPath.left;
-    horizontalTickLabelZero.top = axesPath.bottom;
-    horizontalTickLabelZero.centerX = axesPath.left;
-    horizontalTickLabelMax.top = axesPath.bottom;
-    horizontalTickLabelMax.centerX = axesPath.right;
-    verticalTickLabelMax.right = axesPath.left;
-    verticalTickLabelMax.centerY = axesPath.top - 10;
-    horizontalZoomButtons.left = axesPath.right - 45;
-    horizontalZoomButtons.top = axesPath.bottom + 40;
+    spectrumLabelTexts.left = this.axes.left;
+    this.graph.bottom = this.axes.bottom;
+    this.graph.left = this.axes.left;
+    this.intensity.bottom = this.axes.bottom;
+    this.intensity.left = this.axes.left;
+    horizontalTickLabelZero.top = this.axes.bottom;
+    horizontalTickLabelZero.centerX = this.axes.left;
+    horizontalTickLabelMax.top = this.axes.bottom;
+    horizontalTickLabelMax.centerX = this.axes.right;
+    verticalTickLabelMax.right = this.axes.left;
+    verticalTickLabelMax.centerY = this.axes.top - 10;
+    horizontalZoomButtons.left = this.axes.right - 45;
+    horizontalZoomButtons.top = this.axes.bottom + 40;
     horizontalZoomInButton.left = horizontalZoomOutButton.right + 10;
     horizontalZoomInButton.centerY = horizontalZoomOutButton.centerY;
-    verticalZoomButtons.right = axesPath.left - 60;
-    verticalZoomButtons.bottom = axesPath.top + 35;
+    verticalZoomButtons.right = this.axes.left - 60;
+    verticalZoomButtons.bottom = this.axes.top + 35;
     verticalZoomInButton.centerX = verticalZoomOutButton.centerX;
     verticalZoomInButton.bottom = verticalZoomOutButton.top - 10;
-    wavelengthSpectrumNode.bottom = axesPath.bottom;
-    verticalAxisLabelNode.right = axesPath.left - 20;
+    wavelengthSpectrumNode.bottom = this.axes.bottom;
+    verticalAxisLabelNode.right = this.axes.left - 20;
     verticalAxisLabelNode.centerY = -VERTICAL_GRAPH_LENGTH / 2;
-    horizontalAxisTopLabelNode.top = axesPath.bottom + 20;
-    horizontalAxisTopLabelNode.centerX = axesPath.centerX;
+    horizontalAxisTopLabelNode.top = this.axes.bottom + 20;
+    horizontalAxisTopLabelNode.centerX = this.axes.centerX;
     horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
-    horizontalAxisBottomLabelNode.centerX = axesPath.centerX;
-
-    this.resetGraphDrawingNode = function() {
-      verticalZoomProperty.reset();
-      horizontalZoomProperty.reset();
-    };
+    horizontalAxisBottomLabelNode.centerX = this.axes.centerX;
   }
 
   blackbodySpectrum.register( 'GraphDrawingNode', GraphDrawingNode );
@@ -554,7 +463,7 @@ define( function( require ) {
      * @public
      */
     reset: function() {
-      this.resetGraphDrawingNode();
+      this.axes.reset();
     }
 
   } );

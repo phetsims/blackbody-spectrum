@@ -25,6 +25,8 @@ define( function( require ) {
    * @constructor
    */
   function ZoomableAxesView( model, options ) {
+    var self = this;
+
     options = _.extend( {
       axesWidth: 550,
       axesHeight: 400,
@@ -40,7 +42,7 @@ define( function( require ) {
         lineCap: 'butt',
         lineJoin: 'bevel'
       },
-      wavelengthPerTick: 50,
+      wavelengthPerTick: 150,
       minorTicksPerMajorTick: 5,
       minorTickLength: 10,
       majorTickLength: 20,
@@ -82,13 +84,13 @@ define( function( require ) {
     this.minVerticalZoom = options.minVerticalZoom;
     this.maxVerticalZoom = options.maxVerticalZoom;
 
-    // Links the horizontal zoom property to update horizontal ticks on change
-    this.horizontalZoomProperty.link( this.redrawHorizontalTicks );
-
     // Links the horizontal zoom property to update the model for the max wavelength
     this.horizontalZoomProperty.link( function( horizontalZoom ) {
       model.wavelengthMax = horizontalZoom;
     } );
+
+    // Links the horizontal zoom property to update horizontal ticks on change
+    this.horizontalZoomProperty.link( function() { self.redrawHorizontalTicks(); } );
 
     // Call to node superconstructor: no options passed in
     Node.call( this );
@@ -98,7 +100,7 @@ define( function( require ) {
     this.addChild( this.horizontalTicksPath );
 
     // Draws the ZoomableAxesView's horizontal ticks
-    this.redraw();
+    this.redrawHorizontalTicks();
   }
 
   blackbodySpectrum.register( 'ZoomableAxesView', ZoomableAxesView );
@@ -120,9 +122,9 @@ define( function( require ) {
     redrawHorizontalTicks: function() {
       var horizontalTicksShape = new Shape();
       for ( var i = 0; i < this.model.wavelengthMax / this.wavelengthPerTick; i++ ) {
-        var tickHeight = -this.minorTickLength;
+        var tickHeight = this.minorTickLength;
         if ( i % this.minorTicksPerMajorTick === 0 ) {
-          tickHeight = -this.majorTickLength;
+          tickHeight = this.majorTickLength;
         }
         var x = this.wavelengthToViewX( i * this.wavelengthPerTick );
         horizontalTicksShape.moveTo( x, 0 ).lineTo( x, -tickHeight );
@@ -166,7 +168,7 @@ define( function( require ) {
      * Zooms the horizontal axis in
      */
     zoomInHorizontal: function() {
-      this.horizontalZoomProperty.value = Util.clamp( this.horizontalZoomProperty.value * this.horizontalZoomScale,
+      this.horizontalZoomProperty.value = Util.clamp( this.horizontalZoomProperty.value / this.horizontalZoomScale,
         this.minHorizontalZoom,
         this.maxHorizontalZoom
       );
@@ -176,7 +178,7 @@ define( function( require ) {
      * Zooms the horizontal axis out
      */
     zoomOutHorizontal: function() {
-      this.horizontalZoomProperty.value = Util.clamp( this.horizontalZoomProperty.value / this.horizontalZoomScale,
+      this.horizontalZoomProperty.value = Util.clamp( this.horizontalZoomProperty.value * this.horizontalZoomScale,
         this.minHorizontalZoom,
         this.maxHorizontalZoom
       );
@@ -186,7 +188,7 @@ define( function( require ) {
      * Zoooms the vertical axis in
      */
     zoomInVertical: function() {
-      this.verticalZoomProperty.value = Util.clamp( this.verticalZoomProperty.value * this.verticalZoomScale,
+      this.verticalZoomProperty.value = Util.clamp( this.verticalZoomProperty.value / this.verticalZoomScale,
         this.minVerticalZoom,
         this.maxVerticalZoom
       );
@@ -196,7 +198,7 @@ define( function( require ) {
      * Zooms the vertical axis out
      */
     zoomOutVertical: function() {
-      this.verticalZoomProperty.value = Util.clamp( this.verticalZoomProperty.value / this.verticalZoomScale,
+      this.verticalZoomProperty.value = Util.clamp( this.verticalZoomProperty.value * this.verticalZoomScale,
         this.minVerticalZoom,
         this.maxVerticalZoom
       );
