@@ -58,7 +58,7 @@ define( function( require ) {
   var VALUE_DECIMAL_PLACES = 0;
   var INSET = 10;
   var ARROW_OPTIONS = {
-    fill: 'green'
+    fill: '#64dc64'
   };
   var INTENSITY_LABEL_OPTIONS = {
     fill: 'white',
