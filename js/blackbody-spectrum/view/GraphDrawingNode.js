@@ -66,7 +66,7 @@ define( function( require ) {
   // strings
   var horizontalLabelWavelengthString = require( 'string!BLACKBODY_SPECTRUM/horizontalLabelWavelength' );
   var subtitleLabelString = require( 'string!BLACKBODY_SPECTRUM/subtitleLabel' );
-  var verticalLabelIntensityString = require( 'string!BLACKBODY_SPECTRUM/verticalLabelIntensity' );
+  var verticalLabelSpectralRadianceString = require( 'string!BLACKBODY_SPECTRUM/verticalLabelSpectralRadiance' );
 
   /**
    *
@@ -88,7 +88,7 @@ define( function( require ) {
 
     var verticalMax = 100; // initial value for the maximum Y coordinate label in MW per m^2 per micron
 
-    var verticalAxisLabelNode = new Text( verticalLabelIntensityString, {
+    var verticalAxisLabelNode = new Text( verticalLabelSpectralRadianceString, {
       font: new PhetFont( 28 ),
       fill: COLOR_AXIS_LABEL,
       rotation: -Math.PI / 2

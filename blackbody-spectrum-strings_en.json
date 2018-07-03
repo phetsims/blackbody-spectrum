@@ -5,7 +5,7 @@
   "units.cm": {
     "value": "cm"
   },
-  "verticalLabelIntensity": {
+  "verticalLabelSpectralRadiance": {
     "value": "Spectral Radiance (MW/m²/µm)"
   },
   "horizontalLabelWavelength": {
