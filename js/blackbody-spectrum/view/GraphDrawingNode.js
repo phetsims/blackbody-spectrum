@@ -28,16 +28,13 @@ define( function( require ) {
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
 
   // constants
-  var XRAY_WAVELENGTH = 10; // in nm, max bounds for the x-ray part of the electromagnetic spectrum
   var ULTRAVIOLET_WAVELENGTH = 380; // in nm, max bounds for the uv part of the electromagnetic spectrum
   var VISIBLE_WAVELENGTH = 700; // in nm, max bounds for the visible part of the electromagnetic spectrum
-  var INFRARED_WAVELENGTH = 1000; // in nm, max bounds for the visible part of the electromagnetic spectrum
   var HORIZONTAL_GRAPH_LENGTH = 550; // size of graph in scenery coordinates
   var VERTICAL_GRAPH_LENGTH = 400; // size of graph in scenery coordinates
   var COLOR_TICK_LABEL = 'yellow';
   var COLOR_AXIS_LABEL = 'rgb(0,235,235)'; // greenish blue
   var GRAPH_CURVE_LINE_WIDTH = 5;
-  var GRAPH_AXES_COLOR = 'white';
   var GRAPH_CURVE_STROKE = 'red';
   var SAVED_GRAPH_COLOR = '#996633';
   var SAVED_TEMPERATURE_FONT = new PhetFont( 22 );
@@ -99,88 +96,6 @@ define( function( require ) {
       else {
         self.intensity.fill = null;
       }
-    } );
-
-    // The axis for labelling different parts of the electromagnetic spectrum
-    var spectrumLabelAxis = new Path(
-      new Shape().moveTo( 0, -VERTICAL_GRAPH_LENGTH ).lineTo( HORIZONTAL_GRAPH_LENGTH, -VERTICAL_GRAPH_LENGTH ),
-      {
-        stroke: 'white',
-        lineWidth: 3,
-        lineCap: 'round',
-        lineJoin: 'round'
-      }
-    );
-
-    // The ticks and labels for the spectrum label
-    var spectrumLabelTicks = new Path( null, {
-        stroke: 'white',
-        lineWidth: 2,
-        lineCap: 'butt',
-        lineJoin: 'bevel'
-      } );
-    var labelOptions = {
-      font: new PhetFont( 14 ),
-      fill: GRAPH_AXES_COLOR
-    };
-
-    // The parent of all the text labels for the different regions of the electromagnetic spectrum
-    var spectrumLabelTexts = new Node( {
-      children: [
-        new Text( 'X-Ray', labelOptions ),
-        new Text( 'Ultraviolet', labelOptions ),
-        new Text( 'Visible', labelOptions ),
-        new Text( 'Infrared', labelOptions ),
-        new Text( 'Radio', labelOptions )
-      ]
-    } );
-
-    // A function that will update where the ticks and text labels are on the spectrumLabel
-    function updateSpectrumLabel() {
-      var ticksShape = new Shape();
-
-      // Makes a tick at a given distance along the x-axis
-      function makeTickAt( x ) {
-        ticksShape.moveTo( x, -10 / 2 ).lineTo( x, 10 );
-      }
-
-      // Maps all of the wavelengths to their distance along the axis if they are on the axis
-      var tickLocations = [ XRAY_WAVELENGTH, ULTRAVIOLET_WAVELENGTH, VISIBLE_WAVELENGTH, INFRARED_WAVELENGTH ]
-        .map( function( wavelength ) {
-          return self.axes.wavelengthToViewX( wavelength );
-        } ).filter( function( distance ) {
-          return distance <= HORIZONTAL_GRAPH_LENGTH;
-        } );
-
-      // Makes a tick at each distance that was on the axis
-      tickLocations.forEach( function ( distance ) {
-        return makeTickAt( distance );
-      } );
-      spectrumLabelTicks.shape = ticksShape;
-      
-      // Makes all text nodes invisible; they get set to be visible later on if they can be displayed
-      spectrumLabelTexts.children.forEach( function( textNode ) {
-        textNode.visible = false;
-      } );
-
-      // Sets the location for all of the text labels
-      var labelTextBounds = [ 0 ].concat( tickLocations ).concat( HORIZONTAL_GRAPH_LENGTH );
-      for ( var i = 0; i < labelTextBounds.length - 1; i++ ) {
-        var lowerBoundDistance = labelTextBounds[ i ];
-        var upperBoundDistance = labelTextBounds[ i + 1 ];
-        var wavelengthLabel = spectrumLabelTexts.children[ i ];
-        if ( upperBoundDistance - lowerBoundDistance >= wavelengthLabel.width ) {
-          wavelengthLabel.visible = true;
-          wavelengthLabel.centerX = ( upperBoundDistance + lowerBoundDistance ) / 2;
-        }
-      }
-    }
-
-    // The spectrumLabel's visibility is derived off of whether the labelsVisible is true or not
-    model.labelsVisibleProperty.link( function ( labelsVisible ) {
-      spectrumLabelAxis.visible = labelsVisible;
-      spectrumLabelTicks.visible = labelsVisible;
-      spectrumLabelTexts.visible = labelsVisible;
     } );
 
     // General function for updating graphs; returns an object of what was needed to make the new shape as well as the new shape
@@ -355,7 +270,6 @@ define( function( require ) {
     this.axes.horizontalZoomProperty.link( function( horizontalZoom ) {
       // spectrum position and width
       updateSpectrum();
-      updateSpectrumLabel();
 
       // update tick label
       horizontalTickLabelMax.text = model.wavelengthMax / 1000; // from nm to micron
@@ -409,9 +323,6 @@ define( function( require ) {
     this.addChild( this.axes );
     this.addChild( horizontalZoomButtons );
     this.addChild( verticalZoomButtons );
-    this.addChild( spectrumLabelAxis );
-    this.addChild( spectrumLabelTicks );
-    this.addChild( spectrumLabelTexts );
     this.addChild( this.graph );
     this.addChild( this.intensity );
     this.addChild( this.savedGraph );
@@ -421,12 +332,6 @@ define( function( require ) {
     // layout
     this.axes.bottom = 0;
     this.axes.left = 0;
-    spectrumLabelAxis.top = this.axes.top;
-    spectrumLabelAxis.left = this.axes.left;
-    spectrumLabelTicks.centerY = spectrumLabelAxis.centerY;
-    spectrumLabelTicks.left = this.axes.left;
-    spectrumLabelTexts.bottom = spectrumLabelAxis.top;
-    spectrumLabelTexts.left = this.axes.left;
     this.graph.bottom = this.axes.bottom;
     this.graph.left = this.axes.left;
     this.intensity.bottom = this.axes.bottom;

@@ -2,6 +2,7 @@
 
 /**
  * A view that is responsible for controlling graph axes
+ * Handles labels for displaying regions of the electromagnetic spectrum
  * Does NOT handle axis labels
  *
  * @author Saurabh Totey
@@ -17,6 +18,18 @@ define( function( require ) {
   var NumberProperty = require( 'AXON/NumberProperty' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+
+  // constants
+  // Max wavelengths for each region of the electromagnetic spectrum in nm
+  var ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS = {
+    'X-Ray': 10,
+    'Ultraviolet': 380,
+    'Visible': 700,
+    'Infrared': 1000,
+    'Radio': Infinity
+  };
 
   /**
    * Makes a ZoomableAxesView
@@ -27,6 +40,7 @@ define( function( require ) {
   function ZoomableAxesView( model, options ) {
     var self = this;
 
+    // Default options
     options = _.extend( {
       axesWidth: 550,
       axesHeight: 400,
@@ -53,15 +67,28 @@ define( function( require ) {
       maxHorizontalZoom: 12000,
       minHorizontalZoom: 750,
       maxVerticalZoom: 1000,
-      minVerticalZoom: 10
+      minVerticalZoom: 10,
+      electromagneticSpectrumLabelTextOptions: {
+        font: new PhetFont( 14 ),
+        fill: 'white'
+      }
     }, options );
 
+    //
     // @private
+    //
+
     this.model = model;
+
+    // Axes dimensions
     this.horizontalAxisLength = options.axesWidth;
     this.verticalAxisLength = options.axesHeight;
+    
+    // How each axis scales
     this.horizontalZoomScale = options.horizontalZoomFactor;
     this.verticalZoomScale = options.verticalZoomFactor;
+    
+    // The path for the actual axes themselves 
     this.axesPath = new Path(
       new Shape()
         .moveTo( this.horizontalAxisLength, 0 )
@@ -70,13 +97,35 @@ define( function( require ) {
         .lineTo( 5, -this.verticalAxisLength ),
       options.axesPathOptions
     );
+
+    // Path for the horizontal axes ticks
+    this.horizontalTicksPath = new Path( null, options.ticksPathOptions );
+    
+    // Components for the electromagnetic spectrum labels
+    this.electromagneticSpectrumAxisPath = new Path(
+      new Shape().moveTo( 0, -this.verticalAxisLength ).lineTo( this.horizontalAxisLength, -this.verticalAxisLength ),
+      options.axesPathOptions
+    );
+    this.electromagneticSpectrumTicksPath = new Path( null, options.ticksPathOptions );
+    this.electromagneticSpectrumLabelTexts = new Node( {
+      children: Object.keys( ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS ).map( function( labelText ) {
+        var regionLabel = new Text( labelText, options.electromagneticSpectrumLabelTextOptions );
+        regionLabel.bottom = self.electromagneticSpectrumAxisPath.top;
+        return regionLabel;
+      } )
+    } );
+
+    // Horizontal tick settings
     this.wavelengthPerTick = options.wavelengthPerTick;
     this.minorTicksPerMajorTick = options.minorTicksPerMajorTick;
     this.minorTickLength = options.minorTickLength;
     this.majorTickLength = options.majorTickLength;
-    this.horizontalTicksPath = new Path( null, options.ticksPathOptions );
 
+    //
     // @public
+    //
+
+    // Current zooms as well as zoom bounds
     this.horizontalZoomProperty = new NumberProperty( options.defaultHorizontalZoom );
     this.verticalZoomProperty = new NumberProperty( options.defaultVerticalZoom );
     this.minHorizontalZoom = options.minHorizontalZoom;
@@ -89,8 +138,18 @@ define( function( require ) {
       model.wavelengthMax = horizontalZoom;
     } );
 
-    // Links the horizontal zoom property to update horizontal ticks on change
-    this.horizontalZoomProperty.link( function() { self.redrawHorizontalTicks(); } );
+    // Links the horizontal zoom property to update horizontal ticks and the EM spectrum labels on change
+    this.horizontalZoomProperty.link( function() {
+      self.redrawHorizontalTicks();
+      self.redrawElectromagneticSpectrumLabel();
+    } );
+
+    // Links the model's labelsVisibleProperty with the electromagnetic spectrum label's visibility
+    this.model.labelsVisibleProperty.link( function( labelsVisible ) {
+      self.electromagneticSpectrumAxisPath.visible = labelsVisible;
+      self.electromagneticSpectrumTicksPath.visible = labelsVisible;
+      self.electromagneticSpectrumLabelTexts.visible = labelsVisible;
+    } );
 
     // Call to node superconstructor: no options passed in
     Node.call( this );
@@ -98,9 +157,9 @@ define( function( require ) {
     // Adds children in rendering order
     this.addChild( this.axesPath );
     this.addChild( this.horizontalTicksPath );
-
-    // Draws the ZoomableAxesView's horizontal ticks
-    this.redrawHorizontalTicks();
+    this.addChild( this.electromagneticSpectrumAxisPath );
+    this.addChild( this.electromagneticSpectrumTicksPath );
+    this.addChild( this.electromagneticSpectrumLabelTexts );
   }
 
   blackbodySpectrum.register( 'ZoomableAxesView', ZoomableAxesView );
@@ -133,7 +192,46 @@ define( function( require ) {
     },
 
     /**
-  	 * Converts a given wavelength to an x distance along the view
+     * Updates the ZoomableAxesView's electromagnetic spectrum label to comply with any new changes
+     * @private
+     */
+    redrawElectromagneticSpectrumLabel: function() {
+      var self = this;
+
+      // Makes the ticks for demarcating regions of the electromagnetic spectrum
+      var labelsTickShape = new Shape();
+      var tickLocations = Object.values( ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS ).filter( function( wavelength ) {
+        return wavelength <= self.model.wavelengthMax;
+      } ).map( function( wavelength ) {
+        return self.wavelengthToViewX( wavelength );
+      } );
+      tickLocations.forEach( function( x ) {
+        var bottomY = -self.verticalAxisLength + self.minorTickLength / 2;
+        labelsTickShape.moveTo( x, bottomY ).lineTo( x, bottomY - self.minorTickLength );
+      } );
+      this.electromagneticSpectrumTicksPath.shape = labelsTickShape;
+
+      // Makes all text labels invisible
+      this.electromagneticSpectrumLabelTexts.children.forEach( function( regionLabel ) {
+        regionLabel.visible = false;
+      } );
+
+      // Using the locations for tick placement, updates location of electromagnetic spectrum text labels
+      var labelBounds = [ 0 ].concat( tickLocations ).concat( this.horizontalAxisLength );
+      for ( var i = 0; i < labelBounds.length - 1; i++ ) {
+        var lowerBound = labelBounds[ i ];
+        var upperBound = labelBounds[ i + 1 ];
+        var regionLabel = this.electromagneticSpectrumLabelTexts.children[ i ];
+        if ( upperBound - lowerBound < regionLabel.width ) {
+          continue;
+        }
+        regionLabel.visible = true;
+        regionLabel.centerX = ( upperBound + lowerBound ) / 2;
+      }
+    },
+
+    /**
+  	 * Converts a given wavelength in nm to an x distance along the view
   	 * @param {number} wavelength
   	 */
     wavelengthToViewX: function( wavelength ) {
@@ -141,7 +239,7 @@ define( function( require ) {
     },
 
     /**
-     * Converts a given x distance along the view to a wavelength
+     * Converts a given x distance along the view to a wavelength in nm
      * @param {number} viewX
      */
     viewXToWavelength: function( viewX ) {
