@@ -111,6 +111,12 @@ define( function( require ) {
       cursor: 'pointer',
       fill: 'green'
     } );
+
+    // The dashed lines that follow graphValuesPointNode
+    var graphValuesDashedLines = new Path( null, {
+      stroke: 'yellow',
+      lineDash: [ 4, 4 ]
+    } );
     
     // @private variables used in drag handler
     var startPoint;
@@ -133,12 +139,7 @@ define( function( require ) {
     } );
     graphValuesPointNode.addInputListener( horizontalDragHandler );
 
-    var graphValueDashedLines = new Path( null, {
-      stroke: 'yellow',
-      lineDash: [ 4, 4 ]
-    } );
-
-    function updateGraphValuesPointNodePosition() {
+    function updateGraphValues() {
       graphValuesPointNode.centerX = self.axes.wavelengthToViewX( model.mainBody.graphValuesWavelengthProperty.get() );
       graphValuesPointNode.centerY = self.axes.spectralRadianceToViewY(
         model.mainBody.graphValuesSpectralRadianceProperty.get()
@@ -147,10 +148,15 @@ define( function( require ) {
         .moveTo( graphValuesPointNode.centerX, 0 )
         .lineTo( graphValuesPointNode.centerX, graphValuesPointNode.centerY )
         .lineTo( 0, graphValuesPointNode.centerY );
-      graphValueDashedLines.shape = dashedLinesShape;
+      graphValuesDashedLines.shape = dashedLinesShape;
     }
 
-    model.mainBody.graphValuesWavelengthProperty.link( updateGraphValuesPointNodePosition );
+    model.mainBody.graphValuesWavelengthProperty.link( updateGraphValues );
+
+    model.graphValuesVisibleProperty.link( function( graphValuesVisible ) {
+      graphValuesPointNode.visible = graphValuesVisible;
+      graphValuesDashedLines.visible = graphValuesVisible;
+    } );
 
     // label for ticks
     var horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 32 ), fill: COLOR_TICK_LABEL } );
@@ -224,7 +230,7 @@ define( function( require ) {
       horizontalZoomOutButton.enabled = horizontalZoom < self.axes.maxHorizontalZoom;
       verticalZoomInButton.enabled = verticalZoom > self.axes.minVerticalZoom;
       verticalZoomOutButton.enabled = verticalZoom < self.axes.maxVerticalZoom;
-      updateGraphValuesPointNodePosition();
+      updateGraphValues();
     };
     model.mainBody.temperatureProperty.link( updateAllProcedure );
     this.axes.horizontalZoomProperty.link( updateAllProcedure );
@@ -253,7 +259,7 @@ define( function( require ) {
     this.addChild( this.intensityPath );
     this.addChild( this.savedGraph );
     this.addChild( this.savedTemperatureTextNode );
-    this.addChild( graphValueDashedLines );
+    this.addChild( graphValuesDashedLines );
     this.addChild( graphValuesPointNode );
 
     // layout
