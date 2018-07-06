@@ -17,6 +17,7 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Property = require( 'AXON/Property' );
+  var DerivedProperty = require( 'AXON/DerivedProperty' );
 
   // constants
   var GRAPH_NUMBER_POINTS = 300; // number of points blackbody curve is evaluated at
@@ -55,8 +56,15 @@ define( function( require ) {
     // @public {Property.<number>}  initial temperature in kelvin
     this.temperatureProperty = new NumberProperty( temperature );
 
-    // @public {Property.<Number.}
+    // @public {Property.<number>}
     this.graphValuesWavelengthProperty = new Property( this.peakWavelength );
+
+    // @public {DerivedProperty.<number>}
+    this.graphValuesSpectralRadianceProperty = new DerivedProperty(
+      [ this.graphValuesWavelengthProperty ],
+      function( wavelength ) {
+        return self.getIntensityRadiation( wavelength );
+    } );
 
     //Whenever the temperature changes, the point resets to be at the peak of the graph
     this.temperatureProperty.link( function( temperature ) {

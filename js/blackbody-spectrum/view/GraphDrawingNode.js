@@ -136,7 +136,7 @@ define( function( require ) {
     function updateGraphValuesPointNodePosition() {
       graphValuesPointNode.centerX = self.axes.wavelengthToViewX( model.mainBody.graphValuesWavelengthProperty.get() );
       graphValuesPointNode.centerY = self.axes.spectralRadianceToViewY(
-        model.mainBody.getIntensityRadiation( model.mainBody.graphValuesWavelengthProperty.get() )
+        model.mainBody.graphValuesSpectralRadianceProperty.get()
       );
     }
 
