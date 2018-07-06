@@ -133,11 +133,21 @@ define( function( require ) {
     } );
     graphValuesPointNode.addInputListener( horizontalDragHandler );
 
+    var graphValueDashedLines = new Path( null, {
+      stroke: 'yellow',
+      lineDash: [ 4, 4 ]
+    } );
+
     function updateGraphValuesPointNodePosition() {
       graphValuesPointNode.centerX = self.axes.wavelengthToViewX( model.mainBody.graphValuesWavelengthProperty.get() );
       graphValuesPointNode.centerY = self.axes.spectralRadianceToViewY(
         model.mainBody.graphValuesSpectralRadianceProperty.get()
       );
+      var dashedLinesShape = new Shape()
+        .moveTo( graphValuesPointNode.centerX, 0 )
+        .lineTo( graphValuesPointNode.centerX, graphValuesPointNode.centerY )
+        .lineTo( 0, graphValuesPointNode.centerY );
+      graphValueDashedLines.shape = dashedLinesShape;
     }
 
     model.mainBody.graphValuesWavelengthProperty.link( updateGraphValuesPointNodePosition );
@@ -243,6 +253,7 @@ define( function( require ) {
     this.addChild( this.intensityPath );
     this.addChild( this.savedGraph );
     this.addChild( this.savedTemperatureTextNode );
+    this.addChild( graphValueDashedLines );
     this.addChild( graphValuesPointNode );
 
     // layout
