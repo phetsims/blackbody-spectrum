@@ -132,17 +132,19 @@ define( function( require ) {
 
         // change in x, view units
         var xChange = mousePoint.x - startPoint.x;
-        model.mainBody.graphValuesWavelengthProperty.set( self.axes.viewXToWavelength( startX + xChange ) );
-        },
+        model.mainBody.graphValuesWavelengthProperty.value = self.axes.viewXToWavelength(
+          Util.clamp( startX + xChange, 0, self.axes.horizontalAxisLength)
+        );
+      },
 
       allowTouchSnag: true
     } );
     graphValuesPointNode.addInputListener( horizontalDragHandler );
 
     function updateGraphValues() {
-      graphValuesPointNode.centerX = self.axes.wavelengthToViewX( model.mainBody.graphValuesWavelengthProperty.get() );
+      graphValuesPointNode.centerX = self.axes.wavelengthToViewX( model.mainBody.graphValuesWavelengthProperty.value );
       graphValuesPointNode.centerY = self.axes.spectralRadianceToViewY(
-        model.mainBody.graphValuesSpectralRadianceProperty.get()
+        model.mainBody.graphValuesSpectralRadianceProperty.value
       );
       var dashedLinesShape = new Shape()
         .moveTo( graphValuesPointNode.centerX, 0 )
