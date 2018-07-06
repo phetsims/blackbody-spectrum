@@ -16,7 +16,6 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Util = require( 'DOT/Util' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Property = require( 'AXON/Property' );
 
   // constants
@@ -55,7 +54,7 @@ define( function( require ) {
 
     // @public {Property.<number>}  initial temperature in kelvin
     this.temperatureProperty = new NumberProperty( temperature );
-    
+
     // @public {Property.<Number.}
     this.graphValuesWavelengthProperty = new Property( this.peakWavelength );
 
