@@ -55,22 +55,13 @@ define( function( require ) {
 
     // @public {Property.<number>}  initial temperature in kelvin
     this.temperatureProperty = new NumberProperty( temperature );
-
-
-    // @public {Property.<Vector2>}
-    this.graphValuesPointProperty = new Property( 
-      new Vector2(
-        self.getPeakWavelength( self.temperatureProperty.value ),
-        self.getIntensityRadiation( self.getPeakWavelength( self.temperatureProperty.value ), self.temperatureProperty.value )
-      )
-    );
+    
+    // @public {Property.<Number.}
+    this.graphValuesWavelengthProperty = new Property( this.peakWavelength );
 
     //Whenever the temperature changes, the point resets to be at the peak of the graph
     this.temperatureProperty.link( function( temperature ) {
-      self.graphValuesPointProperty.set( new Vector2(
-        self.peakWavelength,
-        self.getIntensityRadiation( self.peakWavelength )
-      ) );
+      self.graphValuesWavelengthProperty.set( self.peakWavelength );
     } );
   }
 
@@ -83,7 +74,7 @@ define( function( require ) {
      */
     reset: function() {
       this.temperatureProperty.reset();
-      this.graphValuesPointProperty.reset();
+      this.graphValuesWavelengthProperty.reset();
     },
 
     /**

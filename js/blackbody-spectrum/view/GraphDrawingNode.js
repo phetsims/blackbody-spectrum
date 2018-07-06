@@ -126,19 +126,21 @@ define( function( require ) {
 
         // change in x, view units
         var xChange = mousePoint.x - startPoint.x;
-        model.mainBody.graphValuesPointProperty.set( new Vector2( self.axes.viewXToWavelength( startX + xChange ), model.mainBody.getIntensityRadiation( self.axes.viewXToWavelength( startX + xChange ) ) ) );
-      },
+        model.mainBody.graphValuesWavelengthProperty.set( self.axes.viewXToWavelength( startX + xChange ) );
+        },
 
       allowTouchSnag: true
     } );
     graphValuesPointNode.addInputListener( horizontalDragHandler );
 
     function updateGraphValuesPointNodePosition() {
-      graphValuesPointNode.centerX = self.axes.wavelengthToViewX( model.mainBody.graphValuesPointProperty.value.x );
-      graphValuesPointNode.centerY = self.axes.spectralRadianceToViewY( model.mainBody.graphValuesPointProperty.value.y );
+      graphValuesPointNode.centerX = self.axes.wavelengthToViewX( model.mainBody.graphValuesWavelengthProperty.get() );
+      graphValuesPointNode.centerY = self.axes.spectralRadianceToViewY(
+        model.mainBody.getIntensityRadiation( model.mainBody.graphValuesWavelengthProperty.get() )
+      );
     }
 
-    model.mainBody.graphValuesPointProperty.link( updateGraphValuesPointNodePosition );
+    model.mainBody.graphValuesWavelengthProperty.link( updateGraphValuesPointNodePosition );
 
     // label for ticks
     var horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 32 ), fill: COLOR_TICK_LABEL } );
