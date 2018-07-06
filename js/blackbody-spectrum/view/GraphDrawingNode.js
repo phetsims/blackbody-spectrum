@@ -2,9 +2,9 @@
 
 //TODO break this up into smaller building blocks, see #19
 /**
- * Graph Node responsible for drawing axes, spectrum, zoom buttons, axe titles and graph
+ * Graph Node responsible for positioning all of the graph elements
  *
- * @author Martin Veillette ( Berea College)
+ * @author Martin Veillette (Berea College)
  * @author Saurabh Totey
  */
 define( function( require ) {
@@ -30,14 +30,13 @@ define( function( require ) {
   // constants
   var ULTRAVIOLET_WAVELENGTH = 380; // in nm, max bounds for the uv part of the electromagnetic spectrum
   var VISIBLE_WAVELENGTH = 700; // in nm, max bounds for the visible part of the electromagnetic spectrum
-  var HORIZONTAL_GRAPH_LENGTH = 550; // size of graph in scenery coordinates
-  var VERTICAL_GRAPH_LENGTH = 400; // size of graph in scenery coordinates
   var COLOR_TICK_LABEL = 'yellow';
   var COLOR_AXIS_LABEL = 'rgb(0,235,235)'; // greenish blue
   var GRAPH_CURVE_LINE_WIDTH = 5;
   var GRAPH_CURVE_STROKE = 'red';
   var SAVED_GRAPH_COLOR = '#996633';
   var SAVED_TEMPERATURE_FONT = new PhetFont( 22 );
+  var INTENSITY_COLOR = 'rgba(100,100,100,0.75)';
 
   // strings
   var horizontalLabelWavelengthString = require( 'string!BLACKBODY_SPECTRUM/horizontalLabelWavelength' );
@@ -50,13 +49,15 @@ define( function( require ) {
    * @constructor
    */
   function GraphDrawingNode( model ) {
-
-    Node.call( this );
-
     var self = this;
 
+    Node.call( this );
+    this.model = model;
+
+    // The axes with the ticks and EM spectrum labels
     this.axes = new ZoomableAxesView( model );
 
+    // Labels for the axes
     var verticalAxisLabelNode = new Text( verticalLabelSpectralRadianceString, {
       font: new PhetFont( 28 ),
       fill: COLOR_AXIS_LABEL,
@@ -71,103 +72,39 @@ define( function( require ) {
       fill: COLOR_AXIS_LABEL
     } );
 
-    // graph: blackbody curve
-    // TODO annotate:  public/private ?
-    this.graph = new Path( null, {
+    // Paths for the main graph and the saved curve
+    this.mainGraph = new Path( null, {
       stroke: GRAPH_CURVE_STROKE,
       lineWidth: GRAPH_CURVE_LINE_WIDTH,
       lineJoin: 'round'
     } );
-    
     this.savedGraph = new Path( null, {
       stroke: SAVED_GRAPH_COLOR,
       lineWidth: GRAPH_CURVE_LINE_WIDTH,
       lineJoin: 'round'
     } );
 
-    // new path for intensity, area under the curve
-    this.intensity = new Path( null );
+    // Path for intensity, area under the curve
+    this.intensityPath = new Path( null, { fill: INTENSITY_COLOR } );
 
     // Whether the area under the curve is filled in is reflected by whether the intensity is set to be visible or not
     model.intensityVisibleProperty.link( function( intensityVisible ) {
-      if ( intensityVisible ) {
-        self.intensity.fill = 'rgba(100,100,100,0.75)'; //TODO move this color into a constant?
-      }
-      else {
-        self.intensity.fill = null;
-      }
+      self.intensityPath.visible = intensityVisible;
     } );
 
-    // General function for updating graphs; returns an object of what was needed to make the new shape as well as the new shape
-    function updateGraph( graph, body ) {
-      var graphShape = new Shape();
-      var radianceArray = body.coordinatesY;
-      var numberPoints = radianceArray.length;
-      var deltaWavelength = HORIZONTAL_GRAPH_LENGTH / ( numberPoints - 1 );
-      var deltaRadiance = VERTICAL_GRAPH_LENGTH / self.axes.verticalZoomProperty.value;
-      var radianceScale = 1e33 * deltaRadiance; // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
-      graphShape.moveTo( 0, -radianceScale * radianceArray[ 0 ] );
-      for ( var i = 1; i < radianceArray.length; i++ ) {
-        graphShape.lineTo( deltaWavelength * i, -radianceScale * radianceArray[ i ] ); /// need to flip y axis
-      }
-      graph.shape = graphShape;
-      return {
-        graphShape: graphShape.copy(),
-        radianceArray: radianceArray,
-        numberPoints: numberPoints,
-        deltaWavelength: deltaWavelength,
-        deltaRadiance: deltaRadiance,
-        radianceScale: radianceScale
-      };
-    }
-
-    // Function that updates the main graph the user can directly control
-    function updateMainGraph() {
-      var updatedGraphShape = updateGraph( self.graph, model.mainBody ).graphShape;
-      
-      // Easiest way to implement intensity shape is to copy graph shape and bring down to x-axis
-      self.intensity.shape = updatedGraphShape;
-      var newPoint = new Vector2( HORIZONTAL_GRAPH_LENGTH, 0 );
-      if ( self.intensity.shape.getLastPoint().minus( newPoint ).magnitude() > 0 ) {
-        self.intensity.shape.lineToPoint( newPoint );
-      }
-    }
-
-    var savedTemperatureTextNode = new Text( '?', {
+    // The text node that displays the saved temperature
+    this.savedTemperatureTextNode = new Text( '?', {
       fill: SAVED_GRAPH_COLOR,
       font: SAVED_TEMPERATURE_FONT
     } );
 
+    // Links saved graph visibility to whether there is a graph that is saved
     model.savedBodyProperty.link( function( savedBody ) {
-      if ( savedBody === null ) {
-        self.savedGraph.visible = false;
-        savedTemperatureTextNode.visible = false;
-      } else {
-        self.savedGraph.visible = true;
-        savedTemperatureTextNode.visible = true;
-        self.updateSavedGraph();
-      }
+      var hasSavedBody = savedBody !== null;
+      self.savedGraph.visible = hasSavedBody;
+      self.savedTemperatureTextNode.visible = hasSavedBody;
+      self.updateGraphPaths();
     } );
-    
-    // Function that updates the saved graph
-    this.updateSavedGraph = function() {
-      var updatedGraphOptions = updateGraph( self.savedGraph, model.savedBodyProperty.value );
-      savedTemperatureTextNode.text = Util.toFixed( model.savedBodyProperty.value.temperatureProperty.value, 0 ) + 'K';
-      var wavelengthPeakScale = model.mainBody.peakWavelength / model.wavelengthMax;
-      if ( wavelengthPeakScale > 0.85 ) {
-        wavelengthPeakScale = 0.85; 
-      }
-      var wavelengthPeak = updatedGraphOptions.numberPoints * ( wavelengthPeakScale ); 
-      var radiancePeak = -updatedGraphOptions.radianceScale * updatedGraphOptions.radianceArray[ Math.floor( wavelengthPeak ) ]; 
-      var verticalTextPlacement = radiancePeak / 3;
-      if ( verticalTextPlacement > -20 ) {
-        verticalTextPlacement = -20;
-      } else if ( verticalTextPlacement < -VERTICAL_GRAPH_LENGTH + savedTemperatureTextNode.height ) {
-        verticalTextPlacement = -VERTICAL_GRAPH_LENGTH + savedTemperatureTextNode.height;
-      }
-      savedTemperatureTextNode.bottom = verticalTextPlacement; 
-      savedTemperatureTextNode.centerX = HORIZONTAL_GRAPH_LENGTH * ( wavelengthPeakScale ) + 20; 
-    };
 
     // The circle that the user can drag to see graph values
     var graphValuesPointNode = new Circle( 5, {
@@ -209,7 +146,7 @@ define( function( require ) {
       font: new PhetFont( 32 ),
       fill: COLOR_TICK_LABEL
     } );
-    var verticalTickLabelMax = new Text( self.axes.verticalZoomProperty.value, {
+    var verticalTickLabelMax = new Text( this.axes.verticalZoomProperty.value, {
       font: new PhetFont( 32 ),
       direction: 'rtl',
       fill: COLOR_TICK_LABEL
@@ -230,79 +167,56 @@ define( function( require ) {
     verticalZoomOutButton.touchArea = verticalZoomOutButton.localBounds.dilated( 5, 5 );
 
     // rainbow spectrum
-    // TODO use clipping instead if the spectrum is to the left.
-    var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, VISIBLE_WAVELENGTH );
-    var ultravioletPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH );
+    // TODO use axes to do conversion
+    var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, this.axes.horizontalAxisLength, VISIBLE_WAVELENGTH );
+    var ultravioletPosition = Util.linear( 0, model.wavelengthMax, 0, this.axes.horizontalAxisLength, ULTRAVIOLET_WAVELENGTH );
     var widthSpectrum = infraredPosition - ultravioletPosition;
     var wavelengthSpectrumNode = new WavelengthSpectrumNode( {
-      size: new Dimension2( widthSpectrum, VERTICAL_GRAPH_LENGTH ),
+      size: new Dimension2( widthSpectrum, this.axes.verticalAxisLength ),
       minWavelength: ULTRAVIOLET_WAVELENGTH,
       maxWavelength: VISIBLE_WAVELENGTH,
       opacity: 0.9,
-      left: ultravioletPosition + self.axes.left
+      left: ultravioletPosition + this.axes.left
     } );
 
     /**
      * Updates the positioning of the visible light spectrum image
      */
     function updateSpectrum() {
-      var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, VISIBLE_WAVELENGTH );
-      var ultravioletPosition = Util.linear( 0, model.wavelengthMax, 0, HORIZONTAL_GRAPH_LENGTH, ULTRAVIOLET_WAVELENGTH );
+      var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, self.axes.horizontalAxisLength, VISIBLE_WAVELENGTH );
+      var ultravioletPosition = Util.linear( 0, model.wavelengthMax, 0, self.axes.horizontalAxisLength, ULTRAVIOLET_WAVELENGTH );
       var widthSpectrum = infraredPosition - ultravioletPosition;
 
       wavelengthSpectrumNode.scale( new Vector2( widthSpectrum / wavelengthSpectrumNode.width, 1 ) );
-      var spectrumPosition = ultravioletPosition + self.graph.left;
-      var isSpectrumOffTheAxis = spectrumPosition > self.graph.right;
-      wavelengthSpectrumNode.left = ultravioletPosition + self.graph.left;
+      var spectrumPosition = ultravioletPosition + self.mainGraph.left;
+      var isSpectrumOffTheAxis = spectrumPosition > self.mainGraph.right;
+      wavelengthSpectrumNode.left = ultravioletPosition + self.mainGraph.left;
       if ( isSpectrumOffTheAxis ) {
         wavelengthSpectrumNode.visible = false;
       }
       else {
         wavelengthSpectrumNode.visible = true;
-        wavelengthSpectrumNode.left = ultravioletPosition + self.graph.left;
+        wavelengthSpectrumNode.left = ultravioletPosition + self.mainGraph.left;
       }
     }
 
     // observers
-    model.mainBody.temperatureProperty.link( updateMainGraph );
-
-    // Updates horizontal ticks, graph, and spectrum no horizontal zoom change
-    this.axes.horizontalZoomProperty.link( function( horizontalZoom ) {
-      // spectrum position and width
+    var updateAllProcedure = function() {
+      var verticalZoom = self.axes.verticalZoomProperty.value;
+      var horizontalZoom = self.axes.horizontalZoomProperty.value;
+      self.updateGraphPaths();
       updateSpectrum();
-
-      // update tick label
-      horizontalTickLabelMax.text = model.wavelengthMax / 1000; // from nm to micron
-
-      // redraw blackbody curves
-      updateMainGraph();
-      if ( self.savedGraph.visible ) {
-        self.updateSavedGraph();
-      }
-
+      horizontalTickLabelMax.text = model.wavelengthMax / 1000; // Conversion from nm to microns
+      verticalTickLabelMax.text = Util.toFixed( verticalZoom, 0 ); // Conversion from nm to microns
       horizontalZoomInButton.enabled = horizontalZoom > self.axes.minHorizontalZoom;
       horizontalZoomOutButton.enabled = horizontalZoom < self.axes.maxHorizontalZoom;
-
-      updateGraphValuesPointNodePosition();
-
-    } );
-
-    // Updates vertical ticks and graph on vertical zoom change
-    this.axes.verticalZoomProperty.link( function( verticalZoom ) {
-
-      verticalTickLabelMax.text = Util.toFixed( verticalZoom, 0 ); // from nm to micron
-
-      updateMainGraph();
-      if ( self.savedGraph.visible ) {
-        self.updateSavedGraph();
-      }
-
       verticalZoomInButton.enabled = verticalZoom > self.axes.minVerticalZoom;
       verticalZoomOutButton.enabled = verticalZoom < self.axes.maxVerticalZoom;
-
       updateGraphValuesPointNodePosition();
-
-    } );
+    };
+    model.mainBody.temperatureProperty.link( updateAllProcedure );
+    this.axes.horizontalZoomProperty.link( updateAllProcedure );
+    this.axes.verticalZoomProperty.link( updateAllProcedure );
 
     // TODO use trigger and axon/Events instead
     // this.trigger( 'buttonPressed' )
@@ -323,19 +237,21 @@ define( function( require ) {
     this.addChild( this.axes );
     this.addChild( horizontalZoomButtons );
     this.addChild( verticalZoomButtons );
-    this.addChild( this.graph );
-    this.addChild( this.intensity );
+    this.addChild( this.mainGraph );
+    this.addChild( this.intensityPath );
     this.addChild( this.savedGraph );
-    this.addChild( savedTemperatureTextNode );
+    this.addChild( this.savedTemperatureTextNode );
     this.addChild( graphValuesPointNode );
 
     // layout
     this.axes.bottom = 0;
     this.axes.left = 0;
-    this.graph.bottom = this.axes.bottom;
-    this.graph.left = this.axes.left;
-    this.intensity.bottom = this.axes.bottom;
-    this.intensity.left = this.axes.left;
+    this.mainGraph.bottom = this.axes.bottom;
+    this.mainGraph.left = this.axes.left;
+    //this.savedGraph.bottom = this.mainGraph.bottom;
+    //this.savedGraph.left = this.mainGraph.left;
+    this.intensityPath.bottom = this.axes.bottom;
+    this.intensityPath.left = this.axes.left;
     horizontalTickLabelZero.top = this.axes.bottom;
     horizontalTickLabelZero.centerX = this.axes.left;
     horizontalTickLabelMax.top = this.axes.bottom;
@@ -352,7 +268,7 @@ define( function( require ) {
     verticalZoomInButton.bottom = verticalZoomOutButton.top - 10;
     wavelengthSpectrumNode.bottom = this.axes.bottom;
     verticalAxisLabelNode.right = this.axes.left - 20;
-    verticalAxisLabelNode.centerY = -VERTICAL_GRAPH_LENGTH / 2;
+    verticalAxisLabelNode.centerY = -this.axes.verticalAxisLength / 2;
     horizontalAxisTopLabelNode.top = this.axes.bottom + 20;
     horizontalAxisTopLabelNode.centerX = this.axes.centerX;
     horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
@@ -369,6 +285,62 @@ define( function( require ) {
      */
     reset: function() {
       this.axes.reset();
+    },
+
+    /**
+     * Gets the shape of a given BlackbodyBodyModel
+     * @param {BlackbodyBodyModel} body
+     * @private
+     */
+    shapeOfBody: function( body ) {
+      var graphShape = new Shape();
+      var radianceArray = body.coordinatesY;
+      var numberPoints = radianceArray.length;
+      var deltaWavelength = this.axes.horizontalAxisLength / ( numberPoints - 1 );
+      graphShape.moveTo( 0, this.axes.spectralRadianceToViewY( radianceArray[ 0 ] ) );
+      for ( var i = 1; i < radianceArray.length; i++ ) {
+        graphShape.lineTo( deltaWavelength * i, this.axes.spectralRadianceToViewY( radianceArray[ i ] ) );
+      }
+      return graphShape;
+    },
+
+    /**
+     * Updates the saved and main graph paths as well as their corresponding text boxes or intensity paths
+     */
+    updateGraphPaths: function() {
+      // Updates the main graph
+      var updatedGraphShape = this.shapeOfBody( this.model.mainBody );
+      this.mainGraph.shape = updatedGraphShape;
+
+      // Easiest way to implement intensity shape is to copy graph shape and bring down to x-axis
+      this.intensityPath.shape = updatedGraphShape.copy();
+      var newPoint = new Vector2( this.axes.horizontalAxisLength, 0 );
+      if ( this.intensityPath.shape.getLastPoint().minus( newPoint ).magnitude() > 0 ) {
+        this.intensityPath.shape.lineToPoint( newPoint );
+      }
+
+      // Updates the saved graph
+      if ( this.model.savedBodyProperty.value === null ) {
+        return;
+      }
+      this.savedGraph.shape = this.shapeOfBody( this.model.savedBodyProperty.value );
+
+      // Updates the saved graph text box
+      this.savedTemperatureTextNode.text = Util.toFixed( this.model.savedBodyProperty.value.temperatureProperty.value, 0 ) + 'K';
+      var peakWavelength = this.model.savedBodyProperty.value.peakWavelength;
+      var radiancePeak = this.axes.spectralRadianceToViewY( this.model.savedBodyProperty.value.getIntensityRadiation( peakWavelength ) );
+      var verticalTextPlacement = radiancePeak / 3;
+      if ( verticalTextPlacement > -20 ) {
+        verticalTextPlacement = -20;
+      } else if ( verticalTextPlacement < -this.axes.verticalAxisLength + this.savedTemperatureTextNode.height ) {
+        verticalTextPlacement = -this.axes.verticalAxisLength + this.savedTemperatureTextNode.height;
+      }
+      var horizontalTextPlacement = this.axes.wavelengthToViewX( peakWavelength ) + 20;
+      if ( horizontalTextPlacement + this.savedTemperatureTextNode.width / 2 > this.axes.horizontalAxisLength ) {
+        horizontalTextPlacement = this.axes.horizontalAxisLength - this.savedTemperatureTextNode.width / 2;
+      }
+      this.savedTemperatureTextNode.bottom = verticalTextPlacement;
+      this.savedTemperatureTextNode.centerX = horizontalTextPlacement;
     }
 
   } );

@@ -30,6 +30,8 @@ define( function( require ) {
     'Infrared': 1000,
     'Radio': Infinity
   };
+  // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
+  var SPECTRAL_RADIANCE_CONVERSION_FACTOR = 1e33;
 
   /**
    * Makes a ZoomableAxesView
@@ -74,16 +76,18 @@ define( function( require ) {
       }
     }, options );
 
+    // @private
+    this.model = model;
+
+    // Axes dimensions
+    // @public
+    this.horizontalAxisLength = options.axesWidth;
+    this.verticalAxisLength = options.axesHeight;
+    
     //
     // @private
     //
 
-    this.model = model;
-
-    // Axes dimensions
-    this.horizontalAxisLength = options.axesWidth;
-    this.verticalAxisLength = options.axesHeight;
-    
     // How each axis scales
     this.horizontalZoomScale = options.horizontalZoomFactor;
     this.verticalZoomScale = options.verticalZoomFactor;
@@ -251,7 +255,8 @@ define( function( require ) {
      * @param {number} spectralRadiance
      */
     spectralRadianceToViewY: function( spectralRadiance ) {
-      return Util.linear( 0, this.verticalZoomProperty.value, 0, this.verticalAxisLength, spectralRadiance );
+      return -SPECTRAL_RADIANCE_CONVERSION_FACTOR *
+        Util.linear( 0, this.verticalZoomProperty.value, 0, this.verticalAxisLength, spectralRadiance );
     },
 
     /**
@@ -259,7 +264,8 @@ define( function( require ) {
      * @param {number} viewY
      */
     viewYToSpectralRadiance: function( viewY ) {
-      return Util.linear( 0, this.verticalAxisLength, 0, this.verticalZoomProperty.value, viewY );
+      return Util.linear( 0, this.verticalAxisLength, 0, this.verticalZoomProperty.value, viewY ) /
+        -SPECTRAL_RADIANCE_CONVERSION_FACTOR;
     },
 
     /**
