@@ -66,7 +66,11 @@ define( function( require ) {
     var labelsText = new Text( labelsString, checkboxFont );
 
     var saveText = new Text( saveString, buttonFont );
-    var saveCurveShape = new Shape().moveTo( -10, 0 ).lineTo( 0, 0 ).cubicCurveTo( 20, -75, 40, 0, 60, 0 ).lineTo( 100, 0 );
+    var saveCurveShape = new Shape()
+      .moveTo( 0, 0 )
+      .cubicCurveTo( 15, 0, 15, -25, 25, -25 )
+      .cubicCurveTo( 35, -25, 45, 0, 80, 0 );
+
     var saveCurvePath = new Path( saveCurveShape, {
       stroke: 'black',
       lineWidth: 3,
