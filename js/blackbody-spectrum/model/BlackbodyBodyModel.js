@@ -16,8 +16,6 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Util = require( 'DOT/Util' );
   var Bounds2 = require( 'DOT/Bounds2' );
-  var Property = require( 'AXON/Property' );
-  var DerivedProperty = require( 'AXON/DerivedProperty' );
 
   // constants
   var GRAPH_NUMBER_POINTS = 300; // number of points blackbody curve is evaluated at
@@ -41,8 +39,6 @@ define( function( require ) {
    * @constructor
    */
   function BlackbodyBodyModel( model, temperature ) {
-    var self = this;
-
     // @private
     this.model = model;
 

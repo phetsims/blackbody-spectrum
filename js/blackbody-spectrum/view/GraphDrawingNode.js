@@ -214,6 +214,7 @@ define( function( require ) {
      */
     reset: function() {
       this.axes.reset();
+      this.draggablePointNode.reset();
     },
 
     /**
