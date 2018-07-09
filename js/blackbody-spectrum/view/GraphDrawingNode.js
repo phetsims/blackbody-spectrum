@@ -180,19 +180,18 @@ define( function( require ) {
     var horizontalZoomButtons = new Node( { children: [ horizontalZoomOutButton, horizontalZoomInButton ] } );
     var verticalZoomButtons = new Node( { children: [ verticalZoomOutButton, verticalZoomInButton ] } );
 
-    // expand touch area
+    // expand touch area for zoom buttons
     horizontalZoomInButton.touchArea = horizontalZoomInButton.localBounds.dilated( 5, 5 );
     horizontalZoomOutButton.touchArea = horizontalZoomOutButton.localBounds.dilated( 5, 5 );
     verticalZoomInButton.touchArea = verticalZoomInButton.localBounds.dilated( 5, 5 );
     verticalZoomOutButton.touchArea = verticalZoomOutButton.localBounds.dilated( 5, 5 );
 
     // rainbow spectrum
-    // TODO use axes to do conversion
-    var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, this.axes.horizontalAxisLength, VISIBLE_WAVELENGTH );
-    var ultravioletPosition = Util.linear( 0, model.wavelengthMax, 0, this.axes.horizontalAxisLength, ULTRAVIOLET_WAVELENGTH );
-    var widthSpectrum = infraredPosition - ultravioletPosition;
+    var infraredPosition = this.axes.wavelengthToViewX( VISIBLE_WAVELENGTH );
+    var ultravioletPosition = this.axes.wavelengthToViewX( ULTRAVIOLET_WAVELENGTH );
+    var spectrumWidth = infraredPosition - ultravioletPosition;
     var wavelengthSpectrumNode = new WavelengthSpectrumNode( {
-      size: new Dimension2( widthSpectrum, this.axes.verticalAxisLength ),
+      size: new Dimension2( spectrumWidth, this.axes.verticalAxisLength ),
       minWavelength: ULTRAVIOLET_WAVELENGTH,
       maxWavelength: VISIBLE_WAVELENGTH,
       opacity: 0.9,
@@ -203,11 +202,11 @@ define( function( require ) {
      * Updates the positioning of the visible light spectrum image
      */
     function updateSpectrum() {
-      var infraredPosition = Util.linear( 0, model.wavelengthMax, 0, self.axes.horizontalAxisLength, VISIBLE_WAVELENGTH );
-      var ultravioletPosition = Util.linear( 0, model.wavelengthMax, 0, self.axes.horizontalAxisLength, ULTRAVIOLET_WAVELENGTH );
-      var widthSpectrum = infraredPosition - ultravioletPosition;
+      var infraredPosition = self.axes.wavelengthToViewX( VISIBLE_WAVELENGTH );
+      var ultravioletPosition = self.axes.wavelengthToViewX( ULTRAVIOLET_WAVELENGTH );
+      var spectrumWidth = infraredPosition - ultravioletPosition;
 
-      wavelengthSpectrumNode.scale( new Vector2( widthSpectrum / wavelengthSpectrumNode.width, 1 ) );
+      wavelengthSpectrumNode.scale( new Vector2( spectrumWidth / wavelengthSpectrumNode.width, 1 ) );
       var spectrumPosition = ultravioletPosition + self.mainGraph.left;
       var isSpectrumOffTheAxis = spectrumPosition > self.mainGraph.right;
       wavelengthSpectrumNode.left = ultravioletPosition + self.mainGraph.left;
@@ -221,7 +220,7 @@ define( function( require ) {
     }
 
     // observers
-    var updateAllProcedure = function() {
+    function updateAllProcedure() {
       var verticalZoom = self.axes.verticalZoomProperty.value;
       var horizontalZoom = self.axes.horizontalZoomProperty.value;
       self.updateGraphPaths();
@@ -233,7 +232,7 @@ define( function( require ) {
       verticalZoomInButton.enabled = verticalZoom > self.axes.minVerticalZoom;
       verticalZoomOutButton.enabled = verticalZoom < self.axes.maxVerticalZoom;
       updateGraphValues();
-    };
+    }
     model.mainBody.temperatureProperty.link( updateAllProcedure );
     this.axes.horizontalZoomProperty.link( updateAllProcedure );
     this.axes.verticalZoomProperty.link( updateAllProcedure );
