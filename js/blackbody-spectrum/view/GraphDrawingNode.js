@@ -57,7 +57,7 @@ define( function( require ) {
     Node.call( this );
     this.model = model;
 
-    // The axes with the ticks and EM spectrum labels
+    // @private The axes with the ticks and EM spectrum labels
     this.axes = new ZoomableAxesView( model );
 
     // Labels for the axes
@@ -75,7 +75,7 @@ define( function( require ) {
       fill: options.axisLabelColor
     } );
 
-    // Paths for the main graph and the saved curve
+    // @private Paths for the main graph and the saved curve
     this.mainGraph = new Path( null, {
       stroke: options.mainGraphPathColor,
       lineWidth: options.graphPathLineWidth,
@@ -87,13 +87,13 @@ define( function( require ) {
       lineJoin: 'round'
     } );
 
-    // Path for intensity, area under the curve
+    // @private Path for intensity, area under the curve
     this.intensityPath = new Path( null, { fill: options.intensityPathFillColor } );
     model.intensityVisibleProperty.link( function( intensityVisible ) {
       self.intensityPath.visible = intensityVisible;
     } );
 
-    // The text node that displays the saved temperature
+    // @private The text node that displays the saved temperature
     this.savedTemperatureTextNode = new Text( '?', {
       fill: options.savedGraphPathColor,
       font: new PhetFont( 22 )
@@ -107,49 +107,49 @@ define( function( require ) {
       self.updateGraphPaths();
     } );
 
-    // The point node that can be dragged to find out graph values
+    // @private The point node that can be dragged to find out graph values
     this.draggablePointNode = new GraphValuesPointNode( model.mainBody, this.axes );
     model.graphValuesVisibleProperty.link( function( graphValuesVisible ) {
       self.draggablePointNode.visible = graphValuesVisible;
     } );
 
-    // Labels for axes bounds
-    var horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 32 ), fill: options.axisBoundsLabelColor } );
-    var horizontalTickLabelMax = new Text( model.wavelengthMax / 1000, {
+    // @private Labels for axes bounds
+    this.horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 32 ), fill: options.axisBoundsLabelColor } );
+    this.horizontalTickLabelMax = new Text( model.wavelengthMax / 1000, {
       font: new PhetFont( 32 ),
       fill: options.axisBoundsLabelColor
     } );
-    var verticalTickLabelMax = new Text( this.axes.verticalZoomProperty.value, {
+    this.verticalTickLabelMax = new Text( this.axes.verticalZoomProperty.value, {
       font: new PhetFont( 32 ),
       direction: 'rtl',
       fill: options.axisBoundsLabelColor
     } );
 
     // Zoom Buttons
-    var horizontalZoomInButton = new ZoomButton( { in: true, radius: options.zoomButtonIconRadius } );
-    var horizontalZoomOutButton = new ZoomButton( { in: false, radius: options.zoomButtonIconRadius } );
-    var verticalZoomInButton = new ZoomButton( { in: true, radius: options.zoomButtonIconRadius } );
-    var verticalZoomOutButton = new ZoomButton( { in: false, radius: options.zoomButtonIconRadius } );
-    var horizontalZoomButtons = new Node( { children: [ horizontalZoomOutButton, horizontalZoomInButton ] } );
-    var verticalZoomButtons = new Node( { children: [ verticalZoomOutButton, verticalZoomInButton ] } );
+    this.horizontalZoomInButton = new ZoomButton( { in: true, radius: options.zoomButtonIconRadius } );
+    this.horizontalZoomOutButton = new ZoomButton( { in: false, radius: options.zoomButtonIconRadius } );
+    this.verticalZoomInButton = new ZoomButton( { in: true, radius: options.zoomButtonIconRadius } );
+    this.verticalZoomOutButton = new ZoomButton( { in: false, radius: options.zoomButtonIconRadius } );
+    var horizontalZoomButtons = new Node( { children: [ self.horizontalZoomOutButton, self.horizontalZoomInButton ] } );
+    var verticalZoomButtons = new Node( { children: [ self.verticalZoomOutButton, self.verticalZoomInButton ] } );
 
     // Expands the touch area for zoom buttons
-    horizontalZoomInButton.touchArea = horizontalZoomInButton.localBounds.dilated( 5, 5 );
-    horizontalZoomOutButton.touchArea = horizontalZoomOutButton.localBounds.dilated( 5, 5 );
-    verticalZoomInButton.touchArea = verticalZoomInButton.localBounds.dilated( 5, 5 );
-    verticalZoomOutButton.touchArea = verticalZoomOutButton.localBounds.dilated( 5, 5 );
+    this.horizontalZoomInButton.touchArea = this.horizontalZoomInButton.localBounds.dilated( 5, 5 );
+    this.horizontalZoomOutButton.touchArea = this.horizontalZoomOutButton.localBounds.dilated( 5, 5 );
+    this.verticalZoomInButton.touchArea = this.verticalZoomInButton.localBounds.dilated( 5, 5 );
+    this.verticalZoomOutButton.touchArea = this.verticalZoomOutButton.localBounds.dilated( 5, 5 );
 
     // Makes the zoom buttons change the axes to zoom in/out when pressed
-    horizontalZoomInButton.addListener( function() { self.axes.zoomInHorizontal(); } );
-    horizontalZoomOutButton.addListener( function() { self.axes.zoomOutHorizontal(); } );
-    verticalZoomInButton.addListener( function() { self.axes.zoomInVertical(); } );
-    verticalZoomOutButton.addListener( function() { self.axes.zoomOutVertical(); } );
+    this.horizontalZoomInButton.addListener( function() { self.axes.zoomInHorizontal(); } );
+    this.horizontalZoomOutButton.addListener( function() { self.axes.zoomOutHorizontal(); } );
+    this.verticalZoomInButton.addListener( function() { self.axes.zoomInVertical(); } );
+    this.verticalZoomOutButton.addListener( function() { self.axes.zoomOutVertical(); } );
 
     // Node for that displays the rainbow for the visible portion of the electromagnetic spectrum
     var infraredPosition = this.axes.wavelengthToViewX( VISIBLE_WAVELENGTH );
     var ultravioletPosition = this.axes.wavelengthToViewX( ULTRAVIOLET_WAVELENGTH );
     var spectrumWidth = infraredPosition - ultravioletPosition;
-    var wavelengthSpectrumNode = new WavelengthSpectrumNode( {
+    this.wavelengthSpectrumNode = new WavelengthSpectrumNode( {
       size: new Dimension2( spectrumWidth, this.axes.verticalAxisLength ),
       minWavelength: ULTRAVIOLET_WAVELENGTH,
       maxWavelength: VISIBLE_WAVELENGTH,
@@ -157,42 +157,17 @@ define( function( require ) {
       left: ultravioletPosition + this.axes.left
     } );
 
-    /**
-     * Updates the positioning of the visible light spectrum node
-     */
-    function updateSpectrum() {
-      var infraredPosition = self.axes.wavelengthToViewX( VISIBLE_WAVELENGTH );
-      var ultravioletPosition = self.axes.wavelengthToViewX( ULTRAVIOLET_WAVELENGTH );
-      var spectrumWidth = infraredPosition - ultravioletPosition;
-      wavelengthSpectrumNode.scale( new Vector2( spectrumWidth / wavelengthSpectrumNode.width, 1 ) );
-      wavelengthSpectrumNode.left = ultravioletPosition + self.mainGraph.left;
-    }
-
-    /**
-     * A procedure to update everything in the graph drawing node; gets called on any sort of change
-     */
-    function updateAllProcedure() {
-      var verticalZoom = self.axes.verticalZoomProperty.value;
-      var horizontalZoom = self.axes.horizontalZoomProperty.value;
-      self.updateGraphPaths();
-      updateSpectrum();
-      self.draggablePointNode.update();
-      horizontalTickLabelMax.text = model.wavelengthMax / 1000; // Conversion from nm to microns
-      verticalTickLabelMax.text = Util.toFixed( verticalZoom, 0 );
-      horizontalZoomInButton.enabled = horizontalZoom > self.axes.minHorizontalZoom;
-      horizontalZoomOutButton.enabled = horizontalZoom < self.axes.maxHorizontalZoom;
-      verticalZoomInButton.enabled = verticalZoom > self.axes.minVerticalZoom;
-      verticalZoomOutButton.enabled = verticalZoom < self.axes.maxVerticalZoom;
-    }
+    // Links the GraphDrawingNode to update whenever any tracked property changes
+    function updateAllProcedure() { self.update(); }
     model.mainBody.temperatureProperty.link( updateAllProcedure );
     this.axes.horizontalZoomProperty.link( updateAllProcedure );
     this.axes.verticalZoomProperty.link( updateAllProcedure );
 
     // Adds children in rendering order
-    this.addChild( wavelengthSpectrumNode );
-    this.addChild( horizontalTickLabelZero );
-    this.addChild( horizontalTickLabelMax );
-    this.addChild( verticalTickLabelMax );
+    this.addChild( this.wavelengthSpectrumNode );
+    this.addChild( this.horizontalTickLabelZero );
+    this.addChild( this.horizontalTickLabelMax );
+    this.addChild( this.verticalTickLabelMax );
     this.addChild( verticalAxisLabelNode );
     this.addChild( horizontalAxisTopLabelNode );
     this.addChild( horizontalAxisBottomLabelNode );
@@ -206,21 +181,21 @@ define( function( require ) {
     this.addChild( this.draggablePointNode );
 
     // Sets layout of graph node elements to be all ultimately relative to the axes
-    horizontalTickLabelZero.top = this.axes.bottom;
-    horizontalTickLabelZero.centerX = this.axes.left;
-    horizontalTickLabelMax.top = this.axes.bottom;
-    horizontalTickLabelMax.centerX = this.axes.right;
-    verticalTickLabelMax.right = this.axes.left;
-    verticalTickLabelMax.centerY = this.axes.top - 10;
+    this.horizontalTickLabelZero.top = this.axes.bottom;
+    this.horizontalTickLabelZero.centerX = this.axes.left;
+    this.horizontalTickLabelMax.top = this.axes.bottom;
+    this.horizontalTickLabelMax.centerX = this.axes.right;
+    this.verticalTickLabelMax.right = this.axes.left;
+    this.verticalTickLabelMax.centerY = this.axes.top - 10;
     horizontalZoomButtons.left = this.axes.right - 45;
     horizontalZoomButtons.top = this.axes.bottom + 40;
-    horizontalZoomInButton.left = horizontalZoomOutButton.right + 10;
-    horizontalZoomInButton.centerY = horizontalZoomOutButton.centerY;
+    this.horizontalZoomInButton.left = this.horizontalZoomOutButton.right + 10;
+    this.horizontalZoomInButton.centerY = this.horizontalZoomOutButton.centerY;
     verticalZoomButtons.right = this.axes.left - 60;
     verticalZoomButtons.bottom = this.axes.top + 35;
-    verticalZoomInButton.centerX = verticalZoomOutButton.centerX;
-    verticalZoomInButton.bottom = verticalZoomOutButton.top - 10;
-    wavelengthSpectrumNode.bottom = this.axes.bottom;
+    this.verticalZoomInButton.centerX = this.verticalZoomOutButton.centerX;
+    this.verticalZoomInButton.bottom = this.verticalZoomOutButton.top - 10;
+    this.wavelengthSpectrumNode.bottom = this.axes.bottom;
     verticalAxisLabelNode.right = this.axes.left - 20;
     verticalAxisLabelNode.centerY = -this.axes.verticalAxisLength / 2;
     horizontalAxisTopLabelNode.top = this.axes.bottom + 20;
@@ -295,6 +270,35 @@ define( function( require ) {
       }
       this.savedTemperatureTextNode.bottom = verticalTextPlacement;
       this.savedTemperatureTextNode.centerX = horizontalTextPlacement;
+    },
+
+    /**
+     * A method that updates the visible spectrum rainbow node to be in the correct position relative to the axes
+     * @private
+     */
+    updateVisibleSpectrumNode: function() {
+      var infraredPosition = this.axes.wavelengthToViewX( VISIBLE_WAVELENGTH );
+      var ultravioletPosition = this.axes.wavelengthToViewX( ULTRAVIOLET_WAVELENGTH );
+      var spectrumWidth = infraredPosition - ultravioletPosition;
+      this.wavelengthSpectrumNode.left = ultravioletPosition;
+      this.wavelengthSpectrumNode.scale( new Vector2( spectrumWidth / this.wavelengthSpectrumNode.width, 1 ) );
+    },
+
+    /**
+     * Updates everything in the graph drawing node
+     */
+    update: function() {
+      var verticalZoom = this.axes.verticalZoomProperty.value;
+      var horizontalZoom = this.axes.horizontalZoomProperty.value;
+      this.updateGraphPaths();
+      this.updateVisibleSpectrumNode();
+      this.draggablePointNode.update();
+      this.horizontalTickLabelMax.text = this.model.wavelengthMax / 1000; // Conversion from nm to microns
+      this.verticalTickLabelMax.text = Util.toFixed( verticalZoom, 0 );
+      this.horizontalZoomInButton.enabled = horizontalZoom > this.axes.minHorizontalZoom;
+      this.horizontalZoomOutButton.enabled = horizontalZoom < this.axes.maxHorizontalZoom;
+      this.verticalZoomInButton.enabled = verticalZoom > this.axes.minVerticalZoom;
+      this.verticalZoomOutButton.enabled = verticalZoom < this.axes.maxVerticalZoom;
     }
 
   } );
