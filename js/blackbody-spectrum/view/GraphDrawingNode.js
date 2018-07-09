@@ -29,13 +29,6 @@ define( function( require ) {
   // constants
   var ULTRAVIOLET_WAVELENGTH = 380; // in nm, max bounds for the uv part of the electromagnetic spectrum
   var VISIBLE_WAVELENGTH = 700; // in nm, max bounds for the visible part of the electromagnetic spectrum
-  var COLOR_TICK_LABEL = 'yellow';
-  var COLOR_AXIS_LABEL = 'rgb(0,235,235)'; // greenish blue
-  var GRAPH_CURVE_LINE_WIDTH = 5;
-  var GRAPH_CURVE_STROKE = 'red';
-  var SAVED_GRAPH_COLOR = '#996633';
-  var SAVED_TEMPERATURE_FONT = new PhetFont( 22 );
-  var INTENSITY_COLOR = 'rgba(100,100,100,0.75)';
 
   // strings
   var horizontalLabelWavelengthString = require( 'string!BLACKBODY_SPECTRUM/horizontalLabelWavelength' );
@@ -45,10 +38,21 @@ define( function( require ) {
   /**
    * The node that handles keeping all of the graph elements together and working
    * @param {BlackbodySpectrumModel}  model - model for the entire screen
+   * @param {Object} options
    * @constructor
    */
-  function GraphDrawingNode( model ) {
+  function GraphDrawingNode( model, options ) {
     var self = this;
+
+    options = _.extend( {
+      axisBoundsLabelColor: 'yellow',
+      axisLabelColor: 'rgb(0,235,235)',
+      graphPathLineWidth: 5,
+      mainGraphPathColor: 'red',
+      savedGraphPathColor: '#996633',
+      intensityPathFillColor: 'rgba(100,100,100,0.75)',
+      zoomButtonIconRadius: 10
+    }, options );
 
     Node.call( this );
     this.model = model;
@@ -59,40 +63,40 @@ define( function( require ) {
     // Labels for the axes
     var verticalAxisLabelNode = new Text( verticalLabelSpectralRadianceString, {
       font: new PhetFont( 28 ),
-      fill: COLOR_AXIS_LABEL,
+      fill: options.axisLabelColor,
       rotation: -Math.PI / 2
     } );
     var horizontalAxisTopLabelNode = new Text( horizontalLabelWavelengthString, {
       font: new PhetFont( 32 ),
-      fill: COLOR_AXIS_LABEL
+      fill: options.axisLabelColor
     } );
     var horizontalAxisBottomLabelNode = new Text( subtitleLabelString, {
       font: new PhetFont( 24 ),
-      fill: COLOR_AXIS_LABEL
+      fill: options.axisLabelColor
     } );
 
     // Paths for the main graph and the saved curve
     this.mainGraph = new Path( null, {
-      stroke: GRAPH_CURVE_STROKE,
-      lineWidth: GRAPH_CURVE_LINE_WIDTH,
+      stroke: options.mainGraphPathColor,
+      lineWidth: options.graphPathLineWidth,
       lineJoin: 'round'
     } );
     this.savedGraph = new Path( null, {
-      stroke: SAVED_GRAPH_COLOR,
-      lineWidth: GRAPH_CURVE_LINE_WIDTH,
+      stroke: options.savedGraphPathColor,
+      lineWidth: options.graphPathLineWidth,
       lineJoin: 'round'
     } );
 
     // Path for intensity, area under the curve
-    this.intensityPath = new Path( null, { fill: INTENSITY_COLOR } );
+    this.intensityPath = new Path( null, { fill: options.intensityPathFillColor } );
     model.intensityVisibleProperty.link( function( intensityVisible ) {
       self.intensityPath.visible = intensityVisible;
     } );
 
     // The text node that displays the saved temperature
     this.savedTemperatureTextNode = new Text( '?', {
-      fill: SAVED_GRAPH_COLOR,
-      font: SAVED_TEMPERATURE_FONT
+      fill: options.savedGraphPathColor,
+      font: new PhetFont( 22 )
     } );
 
     // Links saved graph visibility to whether there is a graph that is saved
@@ -110,22 +114,22 @@ define( function( require ) {
     } );
 
     // Labels for axes bounds
-    var horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 32 ), fill: COLOR_TICK_LABEL } );
+    var horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 32 ), fill: options.axisBoundsLabelColor } );
     var horizontalTickLabelMax = new Text( model.wavelengthMax / 1000, {
       font: new PhetFont( 32 ),
-      fill: COLOR_TICK_LABEL
+      fill: options.axisBoundsLabelColor
     } );
     var verticalTickLabelMax = new Text( this.axes.verticalZoomProperty.value, {
       font: new PhetFont( 32 ),
       direction: 'rtl',
-      fill: COLOR_TICK_LABEL
+      fill: options.axisBoundsLabelColor
     } );
 
-    // Zoom Buttons TODO: move radius to constant?
-    var horizontalZoomInButton = new ZoomButton( { in: true, radius: 10 } );
-    var horizontalZoomOutButton = new ZoomButton( { in: false, radius: 10 } );
-    var verticalZoomInButton = new ZoomButton( { in: true, radius: 10 } );
-    var verticalZoomOutButton = new ZoomButton( { in: false, radius: 10 } );
+    // Zoom Buttons
+    var horizontalZoomInButton = new ZoomButton( { in: true, radius: options.zoomButtonIconRadius } );
+    var horizontalZoomOutButton = new ZoomButton( { in: false, radius: options.zoomButtonIconRadius } );
+    var verticalZoomInButton = new ZoomButton( { in: true, radius: options.zoomButtonIconRadius } );
+    var verticalZoomOutButton = new ZoomButton( { in: false, radius: options.zoomButtonIconRadius } );
     var horizontalZoomButtons = new Node( { children: [ horizontalZoomOutButton, horizontalZoomInButton ] } );
     var verticalZoomButtons = new Node( { children: [ verticalZoomOutButton, verticalZoomInButton ] } );
 
