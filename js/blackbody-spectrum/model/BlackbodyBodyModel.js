@@ -55,21 +55,6 @@ define( function( require ) {
 
     // @public {Property.<number>}  initial temperature in kelvin
     this.temperatureProperty = new NumberProperty( temperature );
-
-    // @public {Property.<number>}
-    this.graphValuesWavelengthProperty = new Property( this.peakWavelength );
-
-    // @public {DerivedProperty.<number>}
-    this.graphValuesSpectralRadianceProperty = new DerivedProperty(
-      [ this.graphValuesWavelengthProperty ],
-      function( wavelength ) {
-        return self.getIntensityRadiation( wavelength );
-    } );
-
-    //Whenever the temperature changes, the point resets to be at the peak of the graph
-    this.temperatureProperty.link( function( temperature ) {
-      self.graphValuesWavelengthProperty.set( self.peakWavelength );
-    } );
   }
 
   blackbodySpectrum.register( 'BlackbodyBodyModel', BlackbodyBodyModel );
@@ -81,13 +66,12 @@ define( function( require ) {
      */
     reset: function() {
       this.temperatureProperty.reset();
-      this.graphValuesWavelengthProperty.reset();
     },
 
     /**
      * Function that returns the intensity radiation for a given wavelength (in nm)
      * The units of intensity radiation are in megaWatts per meter^2 per micrometer
-     * @private
+     * @public
      * @param {number} wavelength
      * @returns {number}
      */

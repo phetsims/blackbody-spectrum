@@ -24,8 +24,7 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
-  var Circle = require( 'SCENERY/nodes/Circle' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var GraphValuesPointNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GraphValuesPointNode' );
 
   // constants
   var ULTRAVIOLET_WAVELENGTH = 380; // in nm, max bounds for the uv part of the electromagnetic spectrum
@@ -106,58 +105,12 @@ define( function( require ) {
       self.updateGraphPaths();
     } );
 
-    // The circle that the user can drag to see graph values
-    var graphValuesPointNode = new Circle( 5, {
-      cursor: 'pointer',
-      fill: 'green'
-    } );
+    // The point node that can be dragged to find out graph values
+    this.draggablePointNode = new GraphValuesPointNode( model.mainBody, this.axes );
 
-    // The dashed lines that follow graphValuesPointNode
-    var graphValuesDashedLines = new Path( null, {
-      stroke: 'yellow',
-      lineDash: [ 4, 4 ]
-    } );
-    
-    // @private variables used in drag handler
-    var startPoint;
-    var startX;
-    var mousePoint;
-    var horizontalDragHandler = new SimpleDragHandler( {
-      start: function( event ) {
-        startPoint = event.pointer.point;
-        startX = graphValuesPointNode.centerX; // view units
-      },
-      drag: function( event ) {
-        mousePoint = event.pointer.point;
-
-        // change in x, view units
-        var xChange = mousePoint.x - startPoint.x;
-        model.mainBody.graphValuesWavelengthProperty.value = self.axes.viewXToWavelength(
-          Util.clamp( startX + xChange, 0, self.axes.horizontalAxisLength)
-        );
-      },
-
-      allowTouchSnag: true
-    } );
-    graphValuesPointNode.addInputListener( horizontalDragHandler );
-
-    function updateGraphValues() {
-      graphValuesPointNode.centerX = self.axes.wavelengthToViewX( model.mainBody.graphValuesWavelengthProperty.value );
-      graphValuesPointNode.centerY = self.axes.spectralRadianceToViewY(
-        model.mainBody.graphValuesSpectralRadianceProperty.value
-      );
-      var dashedLinesShape = new Shape()
-        .moveTo( graphValuesPointNode.centerX, 0 )
-        .lineTo( graphValuesPointNode.centerX, graphValuesPointNode.centerY )
-        .lineTo( 0, graphValuesPointNode.centerY );
-      graphValuesDashedLines.shape = dashedLinesShape;
-    }
-
-    model.mainBody.graphValuesWavelengthProperty.link( updateGraphValues );
-
+    // Links the visibility of the draggablePointNode to graphValuesVisibleProperty
     model.graphValuesVisibleProperty.link( function( graphValuesVisible ) {
-      graphValuesPointNode.visible = graphValuesVisible;
-      graphValuesDashedLines.visible = graphValuesVisible;
+      self.draggablePointNode.visible = graphValuesVisible;
     } );
 
     // label for ticks
@@ -225,13 +178,13 @@ define( function( require ) {
       var horizontalZoom = self.axes.horizontalZoomProperty.value;
       self.updateGraphPaths();
       updateSpectrum();
+      self.draggablePointNode.update();
       horizontalTickLabelMax.text = model.wavelengthMax / 1000; // Conversion from nm to microns
       verticalTickLabelMax.text = Util.toFixed( verticalZoom, 0 ); // Conversion from nm to microns
       horizontalZoomInButton.enabled = horizontalZoom > self.axes.minHorizontalZoom;
       horizontalZoomOutButton.enabled = horizontalZoom < self.axes.maxHorizontalZoom;
       verticalZoomInButton.enabled = verticalZoom > self.axes.minVerticalZoom;
       verticalZoomOutButton.enabled = verticalZoom < self.axes.maxVerticalZoom;
-      updateGraphValues();
     }
     model.mainBody.temperatureProperty.link( updateAllProcedure );
     this.axes.horizontalZoomProperty.link( updateAllProcedure );
@@ -260,18 +213,9 @@ define( function( require ) {
     this.addChild( this.intensityPath );
     this.addChild( this.savedGraph );
     this.addChild( this.savedTemperatureTextNode );
-    this.addChild( graphValuesDashedLines );
-    this.addChild( graphValuesPointNode );
+    this.addChild( this.draggablePointNode );
 
     // layout
-    this.axes.bottom = 0;
-    this.axes.left = 0;
-    this.mainGraph.bottom = this.axes.bottom;
-    this.mainGraph.left = this.axes.left;
-    //this.savedGraph.bottom = this.mainGraph.bottom;
-    //this.savedGraph.left = this.mainGraph.left;
-    this.intensityPath.bottom = this.axes.bottom;
-    this.intensityPath.left = this.axes.left;
     horizontalTickLabelZero.top = this.axes.bottom;
     horizontalTickLabelZero.centerX = this.axes.left;
     horizontalTickLabelMax.top = this.axes.bottom;
