@@ -43,7 +43,7 @@ define( function( require ) {
   var verticalLabelSpectralRadianceString = require( 'string!BLACKBODY_SPECTRUM/verticalLabelSpectralRadiance' );
 
   /**
-   *
+   * The node that handles keeping all of the graph elements together and working
    * @param {BlackbodySpectrumModel}  model - model for the entire screen
    * @constructor
    */
@@ -85,8 +85,6 @@ define( function( require ) {
 
     // Path for intensity, area under the curve
     this.intensityPath = new Path( null, { fill: INTENSITY_COLOR } );
-
-    // Whether the area under the curve is filled in is reflected by whether the intensity is set to be visible or not
     model.intensityVisibleProperty.link( function( intensityVisible ) {
       self.intensityPath.visible = intensityVisible;
     } );
@@ -107,13 +105,11 @@ define( function( require ) {
 
     // The point node that can be dragged to find out graph values
     this.draggablePointNode = new GraphValuesPointNode( model.mainBody, this.axes );
-
-    // Links the visibility of the draggablePointNode to graphValuesVisibleProperty
     model.graphValuesVisibleProperty.link( function( graphValuesVisible ) {
       self.draggablePointNode.visible = graphValuesVisible;
     } );
 
-    // label for ticks
+    // Labels for axes bounds
     var horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 32 ), fill: COLOR_TICK_LABEL } );
     var horizontalTickLabelMax = new Text( model.wavelengthMax / 1000, {
       font: new PhetFont( 32 ),
@@ -125,7 +121,7 @@ define( function( require ) {
       fill: COLOR_TICK_LABEL
     } );
 
-    // zoom Buttons
+    // Zoom Buttons TODO: move radius to constant?
     var horizontalZoomInButton = new ZoomButton( { in: true, radius: 10 } );
     var horizontalZoomOutButton = new ZoomButton( { in: false, radius: 10 } );
     var verticalZoomInButton = new ZoomButton( { in: true, radius: 10 } );
@@ -133,13 +129,19 @@ define( function( require ) {
     var horizontalZoomButtons = new Node( { children: [ horizontalZoomOutButton, horizontalZoomInButton ] } );
     var verticalZoomButtons = new Node( { children: [ verticalZoomOutButton, verticalZoomInButton ] } );
 
-    // expand touch area for zoom buttons
+    // Expands the touch area for zoom buttons
     horizontalZoomInButton.touchArea = horizontalZoomInButton.localBounds.dilated( 5, 5 );
     horizontalZoomOutButton.touchArea = horizontalZoomOutButton.localBounds.dilated( 5, 5 );
     verticalZoomInButton.touchArea = verticalZoomInButton.localBounds.dilated( 5, 5 );
     verticalZoomOutButton.touchArea = verticalZoomOutButton.localBounds.dilated( 5, 5 );
 
-    // rainbow spectrum
+    // Makes the zoom buttons change the axes to zoom in/out when pressed
+    horizontalZoomInButton.addListener( function() { self.axes.zoomInHorizontal(); } );
+    horizontalZoomOutButton.addListener( function() { self.axes.zoomOutHorizontal(); } );
+    verticalZoomInButton.addListener( function() { self.axes.zoomInVertical(); } );
+    verticalZoomOutButton.addListener( function() { self.axes.zoomOutVertical(); } );
+
+    // Node for that displays the rainbow for the visible portion of the electromagnetic spectrum
     var infraredPosition = this.axes.wavelengthToViewX( VISIBLE_WAVELENGTH );
     var ultravioletPosition = this.axes.wavelengthToViewX( ULTRAVIOLET_WAVELENGTH );
     var spectrumWidth = infraredPosition - ultravioletPosition;
@@ -152,27 +154,19 @@ define( function( require ) {
     } );
 
     /**
-     * Updates the positioning of the visible light spectrum image
+     * Updates the positioning of the visible light spectrum node
      */
     function updateSpectrum() {
       var infraredPosition = self.axes.wavelengthToViewX( VISIBLE_WAVELENGTH );
       var ultravioletPosition = self.axes.wavelengthToViewX( ULTRAVIOLET_WAVELENGTH );
       var spectrumWidth = infraredPosition - ultravioletPosition;
-
       wavelengthSpectrumNode.scale( new Vector2( spectrumWidth / wavelengthSpectrumNode.width, 1 ) );
-      var spectrumPosition = ultravioletPosition + self.mainGraph.left;
-      var isSpectrumOffTheAxis = spectrumPosition > self.mainGraph.right;
       wavelengthSpectrumNode.left = ultravioletPosition + self.mainGraph.left;
-      if ( isSpectrumOffTheAxis ) {
-        wavelengthSpectrumNode.visible = false;
-      }
-      else {
-        wavelengthSpectrumNode.visible = true;
-        wavelengthSpectrumNode.left = ultravioletPosition + self.mainGraph.left;
-      }
     }
 
-    // observers
+    /**
+     * A procedure to update everything in the graph drawing node; gets called on any sort of change
+     */
     function updateAllProcedure() {
       var verticalZoom = self.axes.verticalZoomProperty.value;
       var horizontalZoom = self.axes.horizontalZoomProperty.value;
@@ -180,7 +174,7 @@ define( function( require ) {
       updateSpectrum();
       self.draggablePointNode.update();
       horizontalTickLabelMax.text = model.wavelengthMax / 1000; // Conversion from nm to microns
-      verticalTickLabelMax.text = Util.toFixed( verticalZoom, 0 ); // Conversion from nm to microns
+      verticalTickLabelMax.text = Util.toFixed( verticalZoom, 0 );
       horizontalZoomInButton.enabled = horizontalZoom > self.axes.minHorizontalZoom;
       horizontalZoomOutButton.enabled = horizontalZoom < self.axes.maxHorizontalZoom;
       verticalZoomInButton.enabled = verticalZoom > self.axes.minVerticalZoom;
@@ -190,15 +184,7 @@ define( function( require ) {
     this.axes.horizontalZoomProperty.link( updateAllProcedure );
     this.axes.verticalZoomProperty.link( updateAllProcedure );
 
-    // TODO use trigger and axon/Events instead
-    // this.trigger( 'buttonPressed' )
-
-    // handle zoom of graph
-    horizontalZoomInButton.addListener( function() { self.axes.zoomInHorizontal(); } );
-    horizontalZoomOutButton.addListener( function() { self.axes.zoomOutHorizontal(); } );
-    verticalZoomInButton.addListener( function() { self.axes.zoomInVertical(); } );
-    verticalZoomOutButton.addListener( function() { self.axes.zoomOutVertical(); } );
-
+    // Adds children in rendering order
     this.addChild( wavelengthSpectrumNode );
     this.addChild( horizontalTickLabelZero );
     this.addChild( horizontalTickLabelMax );
@@ -215,7 +201,7 @@ define( function( require ) {
     this.addChild( this.savedTemperatureTextNode );
     this.addChild( this.draggablePointNode );
 
-    // layout
+    // Sets layout of graph node elements to be all ultimately relative to the axes
     horizontalTickLabelZero.top = this.axes.bottom;
     horizontalTickLabelZero.centerX = this.axes.left;
     horizontalTickLabelMax.top = this.axes.bottom;
