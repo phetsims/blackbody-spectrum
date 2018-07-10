@@ -22,6 +22,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
 
   // strings
   var spectralRadianceLabelPatternString = require( 'string!BLACKBODY_SPECTRUM/spectralRadianceLabelPattern' );
@@ -127,10 +128,17 @@ define( function( require ) {
       this.draggableCircle.centerX = this.axes.wavelengthToViewX( this.wavelengthProperty.value );
       this.draggableCircle.centerY = this.axes.spectralRadianceToViewY( spectralRadianceOfPoint );
 
-      // Updates value labels' text
+      // Updates value labels' text TODO: at 0 wavelength, spectral radiance shows as 0.00 X 10<sup>1</sup>
       this.wavelengthValueText.text = Util.toFixed( this.wavelengthProperty.value, 0 ) + "nm";
+      var notationObject = ScientificNotationNode.toScientificNotation( spectralRadianceOfPoint, {
+        mantissaDecimalPlaces: 2
+      } );
+      var formattedSpectralRadianceString = notationObject.mantissa;
+      if ( notationObject.exponent !== '0' ) {
+        formattedSpectralRadianceString += ' X 10<sup>' + notationObject.exponent + '</sup>';
+      }
       this.spectralRadianceValueText.text = StringUtils.fillIn( spectralRadianceLabelPatternString, {
-        spectralRadiance: Util.toFixed( spectralRadianceOfPoint, 0 ) // TODO: fix
+        spectralRadiance: formattedSpectralRadianceString
       } );
 
       // Updates value labels' positioning
