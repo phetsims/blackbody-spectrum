@@ -71,10 +71,8 @@ define( function( require ) {
         circleStartX = self.draggableCircle.centerX;
       },
       drag: function( event ) {
-        var xChange = event.pointer.point.x - mouseStartX;
-        self.wavelengthProperty.value = self.axes.viewXToWavelength(
-          Util.clamp( circleStartX + xChange, 0, self.axes.horizontalAxisLength )
-        );
+        var horizontalChange = event.pointer.point.x - mouseStartX;
+        self.wavelengthProperty.value = self.axes.viewXToWavelength( circleStartX + horizontalChange );
         self.update();
       },
       allowTouchSnag: true
@@ -101,8 +99,11 @@ define( function( require ) {
      * @public
      */
     update: function() {
-      //Updates location of draggable circle in view
-      this.draggableCircle.centerX = this.axes.wavelengthToViewX( this.wavelengthProperty.value );
+      // Makes sure that the wavelength property is within bounds
+      this.wavelengthProperty.value = Util.clamp( this.wavelengthProperty.value, 0, this.axes.viewXToWavelength( this.axes.horizontalAxisLength ) );
+
+      // Updates location of draggable circle in view
+      this.draggableCircle.centerX = this.axes.wavelengthToViewX( this.wavelengthProperty.value )
       this.draggableCircle.centerY = this.axes.spectralRadianceToViewY( this.body.getIntensityRadiation( this.wavelengthProperty.value ) );
 
       // Update dashed lines to follow draggable circle
