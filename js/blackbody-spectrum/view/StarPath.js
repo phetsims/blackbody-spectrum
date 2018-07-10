@@ -4,7 +4,7 @@
 /**
  * Scenery Node of a Star
  *
- * @author Martin Veillette ( Berea College)
+ * @author Martin Veillette (Berea College)
  */
 define( function( require ) {
   'use strict';

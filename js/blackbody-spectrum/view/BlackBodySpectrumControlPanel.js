@@ -40,11 +40,11 @@ define( function( require ) {
 
 
   /**
-   * @constructor
-   *
    * @param {BlackBodySpectrumModel} model
+   * @param {Object} [options]
+   * @constructor
    */
-  function BlackBodySpectrumControlPanel( model, graphNode, options ) {
+  function BlackBodySpectrumControlPanel( model, options ) {
 
     options = _.extend( {
       xMargin: 15,

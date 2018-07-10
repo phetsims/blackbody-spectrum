@@ -71,10 +71,9 @@ define( function( require ) {
   var INTENSITY_TEXT_BOX_STROKE = 'red';
   var INTENSITY_TEXT_BOX_FILL = 'gray';
 
-  // noinspection JSAnnotator
   /**
    * Constructor for the BlackbodySpectrumView
-   * @param {BlackbodySpectrumModel} model - main model for the simulation
+   * @param {BlackbodySpectrumModel} model - the main model for the simulation
    * @constructor
    */
   function BlackbodySpectrumScreenView( model ) {
@@ -185,7 +184,7 @@ define( function( require ) {
       }
     } );
 
-    var controlPanel = new BlackBodySpectrumControlPanel( model, graphNode );
+    var controlPanel = new BlackBodySpectrumControlPanel( model );
 
     // rendering order
     this.addChild( graphNode );

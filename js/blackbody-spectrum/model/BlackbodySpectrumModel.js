@@ -22,23 +22,23 @@ define( function( require ) {
    */
   function BlackbodySpectrumModel() {
 
-    // @public {Property.<boolean>}
+    // @public {Property.<boolean>} whether the graph values should be visible
     this.graphValuesVisibleProperty = new BooleanProperty( false );
 
-    // @public {Property.<boolean>}
+    // @public {Property.<boolean>} whether the intensity (area under the curve) of the graph should be visible
     this.intensityVisibleProperty = new BooleanProperty( false );
 
     // @public {Property.<boolean>}
     this.labelsVisibleProperty = new BooleanProperty( false );
 
-    // @public {BlackbodyBodyModel}
+    // @public {BlackbodyBodyModel} the main body for the simulation
     this.mainBody = new BlackbodyBodyModel( this, 6000 );
 
-    // @public {Property.<BlackbodyBodyModel>}
+    // @public {Property.<BlackbodyBodyModel>} a property for the user's saved blackbody
     this.savedBodyProperty = new Property( null );
 
-    // @public
-    this.wavelengthMax = 3000; // max wavelength in nanometers
+    // @public {number} max wavelength in nanometers
+    this.wavelengthMax = 3000;
   }
 
   blackbodySpectrum.register( 'BlackbodySpectrumModel', BlackbodySpectrumModel );
@@ -46,7 +46,7 @@ define( function( require ) {
   return inherit( Object, BlackbodySpectrumModel, {
 
     /**
-     * Resets the model's temperature and settings
+     * Resets all of the model's settings and bodies
      */
     reset: function() {
       this.graphValuesVisibleProperty.reset();
@@ -57,7 +57,7 @@ define( function( require ) {
     },
 
     /**
-     * Saves the mainGraph
+     * Saves the main body
      */
     saveMainBody: function() {
       this.savedBodyProperty.value = new BlackbodyBodyModel( this, this.mainBody.temperatureProperty.value );

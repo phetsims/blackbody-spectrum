@@ -15,7 +15,6 @@ define( function( require ) {
   var NumberProperty = require( 'AXON/NumberProperty' );
   var Color = require( 'SCENERY/util/Color' );
   var Util = require( 'DOT/Util' );
-  var Bounds2 = require( 'DOT/Bounds2' );
 
   // constants
   var GRAPH_NUMBER_POINTS = 300; // number of points blackbody curve is evaluated at
@@ -33,7 +32,7 @@ define( function( require ) {
   var GLOWING_STAR_HALO_MAXIMUM_RADIUS = 40; // in pixels
 
   /**
-   * Constructs a Blackbody body
+   * Constructs a Blackbody body at the given temperature
    * @param {BlackbodySpectrumModel} model
    * @param {number} temperature
    * @constructor
@@ -45,11 +44,7 @@ define( function( require ) {
     // @private
     this.intensityArray = new Array( GRAPH_NUMBER_POINTS ); //Blackbody spectrum intensity
 
-    // bounds of the graph
-    // @public read-only
-    this.bounds = new Bounds2( 0, 0, 1, 1 );
-
-    // @public {Property.<number>}  initial temperature in kelvin
+    // @public {Property.<number>} initial temperature in kelvin
     this.temperatureProperty = new NumberProperty( temperature );
   }
 
@@ -109,12 +104,12 @@ define( function( require ) {
      * @returns {number}
      */
     getRenormalizedColorIntensity: function( wavelength ) {
-      var red = this.getIntensityRadiation( RED_WAVELENGTH, this.temperatureProperty.value ); // intensity as a function of wavelength in nm
-      var gre = this.getIntensityRadiation( GRE_WAVELENGTH, this.temperatureProperty.value );
-      var blu = this.getIntensityRadiation( BLU_WAVELENGTH, this.temperatureProperty.value );
+      var red = this.getIntensityRadiation( RED_WAVELENGTH ); // intensity as a function of wavelength in nm
+      var gre = this.getIntensityRadiation( GRE_WAVELENGTH );
+      var blu = this.getIntensityRadiation( BLU_WAVELENGTH );
       var largestColorIntensity = Math.max( red, gre, blu );
-      var colorIntensity = this.getIntensityRadiation( wavelength, this.temperatureProperty.value );
-      var boundedRenormalizedTemp = Math.min( this.getRenormalizedTemperature( this.temperatureProperty.value ), 1 );
+      var colorIntensity = this.getIntensityRadiation( wavelength );
+      var boundedRenormalizedTemp = Math.min( this.renormalizedTemperature, 1 );
       return Math.floor( 255 * boundedRenormalizedTemp * colorIntensity / largestColorIntensity );
     },
 
@@ -128,7 +123,7 @@ define( function( require ) {
     getCoordinatesY: function() {
       for ( var i = 0; i < GRAPH_NUMBER_POINTS; i++ ) {
         var wavelength = i * this.model.wavelengthMax / GRAPH_NUMBER_POINTS;
-        this.intensityArray[ i ] = this.getIntensityRadiation( wavelength, this.temperatureProperty.value );
+        this.intensityArray[ i ] = this.getIntensityRadiation( wavelength );
       }
       return this.intensityArray;
     },
@@ -141,8 +136,7 @@ define( function( require ) {
      */
     getTotalIntensity: function() {
       var powerTerm = Math.pow( this.temperatureProperty.value, 4 );
-      var totalIntensity = STEFAN_BOLTZMANN_CONSTANT * powerTerm;
-      return totalIntensity;
+      return STEFAN_BOLTZMANN_CONSTANT * powerTerm;
     },
     get totalIntensity() { return this.getTotalIntensity(); },
 
@@ -163,7 +157,7 @@ define( function( require ) {
      * @returns {Color}
      */
     getRedColor: function() {
-      var red = this.getRenormalizedColorIntensity( RED_WAVELENGTH, this.temperatureProperty.value );
+      var red = this.getRenormalizedColorIntensity( RED_WAVELENGTH );
       return new Color( red, 0, 0, 1 );
     },
     get redColor() { return this.getRedColor(); },
@@ -174,7 +168,7 @@ define( function( require ) {
      * @returns {Color}
      */
     getBluColor: function() {
-      var blu = this.getRenormalizedColorIntensity( BLU_WAVELENGTH, this.temperatureProperty.value );
+      var blu = this.getRenormalizedColorIntensity( BLU_WAVELENGTH );
       return new Color( 0, 0, blu, 1 );
     },
     get bluColor() { return this.getBluColor(); },
@@ -185,7 +179,7 @@ define( function( require ) {
      * @returns {Color}
      */
     getGreColor: function() {
-      var gre = this.getRenormalizedColorIntensity( GRE_WAVELENGTH, this.temperatureProperty.value );
+      var gre = this.getRenormalizedColorIntensity( GRE_WAVELENGTH );
       return new Color( 0, gre, 0, 1 );
     },
     get greColor() { return this.getGreColor(); },
@@ -197,7 +191,7 @@ define( function( require ) {
      * @returns {number}
      */
     getGlowingStarHaloRadius: function() {
-      var renTemp = this.getRenormalizedTemperature( this.temperatureProperty.value );
+      var renTemp = this.renormalizedTemperature;
       return Util.linear( 0, 1, GLOWING_STAR_HALO_MINIMUM_RADIUS, GLOWING_STAR_HALO_MAXIMUM_RADIUS, renTemp ); // temperature -> radius
     },
     get glowingStarHaloRadius() { return this.getGlowingStarHaloRadius(); },
@@ -209,8 +203,8 @@ define( function( require ) {
      * @returns {Color}
      */
     getGlowingStarHaloColor: function() {
-      var color = this.getStarColor( this.temperatureProperty.value );
-      var renTemp = this.getRenormalizedTemperature( this.temperatureProperty.value );
+      var color = this.starColor;
+      var renTemp = this.renormalizedTemperature;
       var alpha = Util.linear( 0, 1, 0, 0.1, renTemp ); // temperature -> transparency
       return color.withAlpha( alpha );
     },
@@ -223,9 +217,9 @@ define( function( require ) {
      * @returns {Color}
      */
     getStarColor: function() {
-      var red = this.getRenormalizedColorIntensity( RED_WAVELENGTH, this.temperatureProperty.value );
-      var gre = this.getRenormalizedColorIntensity( GRE_WAVELENGTH, this.temperatureProperty.value );
-      var blu = this.getRenormalizedColorIntensity( BLU_WAVELENGTH, this.temperatureProperty.value );
+      var red = this.getRenormalizedColorIntensity( RED_WAVELENGTH );
+      var gre = this.getRenormalizedColorIntensity( GRE_WAVELENGTH );
+      var blu = this.getRenormalizedColorIntensity( BLU_WAVELENGTH );
       return new Color( red, gre, blu, 1 );
     },
     get starColor() { return this.getStarColor(); }

@@ -36,6 +36,7 @@ define( function( require ) {
   ];
 
   /**
+   * Constructs a thermometer for the sim given the property for the temperature to track
    * @param {Property.<number>} temperatureProperty
    * @param {Object} [options]
    * @constructor
@@ -77,7 +78,6 @@ define( function( require ) {
    * @param {Object} options - options that were provided to BlackbodySpectrumThermometer constructor
    */
   function createLabeledTick( text, temperature, options ) {
-
     var linearFunction = temperatureToHeightLinearFunction( options );
     var objectHeight = linearFunction( temperature );
     var tickMarkLength = options.tubeWidth * 0.5;

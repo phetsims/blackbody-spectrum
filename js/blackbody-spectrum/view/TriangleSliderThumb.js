@@ -17,6 +17,8 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
 
   /**
+   * Creates the triangle thumb slider
+   * Triangle points down in just logical coordinates because this node eventually gets rotated for actual display
    * @param {Object} [options]
    * @constructor
    */

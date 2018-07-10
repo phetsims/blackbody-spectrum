@@ -4,6 +4,7 @@
  * A view that is responsible for controlling graph axes
  * Handles labels for displaying regions of the electromagnetic spectrum
  * Does NOT handle axis labels
+ * Most important functionality is handling conversions between logical values and screen coordinates
  *
  * @author Saurabh Totey
  */
@@ -36,7 +37,7 @@ define( function( require ) {
   /**
    * Makes a ZoomableAxesView
    * @param {BlackbodySpectrumModel} model
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function ZoomableAxesView( model, options ) {
@@ -80,7 +81,7 @@ define( function( require ) {
     this.model = model;
 
     // Axes dimensions
-    // @public
+    // @public {number}
     this.horizontalAxisLength = options.axesWidth;
     this.verticalAxisLength = options.axesHeight;
     
@@ -129,9 +130,11 @@ define( function( require ) {
     // @public
     //
 
-    // Current zooms as well as zoom bounds
+    // {Property.<number>} current zoom values
     this.horizontalZoomProperty = new NumberProperty( options.defaultHorizontalZoom );
     this.verticalZoomProperty = new NumberProperty( options.defaultVerticalZoom );
+
+    // {number} zoom bounds
     this.minHorizontalZoom = options.minHorizontalZoom;
     this.maxHorizontalZoom = options.maxHorizontalZoom;
     this.minVerticalZoom = options.minVerticalZoom;
