@@ -23,12 +23,14 @@ define( function( require ) {
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
+  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
 
   // strings
   var spectralRadianceLabelPatternString = require( 'string!BLACKBODY_SPECTRUM/spectralRadianceLabelPattern' );
 
   /**
    * Constructs the GraphValuesPointNode given the body to follow and the axes that will handle coordinate conversions
+   * Alignment isn't handled in constructor, but is rather done in the update method due to the non-static nature of this view
    * @param {BlackbodyBodyModel} body
    * @param {ZoomableAxesView} axes
    * @param {Object} options
@@ -53,6 +55,7 @@ define( function( require ) {
         fill: 'green',
         font: new PhetFont( 16 )
       },
+      cueingArrowColor: '#64dc64',
       labelOffset: 5
     }, options );
 
@@ -64,24 +67,31 @@ define( function( require ) {
     this.wavelengthValueText = new Text( '', options.valueTextOptions );
     this.spectralRadianceValueText = new RichText( '', options.valueTextOptions );
     this.labelOffset = options.labelOffset;
+    var arrowOptions = {
+      fill: options.cueingArrowColor,
+      cursor: 'pointer'
+    };
+    this.cueingArrows = new Node( {
+      children: [ new ArrowNode( 12, 0, 27, 0, arrowOptions ), new ArrowNode( -12, 0, -27, 0, arrowOptions ) ]
+    } );
 
     // @public {Property.<number>}
     this.wavelengthProperty = new NumberProperty( this.body.peakWavelength );
 
     // Links the wavelength property to update this node whenever changed
-    this.wavelengthProperty.link( function( wavelength ) {
+    this.wavelengthProperty.link( function() {
       self.update();
     } );
 
     // Links a change in the body's temperature to always set the wavelength to the peak wavelength
-    this.body.temperatureProperty.link( function( temperature ) {
+    this.body.temperatureProperty.link( function() {
       self.wavelengthProperty.value = self.body.peakWavelength;
     } );
 
     // Sets up the drag handler for the draggable circle
     var mouseStartX;
     var circleStartX;
-    this.draggableCircle.addInputListener( new SimpleDragHandler( {
+    var dragHandler = new SimpleDragHandler( {
       start: function( event ) {
         mouseStartX = event.pointer.point.x;
         circleStartX = self.draggableCircle.centerX;
@@ -91,14 +101,20 @@ define( function( require ) {
         self.wavelengthProperty.value = self.axes.viewXToWavelength( circleStartX + horizontalChange );
         self.update();
       },
+      end: function() {
+        self.cueingArrows.visible = false;
+      },
       allowTouchSnag: true
-    } ) );
+    } );
+    this.draggableCircle.addInputListener( dragHandler );
+    this.cueingArrows.addInputListener( dragHandler );
 
     // Adds children in rendering order
     this.addChild( this.dashedLinesPath );
     this.addChild( this.draggableCircle );
     this.addChild( this.wavelengthValueText );
     this.addChild( this.spectralRadianceValueText );
+    this.addChild( this.cueingArrows );
   }
 
   blackbodySpectrum.register( 'GraphValuesPointNode', GraphValuesPointNode );
@@ -110,6 +126,7 @@ define( function( require ) {
      */
     reset: function() {
       this.wavelengthProperty.value = this.body.peakWavelength;
+      this.cueingArrows.visible = true;
     },
 
     /**
@@ -126,7 +143,7 @@ define( function( require ) {
       this.draggableCircle.centerY = this.axes.spectralRadianceToViewY( spectralRadianceOfPoint );
 
       // Updates value labels' text TODO: at 0 wavelength, spectral radiance shows as 0.00 X 10<sup>1</sup>
-      this.wavelengthValueText.text = Util.toFixed( this.wavelengthProperty.value, 0 ) + 'nm';
+      this.wavelengthValueText.text = Util.toFixed( this.wavelengthProperty.value, 0 ) + ' nm';
       var notationObject = ScientificNotationNode.toScientificNotation( spectralRadianceOfPoint, {
         mantissaDecimalPlaces: 2
       } );
@@ -143,6 +160,10 @@ define( function( require ) {
       this.spectralRadianceValueText.bottom = this.draggableCircle.centerY;
       this.wavelengthValueText.top = this.labelOffset;
       this.spectralRadianceValueText.left = this.labelOffset;
+
+      // Moves the cueing arrows to surround the draggable circle
+      this.cueingArrows.centerX = this.draggableCircle.centerX;
+      this.cueingArrows.bottom = this.draggableCircle.top - 10;
 
       // Updates dashed lines to follow draggable circle
       this.dashedLinesPath.shape = new Shape()
