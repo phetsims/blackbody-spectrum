@@ -140,9 +140,9 @@ define( function( require ) {
 
       // Updates value labels' positioning
       this.wavelengthValueText.centerX = this.draggableCircle.centerX;
-      this.spectralRadianceValueText.centerY = this.draggableCircle.centerY;
+      this.spectralRadianceValueText.bottom = this.draggableCircle.centerY;
       this.wavelengthValueText.top = this.labelOffset;
-      this.spectralRadianceValueText.right = -this.labelOffset;
+      this.spectralRadianceValueText.left = this.labelOffset;
 
       // Updates dashed lines to follow draggable circle
       this.dashedLinesPath.shape = new Shape()
