@@ -58,5 +58,8 @@
   },
   "intensityLabelPattern": {
     "value": "{{intensity}} W/m<sup>2</sup>"
+  },
+  "spectralRadianceLabelPattern": {
+    "value": "{{spectralRadiance}} MW/m<sup>2</sup>/µm"
   }
 }

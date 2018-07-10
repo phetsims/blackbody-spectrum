@@ -18,6 +18,13 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Util = require( 'DOT/Util' );
   var NumberProperty = require( 'AXON/NumberProperty' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+
+  // strings
+  var spectralRadianceLabelPatternString = require( 'string!BLACKBODY_SPECTRUM/spectralRadianceLabelPattern' );
 
   /**
    * Constructs the GraphValuesPointNode given the body to follow and the axes that will handle coordinate conversions
@@ -40,7 +47,12 @@ define( function( require ) {
       dashedLineOptions: {
         stroke: 'yellow',
         lineDash: [ 4, 4 ]
-      }
+      },
+      valueTextOptions: {
+        fill: 'green',
+        font: new PhetFont( 16 )
+      },
+      labelOffset: 5
     }, options );
 
     // @private
@@ -48,6 +60,8 @@ define( function( require ) {
     this.axes = axes;
     this.draggableCircle = new Circle( options.circleOptions );
     this.dashedLinesPath = new Path( null, options.dashedLineOptions );
+    this.wavelengthValueText = new Text( '', options.valueTextOptions );
+    this.spectralRadianceValueText = new RichText( '', options.valueTextOptions );
 
     // @public {Property.<number>}
     this.wavelengthProperty = new NumberProperty( this.body.peakWavelength );
@@ -81,6 +95,12 @@ define( function( require ) {
     // Adds children in rendering order
     this.addChild( this.dashedLinesPath );
     this.addChild( this.draggableCircle );
+    this.addChild( this.wavelengthValueText );
+    this.addChild( this.spectralRadianceValueText );
+
+    // Positions the value labels
+    this.wavelengthValueText.top = options.labelOffset;
+    this.spectralRadianceValueText.right = options.labelOffset;
   }
 
   blackbodySpectrum.register( 'GraphValuesPointNode', GraphValuesPointNode );
@@ -101,12 +121,23 @@ define( function( require ) {
     update: function() {
       // Makes sure that the wavelength property is within bounds
       this.wavelengthProperty.value = Util.clamp( this.wavelengthProperty.value, 0, this.axes.viewXToWavelength( this.axes.horizontalAxisLength ) );
+      var spectralRadianceOfPoint = this.body.getIntensityRadiation( this.wavelengthProperty.value );
 
       // Updates location of draggable circle in view
-      this.draggableCircle.centerX = this.axes.wavelengthToViewX( this.wavelengthProperty.value )
-      this.draggableCircle.centerY = this.axes.spectralRadianceToViewY( this.body.getIntensityRadiation( this.wavelengthProperty.value ) );
+      this.draggableCircle.centerX = this.axes.wavelengthToViewX( this.wavelengthProperty.value );
+      this.draggableCircle.centerY = this.axes.spectralRadianceToViewY( spectralRadianceOfPoint );
 
-      // Update dashed lines to follow draggable circle
+      // Updates value labels' text
+      this.wavelengthValueText.text = Util.toFixed( this.wavelengthProperty.value, 0 ) + "nm";
+      this.spectralRadianceValueText.text = StringUtils.fillIn( spectralRadianceLabelPatternString, {
+        spectralRadiance: Util.toFixed( spectralRadianceOfPoint, 0 ) // TODO: fix
+      } );
+
+      // Updates value labels' positioning
+      this.wavelengthValueText.centerX = this.draggableCircle.centerX;
+      this.spectralRadianceValueText.centerY = this.draggableCircle.centerY;
+
+      // Updates dashed lines to follow draggable circle
       this.dashedLinesPath.shape = new Shape()
         .moveTo( this.draggableCircle.centerX, 0 )
         .lineTo( this.draggableCircle.centerX, this.draggableCircle.centerY )
