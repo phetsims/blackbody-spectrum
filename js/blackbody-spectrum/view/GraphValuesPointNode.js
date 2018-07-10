@@ -63,6 +63,7 @@ define( function( require ) {
     this.dashedLinesPath = new Path( null, options.dashedLineOptions );
     this.wavelengthValueText = new Text( '', options.valueTextOptions );
     this.spectralRadianceValueText = new RichText( '', options.valueTextOptions );
+    this.labelOffset = options.labelOffset;
 
     // @public {Property.<number>}
     this.wavelengthProperty = new NumberProperty( this.body.peakWavelength );
@@ -98,10 +99,6 @@ define( function( require ) {
     this.addChild( this.draggableCircle );
     this.addChild( this.wavelengthValueText );
     this.addChild( this.spectralRadianceValueText );
-
-    // Positions the value labels
-    this.wavelengthValueText.top = options.labelOffset;
-    this.spectralRadianceValueText.right = options.labelOffset;
   }
 
   blackbodySpectrum.register( 'GraphValuesPointNode', GraphValuesPointNode );
@@ -129,7 +126,7 @@ define( function( require ) {
       this.draggableCircle.centerY = this.axes.spectralRadianceToViewY( spectralRadianceOfPoint );
 
       // Updates value labels' text TODO: at 0 wavelength, spectral radiance shows as 0.00 X 10<sup>1</sup>
-      this.wavelengthValueText.text = Util.toFixed( this.wavelengthProperty.value, 0 ) + "nm";
+      this.wavelengthValueText.text = Util.toFixed( this.wavelengthProperty.value, 0 ) + 'nm';
       var notationObject = ScientificNotationNode.toScientificNotation( spectralRadianceOfPoint, {
         mantissaDecimalPlaces: 2
       } );
@@ -144,6 +141,8 @@ define( function( require ) {
       // Updates value labels' positioning
       this.wavelengthValueText.centerX = this.draggableCircle.centerX;
       this.spectralRadianceValueText.centerY = this.draggableCircle.centerY;
+      this.wavelengthValueText.top = this.labelOffset;
+      this.spectralRadianceValueText.right = -this.labelOffset;
 
       // Updates dashed lines to follow draggable circle
       this.dashedLinesPath.shape = new Shape()
