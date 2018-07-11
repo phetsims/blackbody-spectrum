@@ -159,7 +159,12 @@ define( function( require ) {
       this.wavelengthValueText.centerX = this.draggableCircle.centerX;
       this.spectralRadianceValueText.bottom = this.draggableCircle.centerY;
       this.wavelengthValueText.top = this.labelOffset;
-      this.spectralRadianceValueText.left = this.labelOffset;
+      this.spectralRadianceValueText.centerX = this.draggableCircle.centerX;
+      if ( this.spectralRadianceValueText.left < this.labelOffset ) {
+        this.spectralRadianceValueText.left = this.labelOffset;
+      } else if ( this.spectralRadianceValueText.right > this.axes.horizontalAxisLength - this.labelOffset ) {
+        this.spectralRadianceValueText.right = this.axes.horizontalAxisLength - this.labelOffset;
+      }
 
       // Moves the cueing arrows to surround the draggable circle
       this.cueingArrows.centerX = this.draggableCircle.centerX;
