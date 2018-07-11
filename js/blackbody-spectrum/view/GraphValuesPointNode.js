@@ -142,13 +142,13 @@ define( function( require ) {
       this.draggableCircle.centerX = this.axes.wavelengthToViewX( this.wavelengthProperty.value );
       this.draggableCircle.centerY = this.axes.spectralRadianceToViewY( spectralRadianceOfPoint );
 
-      // Updates value labels' text TODO: at 0 wavelength, spectral radiance shows as 0.00 X 10<sup>1</sup>
+      // Updates value labels' text
       this.wavelengthValueText.text = Util.toFixed( this.wavelengthProperty.value, 0 ) + ' nm';
       var notationObject = ScientificNotationNode.toScientificNotation( spectralRadianceOfPoint, {
         mantissaDecimalPlaces: 2
       } );
       var formattedSpectralRadianceString = notationObject.mantissa;
-      if ( notationObject.exponent !== '0' ) {
+      if ( notationObject.exponent !== '0' && notationObject.mantissa !== '0.00' ) {
         formattedSpectralRadianceString += ' X 10<sup>' + notationObject.exponent + '</sup>';
       }
       this.spectralRadianceValueText.text = StringUtils.fillIn( spectralRadianceLabelPatternString, {
