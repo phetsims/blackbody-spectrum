@@ -93,15 +93,15 @@ define( function( require ) {
     temperatureNode.rotation = Math.PI / 2;
 
     // Arrows that will disappear after first drag
-    var topArrow = new ArrowNode( 12, 0, 27, 0, ARROW_OPTIONS );
-    var bottomArrow = new ArrowNode( -12, 0, -27, 0, ARROW_OPTIONS );
+    var cueingArrows = new Node( {
+      children: [ new ArrowNode( 12, 0, 27, 0, ARROW_OPTIONS ), new ArrowNode( -12, 0, -27, 0, ARROW_OPTIONS ) ]
+    } );
 
     // Parent that keeps the TriangleSliderThumb bundled with the temperature text
     var thumbNode = new Node( { size: new Dimension2( 20, 40 ) } );
     thumbNode.addChild( triangleNode );
     thumbNode.addChild( temperatureNode );
-    thumbNode.addChild( topArrow );
-    thumbNode.addChild( bottomArrow );
+    thumbNode.addChild( cueingArrows );
 
     // Aligns the temperature text below and just to the right of the TriangleSliderThumb
     temperatureNode.top = triangleNode.bottom + 5;
@@ -115,8 +115,7 @@ define( function( require ) {
       thumbNode: thumbNode,
       thumbYOffset: 25,
       endDrag: function() {
-        topArrow.visible = false;
-        bottomArrow.visible = false;
+        cueingArrows.visible = false;
       }
     } );
     temperatureSlider.rotation = -Math.PI / 2; // Sets the temperatureSlider to be vertical
@@ -179,8 +178,7 @@ define( function( require ) {
       listener: function() {
         model.reset();
         graphNode.reset();
-        topArrow.setVisible( true );
-        bottomArrow.setVisible( true );
+        cueingArrows.visible = true;
       }
     } );
 
@@ -233,8 +231,7 @@ define( function( require ) {
     starPath.centerY = circleBlue.centerY;
     glowingStarHalo.centerX = starPath.centerX;
     glowingStarHalo.centerY = starPath.centerY;
-    topArrow.centerY = temperatureNode.centerY;
-    bottomArrow.centerY = temperatureNode.centerY;
+    cueingArrows.centerY = temperatureNode.centerY;
     intensityTextBox.centerX = graphNode.right - 150;
     intensityTextBox.centerY = (circleBlue.centerY + circleBlueLabel.centerY) / 2;
     intensityText.center = new Vector2( intensityTextBox.width / 2, intensityTextBox.height / 2 );
