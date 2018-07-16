@@ -95,13 +95,15 @@ define( function( require ) {
       baseColor: BUTTON_COLOR,
       minWidth: options.minWidth - 40,
       listener: function() {
-        model.savedBodyProperty.value = null;
+        model.savedBodies.reset();
+        // Below line is necessary because AXON ObservableArray doesn't do this in reset
+        model.savedBodies.lengthProperty.value = 0;
       }
     } );
 
     // Makes the clearButton enabled when there is a saved graph to clear, and disabled when there is no graph to clear
-    model.savedBodyProperty.link( function( savedBody ) {
-      clearButton.enabled = savedBody !== null;
+    model.savedBodies.lengthProperty.link( function( length ) {
+      clearButton.enabled = length !== 0;
     } );
 
     // 3 checkboxes: Peak Values, Intensity, Labels
