@@ -56,7 +56,7 @@ define( function( require ) {
       this.intensityVisibleProperty.reset();
       this.labelsVisibleProperty.reset();
       this.mainBody.reset();
-      this.savedBodies.reset();
+      this.clearSavedGraphs();
     },
 
     /**
@@ -67,6 +67,15 @@ define( function( require ) {
       while ( this.savedBodies.length > this.maxSavedGraphs ) {
         this.savedBodies.shift();
       }
+    },
+
+    /**
+     * A function that clears saved graphs
+     */
+    clearSavedGraphs: function () {
+      this.savedBodies.reset();
+      // Below line is necessary because AXON ObservableArray doesn't do this in reset
+      this.savedBodies.lengthProperty.value = 0;
     }
 
   } );

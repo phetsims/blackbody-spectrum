@@ -95,9 +95,7 @@ define( function( require ) {
       baseColor: BUTTON_COLOR,
       minWidth: options.minWidth - 40,
       listener: function() {
-        model.savedBodies.reset();
-        // Below line is necessary because AXON ObservableArray doesn't do this in reset
-        model.savedBodies.lengthProperty.value = 0;
+        model.clearSavedGraphs();
       }
     } );
 
