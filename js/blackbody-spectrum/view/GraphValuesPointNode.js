@@ -39,13 +39,12 @@ define( function( require ) {
   function GraphValuesPointNode( body, axes, options ) {
     var self = this;
 
-    Node.call( this );
+    Node.call( this, { cursor: 'pointer' } );
 
     options = _.extend( {
       circleOptions: {
         radius: 5,
-        fill: 'green',
-        cursor: 'pointer'
+        fill: 'green'
       },
       dashedLineOptions: {
         stroke: 'yellow',
@@ -67,10 +66,7 @@ define( function( require ) {
     this.wavelengthValueText = new Text( '', options.valueTextOptions );
     this.spectralRadianceValueText = new RichText( '', options.valueTextOptions );
     this.labelOffset = options.labelOffset;
-    var arrowOptions = {
-      fill: options.cueingArrowColor,
-      cursor: 'pointer'
-    };
+    var arrowOptions = { fill: options.cueingArrowColor };
     this.cueingArrows = new Node( {
       children: [ new ArrowNode( 12, 0, 27, 0, arrowOptions ), new ArrowNode( -12, 0, -27, 0, arrowOptions ) ]
     } );
@@ -88,10 +84,10 @@ define( function( require ) {
       self.wavelengthProperty.value = self.body.peakWavelength;
     } );
 
-    // Sets up the drag handler for the draggable circle
+    // Sets up the drag handler for the draggable circle TODO: make draggable in y direction as well?
     var mouseStartX;
     var circleStartX;
-    var dragHandler = new SimpleDragHandler( {
+    this.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         mouseStartX = event.pointer.point.x;
         circleStartX = self.draggableCircle.centerX;
@@ -105,9 +101,8 @@ define( function( require ) {
         self.cueingArrows.visible = false;
       },
       allowTouchSnag: true
-    } );
-    this.draggableCircle.addInputListener( dragHandler );
-    this.cueingArrows.addInputListener( dragHandler );
+    } ) );
+    this.dashedLinesPath.touchArea = this.dashedLinesPath.localBounds.dilatedXY( 5, 5 );
 
     // Adds children in rendering order
     this.addChild( this.dashedLinesPath );
