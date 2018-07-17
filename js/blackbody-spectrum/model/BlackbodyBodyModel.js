@@ -60,13 +60,13 @@ define( function( require ) {
     },
 
     /**
-     * Function that returns the intensity radiation for a given wavelength (in nm)
-     * The units of intensity radiation are in megaWatts per meter^2 per micrometer
+     * Function that returns the spectral radiance at a given wavelength (in nm)
+     * The units of spectral radiance are in megaWatts per meter^2 per micrometer
      * @public
      * @param {number} wavelength
      * @returns {number}
      */
-    getIntensityRadiation: function( wavelength ) {
+    getSpectralRadianceAt: function(wavelength ) {
       var intensityRadiation;
       var prefactor;
       var exponentialTerm;
@@ -104,11 +104,11 @@ define( function( require ) {
      * @returns {number}
      */
     getRenormalizedColorIntensity: function( wavelength ) {
-      var red = this.getIntensityRadiation( RED_WAVELENGTH ); // intensity as a function of wavelength in nm
-      var gre = this.getIntensityRadiation( GRE_WAVELENGTH );
-      var blu = this.getIntensityRadiation( BLU_WAVELENGTH );
+      var red = this.getSpectralRadianceAt( RED_WAVELENGTH ); // intensity as a function of wavelength in nm
+      var gre = this.getSpectralRadianceAt( GRE_WAVELENGTH );
+      var blu = this.getSpectralRadianceAt( BLU_WAVELENGTH );
       var largestColorIntensity = Math.max( red, gre, blu );
-      var colorIntensity = this.getIntensityRadiation( wavelength );
+      var colorIntensity = this.getSpectralRadianceAt( wavelength );
       var boundedRenormalizedTemp = Math.min( this.renormalizedTemperature, 1 );
       return Math.floor( 255 * boundedRenormalizedTemp * colorIntensity / largestColorIntensity );
     },
@@ -123,7 +123,7 @@ define( function( require ) {
     getCoordinatesY: function() {
       for ( var i = 0; i < GRAPH_NUMBER_POINTS; i++ ) {
         var wavelength = i * this.model.wavelengthMax / GRAPH_NUMBER_POINTS;
-        this.intensityArray[ i ] = this.getIntensityRadiation( wavelength );
+        this.intensityArray[ i ] = this.getSpectralRadianceAt( wavelength );
       }
       return this.intensityArray;
     },

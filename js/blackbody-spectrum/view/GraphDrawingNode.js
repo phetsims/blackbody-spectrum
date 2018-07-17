@@ -254,7 +254,7 @@ define( function( require ) {
     setTemperatureText: function( body, temperatureTextNode ) {
       temperatureTextNode.text = Util.toFixed( body.temperatureProperty.value, 0 ) + 'K';
       var peakWavelength = body.peakWavelength;
-      var radiancePeak = this.axes.spectralRadianceToViewY( body.getIntensityRadiation( peakWavelength ) );
+      var radiancePeak = this.axes.spectralRadianceToViewY( body.getSpectralRadianceAt( peakWavelength ) );
       var verticalTextPlacement = Util.clamp(
         radiancePeak / 3,
         -this.axes.verticalAxisLength + temperatureTextNode.height,

@@ -131,7 +131,7 @@ define( function( require ) {
     update: function() {
       // Makes sure that the wavelength property is within bounds
       this.wavelengthProperty.value = Util.clamp( this.wavelengthProperty.value, 0, this.axes.viewXToWavelength( this.axes.horizontalAxisLength ) );
-      var spectralRadianceOfPoint = this.body.getIntensityRadiation( this.wavelengthProperty.value );
+      var spectralRadianceOfPoint = this.body.getSpectralRadianceAt( this.wavelengthProperty.value );
 
       // Updates location of draggable circle in view
       this.draggableCircle.centerX = this.axes.wavelengthToViewX( this.wavelengthProperty.value );
