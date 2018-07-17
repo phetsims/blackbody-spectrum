@@ -129,6 +129,8 @@ define( function( require ) {
      * @public
      */
     update: function() {
+      var self = this;
+
       // Makes sure that the wavelength property is within bounds
       this.wavelengthProperty.value = Util.clamp( this.wavelengthProperty.value, 0, this.axes.viewXToWavelength( this.axes.horizontalAxisLength ) );
       var spectralRadianceOfPoint = this.body.getSpectralRadianceAt( this.wavelengthProperty.value );
@@ -155,11 +157,17 @@ define( function( require ) {
       this.spectralRadianceValueText.bottom = this.draggableCircle.centerY;
       this.wavelengthValueText.top = this.labelOffset;
       this.spectralRadianceValueText.centerX = this.draggableCircle.centerX;
-      if ( this.spectralRadianceValueText.left < this.labelOffset ) {
-        this.spectralRadianceValueText.left = this.labelOffset;
-      } else if ( this.spectralRadianceValueText.right > this.axes.horizontalAxisLength - this.labelOffset ) {
-        this.spectralRadianceValueText.right = this.axes.horizontalAxisLength - this.labelOffset;
+
+      // Clamps the positions of the labels
+      function clampLabelPosition( textLabel ) {
+        if ( textLabel.left < self.labelOffset ) {
+          textLabel.left = self.labelOffset;
+        } else if ( textLabel.right > self.axes.horizontalAxisLength - self.labelOffset ) {
+          textLabel.right = self.axes.horizontalAxisLength - self.labelOffset;
+        }
       }
+      clampLabelPosition( this.wavelengthValueText );
+      clampLabelPosition( this.spectralRadianceValueText );
 
       // Moves the cueing arrows to surround the draggable circle
       this.cueingArrows.centerX = this.draggableCircle.centerX;

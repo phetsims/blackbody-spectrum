@@ -135,8 +135,7 @@ define( function( require ) {
      * @returns {number}
      */
     getTotalIntensity: function() {
-      var powerTerm = Math.pow( this.temperatureProperty.value, 4 );
-      return STEFAN_BOLTZMANN_CONSTANT * powerTerm;
+      return STEFAN_BOLTZMANN_CONSTANT * Math.pow( this.temperatureProperty.value, 4 );
     },
     get totalIntensity() { return this.getTotalIntensity(); },
 
@@ -146,8 +145,7 @@ define( function( require ) {
      * @returns {number}
      */
     getPeakWavelength: function() {
-      var peakWavelength = 1e9 * WIEN_CONSTANT / this.temperatureProperty.value;
-      return peakWavelength;
+      return 1e9 * WIEN_CONSTANT / this.temperatureProperty.value;
     },
     get peakWavelength() { return this.getPeakWavelength(); },
 
@@ -157,8 +155,7 @@ define( function( require ) {
      * @returns {Color}
      */
     getRedColor: function() {
-      var red = this.getRenormalizedColorIntensity( RED_WAVELENGTH );
-      return new Color( red, 0, 0, 1 );
+      return new Color( this.getRenormalizedColorIntensity( RED_WAVELENGTH ), 0, 0, 1 );
     },
     get redColor() { return this.getRedColor(); },
 
@@ -168,8 +165,7 @@ define( function( require ) {
      * @returns {Color}
      */
     getBluColor: function() {
-      var blu = this.getRenormalizedColorIntensity( BLU_WAVELENGTH );
-      return new Color( 0, 0, blu, 1 );
+      return new Color( 0, 0, this.getRenormalizedColorIntensity( BLU_WAVELENGTH ), 1 );
     },
     get bluColor() { return this.getBluColor(); },
 
@@ -179,8 +175,7 @@ define( function( require ) {
      * @returns {Color}
      */
     getGreColor: function() {
-      var gre = this.getRenormalizedColorIntensity( GRE_WAVELENGTH );
-      return new Color( 0, gre, 0, 1 );
+      return new Color( 0, this.getRenormalizedColorIntensity( GRE_WAVELENGTH ), 0, 1 );
     },
     get greColor() { return this.getGreColor(); },
 

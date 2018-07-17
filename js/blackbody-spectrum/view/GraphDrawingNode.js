@@ -194,9 +194,9 @@ define( function( require ) {
 
     // Sets layout of graph node elements to be all ultimately relative to the axes
     this.horizontalTickLabelZero.top = this.axes.bottom;
-    this.horizontalTickLabelZero.centerX = this.axes.left;
+    this.horizontalTickLabelZero.centerX = this.axes.left - 5;
     this.horizontalTickLabelMax.top = this.axes.bottom;
-    this.horizontalTickLabelMax.centerX = this.axes.right;
+    this.horizontalTickLabelMax.centerX = this.axes.right + 5;
     this.verticalTickLabelMax.right = this.axes.left;
     this.verticalTickLabelMax.centerY = this.axes.top - 10;
     horizontalZoomButtons.left = this.axes.right - 45;
