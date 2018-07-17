@@ -148,6 +148,9 @@ define( function( require ) {
       if ( notationObject.exponent !== '0' && notationObject.mantissa !== '0.00' ) {
         formattedSpectralRadianceString += ' X 10<sup>' + notationObject.exponent + '</sup>';
       }
+      if ( notationObject.exponent <= -100 ) { // Numbers this small are inconsistent and suffer from rounding issues
+        formattedSpectralRadianceString = '0.00';
+      }
       this.spectralRadianceValueText.text = StringUtils.fillIn( spectralRadianceLabelPatternString, {
         spectralRadiance: formattedSpectralRadianceString
       } );
