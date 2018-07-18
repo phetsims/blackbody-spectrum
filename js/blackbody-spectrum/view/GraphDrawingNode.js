@@ -253,7 +253,7 @@ define( function( require ) {
      * @param {BlackbodyBodyModel} body
      * @param {Text} temperatureTextNode
      */
-    setTemperatureText: function( body, temperatureTextNode ) {
+    updateTemperatureText: function( body, temperatureTextNode ) {
       temperatureTextNode.text = Util.toFixed( body.temperatureProperty.value, 0 ) + 'K';
       var peakWavelength = body.peakWavelength;
       var radiancePeak = this.axes.spectralRadianceToViewY( body.getSpectralRadianceAt( peakWavelength ) );
@@ -291,10 +291,10 @@ define( function( require ) {
         return;
       }
       this.savedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( 0 ) );
-      this.setTemperatureText( this.model.savedBodies.get( 0 ), this.savedTemperatureTextNode );
+      this.updateTemperatureText( this.model.savedBodies.get( 0 ), this.savedTemperatureTextNode );
       if ( this.model.savedBodies.length === 2 ) {
         this.secondSavedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( 1 ) );
-        this.setTemperatureText( this.model.savedBodies.get( 1 ), this.secondSavedTemperatureTextNode );
+        this.updateTemperatureText( this.model.savedBodies.get( 1 ), this.secondSavedTemperatureTextNode );
       }
     },
 

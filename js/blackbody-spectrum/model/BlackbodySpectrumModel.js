@@ -73,9 +73,7 @@ define( function( require ) {
      * A function that clears saved graphs
      */
     clearSavedGraphs: function () {
-      this.savedBodies.reset();
-      // Below line is necessary because AXON ObservableArray doesn't do this in reset
-      this.savedBodies.lengthProperty.value = 0;
+      this.savedBodies.clear();
     }
 
   } );
