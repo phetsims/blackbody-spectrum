@@ -18,15 +18,9 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
   var Util = require( 'DOT/Util' );
   var NumberProperty = require( 'AXON/NumberProperty' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-
-  // strings
-  var spectralRadianceLabelPatternString = require( 'string!BLACKBODY_SPECTRUM/spectralRadianceLabelPattern' );
 
   /**
    * Constructs the GraphValuesPointNode given the body to follow and the axes that will handle coordinate conversions
@@ -64,7 +58,7 @@ define( function( require ) {
     this.draggableCircle = new Circle( options.circleOptions );
     this.dashedLinesPath = new Path( null, options.dashedLineOptions );
     this.wavelengthValueText = new Text( '', options.valueTextOptions );
-    this.spectralRadianceValueText = new RichText( '', options.valueTextOptions );
+    this.spectralRadianceValueText = new Text( '', options.valueTextOptions );
     this.labelOffset = options.labelOffset;
     var arrowOptions = { fill: options.cueingArrowColor };
     this.cueingArrows = new Node( {
@@ -129,8 +123,6 @@ define( function( require ) {
      * @public
      */
     update: function() {
-      var self = this;
-
       // Makes sure that the wavelength property is within bounds
       this.wavelengthProperty.value = Util.clamp( this.wavelengthProperty.value, 0, this.axes.viewXToWavelength( this.axes.horizontalAxisLength ) );
       var spectralRadianceOfPoint = this.body.getSpectralRadianceAt( this.wavelengthProperty.value );
@@ -140,41 +132,18 @@ define( function( require ) {
       this.draggableCircle.centerY = this.axes.spectralRadianceToViewY( spectralRadianceOfPoint );
 
       // Updates value labels' text
-      this.wavelengthValueText.text = Util.toFixed( this.wavelengthProperty.value, 0 ) + ' nm';
-      var notationObject = ScientificNotationNode.toScientificNotation( spectralRadianceOfPoint, {
-        mantissaDecimalPlaces: 2
-      } );
-      var formattedSpectralRadianceString = notationObject.mantissa;
-      if ( notationObject.exponent !== '0' && notationObject.mantissa !== '0.00' ) {
-        formattedSpectralRadianceString += ' X 10<sup>' + notationObject.exponent + '</sup>';
-      }
-      if ( notationObject.exponent <= -100 ) { // Numbers this small are inconsistent and suffer from rounding issues
-        formattedSpectralRadianceString = '0.00';
-      }
-      this.spectralRadianceValueText.text = StringUtils.fillIn( spectralRadianceLabelPatternString, {
-        spectralRadiance: formattedSpectralRadianceString
-      } );
+      this.wavelengthValueText.text = Util.toFixed( this.wavelengthProperty.value  / 1000.0, 3 ); // nm to microns
+      this.spectralRadianceValueText.text = Util.toFixed( spectralRadianceOfPoint * 1e33, 0 ); // multiplier is to match y axis
 
       // Updates value labels' positioning
       this.wavelengthValueText.centerX = this.draggableCircle.centerX;
-      this.spectralRadianceValueText.bottom = this.draggableCircle.centerY;
       this.wavelengthValueText.top = this.labelOffset;
-      this.spectralRadianceValueText.centerX = this.draggableCircle.centerX;
-
-      // Clamps the positions of the labels
-      function clampLabelPosition( textLabel ) {
-        if ( textLabel.left < self.labelOffset ) {
-          textLabel.left = self.labelOffset;
-        } else if ( textLabel.right > self.axes.horizontalAxisLength - self.labelOffset ) {
-          textLabel.right = self.axes.horizontalAxisLength - self.labelOffset;
-        }
-      }
-      clampLabelPosition( this.wavelengthValueText );
-      clampLabelPosition( this.spectralRadianceValueText );
+      this.spectralRadianceValueText.centerY = this.draggableCircle.centerY;
+      this.spectralRadianceValueText.right = -this.labelOffset;
 
       // Moves the cueing arrows to surround the draggable circle
       this.cueingArrows.centerX = this.draggableCircle.centerX;
-      this.cueingArrows.bottom = this.draggableCircle.top - 10;
+      this.cueingArrows.centerY = this.draggableCircle.centerY;
 
       // Updates dashed lines to follow draggable circle
       this.dashedLinesPath.shape = new Shape()
