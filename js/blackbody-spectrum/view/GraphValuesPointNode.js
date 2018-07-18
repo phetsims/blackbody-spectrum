@@ -141,6 +141,18 @@ define( function( require ) {
       this.spectralRadianceValueText.centerY = this.draggableCircle.centerY;
       this.spectralRadianceValueText.right = -this.labelOffset;
 
+      // Clamps label positions so that they don't go off the graph
+      if ( this.wavelengthValueText.right > this.axes.horizontalAxisLength - this.labelOffset ) {
+        this.wavelengthValueText.right = this.axes.horizontalAxisLength - this.labelOffset;
+      } else if ( this.wavelengthValueText.left < this.labelOffset ) {
+        this.wavelengthValueText.left = this.labelOffset;
+      }
+      if ( this.spectralRadianceValueText.top < -this.axes.verticalAxisLength + this.labelOffset ) {
+        this.spectralRadianceValueText.top = -this.axes.verticalAxisLength + this.labelOffset;
+      } else if ( this.spectralRadianceValueText.bottom > this.labelOffset ) {
+        this.spectralRadianceValueText.bottom = this.labelOffset;
+      }
+
       // Moves the cueing arrows to surround the draggable circle
       this.cueingArrows.centerX = this.draggableCircle.centerX;
       this.cueingArrows.centerY = this.draggableCircle.centerY;
