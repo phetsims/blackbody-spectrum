@@ -62,17 +62,20 @@ define( function( require ) {
 
     // Labels for the axes
     var verticalAxisLabelNode = new Text( verticalLabelSpectralRadianceString, {
-      font: new PhetFont( 28 ),
+      font: new PhetFont( 26 ),
       fill: options.axisLabelColor,
       rotation: -Math.PI / 2
     } );
     var horizontalAxisTopLabelNode = new Text( horizontalLabelWavelengthString, {
-      font: new PhetFont( 32 ),
+      font: new PhetFont( 24 ),
       fill: options.axisLabelColor
     } );
     var horizontalAxisBottomLabelNode = new Text( subtitleLabelString, {
-      font: new PhetFont( 24 ),
+      font: new PhetFont( 16 ),
       fill: options.axisLabelColor
+    } );
+    var horizontalAxisLabelNode = new Node( {
+      children: [ horizontalAxisTopLabelNode, horizontalAxisBottomLabelNode ]
     } );
 
     // @private Paths for the main graph and the saved curves
@@ -179,8 +182,7 @@ define( function( require ) {
     this.addChild( this.horizontalTickLabelMax );
     this.addChild( this.verticalTickLabelMax );
     this.addChild( verticalAxisLabelNode );
-    this.addChild( horizontalAxisTopLabelNode );
-    this.addChild( horizontalAxisBottomLabelNode );
+    this.addChild( horizontalAxisLabelNode );
     this.addChild( this.axes );
     this.addChild( horizontalZoomButtons );
     this.addChild( verticalZoomButtons );
@@ -194,7 +196,7 @@ define( function( require ) {
 
     // Sets layout of graph node elements to be all ultimately relative to the axes
     this.horizontalTickLabelZero.top = this.axes.bottom;
-    this.horizontalTickLabelZero.centerX = this.axes.left - 5;
+    this.horizontalTickLabelZero.centerX = this.axes.left - 10;
     this.horizontalTickLabelMax.top = this.axes.bottom;
     this.horizontalTickLabelMax.centerX = this.axes.right + 5;
     this.verticalTickLabelMax.right = this.axes.left;
@@ -208,12 +210,12 @@ define( function( require ) {
     this.verticalZoomInButton.centerX = this.verticalZoomOutButton.centerX;
     this.verticalZoomInButton.bottom = this.verticalZoomOutButton.top - 10;
     this.wavelengthSpectrumNode.bottom = this.axes.bottom;
-    verticalAxisLabelNode.right = this.axes.left - 20;
-    verticalAxisLabelNode.centerY = -this.axes.verticalAxisLength / 2;
-    horizontalAxisTopLabelNode.top = this.axes.bottom + 20;
+    verticalAxisLabelNode.centerX = verticalZoomButtons.centerX;
+    verticalAxisLabelNode.top = verticalZoomButtons.bottom + 15;
     horizontalAxisTopLabelNode.centerX = this.axes.centerX;
     horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
     horizontalAxisBottomLabelNode.centerX = this.axes.centerX;
+    horizontalAxisLabelNode.centerY = horizontalZoomButtons.centerY;
   }
 
   blackbodySpectrum.register( 'GraphDrawingNode', GraphDrawingNode );

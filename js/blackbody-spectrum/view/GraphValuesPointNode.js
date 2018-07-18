@@ -45,8 +45,8 @@ define( function( require ) {
         lineDash: [ 4, 4 ]
       },
       valueTextOptions: {
-        fill: 'green',
-        font: new PhetFont( 16 )
+        fill: 'pink',
+        font: new PhetFont( 22 )
       },
       cueingArrowColor: '#64dc64',
       labelOffset: 5
