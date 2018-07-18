@@ -199,14 +199,14 @@ define( function( require ) {
     this.horizontalTickLabelZero.centerX = this.axes.left - 10;
     this.horizontalTickLabelMax.top = this.axes.bottom;
     this.horizontalTickLabelMax.centerX = this.axes.right + 5;
-    this.verticalTickLabelMax.right = this.axes.left;
+    this.verticalTickLabelMax.right = this.axes.left + 20;
     this.verticalTickLabelMax.centerY = this.axes.top - 10;
     horizontalZoomButtons.left = this.axes.right - 45;
     horizontalZoomButtons.top = this.axes.bottom + 40;
     this.horizontalZoomInButton.left = this.horizontalZoomOutButton.right + 10;
     this.horizontalZoomInButton.centerY = this.horizontalZoomOutButton.centerY;
-    verticalZoomButtons.right = this.axes.left - 60;
-    verticalZoomButtons.bottom = this.axes.top + 35;
+    verticalZoomButtons.right = this.axes.left - 45;
+    verticalZoomButtons.bottom = this.axes.top + 45;
     this.verticalZoomInButton.centerX = this.verticalZoomOutButton.centerX;
     this.verticalZoomInButton.bottom = this.verticalZoomOutButton.top - 10;
     this.wavelengthSpectrumNode.bottom = this.axes.bottom;
