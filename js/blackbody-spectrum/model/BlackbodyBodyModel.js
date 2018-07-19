@@ -66,7 +66,7 @@ define( function( require ) {
      * @param {number} wavelength
      * @returns {number}
      */
-    getSpectralRadianceAt: function(wavelength ) {
+    getSpectralRadianceAt: function( wavelength ) {
       var intensityRadiation;
       var prefactor;
       var exponentialTerm;
