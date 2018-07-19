@@ -123,6 +123,7 @@ define( function( require ) {
     // @private The point node that can be dragged to find out graph values
     this.draggablePointNode = new GraphValuesPointNode( model.mainBody, this.axes );
     model.graphValuesVisibleProperty.link( function( graphValuesVisible ) {
+      self.draggablePointNode.wavelengthProperty.value = self.model.mainBody.peakWavelength; // Node will move back to top of graph on visibility change
       self.draggablePointNode.visible = graphValuesVisible;
     } );
 
@@ -254,7 +255,7 @@ define( function( require ) {
      * @param {Text} temperatureTextNode
      */
     updateTemperatureText: function( body, temperatureTextNode ) {
-      temperatureTextNode.text = Util.toFixed( body.temperatureProperty.value, 0 ) + 'K';
+      temperatureTextNode.text = Util.toFixed( body.temperatureProperty.value, 0 ) + ' K';
       var peakWavelength = body.peakWavelength;
       var radiancePeak = this.axes.spectralRadianceToViewY( body.getSpectralRadianceAt( peakWavelength ) );
       var verticalTextPlacement = Util.clamp(
