@@ -41,9 +41,6 @@ define( function( require ) {
     // @private
     this.model = model;
 
-    // @private
-    this.intensityArray = new Array( GRAPH_NUMBER_POINTS ); //Blackbody spectrum intensity
-
     // @public {Property.<number>} initial temperature in kelvin
     this.temperatureProperty = new NumberProperty( temperature );
   }
@@ -121,11 +118,12 @@ define( function( require ) {
      * @returns {Array.<number>}
      */
     getCoordinatesY: function() {
+      var intensityArray = new Array( GRAPH_NUMBER_POINTS );
       for ( var i = 0; i < GRAPH_NUMBER_POINTS; i++ ) {
         var wavelength = i * this.model.wavelengthMax / GRAPH_NUMBER_POINTS;
-        this.intensityArray[ i ] = this.getSpectralRadianceAt( wavelength );
+        intensityArray[ i ] = this.getSpectralRadianceAt( wavelength );
       }
-      return this.intensityArray;
+      return intensityArray;
     },
     get coordinatesY() { return this.getCoordinatesY(); },
 
