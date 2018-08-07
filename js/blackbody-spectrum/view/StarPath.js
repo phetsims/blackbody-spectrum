@@ -76,7 +76,6 @@ define( function( require ) {
     for ( i = 1; i < points.length; i++ ) {
       this.lineToPoint( points[ i ] );
     }
-    this.close(); //TODO is this necessary ?
 
   }
   blackbodySpectrum.register( 'StarShape', StarShape );

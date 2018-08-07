@@ -44,10 +44,10 @@ define( function( require ) {
 
     // highlight thumb on pointer over
     this.addInputListener( new ButtonListener( {
-      over: function( event ) {
+      over: function() {
         self.fill = options.fillHighlighted;
       },
-      up: function( event ) {
+      up: function() {
         self.fill = options.fill;
       }
     } ) );

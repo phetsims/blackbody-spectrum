@@ -21,7 +21,7 @@ define( function( require ) {
   var RED_WAVELENGTH = 650; // red wavelength in nanometers
   var GRE_WAVELENGTH = 550; // green wavelength in nanometers
   var BLU_WAVELENGTH = 450; // blue wavelength in nanometers
-  var GLOWING_STAR_HALO_MINIMUM_RADIUS = 5;  // in pixels
+  var GLOWING_STAR_HALO_MINIMUM_RADIUS = 5; // in pixels
   var GLOWING_STAR_HALO_MAXIMUM_RADIUS = 40; // in pixels
 
   /**
