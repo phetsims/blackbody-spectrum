@@ -17,10 +17,6 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
 
   // constants
-  var WIEN_CONSTANT = 2.897773e-3; // is equal to b in units of meters-kelvin
-  var STEFAN_BOLTZMANN_CONSTANT = 5.670373e-8; // is equal to sigma in units of watts/(m^2*K^4)
-  var POWER_EXPONENT = 0.7;   // an exponent to calculate the renormalized temperature
-
   // colors used for glowing star and circles
   var RED_WAVELENGTH = 650; // red wavelength in nanometers
   var GRE_WAVELENGTH = 550; // green wavelength in nanometers
@@ -85,6 +81,7 @@ define( function( require ) {
        This renormalized temperature is above 0 but it can exceed one.
        I dont know why you would want to raise it to a power of 0.7
        */
+      var POWER_EXPONENT = 0.7; // an exponent to calculate the renormalized temperature
       var temperatureMinimum = 700; // temp(K) at which color of the circles and star turns on
       var temperatureMaximum = 3000; // temp(K) at which color of the circles maxes out
       return Math.pow( Math.max( this.temperatureProperty.value - temperatureMinimum, 0 ) / ( temperatureMaximum - temperatureMinimum ), POWER_EXPONENT );
@@ -113,6 +110,7 @@ define( function( require ) {
      * @returns {number}
      */
     getTotalIntensity: function() {
+      var STEFAN_BOLTZMANN_CONSTANT = 5.670373e-8; // is equal to sigma in units of watts/(m^2*K^4)
       return STEFAN_BOLTZMANN_CONSTANT * Math.pow( this.temperatureProperty.value, 4 );
     },
     get totalIntensity() { return this.getTotalIntensity(); },
@@ -123,6 +121,7 @@ define( function( require ) {
      * @returns {number}
      */
     getPeakWavelength: function() {
+      var WIEN_CONSTANT = 2.897773e-3; // is equal to b in units of meters-kelvin
       return 1e9 * WIEN_CONSTANT / this.temperatureProperty.value;
     },
     get peakWavelength() { return this.getPeakWavelength(); },
