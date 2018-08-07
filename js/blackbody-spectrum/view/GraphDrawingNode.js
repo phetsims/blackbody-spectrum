@@ -25,6 +25,7 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
   var GraphValuesPointNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GraphValuesPointNode' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   // constants
   var ULTRAVIOLET_WAVELENGTH = 380; // in nm, max bounds for the uv part of the electromagnetic spectrum
@@ -48,8 +49,8 @@ define( function( require ) {
       axisBoundsLabelColor: 'yellow',
       axisLabelColor: 'rgb(0,235,235)',
       graphPathLineWidth: 5,
-      mainGraphPathColor: 'red',
-      savedGraphPathColor: '#996633',
+      mainGraphPathColor: PhetColorScheme.RED_COLORBLIND,
+      savedGraphPathColor: 'gray',
       intensityPathFillColor: 'rgba(100,100,100,0.75)',
       zoomButtonIconRadius: 10
     }, options );
