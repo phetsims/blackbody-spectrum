@@ -18,8 +18,6 @@ define( function( require ) {
 
   // constants
   var GRAPH_NUMBER_POINTS = 300; // number of points blackbody curve is evaluated at
-  var FIRST_RADIATION_CONSTANT = 1.191042e-16; // is equal to 2 hc^2  in units of watts*m^2/steradian
-  var SECOND_RADIATION_CONSTANT = 1.438770e7; // is equal to  hc/k  in units of nanometer-kelvin
   var WIEN_CONSTANT = 2.897773e-3; // is equal to b in units of meters-kelvin
   var STEFAN_BOLTZMANN_CONSTANT = 5.670373e-8; // is equal to sigma in units of watts/(m^2*K^4)
   var POWER_EXPONENT = 0.7;   // an exponent to calculate the renormalized temperature
@@ -59,22 +57,22 @@ define( function( require ) {
     /**
      * Function that returns the spectral radiance at a given wavelength (in nm)
      * The units of spectral radiance are in megaWatts per meter^2 per micrometer
+     * Equation used is Planck's Law which returns a spectral radiance of a Blackbody given a temperature and wavelength
+     * Plancks law is that spectral radiance = 2hc^2 / ( l^5 * ( e^( hc / lkt ) - 1 ) )
+     * h is Planck's constant, c is the speed of light, l is wavelength, k is the Boltzmann constant, and t is the temperature
      * @public
      * @param {number} wavelength
      * @returns {number}
      */
     getSpectralRadianceAt: function( wavelength ) {
-      var intensityRadiation;
-      var prefactor;
-      var exponentialTerm;
+      // Avoiding division by 0
       if ( wavelength === 0 ) {
-        // let's avoid division by zero.
         return 0;
       }
-      prefactor = ( FIRST_RADIATION_CONSTANT / Math.pow( wavelength, 5 ) );
-      exponentialTerm = 1 / ( Math.exp( SECOND_RADIATION_CONSTANT / ( wavelength * this.temperatureProperty.value ) ) - 1 );
-      intensityRadiation = prefactor * exponentialTerm;
-      return intensityRadiation;
+
+      var A = 1.191042e-16; // is 2hc^2 in units of watts*m^2/steradian
+      var B = 1.438770e7; // is hc/k in units of nanometer-kelvin
+      return A / Math.pow( wavelength, 5 ) / ( Math.exp( B / ( wavelength * this.temperatureProperty.value ) ) - 1 );
     },
 
     /**
