@@ -17,7 +17,6 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
 
   // constants
-  var GRAPH_NUMBER_POINTS = 300; // number of points blackbody curve is evaluated at
   var WIEN_CONSTANT = 2.897773e-3; // is equal to b in units of meters-kelvin
   var STEFAN_BOLTZMANN_CONSTANT = 5.670373e-8; // is equal to sigma in units of watts/(m^2*K^4)
   var POWER_EXPONENT = 0.7;   // an exponent to calculate the renormalized temperature
@@ -107,23 +106,6 @@ define( function( require ) {
       var boundedRenormalizedTemp = Math.min( this.renormalizedTemperature, 1 );
       return Math.floor( 255 * boundedRenormalizedTemp * colorIntensity / largestColorIntensity );
     },
-
-    /**
-     * Function that returns an array of radiation intensity (the y axis).
-     * The x axis is determined based on the current value of wavelengthMax. The y axis
-     * is given in model coordinates , i.e. with units of MW/m^2/micrometer
-     * @public
-     * @returns {Array.<number>}
-     */
-    getCoordinatesY: function() {
-      var intensityArray = new Array( GRAPH_NUMBER_POINTS );
-      for ( var i = 0; i < GRAPH_NUMBER_POINTS; i++ ) {
-        var wavelength = i * this.model.wavelengthMax / GRAPH_NUMBER_POINTS;
-        intensityArray[ i ] = this.getSpectralRadianceAt( wavelength );
-      }
-      return intensityArray;
-    },
-    get coordinatesY() { return this.getCoordinatesY(); },
 
     /**
      * Function that returns the total intensity (area under the curve) of the blackbody

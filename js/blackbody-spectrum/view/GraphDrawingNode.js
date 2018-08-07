@@ -30,6 +30,7 @@ define( function( require ) {
   // constants
   var ULTRAVIOLET_WAVELENGTH = 380; // in nm, max bounds for the uv part of the electromagnetic spectrum
   var VISIBLE_WAVELENGTH = 700; // in nm, max bounds for the visible part of the electromagnetic spectrum
+  var GRAPH_NUMBER_POINTS = 300; // number of points blackbody curve is evaluated at
 
   // strings
   var horizontalLabelWavelengthString = require( 'string!BLACKBODY_SPECTRUM/horizontalLabelWavelength' );
@@ -240,12 +241,14 @@ define( function( require ) {
      */
     shapeOfBody: function( body ) {
       var graphShape = new Shape();
-      var radianceArray = body.coordinatesY;
-      var numberPoints = radianceArray.length;
-      var deltaWavelength = this.axes.horizontalAxisLength / ( numberPoints - 1 );
-      graphShape.moveTo( 0, this.axes.spectralRadianceToViewY( radianceArray[ 0 ] ) );
-      for ( var i = 1; i < radianceArray.length; i++ ) {
-        graphShape.lineTo( deltaWavelength * i, this.axes.spectralRadianceToViewY( radianceArray[ i ] ) );
+      var deltaWavelength = this.model.wavelengthMax / ( GRAPH_NUMBER_POINTS - 1 );
+      var pointsXOffset = this.axes.horizontalAxisLength / ( GRAPH_NUMBER_POINTS - 1 );
+      graphShape.moveTo( 0, 0 );
+      for ( var i = 1; i < GRAPH_NUMBER_POINTS; i++ ) {
+        graphShape.lineTo(
+          pointsXOffset * i,
+          this.axes.spectralRadianceToViewY( body.getSpectralRadianceAt( deltaWavelength * i ) )
+        );
       }
       return graphShape;
     },
