@@ -3,6 +3,7 @@
 //TODO break this up into smaller building blocks, see #19
 /**
  * Graph Node responsible for positioning all of the graph elements
+ * Handles or controls the majority of the over-arching graph logic
  *
  * @author Martin Veillette (Berea College)
  * @author Saurabh Totey

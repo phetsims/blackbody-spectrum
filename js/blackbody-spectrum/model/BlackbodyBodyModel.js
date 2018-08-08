@@ -1,7 +1,7 @@
 // Copyright 2014-2018, University of Colorado Boulder
 
 /**
- * Model that holds all the numerical data for a blackbody spectrum at a given temperature
+ * Model that holds and calculates all the numerical data for a Blackbody spectrum at a given temperature
  *
  * @author Martin Veillette (Berea College)
  * @author Saurabh Totey

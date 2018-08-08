@@ -1,7 +1,7 @@
 // Copyright 2014-2018, University of Colorado Boulder
 
 /**
- * Scenery Node that displays a thermometer with labels attached to the right hand side of the thermometer
+ * Scenery Node that displays a thermometer with labels attached to the left hand side of the thermometer
  *
  * @author Martin Veillette (Berea College)
  */

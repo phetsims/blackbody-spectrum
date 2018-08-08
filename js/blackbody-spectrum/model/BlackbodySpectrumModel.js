@@ -1,7 +1,8 @@
 // Copyright 2014-2018, University of Colorado Boulder
 
 /**
- * Model for the 'BlackbodySpectrum' screen.
+ * Main model for the BlackbodySpectrum screen
+ * Controls or contains all of the main sim logic
  *
  * @author Martin Veillette (Berea College)
  * @author Saurabh Totey

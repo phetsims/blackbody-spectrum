@@ -1,7 +1,8 @@
 // Copyright 2014-2018, University of Colorado Boulder
 
 /**
- * View for the 'BlackbodySpectrum' screen.
+ * Main view for the BlackbodySpectrum simulation
+ * Handles or contains all of the main graphical logic of the sim
  *
  * @author Martin Veillette (Berea College)
  * @author Saurabh Totey

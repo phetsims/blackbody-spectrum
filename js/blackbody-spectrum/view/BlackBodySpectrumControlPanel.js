@@ -1,7 +1,7 @@
 // Copyright 2014-2017, University of Colorado Boulder
 
 /**
- * Control panel with Check Boxes that control the graphical Properties of the simulation.
+ * Control panel with Check Boxes that control the graphical properties of the simulation
  *
  * @author Arnab Purkayastha
  * @author Saurabh Totey

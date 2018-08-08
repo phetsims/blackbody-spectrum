@@ -1,7 +1,8 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * Triangular slider thumb that points left
+ * Triangular slider thumb that points down on a horizontal slider
+ * The horizontal slider is rotated vertically to make this eventually point left when seen
  *
  * @author Arnab Purkayastha
  */
