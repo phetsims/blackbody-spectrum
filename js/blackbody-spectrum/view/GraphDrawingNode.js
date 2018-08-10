@@ -1,6 +1,5 @@
 // Copyright 2014-2018, University of Colorado Boulder
 
-//TODO break this up into smaller building blocks, see #19
 /**
  * Graph Node responsible for positioning all of the graph elements
  * Handles or controls the majority of the over-arching graph logic
