@@ -163,8 +163,7 @@ define( function( require ) {
      * @returns {number}
      */
     getGlowingStarHaloRadius: function() {
-      var renTemp = this.renormalizedTemperature;
-      return Util.linear( 0, 1, GLOWING_STAR_HALO_MINIMUM_RADIUS, GLOWING_STAR_HALO_MAXIMUM_RADIUS, renTemp ); // temperature -> radius
+      return Util.linear( 0, 1, GLOWING_STAR_HALO_MINIMUM_RADIUS, GLOWING_STAR_HALO_MAXIMUM_RADIUS, this.renormalizedTemperature ); // temperature -> radius
     },
     get glowingStarHaloRadius() { return this.getGlowingStarHaloRadius(); },
 
@@ -175,10 +174,8 @@ define( function( require ) {
      * @returns {Color}
      */
     getGlowingStarHaloColor: function() {
-      var color = this.starColor;
-      var renTemp = this.renormalizedTemperature;
-      var alpha = Util.linear( 0, 1, 0, 0.1, renTemp ); // temperature -> transparency
-      return color.withAlpha( alpha );
+      var alpha = Util.linear( 0, 1, 0, 0.1, this.renormalizedTemperature ); // temperature -> transparency
+      return this.starColor.withAlpha( alpha );
     },
     get glowingStarHaloColor() { return this.getGlowingStarHaloColor(); },
 
