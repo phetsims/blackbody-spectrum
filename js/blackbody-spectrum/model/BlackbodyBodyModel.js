@@ -52,7 +52,7 @@ define( function( require ) {
     /**
      * Function that returns the spectral radiance at a given wavelength (in nm)
      * The units of spectral radiance are in megaWatts per meter^2 per micrometer
-     * Equation used is Planck's Law which returns a spectral radiance of a Blackbody given a temperature and wavelength
+     * Equation in use is Planck's Law which returns a spectral radiance of a Blackbody given a temperature and wavelength
      * Plancks law is that spectral radiance = 2hc^2 / ( l^5 * ( e^( hc / lkt ) - 1 ) )
      * h is Planck's constant, c is the speed of light, l is wavelength, k is the Boltzmann constant, and t is the temperature
      * @public
@@ -106,6 +106,7 @@ define( function( require ) {
 
     /**
      * Function that returns the total intensity (area under the curve) of the blackbody
+     * Equation in use is the Stefan–Boltzmann Law
      * @public
      * @returns {number}
      */
@@ -116,7 +117,8 @@ define( function( require ) {
     get totalIntensity() { return this.getTotalIntensity(); },
 
     /**
-     * Function that returns the peak wavelength (in nanometers) of the blackbody.
+     * Function that returns the peak wavelength (in nanometers) of the blackbody
+     * Equation in use is Wien's displacement Law
      * @public
      * @returns {number}
      */
