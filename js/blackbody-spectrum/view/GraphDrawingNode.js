@@ -81,20 +81,21 @@ define( function( require ) {
       children: [ horizontalAxisTopLabelNode, horizontalAxisBottomLabelNode ]
     } );
 
-    // @private Paths for the main graph and the saved curves
+    // @private paths for the main and saved graphs
     this.mainGraph = new Path( null, {
       stroke: options.mainGraphPathColor,
       lineWidth: options.graphPathLineWidth,
       lineJoin: 'round'
     } );
-    this.savedGraph = new Path( null, {
+    this.primarySavedGraph = new Path( null, {
       stroke: options.savedGraphPathColor,
       lineWidth: options.graphPathLineWidth,
       lineJoin: 'round'
     } );
-    this.secondSavedGraph = new Path( null, {
+    this.secondarySavedGraph = new Path( null, {
       stroke: options.savedGraphPathColor,
       lineWidth: options.graphPathLineWidth,
+      lineDash: [5, 5],
       lineJoin: 'round'
     } );
 
@@ -102,25 +103,6 @@ define( function( require ) {
     this.intensityPath = new Path( null, { fill: options.intensityPathFillColor } );
     model.intensityVisibleProperty.link( function( intensityVisible ) {
       self.intensityPath.visible = intensityVisible;
-    } );
-
-    // @private The text nodes that displays the saved temperatures
-    this.savedTemperatureTextNode = new Text( '?', {
-      fill: options.savedGraphPathColor,
-      font: new PhetFont( 22 )
-    } );
-    this.secondSavedTemperatureTextNode = new Text( '?', {
-      fill: options.savedGraphPathColor,
-      font: new PhetFont( 22 )
-    } );
-
-    // Links saved graph visibility to whether there is a graph that is saved
-    model.savedBodies.lengthProperty.link( function( length ) {
-      self.savedGraph.visible = length > 0;
-      self.savedTemperatureTextNode.visible = length > 0;
-      self.secondSavedGraph.visible = length > 1;
-      self.secondSavedTemperatureTextNode.visible = length > 1;
-      self.updateGraphPaths();
     } );
 
     // @private The point node that can be dragged to find out graph values
@@ -179,6 +161,7 @@ define( function( require ) {
     model.mainBody.temperatureProperty.link( updateAllProcedure );
     this.axes.horizontalZoomProperty.link( updateAllProcedure );
     this.axes.verticalZoomProperty.link( updateAllProcedure );
+    this.model.savedBodies.lengthProperty.link( updateAllProcedure );
 
     // Adds children in rendering order
     this.addChild( this.wavelengthSpectrumNode );
@@ -191,11 +174,9 @@ define( function( require ) {
     this.addChild( horizontalZoomButtons );
     this.addChild( verticalZoomButtons );
     this.addChild( this.mainGraph );
+    this.addChild( this.primarySavedGraph );
+    this.addChild( this.secondarySavedGraph );
     this.addChild( this.intensityPath );
-    this.addChild( this.savedGraph );
-    this.addChild( this.secondSavedGraph );
-    this.addChild( this.savedTemperatureTextNode );
-    this.addChild( this.secondSavedTemperatureTextNode );
     this.addChild( this.draggablePointNode );
 
     // Sets layout of graph node elements to be all ultimately relative to the axes
@@ -255,29 +236,6 @@ define( function( require ) {
     },
 
     /**
-     * Sets the text and position of a text node to show the temperature of a given body
-     * @param {BlackbodyBodyModel} body
-     * @param {Text} temperatureTextNode
-     */
-    updateTemperatureText: function( body, temperatureTextNode ) {
-      temperatureTextNode.text = Util.toFixed( body.temperatureProperty.value, 0 ) + ' K';
-      var peakWavelength = body.peakWavelength;
-      var radiancePeak = this.axes.spectralRadianceToViewY( body.getSpectralRadianceAt( peakWavelength ) );
-      var verticalTextPlacement = Util.clamp(
-        radiancePeak / 3,
-        -this.axes.verticalAxisLength + temperatureTextNode.height,
-        0
-      );
-      var horizontalTextPlacement = Util.clamp(
-        this.axes.wavelengthToViewX( peakWavelength ) + 20,
-        temperatureTextNode.width / 2,
-        this.axes.horizontalAxisLength - temperatureTextNode.width / 2
-      );
-      temperatureTextNode.bottom = verticalTextPlacement;
-      temperatureTextNode.centerX = horizontalTextPlacement;
-    },
-
-    /**
      * Updates the saved and main graph paths as well as their corresponding text boxes or intensity paths
      */
     updateGraphPaths: function() {
@@ -292,15 +250,15 @@ define( function( require ) {
         this.intensityPath.shape.lineToPoint( newPoint );
       }
 
-      // Updates the saved graph
-      if ( this.model.savedBodies.length === 0 ) {
-        return;
+      // Updates the saved graph(s)
+      var numberOfSavedBodies = this.model.savedBodies.length;
+      this.primarySavedGraph.shape = null;
+      this.secondarySavedGraph.shape = null;
+      if ( numberOfSavedBodies > 0 ) {
+        this.primarySavedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( numberOfSavedBodies - 1 ) );
       }
-      this.savedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( 0 ) );
-      this.updateTemperatureText( this.model.savedBodies.get( 0 ), this.savedTemperatureTextNode );
-      if ( this.model.savedBodies.length === 2 ) {
-        this.secondSavedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( 1 ) );
-        this.updateTemperatureText( this.model.savedBodies.get( 1 ), this.secondSavedTemperatureTextNode );
+      if ( numberOfSavedBodies === 2 ) {
+        this.secondarySavedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( 0 ) );
       }
     },
 
