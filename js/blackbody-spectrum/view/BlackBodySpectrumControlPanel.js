@@ -19,7 +19,7 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var HBox = require( 'SCENERY/nodes/HBox' );
-  var Shape = require( 'KITE/Shape' );
+  var GenericCurveShape = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GenericCurveShape' );
   var Path = require( 'SCENERY/nodes/Path' );
 
   // strings
@@ -66,12 +66,8 @@ define( function( require ) {
     var labelsText = new Text( labelsString, checkboxFont );
 
     var saveText = new Text( saveString, buttonFont );
-    var saveCurveShape = new Shape()
-      .moveTo( 0, 0 )
-      .cubicCurveTo( 15, 0, 15, -25, 25, -25 )
-      .cubicCurveTo( 35, -25, 45, 0, 80, 0 );
 
-    var saveCurvePath = new Path( saveCurveShape, {
+    var saveCurvePath = new Path( new GenericCurveShape(), {
       stroke: 'black',
       lineWidth: 3,
       maxWidth: 30
