@@ -37,6 +37,10 @@ define( function( require ) {
   var RichText = require( 'SCENERY/nodes/RichText' );
   var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
+  var GenericCurveShape = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GenericCurveShape' );
+  var Path = require( 'SCENERY/nodes/Path' );
 
   // strings
   var bString = require( 'string!BLACKBODY_SPECTRUM/b' );
@@ -71,6 +75,10 @@ define( function( require ) {
   };
   var INTENSITY_TEXT_BOX_STROKE = 'red';
   var INTENSITY_TEXT_BOX_FILL = 'gray';
+  var SAVED_TEMPERATURE_LABEL_OPTIONS = {
+    font: new PhetFont( 16 ),
+    fill: 'white'
+  };
 
   /**
    * Constructor for the BlackbodySpectrumView
@@ -134,18 +142,60 @@ define( function( require ) {
 
     // The label above the box that shows the model's current intensity
     var intensityLabel = new Text( intensityString, INTENSITY_LABEL_OPTIONS );
-    // The actual text that shows the model's intensity
     var intensityText = new RichText( '?', INTENSITY_TEXT_OPTIONS );
-    // The box that surrounds the text showing the model's intensity
     var intensityTextBox = new Rectangle( 0, 0, intensityText.width + 5, intensityText.height + 5, 0, 0, {
       children: [ intensityText ],
       stroke: INTENSITY_TEXT_BOX_STROKE,
       fill: INTENSITY_TEXT_BOX_FILL
     } );
+
     // The label and the box containing the intensity value text have the same visibility as the model's intensityVisibleProperty
     model.intensityVisibleProperty.link( function( intensityVisible ) {
       intensityTextBox.visible = intensityVisible;
       intensityLabel.visible = intensityVisible;
+    } );
+
+    // The labels and icons that represent the saved temperatures
+    var primarySavedTemperatureLabel = new Text( '', SAVED_TEMPERATURE_LABEL_OPTIONS );
+    var secondarySavedTemperatureLabel = new Text( '', SAVED_TEMPERATURE_LABEL_OPTIONS );
+    var primaryGenericCurve = new Path( new GenericCurveShape(), {
+      stroke: 'gray',
+      maxWidth: 50
+    } );
+    var secondaryGenericCurve = new Path( new GenericCurveShape(), {
+      stroke: 'gray',
+      lineDash: [ 5, 5 ],
+      maxWidth: 50
+    } );
+    var primarySavedTemperatureBox = new HBox( {
+      children: [ primaryGenericCurve, primarySavedTemperatureLabel ],
+      spacing: 10
+    } );
+    var secondarySavedTemperatureBox = new HBox( {
+      children: [ secondaryGenericCurve, secondarySavedTemperatureLabel ],
+      spacing: 10
+    } );
+
+    // Links the saved bodies to the saved temperature boxes' visibility and text
+    model.savedBodies.lengthProperty.link( function( numberOfSavedBodies ) {
+      primarySavedTemperatureBox.visible = numberOfSavedBodies > 0;
+      secondarySavedTemperatureBox.visible = numberOfSavedBodies > 1;
+      if ( numberOfSavedBodies > 0 ) {
+        primarySavedTemperatureLabel.text = Util.toFixed( model.savedBodies.get( numberOfSavedBodies - 1 ).temperatureProperty.value, 0 ) + ' K';
+        secondarySavedTemperatureLabel.text = Util.toFixed( model.savedBodies.get( 0 ).temperatureProperty.value, 0 ) + ' K'; // text is set, but this label isn't necessarily visible
+      }
+    } );
+
+    // The menu that contains the intensity and saved temperature information
+    var informationMenu = new VBox( {
+      children: [
+        primarySavedTemperatureBox,
+        secondarySavedTemperatureBox,
+        new Node( { // new node used to package intensity information together
+          children: [ intensityLabel, intensityTextBox ]
+        } )
+      ],
+      spacing: 10
     } );
 
     // Links the current temperature to the RGB indicators and the temperature text along the TriangleSliderThumb
@@ -199,8 +249,7 @@ define( function( require ) {
     this.addChild( circleBlueLabel );
     this.addChild( circleGreenLabel );
     this.addChild( circleRedLabel );
-    this.addChild( intensityTextBox );
-    this.addChild( intensityLabel );
+    this.addChild( informationMenu );
     this.addChild( resetAllButton );
 
     // layout for things that don't have a location in the model
@@ -233,11 +282,10 @@ define( function( require ) {
     glowingStarHalo.centerX = starPath.centerX;
     glowingStarHalo.centerY = starPath.centerY;
     cueingArrows.centerY = temperatureNode.centerY;
-    intensityTextBox.centerX = graphNode.right - 150;
-    intensityTextBox.centerY = (circleBlue.centerY + circleBlueLabel.centerY) / 2;
+    informationMenu.centerX = graphNode.right - 150;
+    informationMenu.centerY = circleBlue.centerY;
     intensityText.center = new Vector2( intensityTextBox.width / 2, intensityTextBox.height / 2 );
     intensityLabel.bottom = intensityTextBox.top;
-    intensityLabel.left = intensityTextBox.left;
   }
 
   blackbodySpectrum.register( 'BlackbodySpectrumScreenView', BlackbodySpectrumScreenView );

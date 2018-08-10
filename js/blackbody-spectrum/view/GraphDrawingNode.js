@@ -95,7 +95,7 @@ define( function( require ) {
     this.secondarySavedGraph = new Path( null, {
       stroke: options.savedGraphPathColor,
       lineWidth: options.graphPathLineWidth,
-      lineDash: [5, 5],
+      lineDash: [ 5, 5 ],
       lineJoin: 'round'
     } );
 
