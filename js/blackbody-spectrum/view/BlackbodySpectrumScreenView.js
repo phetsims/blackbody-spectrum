@@ -67,7 +67,7 @@ define( function( require ) {
   };
   var INTENSITY_LABEL_OPTIONS = {
     fill: 'white',
-    font: new PhetFont( 16 )
+    font: new PhetFont( 12 )
   };
   var INTENSITY_TEXT_OPTIONS = {
     font: new PhetFont( 16 ),
@@ -79,6 +79,9 @@ define( function( require ) {
     font: new PhetFont( 16 ),
     fill: 'white'
   };
+  var LAYOUT_BOX_SPACING = 10;
+  var GENERIC_CURVE_WIDTH = 50;
+  var GENERIC_CURVE_LINE_WIDTH = 5;
 
   /**
    * Constructor for the BlackbodySpectrumView
@@ -160,20 +163,22 @@ define( function( require ) {
     var secondarySavedTemperatureLabel = new Text( '', SAVED_TEMPERATURE_LABEL_OPTIONS );
     var primaryGenericCurve = new Path( new GenericCurveShape(), {
       stroke: 'gray',
-      maxWidth: 50
+      lineWidth: GENERIC_CURVE_LINE_WIDTH,
+      maxWidth: GENERIC_CURVE_WIDTH
     } );
     var secondaryGenericCurve = new Path( new GenericCurveShape(), {
       stroke: 'gray',
       lineDash: [ 5, 5 ],
-      maxWidth: 50
+      lineWidth: GENERIC_CURVE_LINE_WIDTH,
+      maxWidth: GENERIC_CURVE_WIDTH
     } );
     var primarySavedTemperatureBox = new HBox( {
       children: [ primaryGenericCurve, primarySavedTemperatureLabel ],
-      spacing: 10
+      spacing: LAYOUT_BOX_SPACING
     } );
     var secondarySavedTemperatureBox = new HBox( {
       children: [ secondaryGenericCurve, secondarySavedTemperatureLabel ],
-      spacing: 10
+      spacing: LAYOUT_BOX_SPACING
     } );
 
     // Links the saved bodies to the saved temperature boxes' visibility and text
@@ -195,7 +200,7 @@ define( function( require ) {
           children: [ intensityLabel, intensityTextBox ]
         } )
       ],
-      spacing: 10
+      spacing: LAYOUT_BOX_SPACING
     } );
 
     // Links the current temperature to the RGB indicators and the temperature text along the TriangleSliderThumb
