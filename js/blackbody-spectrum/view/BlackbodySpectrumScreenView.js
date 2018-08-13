@@ -32,13 +32,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
-  var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
   var HBox = require( 'SCENERY/nodes/HBox' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
   var GenericCurveShape = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GenericCurveShape' );
   var Path = require( 'SCENERY/nodes/Path' );
 
@@ -47,8 +41,6 @@ define( function( require ) {
   var gString = require( 'string!BLACKBODY_SPECTRUM/g' );
   var rString = require( 'string!BLACKBODY_SPECTRUM/r' );
   var blackbodyTemperatureString = require( 'string!BLACKBODY_SPECTRUM/blackbodyTemperature' );
-  var intensityString = require( 'string!BLACKBODY_SPECTRUM/intensity' );
-  var intensityLabelPatternString = require( 'string!BLACKBODY_SPECTRUM/intensityLabelPattern' );
 
   // constants
   var CIRCLE_LABEL_COLOR = '#00EBEB';
@@ -64,16 +56,6 @@ define( function( require ) {
   var ARROW_OPTIONS = {
     fill: '#64dc64'
   };
-  var INTENSITY_LABEL_OPTIONS = {
-    fill: 'white',
-    font: new PhetFont( 12 )
-  };
-  var INTENSITY_TEXT_OPTIONS = {
-    font: new PhetFont( 16 ),
-    fill: 'black'
-  };
-  var INTENSITY_TEXT_BOX_STROKE = 'red';
-  var INTENSITY_TEXT_BOX_FILL = 'gray';
   var SAVED_TEMPERATURE_LABEL_OPTIONS = {
     font: new PhetFont( 16 ),
     fill: 'white'
@@ -138,21 +120,6 @@ define( function( require ) {
     var glowingStarHalo = new Circle( 10 );
     var starPath = new StarPath();
 
-    // The label above the box that shows the model's current intensity
-    var intensityLabel = new Text( intensityString, INTENSITY_LABEL_OPTIONS );
-    var intensityText = new RichText( '?', INTENSITY_TEXT_OPTIONS );
-    var intensityTextBox = new Rectangle( 0, 0, intensityText.width + 5, intensityText.height + 5, 0, 0, {
-      children: [ intensityText ],
-      stroke: INTENSITY_TEXT_BOX_STROKE,
-      fill: INTENSITY_TEXT_BOX_FILL
-    } );
-
-    // The label and the box containing the intensity value text have the same visibility as the model's intensityVisibleProperty
-    model.intensityVisibleProperty.link( function( intensityVisible ) {
-      intensityTextBox.visible = intensityVisible;
-      intensityLabel.visible = intensityVisible;
-    } );
-
     // The labels and icons that represent the saved temperatures
     var primarySavedTemperatureLabel = new Text( '', SAVED_TEMPERATURE_LABEL_OPTIONS );
     var secondarySavedTemperatureLabel = new Text( '', SAVED_TEMPERATURE_LABEL_OPTIONS );
@@ -186,18 +153,6 @@ define( function( require ) {
       }
     } );
 
-    // The menu that contains the intensity and saved temperature information
-    var informationMenu = new VBox( {
-      children: [
-        primarySavedTemperatureBox,
-        secondarySavedTemperatureBox,
-        new Node( { // new node used to package intensity information together
-          children: [ intensityLabel, intensityTextBox ]
-        } )
-      ],
-      spacing: LAYOUT_BOX_SPACING
-    } );
-
     // Links the current temperature to the RGB indicators and the temperature text along the TriangleSliderThumb
     model.mainBody.temperatureProperty.link( function( temperature ) {
       circleBlue.fill = model.mainBody.bluColor;
@@ -209,18 +164,6 @@ define( function( require ) {
       starPath.stroke = model.mainBody.starColor;
       temperatureText.text = Util.toFixed( temperature, 0 ) + ' K';
       temperatureText.centerX = blackbodySpectrumThermometer.right - 16; // In case the size of the temperature text changes
-
-      // Gets the model intensity and formats it to a nice scientific notation string to put as the intensityText
-      var notationObject = ScientificNotationNode.toScientificNotation( model.mainBody.totalIntensity, {
-        mantissaDecimalPlaces: 2
-      } );
-      var formattedString = notationObject.mantissa;
-      if ( notationObject.exponent !== '0' ) {
-        formattedString += ' X 10<sup>' + notationObject.exponent + '</sup>';
-      }
-      intensityText.text = StringUtils.fillIn( intensityLabelPatternString, { intensity: formattedString } );
-      intensityTextBox.setRect( 0, 0, intensityText.width + 5, intensityText.height + 5, 0, 0 );
-      intensityText.center = new Vector2( intensityTextBox.width / 2, intensityTextBox.height / 2 );
     } );
 
     // create graph with zoom buttons
@@ -252,7 +195,6 @@ define( function( require ) {
     this.addChild( circleBlueLabel );
     this.addChild( circleGreenLabel );
     this.addChild( circleRedLabel );
-    this.addChild( informationMenu );
     this.addChild( resetAllButton );
 
     // layout for things that don't have a location in the model
@@ -286,10 +228,6 @@ define( function( require ) {
     starPath.centerY = circleBlue.centerY;
     glowingStarHalo.centerX = starPath.centerX;
     glowingStarHalo.centerY = starPath.centerY;
-    informationMenu.centerX = graphNode.right - 150;
-    informationMenu.centerY = circleBlue.centerY;
-    intensityText.center = new Vector2( intensityTextBox.width / 2, intensityTextBox.height / 2 );
-    intensityLabel.bottom = intensityTextBox.top;
   }
 
   blackbodySpectrum.register( 'BlackbodySpectrumScreenView', BlackbodySpectrumScreenView );

@@ -21,6 +21,11 @@ define( function( require ) {
   var HBox = require( 'SCENERY/nodes/HBox' );
   var GenericCurveShape = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GenericCurveShape' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
+  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Node = require( 'SCENERY/nodes/Node' );
 
   // strings
   var saveString = require( 'string!BLACKBODY_SPECTRUM/save' );
@@ -28,6 +33,7 @@ define( function( require ) {
   var graphValuesString = require( 'string!BLACKBODY_SPECTRUM/graphValues' );
   var intensityString = require( 'string!BLACKBODY_SPECTRUM/intensity' );
   var labelsString = require( 'string!BLACKBODY_SPECTRUM/labels' );
+  var intensityLabelPatternString = require( 'string!BLACKBODY_SPECTRUM/intensityLabelPattern' );
 
   // constants
   var DISPLAY_FONT = new PhetFont( 12 );
@@ -37,7 +43,16 @@ define( function( require ) {
   var CHECKBOX_COLOR = 'white';
   var BUTTON_COLOR = '#8dcad0';
   var DEFAULT_WIDTH = 140;
-
+  var INTENSITY_LABEL_OPTIONS = {
+    fill: 'white',
+    font: new PhetFont( 12 )
+  };
+  var INTENSITY_TEXT_OPTIONS = {
+    font: new PhetFont( 16 ),
+    fill: 'black'
+  };
+  var INTENSITY_TEXT_BOX_STROKE = 'red';
+  var INTENSITY_TEXT_BOX_FILL = 'gray';
 
   /**
    * @param {BlackBodySpectrumModel} model
@@ -51,7 +66,7 @@ define( function( require ) {
       yMargin: 15,
       lineWidth: 1,
       fill: CONTROL_PANEL_FILL,
-      resize: false,
+      resize: true,
       stroke: 'white',
       minWidth: DEFAULT_WIDTH,
       maxWidth: DEFAULT_WIDTH
@@ -61,9 +76,9 @@ define( function( require ) {
     var checkboxFont = { font: DISPLAY_FONT, fill: CHECKBOX_TEXT_FILL };
     var buttonFont = { font: DISPLAY_FONT, fill: BUTTON_TEXT_FILL };
     var clearText = new Text( clearString, buttonFont );
-    var valuesText = new Text( graphValuesString, checkboxFont );
-    var intensityText = new Text( intensityString, checkboxFont );
-    var labelsText = new Text( labelsString, checkboxFont );
+    var valuesCheckboxText = new Text( graphValuesString, checkboxFont );
+    var intensityCheckboxText = new Text( intensityString, checkboxFont );
+    var labelsCheckboxText = new Text( labelsString, checkboxFont );
 
     var saveText = new Text( saveString, buttonFont );
 
@@ -102,9 +117,36 @@ define( function( require ) {
 
     // 3 checkboxes: Peak Values, Intensity, Labels
     var checkboxOptions = { checkboxColorBackground: CONTROL_PANEL_FILL, checkboxColor: CHECKBOX_COLOR };
-    var valuesCheckbox = new Checkbox( valuesText, model.graphValuesVisibleProperty, checkboxOptions );
-    var intensityCheckbox = new Checkbox( intensityText, model.intensityVisibleProperty, checkboxOptions );
-    var labelsCheckbox = new Checkbox( labelsText, model.labelsVisibleProperty, checkboxOptions );
+    var valuesCheckbox = new Checkbox( valuesCheckboxText, model.graphValuesVisibleProperty, checkboxOptions );
+    var intensityCheckbox = new Checkbox( intensityCheckboxText, model.intensityVisibleProperty, checkboxOptions );
+    var labelsCheckbox = new Checkbox( labelsCheckboxText, model.labelsVisibleProperty, checkboxOptions );
+
+    // The label above the box that shows the model's current intensity
+    var intensityLabel = new Text( intensityString, INTENSITY_LABEL_OPTIONS );
+    var intensityText = new RichText( '?', INTENSITY_TEXT_OPTIONS );
+    var intensityTextBox = new Rectangle( 0, 0, intensityText.width + 5, intensityText.height + 5, 0, 0, {
+      children: [ intensityText ],
+      stroke: INTENSITY_TEXT_BOX_STROKE,
+      fill: INTENSITY_TEXT_BOX_FILL
+    } );
+
+    // Links the intensity text to update whenever the model's temperature changes
+    model.mainBody.temperatureProperty.link( function() {
+
+      // Gets the model intensity and formats it to a nice scientific notation string to put as the intensityText
+      var notationObject = ScientificNotationNode.toScientificNotation( model.mainBody.totalIntensity, {
+        mantissaDecimalPlaces: 2
+      } );
+      var formattedString = notationObject.mantissa;
+      if ( notationObject.exponent !== '0' ) {
+        formattedString += ' X 10<sup>' + notationObject.exponent + '</sup>';
+      }
+      intensityText.text = StringUtils.fillIn( intensityLabelPatternString, { intensity: formattedString } );
+
+      // Updates positions and sizes
+      intensityTextBox.setRect( 0, 0, intensityText.width + 5, intensityText.height + 5, 0, 0 );
+      intensityText.center = intensityTextBox.center;
+    } );
 
     var spacing = 15;
     var buttons = new VBox( {
@@ -126,10 +168,21 @@ define( function( require ) {
       resize: false
     } );
 
+    var intensityDisplay = new Node( {
+      children: [
+        intensityLabel,
+        intensityTextBox
+      ],
+      maxWidth: buttons.width
+    } );
+    intensityLabel.bottom = intensityTextBox.top;
+    intensityText.center = intensityTextBox.center;
+
     var content = new VBox( {
       children: [
         buttons,
-        checkboxes
+        checkboxes,
+        intensityDisplay
       ],
       align: 'center',
       spacing: spacing,
@@ -137,6 +190,16 @@ define( function( require ) {
     } );
 
     Panel.call( this, content, options );
+
+    // The label and the box containing the intensity value text have the same visibility as the model's intensityVisibleProperty
+    model.intensityVisibleProperty.link( function( intensityVisible ) {
+      intensityDisplay.visible = intensityVisible;
+      if ( !intensityVisible ) {
+        content.removeChild( intensityDisplay );
+      } else {
+        content.addChild( intensityDisplay );
+      }
+    } );
 
   }
 
