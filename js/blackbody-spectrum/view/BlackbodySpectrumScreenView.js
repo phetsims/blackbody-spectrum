@@ -60,7 +60,6 @@ define( function( require ) {
   var TEMPERATURE_FONT = new PhetFont( { size: 20, weight: 'bold' } );
   var TITLE_COLOR = '#00EBEB';
   var TEMPERATURE_COLOR = Color.WHITE;
-  var VALUE_DECIMAL_PLACES = 0;
   var INSET = 10;
   var ARROW_OPTIONS = {
     fill: '#64dc64'
@@ -100,10 +99,6 @@ define( function( require ) {
     var triangleNode = new TriangleSliderThumb( { size: thumbSize } );
     triangleNode.touchArea = triangleNode.localBounds.dilatedXY( 10, 10 );
 
-    // The text display for current selected temperature of the slider
-    var temperatureNode = new Text( '?', { font: TEMPERATURE_FONT, fill: TEMPERATURE_COLOR } );
-    temperatureNode.rotation = Math.PI / 2;
-
     // Arrows that will disappear after first drag
     var cueingArrows = new Node( {
       children: [ new ArrowNode( 12, 0, 27, 0, ARROW_OPTIONS ), new ArrowNode( -12, 0, -27, 0, ARROW_OPTIONS ) ]
@@ -112,13 +107,7 @@ define( function( require ) {
     // Parent that keeps the TriangleSliderThumb bundled with the temperature text
     var thumbNode = new Node( { size: new Dimension2( 20, 40 ) } );
     thumbNode.addChild( triangleNode );
-    thumbNode.addChild( temperatureNode );
     thumbNode.addChild( cueingArrows );
-
-    // Aligns the temperature text below and just to the right of the TriangleSliderThumb
-    temperatureNode.top = triangleNode.bottom + 5;
-    // Aligns the temperature text to be along the same vertical space as the TriangleSliderThumb
-    temperatureNode.centerX = triangleNode.centerX;
 
     // Creates a temperature slider in Kelvin with a range that is clamped between MIN_TEMPERATURE and MAX_TEMPERATURE
     var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.mainBody.temperatureProperty.value );
@@ -132,6 +121,12 @@ define( function( require ) {
     } );
     temperatureSlider.rotation = -Math.PI / 2; // Sets the temperatureSlider to be vertical
     var thermometerLabel = new MultiLineText( blackbodyTemperatureString, { font: TITLE_FONT, fill: TITLE_COLOR } );
+
+    // A text node that reflects the temperature of the slider or main model
+    var temperatureText = new Text( '?', {
+      font: TEMPERATURE_FONT,
+      fill: TEMPERATURE_COLOR
+    } );
 
     // The indicators that show how much red, blue, and green the current temperature would emit
     var circleBlue = new Circle( CIRCLE_RADIUS );
@@ -212,7 +207,9 @@ define( function( require ) {
       glowingStarHalo.radius = model.mainBody.glowingStarHaloRadius;
       starPath.fill = model.mainBody.starColor;
       starPath.stroke = model.mainBody.starColor;
-      temperatureNode.text = Util.toFixed( temperature, VALUE_DECIMAL_PLACES ) + ' K';
+      temperatureText.text = Util.toFixed( temperature, 0 ) + ' K';
+      temperatureText.centerX = blackbodySpectrumThermometer.right - 16; // In case the size of the temperature text changes
+
       // Gets the model intensity and formats it to a nice scientific notation string to put as the intensityText
       var notationObject = ScientificNotationNode.toScientificNotation( model.mainBody.totalIntensity, {
         mantissaDecimalPlaces: 2
@@ -246,6 +243,7 @@ define( function( require ) {
     this.addChild( temperatureSlider );
     this.addChild( blackbodySpectrumThermometer );
     this.addChild( thermometerLabel );
+    this.addChild( temperatureText );
     this.addChild( starPath );
     this.addChild( glowingStarHalo );
     this.addChild( circleBlue );
@@ -258,18 +256,20 @@ define( function( require ) {
     this.addChild( resetAllButton );
 
     // layout for things that don't have a location in the model
-    graphNode.left = 20;
+    graphNode.left = INSET;
     graphNode.bottom = this.layoutBounds.maxY - INSET;
     resetAllButton.right = this.layoutBounds.maxX - INSET;
     resetAllButton.bottom = this.layoutBounds.maxY - INSET;
-    blackbodySpectrumThermometer.left = graphNode.left + 620;
-    blackbodySpectrumThermometer.top = 30;
-    controlPanel.right = this.layoutBounds.maxX - INSET;
-    controlPanel.top = INSET;
+    blackbodySpectrumThermometer.right = this.layoutBounds.maxX - temperatureSlider.width - INSET - 10;
+    blackbodySpectrumThermometer.centerY = this.layoutBounds.centerY + 20;
     temperatureSlider.left = blackbodySpectrumThermometer.right;
     temperatureSlider.centerY = blackbodySpectrumThermometer.centerY - 14;
+    temperatureText.bottom = blackbodySpectrumThermometer.top - 5;
+    temperatureText.centerX = blackbodySpectrumThermometer.right - 16;
     thermometerLabel.centerX = blackbodySpectrumThermometer.right - 16;
-    thermometerLabel.top = blackbodySpectrumThermometer.bottom;
+    thermometerLabel.bottom = temperatureText.top - 5;
+    controlPanel.right = blackbodySpectrumThermometer.left - 10;
+    controlPanel.top = blackbodySpectrumThermometer.top;
     circleBlue.centerX = 225;
     circleBlue.centerY = 50;
     circleGreen.centerX = circleBlue.centerX + 50;
@@ -286,7 +286,6 @@ define( function( require ) {
     starPath.centerY = circleBlue.centerY;
     glowingStarHalo.centerX = starPath.centerX;
     glowingStarHalo.centerY = starPath.centerY;
-    cueingArrows.centerY = temperatureNode.centerY;
     informationMenu.centerX = graphNode.right - 150;
     informationMenu.centerY = circleBlue.centerY;
     intensityText.center = new Vector2( intensityTextBox.width / 2, intensityTextBox.height / 2 );
