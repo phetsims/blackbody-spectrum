@@ -32,9 +32,7 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var GenericCurveShape = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GenericCurveShape' );
-  var Path = require( 'SCENERY/nodes/Path' );
+  var SavedGraphInformationPanel = require ( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/SavedGraphInformationPanel' );
 
   // strings
   var bString = require( 'string!BLACKBODY_SPECTRUM/b' );
@@ -56,13 +54,6 @@ define( function( require ) {
   var ARROW_OPTIONS = {
     fill: '#64dc64'
   };
-  var SAVED_TEMPERATURE_LABEL_OPTIONS = {
-    font: new PhetFont( 16 ),
-    fill: 'white'
-  };
-  var LAYOUT_BOX_SPACING = 10;
-  var GENERIC_CURVE_WIDTH = 50;
-  var GENERIC_CURVE_LINE_WIDTH = 5;
 
   /**
    * Constructor for the BlackbodySpectrumView
@@ -120,39 +111,6 @@ define( function( require ) {
     var glowingStarHalo = new Circle( 10 );
     var starPath = new StarPath();
 
-    // The labels and icons that represent the saved temperatures
-    var primarySavedTemperatureLabel = new Text( '', SAVED_TEMPERATURE_LABEL_OPTIONS );
-    var secondarySavedTemperatureLabel = new Text( '', SAVED_TEMPERATURE_LABEL_OPTIONS );
-    var primaryGenericCurve = new Path( new GenericCurveShape(), {
-      stroke: 'gray',
-      lineWidth: GENERIC_CURVE_LINE_WIDTH,
-      maxWidth: GENERIC_CURVE_WIDTH
-    } );
-    var secondaryGenericCurve = new Path( new GenericCurveShape(), {
-      stroke: 'gray',
-      lineDash: [ 5, 5 ],
-      lineWidth: GENERIC_CURVE_LINE_WIDTH,
-      maxWidth: GENERIC_CURVE_WIDTH
-    } );
-    var primarySavedTemperatureBox = new HBox( {
-      children: [ primaryGenericCurve, primarySavedTemperatureLabel ],
-      spacing: LAYOUT_BOX_SPACING
-    } );
-    var secondarySavedTemperatureBox = new HBox( {
-      children: [ secondaryGenericCurve, secondarySavedTemperatureLabel ],
-      spacing: LAYOUT_BOX_SPACING
-    } );
-
-    // Links the saved bodies to the saved temperature boxes' visibility and text
-    model.savedBodies.lengthProperty.link( function( numberOfSavedBodies ) {
-      primarySavedTemperatureBox.visible = numberOfSavedBodies > 0;
-      secondarySavedTemperatureBox.visible = numberOfSavedBodies > 1;
-      if ( numberOfSavedBodies > 0 ) {
-        primarySavedTemperatureLabel.text = Util.toFixed( model.savedBodies.get( numberOfSavedBodies - 1 ).temperatureProperty.value, 0 ) + ' K';
-        secondarySavedTemperatureLabel.text = Util.toFixed( model.savedBodies.get( 0 ).temperatureProperty.value, 0 ) + ' K'; // text is set, but this label isn't necessarily visible
-      }
-    } );
-
     // Links the current temperature to the RGB indicators and the temperature text along the TriangleSliderThumb
     model.mainBody.temperatureProperty.link( function( temperature ) {
       circleBlue.fill = model.mainBody.bluColor;
@@ -179,10 +137,12 @@ define( function( require ) {
     } );
 
     var controlPanel = new BlackBodySpectrumControlPanel( model );
+    var savedInformationPanel = new SavedGraphInformationPanel( model, { minWidth: controlPanel.width } );
 
     // rendering order
     this.addChild( graphNode );
     this.addChild( controlPanel );
+    this.addChild( savedInformationPanel );
     this.addChild( temperatureSlider );
     this.addChild( blackbodySpectrumThermometer );
     this.addChild( thermometerLabel );
@@ -212,6 +172,8 @@ define( function( require ) {
     thermometerLabel.bottom = temperatureText.top - 5;
     controlPanel.right = blackbodySpectrumThermometer.left - 10;
     controlPanel.top = blackbodySpectrumThermometer.top;
+    savedInformationPanel.centerX = controlPanel.centerX;
+    savedInformationPanel.top = controlPanel.bottom + 55;
     circleBlue.centerX = 225;
     circleBlue.centerY = 50;
     circleGreen.centerX = circleBlue.centerX + 50;
