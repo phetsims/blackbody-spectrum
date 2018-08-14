@@ -86,7 +86,8 @@ define( function( require ) {
       fill: options.panelFill,
       stroke: options.panelStroke,
       minWidth: options.minWidth,
-      align: 'center'
+      align: 'center',
+      yMargin: 10
     } );
 
     // Link's the main body's temperature to the primaryTemperatureLabel

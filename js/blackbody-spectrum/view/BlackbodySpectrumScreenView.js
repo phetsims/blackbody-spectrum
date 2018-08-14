@@ -170,8 +170,8 @@ define( function( require ) {
     temperatureText.centerX = blackbodySpectrumThermometer.right - 16;
     thermometerLabel.centerX = blackbodySpectrumThermometer.right - 16;
     thermometerLabel.bottom = temperatureText.top - 5;
-    controlPanel.right = blackbodySpectrumThermometer.left - 10;
-    controlPanel.top = blackbodySpectrumThermometer.top;
+    controlPanel.right = blackbodySpectrumThermometer.left - 20;
+    controlPanel.top = thermometerLabel.centerY;
     savedInformationPanel.centerX = controlPanel.centerX;
     savedInformationPanel.top = controlPanel.bottom + 55;
     circleBlue.centerX = 225;

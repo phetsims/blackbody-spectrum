@@ -43,13 +43,9 @@ define( function( require ) {
   var CHECKBOX_COLOR = 'white';
   var BUTTON_COLOR = '#8dcad0';
   var DEFAULT_WIDTH = 140;
-  var INTENSITY_LABEL_OPTIONS = {
-    fill: 'white',
-    font: new PhetFont( 12 )
-  };
   var INTENSITY_TEXT_OPTIONS = {
     font: new PhetFont( 16 ),
-    fill: 'black'
+    fill: 'white'
   };
   var INTENSITY_TEXT_BOX_STROKE = 'red';
   var INTENSITY_TEXT_BOX_FILL = 'gray';
@@ -121,8 +117,6 @@ define( function( require ) {
     var intensityCheckbox = new Checkbox( intensityCheckboxText, model.intensityVisibleProperty, checkboxOptions );
     var labelsCheckbox = new Checkbox( labelsCheckboxText, model.labelsVisibleProperty, checkboxOptions );
 
-    // The label above the box that shows the model's current intensity
-    var intensityLabel = new Text( intensityString, INTENSITY_LABEL_OPTIONS );
     var intensityText = new RichText( '?', INTENSITY_TEXT_OPTIONS );
     var intensityTextBox = new Rectangle( 0, 0, intensityText.width + 5, intensityText.height + 5, 0, 0, {
       children: [ intensityText ],
@@ -160,8 +154,8 @@ define( function( require ) {
     var checkboxes = new VBox( {
       children: [
         valuesCheckbox,
-        intensityCheckbox,
-        labelsCheckbox
+        labelsCheckbox,
+        intensityCheckbox
       ],
       align: 'left',
       spacing: spacing,
@@ -169,13 +163,9 @@ define( function( require ) {
     } );
 
     var intensityDisplay = new Node( {
-      children: [
-        intensityLabel,
-        intensityTextBox
-      ],
+      children: [ intensityTextBox ],
       maxWidth: buttons.width
     } );
-    intensityLabel.bottom = intensityTextBox.top;
     intensityText.center = intensityTextBox.center;
 
     var content = new VBox( {
