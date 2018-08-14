@@ -20,7 +20,7 @@ define( function( require ) {
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
 
   /**
-   * Makes a SavedGraphInformationNode given a constructor
+   * Makes a SavedGraphInformationPanel given a model that has saved bodies
    * @param {BlackbodySpectrumModel} model
    * @param {Object} [options]
    * @constructor
