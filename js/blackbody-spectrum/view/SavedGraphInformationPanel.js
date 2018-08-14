@@ -90,9 +90,14 @@ define( function( require ) {
       yMargin: 10
     } );
 
+    // A small local function that takes in a temperature and formats it consistently
+    function formatTemperature( temperature ) {
+      return Util.toFixed( temperature, 0 ) + ' K';
+    }
+
     // Link's the main body's temperature to the primaryTemperatureLabel
     model.mainBody.temperatureProperty.link( function( temperature ) {
-      primaryTemperatureLabel.text = Util.toFixed( temperature, 0 ) + ' K';
+      primaryTemperatureLabel.text = formatTemperature( temperature );
     } );
 
     // Links the saved bodies to the saved temperature boxes' visibility and text
@@ -105,8 +110,8 @@ define( function( require ) {
         if ( numberOfSavedBodies > 1 ) {
           content.addChild( secondarySavedTemperatureBox );
         }
-        primarySavedTemperatureLabel.text = Util.toFixed( model.savedBodies.get( numberOfSavedBodies - 1 ).temperatureProperty.value, 0 ) + ' K';
-        secondarySavedTemperatureLabel.text = Util.toFixed( model.savedBodies.get( 0 ).temperatureProperty.value, 0 ) + ' K'; // text is set, but this label isn't necessarily visible
+        primarySavedTemperatureLabel.text = formatTemperature( model.savedBodies.get( numberOfSavedBodies - 1 ).temperatureProperty.value );
+        secondarySavedTemperatureLabel.text = formatTemperature( model.savedBodies.get( 0 ).temperatureProperty.value ); // text is set, but this label isn't necessarily visible
       }
       self.centerX = oldCenterX;
     } );
