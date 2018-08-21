@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var blackbodySpectrum = require('BLACKBODY_SPECTRUM/blackbodySpectrum');
+  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
@@ -66,7 +66,9 @@ define( function( require ) {
     } );
 
     // @public {Property.<number>}
-    this.wavelengthProperty = new NumberProperty( this.body.peakWavelength );
+    this.wavelengthProperty = new NumberProperty( this.body.peakWavelength, {
+      reentrant: true
+    } );
 
     // Links the wavelength property to update this node whenever changed
     this.wavelengthProperty.link( function() {
@@ -144,12 +146,14 @@ define( function( require ) {
       // Clamps label positions so that they don't go off the graph
       if ( this.wavelengthValueText.right > this.axes.horizontalAxisLength - this.labelOffset ) {
         this.wavelengthValueText.right = this.axes.horizontalAxisLength - this.labelOffset;
-      } else if ( this.wavelengthValueText.left < this.labelOffset ) {
+      }
+      else if ( this.wavelengthValueText.left < this.labelOffset ) {
         this.wavelengthValueText.left = this.labelOffset;
       }
       if ( this.spectralRadianceValueText.top < -this.axes.verticalAxisLength + this.labelOffset ) {
         this.spectralRadianceValueText.top = -this.axes.verticalAxisLength + this.labelOffset;
-      } else if ( this.spectralRadianceValueText.bottom > this.labelOffset ) {
+      }
+      else if ( this.spectralRadianceValueText.bottom > this.labelOffset ) {
         this.spectralRadianceValueText.bottom = this.labelOffset;
       }
 
