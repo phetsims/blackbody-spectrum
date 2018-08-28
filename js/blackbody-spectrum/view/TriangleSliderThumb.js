@@ -16,6 +16,13 @@ define( function( require ) {
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
+
+  // constants
+  var ARROW_OPTIONS = {
+    fill: '#64dc64'
+  };
 
   /**
    * Creates the triangle thumb slider
@@ -41,20 +48,41 @@ define( function( require ) {
     var arrowHalfWidth = options.size.width / 2;
     var shape = new Shape().moveTo( 0, -arrowHalfLength ).lineTo( -arrowHalfWidth, arrowHalfLength ).lineTo( arrowHalfWidth, arrowHalfLength ).close();
 
+    // Arrows that will disappear after first click
+    this.cueingArrows = new Node( {
+      children: [ new ArrowNode( 12, 0, 27, 0, ARROW_OPTIONS ), new ArrowNode( -12, 0, -27, 0, ARROW_OPTIONS ) ]
+    } );
+
     Path.call( this, shape, options );
 
-    // highlight thumb on pointer over
+    // Highlight thumb on pointer over and remove arrows on first click
     this.addInputListener( new ButtonListener( {
       over: function() {
         self.fill = options.fillHighlighted;
       },
       up: function() {
         self.fill = options.fill;
+      },
+      down: function() {
+        self.cueingArrows.visible = false;
       }
     } ) );
+
+    this.addChild( this.cueingArrows );
+
   }
 
   blackbodySpectrum.register( 'TriangleSliderThumb', TriangleSliderThumb );
 
-  return inherit( Path, TriangleSliderThumb );
+  return inherit( Path, TriangleSliderThumb, {
+
+    /**
+     * Reset Properties associated with this Node
+     * @public
+     */
+    reset: function() {
+      this.cueingArrows.visible = true;
+    }
+
+  } );
 } );

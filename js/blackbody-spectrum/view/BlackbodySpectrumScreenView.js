@@ -31,8 +31,7 @@ define( function( require ) {
   var StarPath = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/StarPath' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
-  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  var SavedGraphInformationPanel = require ( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/SavedGraphInformationPanel' );
+  var SavedGraphInformationPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/SavedGraphInformationPanel' );
 
   // strings
   var bString = require( 'string!BLACKBODY_SPECTRUM/b' );
@@ -51,9 +50,6 @@ define( function( require ) {
   var TITLE_COLOR = '#00EBEB';
   var TEMPERATURE_COLOR = Color.WHITE;
   var INSET = 10;
-  var ARROW_OPTIONS = {
-    fill: '#64dc64'
-  };
 
   /**
    * Constructor for the BlackbodySpectrumView
@@ -72,25 +68,16 @@ define( function( require ) {
     var triangleNode = new TriangleSliderThumb( { size: thumbSize } );
     triangleNode.touchArea = triangleNode.localBounds.dilatedXY( 10, 10 );
 
-    // Arrows that will disappear after first drag
-    var cueingArrows = new Node( {
-      children: [ new ArrowNode( 12, 0, 27, 0, ARROW_OPTIONS ), new ArrowNode( -12, 0, -27, 0, ARROW_OPTIONS ) ]
-    } );
-
     // Parent that keeps the TriangleSliderThumb bundled with the temperature text
     var thumbNode = new Node( { size: new Dimension2( 20, 40 ) } );
     thumbNode.addChild( triangleNode );
-    thumbNode.addChild( cueingArrows );
 
     // Creates a temperature slider in Kelvin with a range that is clamped between MIN_TEMPERATURE and MAX_TEMPERATURE
     var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.mainBody.temperatureProperty.value );
     var temperatureSlider = new HSlider( model.mainBody.temperatureProperty, temperatureRange, {
       trackSize: new Dimension2( 400, 5 ),
       thumbNode: thumbNode,
-      thumbYOffset: 25,
-      endDrag: function() {
-        cueingArrows.visible = false;
-      }
+      thumbYOffset: 25
     } );
     temperatureSlider.rotation = -Math.PI / 2; // Sets the temperatureSlider to be vertical
     var thermometerLabel = new MultiLineText( blackbodyTemperatureString, { font: TITLE_FONT, fill: TITLE_COLOR } );
@@ -132,7 +119,7 @@ define( function( require ) {
       listener: function() {
         model.reset();
         graphNode.reset();
-        cueingArrows.visible = true;
+        triangleNode.reset();
       }
     } );
 
