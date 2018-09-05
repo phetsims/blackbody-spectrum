@@ -11,7 +11,6 @@ define( function( require ) {
   // modules
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var LinearFunction = require( 'DOT/LinearFunction' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -56,66 +55,50 @@ define( function( require ) {
       outlineStroke: 'white',
       tickSpacing: 20,
       tickLabelFont: new PhetFont( { size: 18, weight: 'bold' } ),
-      tickLabelColor: 'yellow'
+      tickLabelColor: 'yellow',
+      zeroLevel: 'bulbTop'
     }, options );
 
     ThermometerNode.call( this, options.minTemperature, options.maxTemperature, temperatureProperty, options );
 
     // labeled tick marks
     for ( var i = 0; i < TICK_MARKS.length; i++ ) {
-      this.addChild( createLabeledTick( TICK_MARKS[ i ].text, TICK_MARKS[ i ].temperature, options ) );
+      this.addChild( this.createLabeledTick( TICK_MARKS[ i ].text, TICK_MARKS[ i ].temperature, options ) );
     }
   }
 
   blackbodySpectrum.register( 'BlackbodySpectrumThermometer', BlackbodySpectrumThermometer );
 
-  inherit( ThermometerNode, BlackbodySpectrumThermometer );
+  inherit( ThermometerNode, BlackbodySpectrumThermometer, {
 
-  /**
-   * Creates a labeled tick mark.
-   * @param {string} text
-   * @param {number} temperature
-   * @param {Object} options - options that were provided to BlackbodySpectrumThermometer constructor
-   */
-  function createLabeledTick( text, temperature, options ) {
-    var linearFunction = temperatureToHeightLinearFunction( options );
-    var objectHeight = linearFunction( temperature );
-    var tickMarkLength = options.tubeWidth * 0.5;
+    /**
+     * Creates a labeled tick mark.
+     * @param {string} text
+     * @param {number} temperature
+     * @param {Object} options - options that were provided to BlackbodySpectrumThermometer constructor
+     */
+    createLabeledTick: function( text, temperature, options ) {
+      var objectHeight = -this.temperatureLinearFunction( temperature );
+      var tickMarkLength = options.tubeWidth * 0.5;
 
-    var shape = new Shape();
-    shape.moveTo( options.tubeWidth / 2, objectHeight ).horizontalLineToRelative( tickMarkLength );
+      var shape = new Shape();
+      shape.moveTo( options.tubeWidth / 2, objectHeight ).horizontalLineToRelative( tickMarkLength );
 
-    var tickNode = new Path( shape, { stroke: options.outlineStroke, lineWidth: options.lineWidth } );
-    var textNode = new Text( text, { font: options.tickLabelFont, fill: options.tickLabelColor } );
+      var tickNode = new Path( shape, { stroke: options.outlineStroke, lineWidth: options.lineWidth } );
+      var textNode = new Text( text, { font: options.tickLabelFont, fill: options.tickLabelColor } );
 
-    var parentNode = new Node( {
-      children: [ tickNode, textNode ]
-    } );
+      var parentNode = new Node( {
+        children: [ tickNode, textNode ]
+      } );
 
-    tickNode.right = -0.5 * options.tubeWidth;
-    tickNode.centerY = objectHeight;
-    textNode.centerY = objectHeight;
-    textNode.right = tickNode.left - 10;
+      tickNode.right = -0.5 * options.tubeWidth;
+      tickNode.centerY = objectHeight;
+      textNode.centerY = objectHeight;
+      textNode.right = tickNode.left - 10;
 
-    return parentNode;
-  }
-
-  /**
-   * Returns a function that will output a height given a temperature (maps each temperature to a height)
-   * @param {Object} options - options that were provided to BlackbodySpectrumThermometer constructor
-   * @returns {LinearFunction}
-   */
-  var temperatureToHeightLinearFunction = function( options ) {
-    var fluidWidth = options.tubeWidth - options.lineWidth - options.glassThickness;
-    var clipBulbRadius = ( options.bulbDiameter - options.lineWidth - options.glassThickness ) / 2;
-    var clipStartAngle = -Math.acos( ( fluidWidth / 2 ) / clipBulbRadius );
-    var clipEndAngle = Math.PI - clipStartAngle;
-    var fluidSphereDiameter = options.bulbDiameter - options.lineWidth - options.glassThickness;
-    var fluidBottomCutoff = fluidSphereDiameter / 2 * Math.sin( clipEndAngle );
-    var height = options.tubeHeight + options.tubeWidth / 2; // need the halfcap on top
-    var maxFluidHeight = height - fluidBottomCutoff;
-    return new LinearFunction( options.minTemperature, options.maxTemperature, fluidBottomCutoff, -maxFluidHeight, true /* clamp */ );
-  };
+      return parentNode;
+    }
+  } );
 
   return BlackbodySpectrumThermometer;
 } );
