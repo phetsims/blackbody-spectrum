@@ -65,8 +65,8 @@ define( function( require ) {
     for ( i = 0; i < iMax; i++ ) {
 
       // Start at the top and proceed clockwise
-      var angle = (i / iMax) * 2 * Math.PI - Math.PI / 2;
-      var radius = (i % 2 === 0) ? options.outerRadius : options.innerRadius;
+      var angle = ( i / iMax ) * 2 * Math.PI - Math.PI / 2;
+      var radius = ( i % 2 === 0 ) ? options.outerRadius : options.innerRadius;
       var x = radius * Math.cos( angle );
       var y = radius * Math.sin( angle );
       points.push( new Vector2( x, y ) );
@@ -76,8 +76,9 @@ define( function( require ) {
     for ( i = 1; i < points.length; i++ ) {
       this.lineToPoint( points[ i ] );
     }
-
+    this.lineToPoint( points[ 0 ] );
   }
+
   blackbodySpectrum.register( 'StarShape', StarShape );
 
   inherit( Shape, StarShape );
