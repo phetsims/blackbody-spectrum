@@ -2,9 +2,6 @@
   "blackbody-spectrum.title": {
     "value": "Blackbody Spectrum"
   },
-  "units.cm": {
-    "value": "cm"
-  },
   "verticalLabelSpectralRadiance": {
     "value": "Spectral Radiance (MW/m²/µm)"
   },
