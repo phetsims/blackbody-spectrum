@@ -31,6 +31,7 @@ define( function( require ) {
   var ULTRAVIOLET_WAVELENGTH = 380; // in nm, max bounds for the uv part of the electromagnetic spectrum
   var VISIBLE_WAVELENGTH = 700; // in nm, max bounds for the visible part of the electromagnetic spectrum
   var GRAPH_NUMBER_POINTS = 300; // number of points blackbody curve is evaluated at
+  var ZOOM_BUTTON_ICON_RADIUS = 10; // size of zoom buttons
 
   // strings
   var horizontalLabelWavelengthString = require( 'string!BLACKBODY_SPECTRUM/horizontalLabelWavelength' );
@@ -52,8 +53,7 @@ define( function( require ) {
       graphPathLineWidth: 5,
       mainGraphPathColor: PhetColorScheme.RED_COLORBLIND,
       savedGraphPathColor: 'gray',
-      intensityPathFillColor: 'rgba(100,100,100,0.75)',
-      zoomButtonIconRadius: 10
+      intensityPathFillColor: 'rgba(100,100,100,0.75)'
     }, options );
 
     Node.call( this );
@@ -124,24 +124,12 @@ define( function( require ) {
     } );
 
     // Zoom Buttons
-    this.horizontalZoomInButton = new ZoomButton( { in: true, radius: options.zoomButtonIconRadius } );
-    this.horizontalZoomOutButton = new ZoomButton( { in: false, radius: options.zoomButtonIconRadius } );
-    this.verticalZoomInButton = new ZoomButton( { in: true, radius: options.zoomButtonIconRadius } );
-    this.verticalZoomOutButton = new ZoomButton( { in: false, radius: options.zoomButtonIconRadius } );
+    this.horizontalZoomInButton = createZoomButton( true, function() { self.axes.zoomInHorizontal(); } );
+    this.horizontalZoomOutButton = createZoomButton( false, function() { self.axes.zoomOutHorizontal(); } );
+    this.verticalZoomInButton = createZoomButton( true, function() { self.axes.zoomInVertical(); } );
+    this.verticalZoomOutButton = createZoomButton( false, function() { self.axes.zoomOutVertical(); } );
     var horizontalZoomButtons = new Node( { children: [ self.horizontalZoomOutButton, self.horizontalZoomInButton ] } );
     var verticalZoomButtons = new Node( { children: [ self.verticalZoomOutButton, self.verticalZoomInButton ] } );
-
-    // Expands the touch area for zoom buttons
-    this.horizontalZoomInButton.touchArea = this.horizontalZoomInButton.localBounds.dilated( 5, 5 );
-    this.horizontalZoomOutButton.touchArea = this.horizontalZoomOutButton.localBounds.dilated( 5, 5 );
-    this.verticalZoomInButton.touchArea = this.verticalZoomInButton.localBounds.dilated( 5, 5 );
-    this.verticalZoomOutButton.touchArea = this.verticalZoomOutButton.localBounds.dilated( 5, 5 );
-
-    // Makes the zoom buttons change the axes to zoom in/out when pressed
-    this.horizontalZoomInButton.addListener( function() { self.axes.zoomInHorizontal(); } );
-    this.horizontalZoomOutButton.addListener( function() { self.axes.zoomOutHorizontal(); } );
-    this.verticalZoomInButton.addListener( function() { self.axes.zoomInVertical(); } );
-    this.verticalZoomOutButton.addListener( function() { self.axes.zoomOutVertical(); } );
 
     // Node for that displays the rainbow for the visible portion of the electromagnetic spectrum
     var infraredPosition = this.axes.wavelengthToViewX( VISIBLE_WAVELENGTH );
@@ -157,6 +145,7 @@ define( function( require ) {
 
     // Links the GraphDrawingNode to update whenever any tracked property changes
     function updateAllProcedure() { self.update(); }
+
     model.mainBody.temperatureProperty.link( updateAllProcedure );
     this.axes.horizontalZoomProperty.link( updateAllProcedure );
     this.axes.verticalZoomProperty.link( updateAllProcedure );
@@ -200,6 +189,17 @@ define( function( require ) {
     horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
     horizontalAxisBottomLabelNode.centerX = this.axes.centerX;
     horizontalAxisLabelNode.centerY = horizontalZoomButtons.centerY;
+  }
+
+  // Helper function for creating zoom buttons with repeated options
+  function createZoomButton( type, listener ) {
+    return new ZoomButton( {
+      in: type,
+      radius: ZOOM_BUTTON_ICON_RADIUS,
+      touchAreaXDilation: 5,
+      touchAreaYDilation: 5,
+      listener: listener
+    } );
   }
 
   blackbodySpectrum.register( 'GraphDrawingNode', GraphDrawingNode );
