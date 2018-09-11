@@ -23,8 +23,9 @@ define( function( require ) {
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
 
   /**
-   * Constructs the GraphValuesPointNode given the body to follow and the axes that will handle coordinate conversions
-   * Alignment isn't handled in constructor, but is rather done in the update method due to the non-static nature of this view
+   * Constructs the GraphValuesPointNode given the body to follow and the axes that will handle coordinate conversions.
+   * Alignment isn't handled in constructor, but is rather done in the update method due to the non-static nature of
+   * this view.
    * @param {BlackbodyBodyModel} body
    * @param {ZoomableAxesView} axes
    * @param {Object} options
@@ -75,8 +76,13 @@ define( function( require ) {
 
     // Links a change in the body's temperature to always set the wavelength to the peak wavelength
     this.body.temperatureProperty.link( function() {
+
       // Clamp to make sure wavelength property is within graph bounds
-      self.wavelengthProperty.value = Util.clamp( self.body.peakWavelength, 0, self.axes.viewXToWavelength( self.axes.horizontalAxisLength ) );
+      self.wavelengthProperty.value = Util.clamp(
+        self.body.peakWavelength,
+        0,
+        self.axes.viewXToWavelength( self.axes.horizontalAxisLength )
+      );
     } );
 
     // Sets up the drag handler for the draggable circle TODO: make draggable in y direction as well?
@@ -89,8 +95,13 @@ define( function( require ) {
       },
       drag: function( event ) {
         var horizontalChange = event.pointer.point.x - mouseStartX;
+
         // Clamp to make sure wavelength property is within graph bounds
-        self.wavelengthProperty.value = Util.clamp( self.axes.viewXToWavelength( circleStartX + horizontalChange ), 0, self.axes.viewXToWavelength( self.axes.horizontalAxisLength ) );
+        self.wavelengthProperty.value = Util.clamp(
+          self.axes.viewXToWavelength( circleStartX + horizontalChange ),
+          0,
+          self.axes.viewXToWavelength( self.axes.horizontalAxisLength )
+        );
         self.update();
       },
       end: function() {
@@ -125,6 +136,7 @@ define( function( require ) {
      * @public
      */
     update: function() {
+
       // Update spectral radiance for changes in wavelength
       var spectralRadianceOfPoint = this.body.getSpectralRadianceAt( this.wavelengthProperty.value );
 
