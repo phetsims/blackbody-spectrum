@@ -17,11 +17,8 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var ZoomableAxesView = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/ZoomableAxesView' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Shape = require( 'KITE/Shape' );
   var WavelengthSpectrumNode = require( 'SCENERY_PHET/WavelengthSpectrumNode' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var Util = require( 'DOT/Util' );
   var Vector2 = require( 'DOT/Vector2' );
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
   var GraphValuesPointNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GraphValuesPointNode' );
@@ -33,11 +30,6 @@ define( function( require ) {
   var GRAPH_NUMBER_POINTS = 300; // number of points blackbody curve is evaluated at
   var ZOOM_BUTTON_ICON_RADIUS = 10; // size of zoom buttons
 
-  // strings
-  var horizontalLabelWavelengthString = require( 'string!BLACKBODY_SPECTRUM/horizontalLabelWavelength' );
-  var subtitleLabelString = require( 'string!BLACKBODY_SPECTRUM/subtitleLabel' );
-  var verticalLabelSpectralRadianceString = require( 'string!BLACKBODY_SPECTRUM/verticalLabelSpectralRadiance' );
-
   /**
    * The node that handles keeping all of the graph elements together and working
    * @param {BlackbodySpectrumModel}  model - model for the entire screen
@@ -48,8 +40,6 @@ define( function( require ) {
     var self = this;
 
     options = _.extend( {
-      axisBoundsLabelColor: 'yellow',
-      axisLabelColor: 'rgb(0,235,235)',
       graphPathLineWidth: 5,
       mainGraphPathColor: PhetColorScheme.RED_COLORBLIND,
       savedGraphPathColor: 'gray',
@@ -61,24 +51,6 @@ define( function( require ) {
 
     // @private The axes with the ticks and EM spectrum labels
     this.axes = new ZoomableAxesView( model );
-
-    // Labels for the axes
-    var verticalAxisLabelNode = new Text( verticalLabelSpectralRadianceString, {
-      font: new PhetFont( 26 ),
-      fill: options.axisLabelColor,
-      rotation: -Math.PI / 2
-    } );
-    var horizontalAxisTopLabelNode = new Text( horizontalLabelWavelengthString, {
-      font: new PhetFont( 24 ),
-      fill: options.axisLabelColor
-    } );
-    var horizontalAxisBottomLabelNode = new Text( subtitleLabelString, {
-      font: new PhetFont( 16 ),
-      fill: options.axisLabelColor
-    } );
-    var horizontalAxisLabelNode = new Node( {
-      children: [ horizontalAxisTopLabelNode, horizontalAxisBottomLabelNode ]
-    } );
 
     // @private paths for the main and saved graphs
     this.mainGraph = new Path( null, {
@@ -111,18 +83,6 @@ define( function( require ) {
       self.draggablePointNode.visible = graphValuesVisible;
     } );
 
-    // @private Labels for axes bounds
-    this.horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 32 ), fill: options.axisBoundsLabelColor } );
-    this.horizontalTickLabelMax = new Text( model.wavelengthMax / 1000, {
-      font: new PhetFont( 32 ),
-      fill: options.axisBoundsLabelColor
-    } );
-    this.verticalTickLabelMax = new Text( this.axes.verticalZoomProperty.value, {
-      font: new PhetFont( 32 ),
-      direction: 'rtl',
-      fill: options.axisBoundsLabelColor
-    } );
-
     // Zoom Buttons
     this.horizontalZoomInButton = createZoomButton( true, function() { self.axes.zoomInHorizontal(); } );
     this.horizontalZoomOutButton = createZoomButton( false, function() { self.axes.zoomOutHorizontal(); } );
@@ -153,11 +113,6 @@ define( function( require ) {
 
     // Adds children in rendering order
     this.addChild( this.wavelengthSpectrumNode );
-    this.addChild( this.horizontalTickLabelZero );
-    this.addChild( this.horizontalTickLabelMax );
-    this.addChild( this.verticalTickLabelMax );
-    this.addChild( verticalAxisLabelNode );
-    this.addChild( horizontalAxisLabelNode );
     this.addChild( this.axes );
     this.addChild( horizontalZoomButtons );
     this.addChild( verticalZoomButtons );
@@ -168,27 +123,15 @@ define( function( require ) {
     this.addChild( this.draggablePointNode );
 
     // Sets layout of graph node elements to be all ultimately relative to the axes
-    this.horizontalTickLabelZero.top = this.axes.bottom;
-    this.horizontalTickLabelZero.centerX = this.axes.left - 10;
-    this.horizontalTickLabelMax.top = this.axes.bottom;
-    this.horizontalTickLabelMax.centerX = this.axes.right + 5;
-    this.verticalTickLabelMax.right = this.axes.left + 20;
-    this.verticalTickLabelMax.centerY = this.axes.top - 10;
-    horizontalZoomButtons.left = this.axes.right - 45;
-    horizontalZoomButtons.top = this.axes.bottom + 40;
+    horizontalZoomButtons.left = this.axes.right - 55;
+    horizontalZoomButtons.bottom = this.axes.bottom - 10;
     this.horizontalZoomInButton.left = this.horizontalZoomOutButton.right + 10;
     this.horizontalZoomInButton.centerY = this.horizontalZoomOutButton.centerY;
-    verticalZoomButtons.right = this.axes.left - 45;
-    verticalZoomButtons.bottom = this.axes.top + 45;
+    verticalZoomButtons.left = this.axes.left - 5;
+    verticalZoomButtons.bottom = this.axes.top + 65;
     this.verticalZoomInButton.centerX = this.verticalZoomOutButton.centerX;
     this.verticalZoomInButton.bottom = this.verticalZoomOutButton.top - 10;
-    this.wavelengthSpectrumNode.bottom = this.axes.bottom;
-    verticalAxisLabelNode.centerX = verticalZoomButtons.centerX;
-    verticalAxisLabelNode.top = verticalZoomButtons.bottom + 15;
-    horizontalAxisTopLabelNode.centerX = this.axes.centerX;
-    horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
-    horizontalAxisBottomLabelNode.centerX = this.axes.centerX;
-    horizontalAxisLabelNode.centerY = horizontalZoomButtons.centerY;
+    this.wavelengthSpectrumNode.top = this.axes.top + 45;
   }
 
   // Helper function for creating zoom buttons with repeated options
@@ -282,8 +225,7 @@ define( function( require ) {
       this.updateGraphPaths();
       this.updateVisibleSpectrumNode();
       this.draggablePointNode.update();
-      this.horizontalTickLabelMax.text = this.model.wavelengthMax / 1000; // Conversion from nm to microns
-      this.verticalTickLabelMax.text = Util.toFixed( verticalZoom, 0 );
+      this.axes.update();
       this.horizontalZoomInButton.enabled = horizontalZoom > this.axes.minHorizontalZoom;
       this.horizontalZoomOutButton.enabled = horizontalZoom < this.axes.maxHorizontalZoom;
       this.verticalZoomInButton.enabled = verticalZoom > this.axes.minVerticalZoom;

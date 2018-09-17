@@ -3,10 +3,11 @@
 /**
  * A view that is responsible for controlling graph axes
  * Handles labels for displaying regions of the electromagnetic spectrum
- * Does NOT handle axis labels
+ * Also handles axes labels and tick labels
  * Most important functionality is handling conversions between logical values and screen coordinates
  *
  * @author Saurabh Totey
+ * @author Arnab Purkayastha
  */
 define( function( require ) {
   'use strict';
@@ -33,6 +34,11 @@ define( function( require ) {
   };
   // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
   var SPECTRAL_RADIANCE_CONVERSION_FACTOR = 1e33;
+
+  // strings
+  var horizontalLabelWavelengthString = require( 'string!BLACKBODY_SPECTRUM/horizontalLabelWavelength' );
+  var subtitleLabelString = require( 'string!BLACKBODY_SPECTRUM/subtitleLabel' );
+  var verticalLabelSpectralRadianceString = require( 'string!BLACKBODY_SPECTRUM/verticalLabelSpectralRadiance' );
 
   /**
    * Makes a ZoomableAxesView
@@ -71,6 +77,8 @@ define( function( require ) {
       minHorizontalZoom: 750,
       maxVerticalZoom: 1000,
       minVerticalZoom: 10,
+      axisBoundsLabelColor: 'yellow',
+      axisLabelColor: 'rgb(0,235,235)',
       electromagneticSpectrumLabelTextOptions: {
         font: new PhetFont( 14 ),
         fill: 'white'
@@ -84,7 +92,7 @@ define( function( require ) {
     // @public {number}
     this.horizontalAxisLength = options.axesWidth;
     this.verticalAxisLength = options.axesHeight;
-    
+
     //
     // @private
     //
@@ -92,8 +100,8 @@ define( function( require ) {
     // How each axis scales
     this.horizontalZoomScale = options.horizontalZoomFactor;
     this.verticalZoomScale = options.verticalZoomFactor;
-    
-    // The path for the actual axes themselves 
+
+    // The path for the actual axes themselves
     this.axesPath = new Path(
       new Shape()
         .moveTo( this.horizontalAxisLength, 0 )
@@ -105,7 +113,7 @@ define( function( require ) {
 
     // Path for the horizontal axes ticks
     this.horizontalTicksPath = new Path( null, options.ticksPathOptions );
-    
+
     // Components for the electromagnetic spectrum labels
     this.electromagneticSpectrumAxisPath = new Path(
       new Shape().moveTo( 0, -this.verticalAxisLength ).lineTo( this.horizontalAxisLength, -this.verticalAxisLength ),
@@ -125,6 +133,24 @@ define( function( require ) {
     this.minorTicksPerMajorTick = options.minorTicksPerMajorTick;
     this.minorTickLength = options.minorTickLength;
     this.majorTickLength = options.majorTickLength;
+
+    // Labels for the axes
+    var verticalAxisLabelNode = new Text( verticalLabelSpectralRadianceString, {
+      font: new PhetFont( 26 ),
+      fill: options.axisLabelColor,
+      rotation: -Math.PI / 2
+    } );
+    var horizontalAxisTopLabelNode = new Text( horizontalLabelWavelengthString, {
+      font: new PhetFont( 24 ),
+      fill: options.axisLabelColor
+    } );
+    var horizontalAxisBottomLabelNode = new Text( subtitleLabelString, {
+      font: new PhetFont( 16 ),
+      fill: options.axisLabelColor
+    } );
+    var horizontalAxisLabelNode = new Node( {
+      children: [ horizontalAxisTopLabelNode, horizontalAxisBottomLabelNode ]
+    } );
 
     //
     // @public
@@ -158,15 +184,46 @@ define( function( require ) {
       self.electromagneticSpectrumLabelTexts.visible = labelsVisible;
     } );
 
+    // @private Labels for axes bounds
+    this.horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 32 ), fill: options.axisBoundsLabelColor } );
+    this.horizontalTickLabelMax = new Text( model.wavelengthMax / 1000, {
+      font: new PhetFont( 32 ),
+      fill: options.axisBoundsLabelColor
+    } );
+    this.verticalTickLabelMax = new Text( this.verticalZoomProperty.value, {
+      font: new PhetFont( 32 ),
+      direction: 'rtl',
+      fill: options.axisBoundsLabelColor
+    } );
+
     // Call to node superconstructor: no options passed in
     Node.call( this );
 
     // Adds children in rendering order
+    this.addChild( verticalAxisLabelNode );
+    this.addChild( horizontalAxisLabelNode );
+    this.addChild( this.horizontalTickLabelZero );
+    this.addChild( this.horizontalTickLabelMax );
+    this.addChild( this.verticalTickLabelMax );
     this.addChild( this.axesPath );
     this.addChild( this.horizontalTicksPath );
     this.addChild( this.electromagneticSpectrumAxisPath );
     this.addChild( this.electromagneticSpectrumTicksPath );
     this.addChild( this.electromagneticSpectrumLabelTexts );
+
+    // Set layout of labels relative to axes
+    this.horizontalTickLabelZero.top = this.axesPath.bottom;
+    this.horizontalTickLabelZero.centerX = this.axesPath.left - 10;
+    this.horizontalTickLabelMax.top = this.axesPath.bottom;
+    this.horizontalTickLabelMax.centerX = this.axesPath.right + 5;
+    this.verticalTickLabelMax.right = this.axesPath.left + 20;
+    this.verticalTickLabelMax.top = this.axesPath.top - 45;
+    verticalAxisLabelNode.centerX = this.axesPath.left - 60;
+    verticalAxisLabelNode.centerY = this.axesPath.centerY + 10;
+    horizontalAxisTopLabelNode.centerX = this.axesPath.centerX;
+    horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
+    horizontalAxisBottomLabelNode.centerX = this.axesPath.centerX;
+    horizontalAxisLabelNode.centerY = this.axesPath.bottom + 59;
   }
 
   blackbodySpectrum.register( 'ZoomableAxesView', ZoomableAxesView );
@@ -309,6 +366,14 @@ define( function( require ) {
         this.minVerticalZoom,
         this.maxVerticalZoom
       );
+    },
+
+    /**
+     * Updates everything in the axes view node
+     */
+    update: function() {
+      this.horizontalTickLabelMax.text = this.model.wavelengthMax / 1000; // Conversion from nm to microns
+      this.verticalTickLabelMax.text = Util.toFixed( this.verticalZoomProperty.value, 0 );
     }
 
   } );
