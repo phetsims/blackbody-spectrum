@@ -231,17 +231,17 @@ define( function( require ) {
   return inherit( Node, ZoomableAxesView, {
 
     /**
-  	 * Resets the axes to their default state
-  	 */
+     * Resets the axes to their default state
+     */
     reset: function() {
       this.horizontalZoomProperty.reset();
       this.verticalZoomProperty.reset();
     },
 
     /**
-  	 * Updates the ZoomableAxesView's horizontal ticks to comply with any new changes
-  	 * @private
-  	 */
+     * Updates the ZoomableAxesView's horizontal ticks to comply with any new changes
+     * @private
+     */
     redrawHorizontalTicks: function() {
       var horizontalTicksShape = new Shape();
       for ( var i = 0; i < this.model.wavelengthMax / this.wavelengthPerTick; i++ ) {
@@ -295,9 +295,9 @@ define( function( require ) {
     },
 
     /**
-  	 * Converts a given wavelength in nm to an x distance along the view
-  	 * @param {number} wavelength
-  	 */
+     * Converts a given wavelength in nm to an x distance along the view
+     * @param {number} wavelength
+     */
     wavelengthToViewX: function( wavelength ) {
       return Util.linear( 0, this.model.wavelengthMax, 0, this.horizontalAxisLength, wavelength );
     },
@@ -316,7 +316,7 @@ define( function( require ) {
      */
     spectralRadianceToViewY: function( spectralRadiance ) {
       return -SPECTRAL_RADIANCE_CONVERSION_FACTOR *
-        Util.linear( 0, this.verticalZoomProperty.value, 0, this.verticalAxisLength, spectralRadiance );
+             Util.linear( 0, this.verticalZoomProperty.value, 0, this.verticalAxisLength, spectralRadiance );
     },
 
     /**
@@ -325,7 +325,7 @@ define( function( require ) {
      */
     viewYToSpectralRadiance: function( viewY ) {
       return Util.linear( 0, this.verticalAxisLength, 0, this.verticalZoomProperty.value, viewY ) /
-        -SPECTRAL_RADIANCE_CONVERSION_FACTOR;
+             -SPECTRAL_RADIANCE_CONVERSION_FACTOR;
     },
 
     /**
