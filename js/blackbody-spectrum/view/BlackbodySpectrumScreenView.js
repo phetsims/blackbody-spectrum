@@ -23,12 +23,13 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var Node = require( 'SCENERY/nodes/Node' );
+  var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RangeWithValue = require( 'DOT/RangeWithValue' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var TriangleSliderThumb = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/TriangleSliderThumb' );
-  var StarPath = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/StarPath' );
+  var StarShape = require( 'SCENERY_PHET/StarShape' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var SavedGraphInformationPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/SavedGraphInformationPanel' );
@@ -50,6 +51,9 @@ define( function( require ) {
   var TITLE_COLOR = '#00EBEB';
   var TEMPERATURE_COLOR = Color.WHITE;
   var INSET = 10;
+  var STAR_INNER_RADIUS = 20;
+  var STAR_OUTER_RADIUS = 35;
+  var STAR_NUMBER_POINTS = 9;
 
   /**
    * Constructor for the BlackbodySpectrumView
@@ -96,7 +100,18 @@ define( function( require ) {
     var circleGreenLabel = new Text( gString, { font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR } );
     var circleRedLabel = new Text( rString, { font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR } );
     var glowingStarHalo = new Circle( 10 );
-    var starPath = new StarPath();
+    var starPath = new Path(
+      new StarShape( {
+        outerRadius: STAR_OUTER_RADIUS,
+        innerRadius: STAR_INNER_RADIUS,
+        numberStarPoints: STAR_NUMBER_POINTS
+      } ), {
+        lineWidth: 1.5,
+        lineJoin: 'round',
+        fill: 'red',
+        stroke: 'red'
+      }
+    );
 
     // Links the current temperature to the RGB indicators and the temperature text along the TriangleSliderThumb
     model.mainBody.temperatureProperty.link( function( temperature ) {

@@ -175,8 +175,10 @@ define( function( require ) {
       // Updates dashed lines to follow draggable circle
       this.dashedLinesPath.shape = new Shape()
         .moveTo( this.draggableCircle.centerX, 0 )
-        .lineTo( this.draggableCircle.centerX, this.draggableCircle.centerY )
-        .lineTo( 0, this.draggableCircle.centerY );
+        .lineTo( this.draggableCircle.centerX, this.draggableCircle.centerY );
+      if ( spectralRadianceOfPoint * 1e33 < this.axes.verticalZoomProperty.value ) {
+        this.dashedLinesPath.shape.lineTo( 0, this.draggableCircle.centerY );
+      }
     }
 
   } );
