@@ -211,7 +211,7 @@ define( function( require ) {
     this.addChild( this.electromagneticSpectrumTicksPath );
     this.addChild( this.electromagneticSpectrumLabelTexts );
 
-    // Set layout of labels relative to axes
+    // Set layout of labels relative to axes, all values were determined empirically by looking at the design document
     this.horizontalTickLabelZero.top = this.axesPath.bottom;
     this.horizontalTickLabelZero.centerX = this.axesPath.left - 10;
     this.horizontalTickLabelMax.top = this.axesPath.bottom;
@@ -232,6 +232,7 @@ define( function( require ) {
 
     /**
      * Resets the axes to their default state
+     * @public
      */
     reset: function() {
       this.horizontalZoomProperty.reset();
@@ -297,6 +298,7 @@ define( function( require ) {
     /**
      * Converts a given wavelength in nm to an x distance along the view
      * @param {number} wavelength
+     * @public
      */
     wavelengthToViewX: function( wavelength ) {
       return Util.linear( 0, this.model.wavelengthMax, 0, this.horizontalAxisLength, wavelength );
@@ -305,6 +307,7 @@ define( function( require ) {
     /**
      * Converts a given x distance along the view to a wavelength in nm
      * @param {number} viewX
+     * @public
      */
     viewXToWavelength: function( viewX ) {
       return Util.linear( 0, this.horizontalAxisLength, 0, this.model.wavelengthMax, viewX );
@@ -313,6 +316,7 @@ define( function( require ) {
     /**
      * Converts a given spectral radiance to a y distance along the view
      * @param {number} spectralRadiance
+     * @public
      */
     spectralRadianceToViewY: function( spectralRadiance ) {
       return -SPECTRAL_RADIANCE_CONVERSION_FACTOR *
@@ -322,6 +326,7 @@ define( function( require ) {
     /**
      * Converts a given y distance along the view to a spectral radiance
      * @param {number} viewY
+     * @public
      */
     viewYToSpectralRadiance: function( viewY ) {
       return Util.linear( 0, this.verticalAxisLength, 0, this.verticalZoomProperty.value, viewY ) /
@@ -330,6 +335,7 @@ define( function( require ) {
 
     /**
      * Zooms the horizontal axis in
+     * @public
      */
     zoomInHorizontal: function() {
       this.horizontalZoomProperty.value = Util.clamp( this.horizontalZoomProperty.value / this.horizontalZoomScale,
@@ -340,6 +346,7 @@ define( function( require ) {
 
     /**
      * Zooms the horizontal axis out
+     * @public
      */
     zoomOutHorizontal: function() {
       this.horizontalZoomProperty.value = Util.clamp( this.horizontalZoomProperty.value * this.horizontalZoomScale,
@@ -350,6 +357,7 @@ define( function( require ) {
 
     /**
      * Zoooms the vertical axis in
+     * @public
      */
     zoomInVertical: function() {
       this.verticalZoomProperty.value = Util.clamp( this.verticalZoomProperty.value / this.verticalZoomScale,
@@ -360,6 +368,7 @@ define( function( require ) {
 
     /**
      * Zooms the vertical axis out
+     * @public
      */
     zoomOutVertical: function() {
       this.verticalZoomProperty.value = Util.clamp( this.verticalZoomProperty.value * this.verticalZoomScale,
@@ -370,6 +379,7 @@ define( function( require ) {
 
     /**
      * Updates everything in the axes view node
+     * @public
      */
     update: function() {
       this.horizontalTickLabelMax.text = this.model.wavelengthMax / 1000; // Conversion from nm to microns
