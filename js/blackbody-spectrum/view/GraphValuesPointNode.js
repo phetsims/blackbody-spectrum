@@ -69,20 +69,12 @@ define( function( require ) {
     // @public {Property.<number>}
     this.wavelengthProperty = new NumberProperty( this.body.peakWavelength );
 
-    // Links the wavelength property to update this node whenever changed
-    this.wavelengthProperty.link( function() {
-      self.update();
-    } );
-
     // Links a change in the body's temperature to always set the wavelength to the peak wavelength
     this.body.temperatureProperty.link( function() {
 
       // Clamp to make sure wavelength property is within graph bounds
-      self.wavelengthProperty.value = Util.clamp(
-        self.body.peakWavelength,
-        0,
-        self.axes.viewXToWavelength( self.axes.horizontalAxisLength )
-      );
+      self.wavelengthProperty.value = self.body.peakWavelength;
+      self.update();
     } );
 
     // Sets up the drag handler for the draggable circle TODO: make draggable in y direction as well?
@@ -96,12 +88,8 @@ define( function( require ) {
       drag: function( event ) {
         var horizontalChange = event.pointer.point.x - mouseStartX;
 
-        // Clamp to make sure wavelength property is within graph bounds
-        self.wavelengthProperty.value = Util.clamp(
-          self.axes.viewXToWavelength( circleStartX + horizontalChange ),
-          0,
-          self.axes.viewXToWavelength( self.axes.horizontalAxisLength )
-        );
+
+        self.wavelengthProperty.value = self.axes.viewXToWavelength( circleStartX + horizontalChange );
         self.update();
       },
       end: function() {
@@ -129,6 +117,7 @@ define( function( require ) {
     reset: function() {
       this.wavelengthProperty.value = this.body.peakWavelength;
       this.cueingArrows.visible = true;
+      this.update();
     },
 
     /**
@@ -136,6 +125,13 @@ define( function( require ) {
      * @public
      */
     update: function() {
+
+      // Clamp to make sure wavelength property is within graph bounds
+      this.wavelengthProperty.value = Util.clamp(
+        this.wavelengthProperty.value,
+        0,
+        this.axes.viewXToWavelength( this.axes.horizontalAxisLength )
+      );
 
       // Update spectral radiance for changes in wavelength
       var spectralRadianceOfPoint = this.body.getSpectralRadianceAt( this.wavelengthProperty.value );
