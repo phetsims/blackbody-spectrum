@@ -78,7 +78,7 @@ define( function( require ) {
      * @param {Object} options - options that were provided to BlackbodySpectrumThermometer constructor
      */
     createLabeledTick: function( text, temperature, options ) {
-      var objectHeight = -this.temperatureLinearFunction( temperature );
+      var objectHeight = -this.temperatureToHeight( temperature );
       var tickMarkLength = options.tubeWidth * 0.5;
 
       var shape = new Shape();
