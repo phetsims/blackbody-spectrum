@@ -21,7 +21,10 @@ define( function( require ) {
 
   // constants
   var ARROW_OPTIONS = {
-    fill: '#64dc64'
+    fill: '#64dc64',
+    headHeight: 15,
+    headWidth: 15,
+    tailWidth: 7
   };
 
   /**
@@ -39,18 +42,31 @@ define( function( require ) {
       stroke: 'white',
       lineWidth: 1,
       fill: 'rgb( 50, 145, 184 )',
-      fillHighlighted: 'rgb( 71, 207, 255 )'
+      fillHighlighted: 'rgb( 71, 207, 255 )',
+      dashedLineOptions: {
+        stroke: 'white',
+        lineDash: [ 3, 3 ]
+      }
     }, options );
 
     // Draw the thumb shape starting at the bottom corner, moving up to the top left
     // then moving right and connecting back, all relative to a horizontal track
     var arrowHalfLength = options.size.width / 2;
     var arrowHalfWidth = options.size.width / 2;
-    var shape = new Shape().moveTo( 0, -arrowHalfLength ).lineTo( -arrowHalfWidth, arrowHalfLength ).lineTo( arrowHalfWidth, arrowHalfLength ).close();
+    var shape = new Shape()
+      .moveTo( 0, -arrowHalfLength )
+      .lineTo( -arrowHalfWidth, arrowHalfLength )
+      .lineTo( arrowHalfWidth, arrowHalfLength )
+      .close();
+
+    this.dashedLinesPath = new Path( null, options.dashedLineOptions );
+    this.dashedLinesPath.shape = new Shape()
+      .moveTo( 0, -arrowHalfLength )
+      .lineTo( 0, -2.5 * arrowHalfLength );
 
     // Arrows that will disappear after first click
     this.cueingArrows = new Node( {
-      children: [ new ArrowNode( 12, 0, 27, 0, ARROW_OPTIONS ), new ArrowNode( -12, 0, -27, 0, ARROW_OPTIONS ) ]
+      children: [ new ArrowNode( 15, 0, 40, 0, ARROW_OPTIONS ), new ArrowNode( -15, 0, -40, 0, ARROW_OPTIONS ) ]
     } );
 
     Path.call( this, shape, options );
@@ -69,6 +85,7 @@ define( function( require ) {
     } ) );
 
     this.addChild( this.cueingArrows );
+    this.addChild( this.dashedLinesPath );
 
   }
 

@@ -19,7 +19,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var GraphDrawingNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GraphDrawingNode' );
-  var HSlider = require( 'SUN/HSlider' );
+  var VSlider = require( 'SUN/VSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -66,9 +66,9 @@ define( function( require ) {
 
     var blackbodySpectrumThermometer = new BlackbodySpectrumThermometer( model.mainBody.temperatureProperty );
 
-    // Note: for HSlider nodes, coordinates go where x axis is from bottom to top, and y axis is from left to right
+    // Note: for VSlider nodes, coordinates go where x axis is from bottom to top, and y axis is from left to right
     // The selectable triangle for the temperature slider
-    var thumbSize = new Dimension2( 20, 20 );
+    var thumbSize = new Dimension2( 25, 25 );
     var triangleNode = new TriangleSliderThumb( { size: thumbSize } );
     triangleNode.touchArea = triangleNode.localBounds.dilatedXY( 10, 10 );
 
@@ -78,12 +78,12 @@ define( function( require ) {
 
     // Creates a temperature slider in Kelvin with a range that is clamped between MIN_TEMPERATURE and MAX_TEMPERATURE
     var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.mainBody.temperatureProperty.value );
-    var temperatureSlider = new HSlider( model.mainBody.temperatureProperty, temperatureRange, {
+    var temperatureSlider = new VSlider( model.mainBody.temperatureProperty, temperatureRange, {
       trackSize: new Dimension2( 400, 5 ),
-      thumbNode: thumbNode,
-      thumbYOffset: 25
+      trackFillEnabled: 'rgba( 0, 0, 0, 0 )',
+      trackFillDisabled: 'rgba( 0, 0, 0, 0 )',
+      thumbNode: thumbNode
     } );
-    temperatureSlider.rotation = -Math.PI / 2; // Sets the temperatureSlider to be vertical
     var thermometerLabel = new MultiLineText( blackbodyTemperatureString, { font: TITLE_FONT, fill: TITLE_COLOR } );
 
     // A text node that reflects the temperature of the slider or main model
@@ -166,7 +166,7 @@ define( function( require ) {
     resetAllButton.bottom = this.layoutBounds.maxY - INSET;
     blackbodySpectrumThermometer.right = this.layoutBounds.maxX - temperatureSlider.width - INSET - 10;
     blackbodySpectrumThermometer.centerY = this.layoutBounds.centerY + 20;
-    temperatureSlider.left = blackbodySpectrumThermometer.right;
+    temperatureSlider.left = blackbodySpectrumThermometer.right - 10;
     temperatureSlider.centerY = blackbodySpectrumThermometer.centerY - 14;
     temperatureText.bottom = blackbodySpectrumThermometer.top - 5;
     temperatureText.centerX = blackbodySpectrumThermometer.right - 16;
