@@ -77,7 +77,7 @@ define( function( require ) {
       self.update();
     } );
 
-    // Sets up the drag handler for the draggable circle TODO: make draggable in y direction as well?
+    // Sets up the drag handler for the draggable circle
     var mouseStartX;
     var circleStartX;
     this.addInputListener( new SimpleDragHandler( {
@@ -97,7 +97,6 @@ define( function( require ) {
       },
       allowTouchSnag: true
     } ) );
-    this.dashedLinesPath.touchArea = this.dashedLinesPath.localBounds.dilatedXY( 5, 5 );
 
     // Adds children in rendering order
     this.addChild( this.dashedLinesPath );
@@ -175,6 +174,9 @@ define( function( require ) {
       if ( spectralRadianceOfPoint * 1e33 < this.axes.verticalZoomProperty.value ) {
         this.dashedLinesPath.shape.lineTo( 0, this.draggableCircle.centerY );
       }
+
+      // Update touch area
+      this.dashedLinesPath.touchArea = this.dashedLinesPath.localBounds.dilatedXY( 5, 5 );
     }
 
   } );
