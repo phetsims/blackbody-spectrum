@@ -21,12 +21,12 @@ define( function( require ) {
   var GraphDrawingNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GraphDrawingNode' );
   var VSlider = require( 'SUN/VSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var MultiLineText = require( 'SCENERY_PHET/MultiLineText' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var RangeWithValue = require( 'DOT/RangeWithValue' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
   var ScreenView = require( 'JOIST/ScreenView' );
   var TriangleSliderThumb = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/TriangleSliderThumb' );
   var StarShape = require( 'SCENERY_PHET/StarShape' );
@@ -84,7 +84,11 @@ define( function( require ) {
       trackFillDisabled: 'rgba( 0, 0, 0, 0 )',
       thumbNode: thumbNode
     } );
-    var thermometerLabel = new MultiLineText( blackbodyTemperatureString, { font: TITLE_FONT, fill: TITLE_COLOR } );
+    var thermometerLabel = new RichText( blackbodyTemperatureString, {
+      font: TITLE_FONT,
+      fill: TITLE_COLOR,
+      align: 'center'
+    } );
 
     // A text node that reflects the temperature of the slider or main model
     var temperatureText = new Text( '?', {

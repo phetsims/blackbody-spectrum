@@ -42,7 +42,7 @@
     "value": "Earth"
   },
   "blackbodyTemperature": {
-    "value": "Blackbody\nTemperature"
+    "value": "Blackbody<br>Temperature"
   },
   "graphValues": {
     "value": "Graph Values"
