@@ -93,15 +93,11 @@ define( function( require ) {
     this.horizontalAxisLength = options.axesWidth;
     this.verticalAxisLength = options.axesHeight;
 
-    //
-    // @private
-    //
-
-    // How each axis scales
+    // @private How each axis scales
     this.horizontalZoomScale = options.horizontalZoomFactor;
     this.verticalZoomScale = options.verticalZoomFactor;
 
-    // The path for the actual axes themselves
+    // @private The path for the actual axes themselves
     this.axesPath = new Path(
       new Shape()
         .moveTo( this.horizontalAxisLength, 0 )
@@ -111,10 +107,10 @@ define( function( require ) {
       options.axesPathOptions
     );
 
-    // Path for the horizontal axes ticks
+    // @private Path for the horizontal axes ticks
     this.horizontalTicksPath = new Path( null, options.ticksPathOptions );
 
-    // Components for the electromagnetic spectrum labels
+    // @private Components for the electromagnetic spectrum labels
     this.electromagneticSpectrumAxisPath = new Path(
       new Shape().moveTo( 0, -this.verticalAxisLength ).lineTo( this.horizontalAxisLength, -this.verticalAxisLength ),
       options.axesPathOptions
@@ -128,7 +124,7 @@ define( function( require ) {
       } )
     } );
 
-    // Horizontal tick settings
+    // @private Horizontal tick settings
     this.wavelengthPerTick = options.wavelengthPerTick;
     this.minorTicksPerMajorTick = options.minorTicksPerMajorTick;
     this.minorTickLength = options.minorTickLength;
@@ -152,32 +148,28 @@ define( function( require ) {
       children: [ horizontalAxisTopLabelNode, horizontalAxisBottomLabelNode ]
     } );
 
-    //
-    // @public
-    //
-
-    // {Property.<number>} current zoom values
+    // @public {Property.<number>} current zoom values
     this.horizontalZoomProperty = new NumberProperty( options.defaultHorizontalZoom );
     this.verticalZoomProperty = new NumberProperty( options.defaultVerticalZoom );
 
-    // {number} zoom bounds
+    // @public {number} zoom bounds
     this.minHorizontalZoom = options.minHorizontalZoom;
     this.maxHorizontalZoom = options.maxHorizontalZoom;
     this.minVerticalZoom = options.minVerticalZoom;
     this.maxVerticalZoom = options.maxVerticalZoom;
 
-    // Links the horizontal zoom property to update the model for the max wavelength
+    // @public Links the horizontal zoom property to update the model for the max wavelength
     this.horizontalZoomProperty.link( function( horizontalZoom ) {
       model.wavelengthMax = horizontalZoom;
     } );
 
-    // Links the horizontal zoom property to update horizontal ticks and the EM spectrum labels on change
+    // @public Links the horizontal zoom property to update horizontal ticks and the EM spectrum labels on change
     this.horizontalZoomProperty.link( function() {
       self.redrawHorizontalTicks();
       self.redrawElectromagneticSpectrumLabel();
     } );
 
-    // Links the model's labelsVisibleProperty with the electromagnetic spectrum label's visibility
+    // @public Links the model's labelsVisibleProperty with the electromagnetic spectrum label's visibility
     this.model.labelsVisibleProperty.link( function( labelsVisible ) {
       self.electromagneticSpectrumAxisPath.visible = labelsVisible;
       self.electromagneticSpectrumTicksPath.visible = labelsVisible;
