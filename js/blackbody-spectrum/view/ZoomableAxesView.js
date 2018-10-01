@@ -77,8 +77,8 @@ define( function( require ) {
       minHorizontalZoom: 750,
       maxVerticalZoom: 1000,
       minVerticalZoom: 10,
-      axisBoundsLabelColor: 'yellow',
-      axisLabelColor: 'rgb(0,235,235)',
+      axisBoundsLabelColor: 'white',
+      axisLabelColor: 'white',
       electromagneticSpectrumLabelTextOptions: {
         font: new PhetFont( 14 ),
         fill: 'white'
