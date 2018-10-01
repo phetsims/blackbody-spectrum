@@ -46,9 +46,9 @@ define( function( require ) {
   var LABEL_FONT = new PhetFont( 22 );
   var MIN_TEMPERATURE = 300; // in kelvin
   var MAX_TEMPERATURE = 11000;
-  var TITLE_FONT = new PhetFont( { size: 22, weight: 'bold' } );
-  var TEMPERATURE_FONT = new PhetFont( { size: 20, weight: 'bold' } );
-  var TITLE_COLOR = '#00EBEB';
+  var TITLE_FONT = new PhetFont( { size: 18, weight: 'bold' } );
+  var TEMPERATURE_FONT = new PhetFont( { size: 22, weight: 'bold' } );
+  var TITLE_COLOR = 'white';
   var TEMPERATURE_COLOR = Color.WHITE;
   var INSET = 10;
   var STAR_INNER_RADIUS = 20;
