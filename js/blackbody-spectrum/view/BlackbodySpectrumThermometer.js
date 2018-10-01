@@ -21,7 +21,6 @@ define( function( require ) {
   // string
   var earthString = require( 'string!BLACKBODY_SPECTRUM/earth' );
   var lightbulbString = require( 'string!BLACKBODY_SPECTRUM/lightbulb' );
-  var ovenString = require( 'string!BLACKBODY_SPECTRUM/oven' );
   var sunString = require( 'string!BLACKBODY_SPECTRUM/sun' );
   var siriusString = require( 'string!BLACKBODY_SPECTRUM/sirius' );
 
@@ -30,7 +29,6 @@ define( function( require ) {
     { text: siriusString, temperature: 9940 },
     { text: sunString, temperature: 5778 },
     { text: lightbulbString, temperature: 3000 },
-    { text: ovenString, temperature: 660 },
     { text: earthString, temperature: 300 }
   ];
 
@@ -54,8 +52,8 @@ define( function( require ) {
       lineWidth: 3,
       outlineStroke: 'white',
       tickSpacing: 20,
-      tickLabelFont: new PhetFont( { size: 18, weight: 'bold' } ),
-      tickLabelColor: 'yellow',
+      tickLabelFont: new PhetFont( { size: 18 } ),
+      tickLabelColor: 'white',
       zeroLevel: 'bulbTop'
     }, options );
 
