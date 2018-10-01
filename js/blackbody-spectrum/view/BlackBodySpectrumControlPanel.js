@@ -12,15 +12,17 @@ define( function( require ) {
   // modules
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var Checkbox = require( 'SUN/Checkbox' );
+  var EraserButton = require( 'SCENERY_PHET/buttons/EraserButton' );
+  var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
+  var HBox = require( 'SCENERY/nodes/HBox' );
+  var HSeparator = require( 'SUN/HSeparator' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Panel = require( 'SUN/Panel' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var GenericCurveShape = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GenericCurveShape' );
-  var Path = require( 'SCENERY/nodes/Path' );
   var RichText = require( 'SCENERY/nodes/RichText' );
   var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
@@ -28,20 +30,17 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
 
   // strings
-  var saveString = require( 'string!BLACKBODY_SPECTRUM/save' );
-  var clearString = require( 'string!BLACKBODY_SPECTRUM/clear' );
   var graphValuesString = require( 'string!BLACKBODY_SPECTRUM/graphValues' );
   var intensityString = require( 'string!BLACKBODY_SPECTRUM/intensity' );
   var labelsString = require( 'string!BLACKBODY_SPECTRUM/labels' );
   var intensityLabelPatternString = require( 'string!BLACKBODY_SPECTRUM/intensityLabelPattern' );
 
   // constants
-  var DISPLAY_FONT = new PhetFont( 12 );
+  var DISPLAY_FONT = new PhetFont( 18 );
   var CHECKBOX_TEXT_FILL = 'white';
-  var BUTTON_TEXT_FILL = 'black';
   var CONTROL_PANEL_FILL = 'black';
   var CHECKBOX_COLOR = 'white';
-  var BUTTON_COLOR = '#8dcad0';
+  var BUTTON_ICON_WIDTH = 35;
   var DEFAULT_WIDTH = 140;
   var INTENSITY_TEXT_OPTIONS = {
     font: new PhetFont( 16 ),
@@ -49,6 +48,7 @@ define( function( require ) {
   };
   var INTENSITY_TEXT_BOX_STROKE = 'red';
   var INTENSITY_TEXT_BOX_FILL = 'gray';
+  var SEPARATOR_COLOR = 'rgb( 212, 212, 212 )';
 
   /**
    * @param {BlackBodySpectrumModel} model
@@ -70,45 +70,30 @@ define( function( require ) {
 
     // create the text nodes
     var checkboxFont = { font: DISPLAY_FONT, fill: CHECKBOX_TEXT_FILL };
-    var buttonFont = { font: DISPLAY_FONT, fill: BUTTON_TEXT_FILL };
-    var clearText = new Text( clearString, buttonFont );
     var valuesCheckboxText = new Text( graphValuesString, checkboxFont );
     var intensityCheckboxText = new Text( intensityString, checkboxFont );
     var labelsCheckboxText = new Text( labelsString, checkboxFont );
 
-    var saveText = new Text( saveString, buttonFont );
-
-    var saveCurvePath = new Path( new GenericCurveShape(), {
-      stroke: 'black',
-      lineWidth: 3,
-      maxWidth: 30
-    } );
-    var saveButtonContent = new HBox( {
-      children: [ saveText, saveCurvePath ],
-      spacing: 10
-    } );
-
-    // 2 buttons: Save, Clear
+    // Save button
     var saveButton = new RectangularPushButton( {
-      content: saveButtonContent,
-      baseColor: BUTTON_COLOR,
-      minWidth: options.minWidth - 40,
+      content: new FontAwesomeNode( 'camera', { maxWidth: BUTTON_ICON_WIDTH } ),
+      baseColor: PhetColorScheme.BUTTON_YELLOW,
       listener: function() {
         model.saveMainBody();
       }
     } );
-    var clearButton = new RectangularPushButton( {
-      content: clearText,
-      baseColor: BUTTON_COLOR,
-      minWidth: options.minWidth - 40,
+
+    // Erase button
+    var eraseButton = new EraserButton( {
+      iconWidth: BUTTON_ICON_WIDTH,
       listener: function() {
         model.clearSavedGraphs();
       }
     } );
 
-    // Makes the clearButton enabled when there is a saved graph to clear, and disabled when there is no graph to clear
+    // Makes the eraseButton enabled when there is a saved graph to clear, and disabled when there is no graph to clear
     model.savedBodies.lengthProperty.link( function( length ) {
-      clearButton.enabled = length !== 0;
+      eraseButton.enabled = length !== 0;
     } );
 
     // 3 checkboxes: Peak Values, Intensity, Labels
@@ -143,10 +128,10 @@ define( function( require ) {
     } );
 
     var spacing = 15;
-    var buttons = new VBox( {
+    var buttons = new HBox( {
       children: [
         saveButton,
-        clearButton
+        eraseButton
       ],
       align: 'center',
       spacing: spacing
@@ -170,9 +155,10 @@ define( function( require ) {
 
     var content = new VBox( {
       children: [
-        buttons,
         checkboxes,
-        intensityDisplay
+        intensityDisplay,
+        new HSeparator( DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
+        buttons
       ],
       align: 'center',
       spacing: spacing,
@@ -185,9 +171,18 @@ define( function( require ) {
     model.intensityVisibleProperty.link( function( intensityVisible ) {
       intensityDisplay.visible = intensityVisible;
       if ( !intensityVisible ) {
-        content.removeChild( intensityDisplay );
+        content.setChildren( [
+          checkboxes,
+          new HSeparator( DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
+          buttons
+        ] );
       } else {
-        content.addChild( intensityDisplay );
+        content.setChildren( [
+          checkboxes,
+          intensityDisplay,
+          new HSeparator( DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
+          buttons
+        ] );
       }
     } );
 
