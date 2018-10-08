@@ -12,6 +12,7 @@ define( function( require ) {
 
   // modules
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  var ColorConstants = require( 'SUN/ColorConstants' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -28,7 +29,7 @@ define( function( require ) {
   var ULTRAVIOLET_WAVELENGTH = 380; // in nm, max bounds for the uv part of the electromagnetic spectrum
   var VISIBLE_WAVELENGTH = 700; // in nm, max bounds for the visible part of the electromagnetic spectrum
   var GRAPH_NUMBER_POINTS = 300; // number of points blackbody curve is evaluated at
-  var ZOOM_BUTTON_ICON_RADIUS = 10; // size of zoom buttons
+  var ZOOM_BUTTON_ICON_RADIUS = 8; // size of zoom buttons
 
   /**
    * The node that handles keeping all of the graph elements together and working
@@ -123,12 +124,12 @@ define( function( require ) {
     this.addChild( this.draggablePointNode );
 
     // Sets layout of graph node elements to be all ultimately relative to the axes
-    horizontalZoomButtons.left = this.axes.right - 55;
+    horizontalZoomButtons.left = this.axes.right - 52;
     horizontalZoomButtons.bottom = this.axes.bottom - 10;
     this.horizontalZoomInButton.left = this.horizontalZoomOutButton.right + 10;
     this.horizontalZoomInButton.centerY = this.horizontalZoomOutButton.centerY;
     verticalZoomButtons.left = this.axes.left - 5;
-    verticalZoomButtons.bottom = this.axes.top + 65;
+    verticalZoomButtons.bottom = this.axes.top + 58;
     this.verticalZoomInButton.centerX = this.verticalZoomOutButton.centerX;
     this.verticalZoomInButton.bottom = this.verticalZoomOutButton.top - 10;
     this.wavelengthSpectrumNode.top = this.axes.top + 45;
@@ -141,6 +142,7 @@ define( function( require ) {
       radius: ZOOM_BUTTON_ICON_RADIUS,
       touchAreaXDilation: 5,
       touchAreaYDilation: 5,
+      baseColor: ColorConstants.LIGHT_BLUE,
       listener: listener
     } );
   }
