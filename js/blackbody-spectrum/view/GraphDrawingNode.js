@@ -80,7 +80,9 @@ define( function( require ) {
     // @private The point node that can be dragged to find out graph values
     this.draggablePointNode = new GraphValuesPointNode( model.mainBody, this.axes );
     model.graphValuesVisibleProperty.link( function( graphValuesVisible ) {
-      self.draggablePointNode.wavelengthProperty.value = self.model.mainBody.peakWavelength; // Node will move back to top of graph on visibility change
+
+      // Node will move back to top of graph on visibility change
+      self.draggablePointNode.wavelengthProperty.value = self.model.mainBody.peakWavelength;
       self.draggablePointNode.visible = graphValuesVisible;
     } );
 
