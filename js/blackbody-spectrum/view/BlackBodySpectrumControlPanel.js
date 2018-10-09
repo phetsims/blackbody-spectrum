@@ -40,7 +40,9 @@ define( function( require ) {
   var CHECKBOX_TEXT_FILL = 'white';
   var CONTROL_PANEL_FILL = 'black';
   var CHECKBOX_COLOR = 'white';
+  var CHECKBOX_TOUCH_DILATION = 6;
   var BUTTON_ICON_WIDTH = 35;
+  var BUTTON_TOUCH_DILATION = 6;
   var DEFAULT_WIDTH = 140;
   var INTENSITY_TEXT_OPTIONS = {
     font: new PhetFont( 16 ),
@@ -78,6 +80,8 @@ define( function( require ) {
     var saveButton = new RectangularPushButton( {
       content: new FontAwesomeNode( 'camera', { maxWidth: BUTTON_ICON_WIDTH } ),
       baseColor: PhetColorScheme.BUTTON_YELLOW,
+      touchAreaXDilation: BUTTON_TOUCH_DILATION,
+      touchAreaYDilation: BUTTON_TOUCH_DILATION,
       listener: function() {
         model.saveMainBody();
       }
@@ -86,6 +90,8 @@ define( function( require ) {
     // Erase button
     var eraseButton = new EraserButton( {
       iconWidth: BUTTON_ICON_WIDTH,
+      touchAreaXDilation: BUTTON_TOUCH_DILATION,
+      touchAreaYDilation: BUTTON_TOUCH_DILATION,
       listener: function() {
         model.clearSavedGraphs();
       }
@@ -97,10 +103,17 @@ define( function( require ) {
     } );
 
     // 3 checkboxes: Peak Values, Intensity, Labels
-    var checkboxOptions = { checkboxColorBackground: CONTROL_PANEL_FILL, checkboxColor: CHECKBOX_COLOR };
+    var checkboxOptions = {
+      checkboxColorBackground: CONTROL_PANEL_FILL,
+      checkboxColor: CHECKBOX_COLOR
+    };
     var valuesCheckbox = new Checkbox( valuesCheckboxText, model.graphValuesVisibleProperty, checkboxOptions );
     var intensityCheckbox = new Checkbox( intensityCheckboxText, model.intensityVisibleProperty, checkboxOptions );
     var labelsCheckbox = new Checkbox( labelsCheckboxText, model.labelsVisibleProperty, checkboxOptions );
+
+    valuesCheckbox.touchArea = valuesCheckbox.localBounds.dilated( CHECKBOX_TOUCH_DILATION );
+    intensityCheckbox.touchArea = intensityCheckbox.localBounds.dilated( CHECKBOX_TOUCH_DILATION );
+    labelsCheckbox.touchArea = labelsCheckbox.localBounds.dilated( CHECKBOX_TOUCH_DILATION );
 
     var intensityText = new RichText( '?', INTENSITY_TEXT_OPTIONS );
     var intensityTextBox = new Rectangle( 0, 0, intensityText.width + 5, intensityText.height + 5, 0, 0, {

@@ -80,7 +80,7 @@ define( function( require ) {
     // Sets up the drag handler for the draggable circle
     var mouseStartX;
     var circleStartX;
-    this.addInputListener( new SimpleDragHandler( {
+    this.draggableCircle.addInputListener( new SimpleDragHandler( {
       start: function( event ) {
         mouseStartX = event.pointer.point.x;
         circleStartX = self.draggableCircle.centerX;
@@ -97,6 +97,8 @@ define( function( require ) {
       },
       allowTouchSnag: true
     } ) );
+
+    this.draggableCircle.touchArea = this.draggableCircle.localBounds.dilated( 8 );
 
     // Adds children in rendering order
     this.addChild( this.dashedLinesPath );
@@ -174,9 +176,6 @@ define( function( require ) {
       if ( spectralRadianceOfPoint * 1e33 < this.axes.verticalZoomProperty.value ) {
         this.dashedLinesPath.shape.lineTo( 0, this.draggableCircle.centerY );
       }
-
-      // Update touch area
-      this.dashedLinesPath.touchArea = this.dashedLinesPath.localBounds.dilatedXY( 5, 5 );
     }
 
   } );
