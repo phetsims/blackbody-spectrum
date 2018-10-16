@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var BlackbodySpectrumScreen = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/BlackbodySpectrumScreen' );
+  var GlobalOptionsNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GlobalOptionsNode' );
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
 
@@ -26,7 +27,8 @@ define( function( require ) {
       qualityAssurance: '',
       graphicArts: '',
       thanks: ''
-    }
+    },
+    optionsNode: new GlobalOptionsNode()
   };
 
   SimLauncher.launch( function() {

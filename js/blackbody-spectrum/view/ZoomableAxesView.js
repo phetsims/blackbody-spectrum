@@ -14,6 +14,7 @@ define( function( require ) {
 
   // modules
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Util = require( 'DOT/Util' );
@@ -54,13 +55,13 @@ define( function( require ) {
       axesWidth: 550,
       axesHeight: 400,
       axesPathOptions: {
-        stroke: 'white',
+        stroke: BlackbodyColorProfile.graphAxesStrokeProperty,
         lineWidth: 3,
         lineCap: 'round',
         lineJoin: 'round'
       },
       ticksPathOptions: {
-        stroke: 'white',
+        stroke: BlackbodyColorProfile.graphAxesStrokeProperty,
         lineWidth: 2,
         lineCap: 'butt',
         lineJoin: 'bevel'
@@ -77,11 +78,11 @@ define( function( require ) {
       minHorizontalZoom: 750,
       maxVerticalZoom: 1000,
       minVerticalZoom: 10,
-      axisBoundsLabelColor: 'white',
-      axisLabelColor: 'white',
+      axisBoundsLabelColor: BlackbodyColorProfile.titlesTextProperty,
+      axisLabelColor: BlackbodyColorProfile.titlesTextProperty,
       electromagneticSpectrumLabelTextOptions: {
         font: new PhetFont( 14 ),
-        fill: 'white'
+        fill: BlackbodyColorProfile.titlesTextProperty
       }
     }, options );
 

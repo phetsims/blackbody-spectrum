@@ -11,6 +11,7 @@ define( function( require ) {
 
   // modules
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
   var Checkbox = require( 'SUN/Checkbox' );
   var EraserButton = require( 'SCENERY_PHET/buttons/EraserButton' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
@@ -37,16 +38,16 @@ define( function( require ) {
 
   // constants
   var DISPLAY_FONT = new PhetFont( 18 );
-  var CHECKBOX_TEXT_FILL = 'white';
-  var CONTROL_PANEL_FILL = 'black';
-  var CHECKBOX_COLOR = 'white';
+  var CHECKBOX_TEXT_FILL = BlackbodyColorProfile.panelTextProperty;
+  var CONTROL_PANEL_FILL = 'rgba( 0, 0, 0, 0 )';
+  var CHECKBOX_COLOR = BlackbodyColorProfile.panelStrokeProperty;
   var CHECKBOX_TOUCH_DILATION = 6;
   var BUTTON_ICON_WIDTH = 35;
   var BUTTON_TOUCH_DILATION = 6;
   var DEFAULT_WIDTH = 140;
   var INTENSITY_TEXT_OPTIONS = {
     font: new PhetFont( 16 ),
-    fill: 'white'
+    fill: BlackbodyColorProfile.panelTextProperty
   };
   var INTENSITY_TEXT_BOX_STROKE = 'red';
   var INTENSITY_TEXT_BOX_FILL = 'gray';
@@ -65,7 +66,7 @@ define( function( require ) {
       lineWidth: 1,
       fill: CONTROL_PANEL_FILL,
       resize: true,
-      stroke: 'white',
+      stroke: BlackbodyColorProfile.panelStrokeProperty,
       minWidth: DEFAULT_WIDTH,
       maxWidth: DEFAULT_WIDTH
     }, options );

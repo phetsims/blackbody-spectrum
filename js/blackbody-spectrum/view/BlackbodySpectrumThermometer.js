@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -50,10 +51,10 @@ define( function( require ) {
       minorTickLength: 5,
       glassThickness: 3,
       lineWidth: 3,
-      outlineStroke: 'white',
+      outlineStroke: BlackbodyColorProfile.thermometerTubeStrokeProperty,
       tickSpacing: 20,
       tickLabelFont: new PhetFont( { size: 18 } ),
-      tickLabelColor: 'white',
+      tickLabelColor: BlackbodyColorProfile.thermometerTubeStrokeProperty,
       zeroLevel: 'bulbTop'
     }, options );
 

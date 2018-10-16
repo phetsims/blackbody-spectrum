@@ -14,9 +14,9 @@ define( function( require ) {
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var BlackbodySpectrumThermometer = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumThermometer' );
   var BlackBodySpectrumControlPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackBodySpectrumControlPanel' );
+  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Circle = require( 'SCENERY/nodes/Circle' );
-  var Color = require( 'SCENERY/util/Color' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var GraphDrawingNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GraphDrawingNode' );
   var VSlider = require( 'SUN/VSlider' );
@@ -41,15 +41,15 @@ define( function( require ) {
   var blackbodyTemperatureString = require( 'string!BLACKBODY_SPECTRUM/blackbodyTemperature' );
 
   // constants
-  var CIRCLE_LABEL_COLOR = '#00EBEB';
+  var CIRCLE_LABEL_COLOR = BlackbodyColorProfile.titlesTextProperty;
   var CIRCLE_RADIUS = 15;
   var LABEL_FONT = new PhetFont( 22 );
   var MIN_TEMPERATURE = 300; // in kelvin
   var MAX_TEMPERATURE = 11000;
   var TITLE_FONT = new PhetFont( { size: 18, weight: 'bold' } );
   var TEMPERATURE_FONT = new PhetFont( { size: 22, weight: 'bold' } );
-  var TITLE_COLOR = 'white';
-  var TEMPERATURE_COLOR = Color.WHITE;
+  var TITLE_COLOR = BlackbodyColorProfile.titlesTextProperty;
+  var TEMPERATURE_COLOR = BlackbodyColorProfile.temperatureTextProperty;
   var INSET = 10;
   var STAR_INNER_RADIUS = 20;
   var STAR_OUTER_RADIUS = 35;
@@ -82,6 +82,7 @@ define( function( require ) {
       trackSize: new Dimension2( 400, 5 ),
       trackFillEnabled: 'rgba( 0, 0, 0, 0 )',
       trackFillDisabled: 'rgba( 0, 0, 0, 0 )',
+      trackStroke: 'rgba( 0, 0, 0, 0 )',
       thumbNode: thumbNode
     } );
     var thermometerLabel = new RichText( blackbodyTemperatureString, {
@@ -112,8 +113,7 @@ define( function( require ) {
       } ), {
         lineWidth: 1.5,
         lineJoin: 'round',
-        fill: 'red',
-        stroke: 'red'
+        stroke: BlackbodyColorProfile.starStrokeProperty
       }
     );
 
@@ -125,7 +125,6 @@ define( function( require ) {
       glowingStarHalo.fill = model.mainBody.glowingStarHaloColor;
       glowingStarHalo.radius = model.mainBody.glowingStarHaloRadius;
       starPath.fill = model.mainBody.starColor;
-      starPath.stroke = model.mainBody.starColor;
       temperatureText.text = Util.toFixed( temperature, 0 ) + ' K';
       temperatureText.centerX = blackbodySpectrumThermometer.right - 16; // In case the size of the temperature text changes
     } );

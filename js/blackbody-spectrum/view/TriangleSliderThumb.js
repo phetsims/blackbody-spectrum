@@ -14,6 +14,7 @@ define( function( require ) {
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -39,12 +40,12 @@ define( function( require ) {
 
     options = _.extend( {
       size: new Dimension2( 15, 15 ),
-      stroke: 'white',
+      stroke: BlackbodyColorProfile.triangleStrokeProperty,
       lineWidth: 1,
       fill: 'rgb( 50, 145, 184 )',
       fillHighlighted: 'rgb( 71, 207, 255 )',
       dashedLineOptions: {
-        stroke: 'white',
+        stroke: BlackbodyColorProfile.triangleStrokeProperty,
         lineDash: [ 3, 3 ]
       }
     }, options );

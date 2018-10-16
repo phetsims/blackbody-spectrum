@@ -12,8 +12,8 @@ define( function( require ) {
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var BlackbodySpectrumModel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/model/BlackbodySpectrumModel' );
   var BlackbodySpectrumScreenView = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumScreenView' );
+  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var Property = require( 'AXON/Property' );
   var Screen = require( 'JOIST/Screen' );
 
   /**
@@ -27,7 +27,7 @@ define( function( require ) {
       function( model ) {
         return new BlackbodySpectrumScreenView( model );
       },
-      { backgroundColorProperty: new Property( 'black' ) }
+      { backgroundColorProperty: BlackbodyColorProfile.backgroundProperty }
     );
   }
   blackbodySpectrum.register( 'BlackbodySpectrumScreen', BlackbodySpectrumScreen );

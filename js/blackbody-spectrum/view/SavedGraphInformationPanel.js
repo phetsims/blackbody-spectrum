@@ -9,6 +9,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
   var GenericCurveShape = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GenericCurveShape' );
   var Panel = require( 'SUN/Panel' );
   var HBox = require( 'SCENERY/nodes/HBox' );
@@ -29,15 +30,15 @@ define( function( require ) {
     var self = this;
 
     options = _.extend( {
-      panelFill: 'black',
-      panelStroke: 'white',
+      panelFill: 'rgba( 0, 0, 0, 0 )',
+      panelStroke: BlackbodyColorProfile.panelStrokeProperty,
       minWidth: 80,
       spacing: 10,
       curveWidth: 50,
       curveLineWidth: 5,
       labelOptions: {
         font: new PhetFont( 16 ),
-        fill: 'white'
+        fill: BlackbodyColorProfile.titlesTextProperty
       }
     }, options );
 
@@ -83,7 +84,7 @@ define( function( require ) {
       spacing: options.spacing
     } );
     Panel.call( this, content, {
-      fill: options.panelFill,
+      fill: 'rgba( 0, 0, 0, 0 )',
       stroke: options.panelStroke,
       minWidth: options.minWidth,
       align: 'center',
