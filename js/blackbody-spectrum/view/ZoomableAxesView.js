@@ -73,7 +73,7 @@ define( function( require ) {
       horizontalZoomFactor: 2,
       verticalZoomFactor: Math.sqrt( 10 ),
       defaultHorizontalZoom: model.wavelengthMax,
-      defaultVerticalZoom: 300,
+      defaultVerticalZoom: 100,
       maxHorizontalZoom: 12000,
       minHorizontalZoom: 750,
       maxVerticalZoom: 1000,
