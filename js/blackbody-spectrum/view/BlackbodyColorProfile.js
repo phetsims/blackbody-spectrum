@@ -33,6 +33,14 @@ define( function( require ) {
       default: 'white',
       projector: 'black'
     },
+    graphValuesDashedLine: {
+      default: 'yellow',
+      projector: 'deeppink'
+    },
+    graphValuesLabels: {
+      default: 'pink',
+      projector: 'deeppink'
+    },
     titlesText: {
       default: 'white',
       projector: 'black'

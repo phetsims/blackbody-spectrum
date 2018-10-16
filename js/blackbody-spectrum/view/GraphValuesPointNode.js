@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
@@ -42,11 +43,11 @@ define( function( require ) {
         fill: 'green'
       },
       dashedLineOptions: {
-        stroke: 'yellow',
+        stroke: BlackbodyColorProfile.graphValuesDashedLineProperty,
         lineDash: [ 4, 4 ]
       },
       valueTextOptions: {
-        fill: 'pink',
+        fill: BlackbodyColorProfile.graphValuesLabelsProperty,
         font: new PhetFont( 22 )
       },
       cueingArrowColor: '#64dc64',
