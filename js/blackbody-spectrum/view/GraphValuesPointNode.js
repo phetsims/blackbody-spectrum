@@ -180,6 +180,10 @@ define( function( require ) {
         .lineTo( this.draggableCircle.centerX, this.draggableCircle.centerY );
       if ( spectralRadianceOfPoint * 1e33 < this.axes.verticalZoomProperty.value ) {
         this.dashedLinesPath.shape.lineTo( 0, this.draggableCircle.centerY );
+        this.spectralRadianceValueText.visible = true;
+      }
+      else {
+        this.spectralRadianceValueText.visible = false;
       }
     }
 
