@@ -40,7 +40,7 @@ define( function( require ) {
     options = _.extend( {
       circleOptions: {
         radius: 5,
-        fill: 'green'
+        fill: BlackbodyColorProfile.graphValuesPointProperty
       },
       dashedLineOptions: {
         stroke: BlackbodyColorProfile.graphValuesDashedLineProperty,

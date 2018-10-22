@@ -41,6 +41,10 @@ define( function( require ) {
       default: 'pink',
       projector: 'deeppink'
     },
+    graphValuesPoint: {
+      default: 'white',
+      projector: 'black'
+    },
     titlesText: {
       default: 'white',
       projector: 'black'
