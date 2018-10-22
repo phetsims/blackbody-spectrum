@@ -62,7 +62,7 @@ define( function( require ) {
       },
       ticksPathOptions: {
         stroke: BlackbodyColorProfile.graphAxesStrokeProperty,
-        lineWidth: 2,
+        lineWidth: 1,
         lineCap: 'butt',
         lineJoin: 'bevel'
       },
