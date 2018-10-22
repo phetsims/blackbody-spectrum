@@ -46,7 +46,7 @@ define( function( require ) {
   var BUTTON_TOUCH_DILATION = 6;
   var DEFAULT_WIDTH = 140;
   var INTENSITY_TEXT_OPTIONS = {
-    font: new PhetFont( 16 ),
+    font: new PhetFont( 18 ),
     fill: BlackbodyColorProfile.panelTextProperty
   };
   var INTENSITY_TEXT_BOX_STROKE = 'red';
@@ -137,7 +137,7 @@ define( function( require ) {
       intensityText.text = StringUtils.fillIn( intensityLabelPatternString, { intensity: formattedString } );
 
       // Updates positions and sizes
-      intensityTextBox.setRect( 0, 0, intensityText.width + 5, intensityText.height + 5, 0, 0 );
+      intensityTextBox.setRect( 0, 0, intensityText.width + 20, intensityText.height + 10, 0, 0 );
       intensityText.center = intensityTextBox.center;
     } );
 
@@ -163,7 +163,7 @@ define( function( require ) {
 
     var intensityDisplay = new Node( {
       children: [ intensityTextBox ],
-      maxWidth: buttons.width
+      minWidth: DEFAULT_WIDTH
     } );
     intensityText.center = intensityTextBox.center;
 
