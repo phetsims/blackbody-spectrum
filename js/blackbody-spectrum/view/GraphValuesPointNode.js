@@ -50,7 +50,12 @@ define( function( require ) {
         fill: BlackbodyColorProfile.graphValuesLabelsProperty,
         font: new PhetFont( 22 )
       },
-      cueingArrowColor: '#64dc64',
+      arrowOptions: {
+        fill: '#64dc64',
+        headHeight: 15,
+        headWidth: 15,
+        tailWidth: 7
+      },
       labelOffset: 5
     }, options );
 
@@ -62,9 +67,8 @@ define( function( require ) {
     this.wavelengthValueText = new Text( '', options.valueTextOptions );
     this.spectralRadianceValueText = new Text( '', options.valueTextOptions );
     this.labelOffset = options.labelOffset;
-    var arrowOptions = { fill: options.cueingArrowColor };
     this.cueingArrows = new Node( {
-      children: [ new ArrowNode( 12, 0, 27, 0, arrowOptions ), new ArrowNode( -12, 0, -27, 0, arrowOptions ) ]
+      children: [ new ArrowNode( 15, 0, 40, 0, options.arrowOptions ), new ArrowNode( -15, 0, -40, 0, options.arrowOptions ) ]
     } );
 
     // @public {Property.<number>}
