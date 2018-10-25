@@ -11,15 +11,14 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  var BlackbodySpectrumThermometer = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumThermometer' );
-  var BlackBodySpectrumControlPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackBodySpectrumControlPanel' );
   var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
+  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  var BlackBodySpectrumControlPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackBodySpectrumControlPanel' );
+  var BlackbodySpectrumThermometer = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumThermometer' );
   var Bounds2 = require( 'DOT/Bounds2' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var GraphDrawingNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GraphDrawingNode' );
-  var VSlider = require( 'SUN/VSlider' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -27,18 +26,19 @@ define( function( require ) {
   var RangeWithValue = require( 'DOT/RangeWithValue' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var RichText = require( 'SCENERY/nodes/RichText' );
+  var SavedGraphInformationPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/SavedGraphInformationPanel' );
   var ScreenView = require( 'JOIST/ScreenView' );
-  var TriangleSliderThumb = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/TriangleSliderThumb' );
   var StarShape = require( 'SCENERY_PHET/StarShape' );
   var Text = require( 'SCENERY/nodes/Text' );
+  var TriangleSliderThumb = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/TriangleSliderThumb' );
   var Util = require( 'DOT/Util' );
-  var SavedGraphInformationPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/SavedGraphInformationPanel' );
+  var VSlider = require( 'SUN/VSlider' );
 
   // strings
+  var blackbodyTemperatureString = require( 'string!BLACKBODY_SPECTRUM/blackbodyTemperature' );
   var bString = require( 'string!BLACKBODY_SPECTRUM/b' );
   var gString = require( 'string!BLACKBODY_SPECTRUM/g' );
   var rString = require( 'string!BLACKBODY_SPECTRUM/r' );
-  var blackbodyTemperatureString = require( 'string!BLACKBODY_SPECTRUM/blackbodyTemperature' );
 
   // constants
   var CIRCLE_LABEL_COLOR = BlackbodyColorProfile.titlesTextProperty;

@@ -11,9 +11,9 @@ define( function( require ) {
 
   // modules
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberProperty = require( 'AXON/NumberProperty' );
-  var Color = require( 'SCENERY/util/Color' );
   var Util = require( 'DOT/Util' );
 
   // constants

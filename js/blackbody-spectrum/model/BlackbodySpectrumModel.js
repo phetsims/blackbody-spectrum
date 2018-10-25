@@ -11,11 +11,11 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var ObservableArray = require( 'AXON/ObservableArray' );
   var BlackbodyBodyModel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/model/BlackbodyBodyModel' );
+  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  var BooleanProperty = require( 'AXON/BooleanProperty' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var ObservableArray = require( 'AXON/ObservableArray' );
 
   /**
    * Main constructor for BlackbodySpectrumModel, which contains the general model logic for the sim screen.

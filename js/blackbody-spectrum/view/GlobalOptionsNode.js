@@ -10,11 +10,11 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
+  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var OptionsDialog = require( 'JOIST/OptionsDialog' );
   var ProjectorModeCheckbox = require( 'JOIST/ProjectorModeCheckbox' );
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   /**

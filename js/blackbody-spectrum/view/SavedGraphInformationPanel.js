@@ -7,18 +7,18 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
+  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var GenericCurveShape = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GenericCurveShape' );
-  var Panel = require( 'SUN/Panel' );
   var HBox = require( 'SCENERY/nodes/HBox' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Panel = require( 'SUN/Panel' );
   var Path = require( 'SCENERY/nodes/Path' );
+  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
 
   /**
    * Makes a SavedGraphInformationPanel given a model that has saved bodies

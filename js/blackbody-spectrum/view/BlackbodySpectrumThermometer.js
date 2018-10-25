@@ -9,8 +9,8 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
+  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -22,8 +22,8 @@ define( function( require ) {
   // string
   var earthString = require( 'string!BLACKBODY_SPECTRUM/earth' );
   var lightbulbString = require( 'string!BLACKBODY_SPECTRUM/lightbulb' );
-  var sunString = require( 'string!BLACKBODY_SPECTRUM/sun' );
   var siriusString = require( 'string!BLACKBODY_SPECTRUM/sirius' );
+  var sunString = require( 'string!BLACKBODY_SPECTRUM/sun' );
 
   // constants
   var TICK_MARKS = [
