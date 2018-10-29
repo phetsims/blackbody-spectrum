@@ -10,31 +10,31 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
+  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var Checkbox = require( 'SUN/Checkbox' );
   var EraserButton = require( 'SCENERY_PHET/buttons/EraserButton' );
   var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   var HBox = require( 'SCENERY/nodes/HBox' );
   var HSeparator = require( 'SUN/HSeparator' );
   var inherit = require( 'PHET_CORE/inherit' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var Panel = require( 'SUN/Panel' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
   var RichText = require( 'SCENERY/nodes/RichText' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
   var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var Node = require( 'SCENERY/nodes/Node' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
   var graphValuesString = require( 'string!BLACKBODY_SPECTRUM/graphValues' );
+  var intensityLabelPatternString = require( 'string!BLACKBODY_SPECTRUM/intensityLabelPattern' );
   var intensityString = require( 'string!BLACKBODY_SPECTRUM/intensity' );
   var labelsString = require( 'string!BLACKBODY_SPECTRUM/labels' );
-  var intensityLabelPatternString = require( 'string!BLACKBODY_SPECTRUM/intensityLabelPattern' );
 
   // constants
   var DISPLAY_FONT = new PhetFont( 18 );

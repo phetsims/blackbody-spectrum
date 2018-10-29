@@ -14,16 +14,16 @@ define( function( require ) {
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var ColorConstants = require( 'SUN/ColorConstants' );
   var Dimension2 = require( 'DOT/Dimension2' );
+  var GraphValuesPointNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GraphValuesPointNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
-  var ZoomableAxesView = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/ZoomableAxesView' );
   var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
-  var WavelengthSpectrumNode = require( 'SCENERY_PHET/WavelengthSpectrumNode' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
-  var GraphValuesPointNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GraphValuesPointNode' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  var Shape = require( 'KITE/Shape' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var WavelengthSpectrumNode = require( 'SCENERY_PHET/WavelengthSpectrumNode' );
+  var ZoomableAxesView = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/ZoomableAxesView' );
+  var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
 
   // constants
   var ULTRAVIOLET_WAVELENGTH = 380; // in nm, max bounds for the uv part of the electromagnetic spectrum

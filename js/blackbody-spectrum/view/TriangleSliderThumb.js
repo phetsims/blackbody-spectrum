@@ -10,15 +10,15 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
+  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
+  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
+  var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
 
   // constants
   var ARROW_OPTIONS = {

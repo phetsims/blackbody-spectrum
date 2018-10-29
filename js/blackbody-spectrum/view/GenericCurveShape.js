@@ -10,9 +10,9 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Shape = require( 'KITE/Shape' );
-  var inherit = require( 'PHET_CORE/inherit' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Shape = require( 'KITE/Shape' );
 
   /**
    * Makes this class inherit from shape and then sets the point of this shape to be like a Blackbody Spectrum

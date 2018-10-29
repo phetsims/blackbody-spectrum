@@ -9,19 +9,19 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Circle = require( 'SCENERY/nodes/Circle' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
-  var Util = require( 'DOT/Util' );
-  var NumberProperty = require( 'AXON/NumberProperty' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
+  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
+  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  var Circle = require( 'SCENERY/nodes/Circle' );
+  var inherit = require( 'PHET_CORE/inherit' );
+  var Node = require( 'SCENERY/nodes/Node' );
+  var NumberProperty = require( 'AXON/NumberProperty' );
+  var Path = require( 'SCENERY/nodes/Path' );
+  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Shape = require( 'KITE/Shape' );
+  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Text = require( 'SCENERY/nodes/Text' );
+  var Util = require( 'DOT/Util' );
 
   /**
    * Constructs the GraphValuesPointNode given the body to follow and the axes that will handle coordinate conversions.
