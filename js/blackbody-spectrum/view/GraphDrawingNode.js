@@ -41,10 +41,14 @@ define( function( require ) {
     var self = this;
 
     options = _.extend( {
-      graphPathLineWidth: 5,
-      mainGraphPathColor: PhetColorScheme.RED_COLORBLIND,
       savedGraphPathColor: 'gray',
-      intensityPathFillColor: 'rgba(100,100,100,0.75)'
+      intensityPathFillColor: 'rgba(100,100,100,0.75)',
+      graphPathOptions: {
+        stroke: PhetColorScheme.RED_COLORBLIND,
+        lineWidth: 5,
+        lineJoin: 'round',
+        lineCap: 'round'
+      }
     }, options );
 
     Node.call( this );
@@ -54,22 +58,15 @@ define( function( require ) {
     this.axes = new ZoomableAxesView( model );
 
     // @private paths for the main and saved graphs
-    this.mainGraph = new Path( null, {
-      stroke: options.mainGraphPathColor,
-      lineWidth: options.graphPathLineWidth,
-      lineJoin: 'round'
-    } );
-    this.primarySavedGraph = new Path( null, {
+    this.mainGraph = new Path( null, options.graphPathOptions );
+    this.primarySavedGraph = new Path( null, _.extend( options.graphPathOptions, {
+      stroke: options.savedGraphPathColor
+    } ) );
+    this.secondarySavedGraph = new Path( null, _.extend( options.graphPathOptions, {
       stroke: options.savedGraphPathColor,
-      lineWidth: options.graphPathLineWidth,
-      lineJoin: 'round'
-    } );
-    this.secondarySavedGraph = new Path( null, {
-      stroke: options.savedGraphPathColor,
-      lineWidth: options.graphPathLineWidth,
       lineDash: [ 5, 5 ],
-      lineJoin: 'round'
-    } );
+      lineCap: 'butt'
+    } ) );
 
     // @private Path for intensity, area under the curve
     this.intensityPath = new Path( null, { fill: options.intensityPathFillColor } );
