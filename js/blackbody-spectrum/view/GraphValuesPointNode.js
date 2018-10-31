@@ -148,7 +148,7 @@ define( function( require ) {
 
       // Updates value labels' text
       this.wavelengthValueText.text = Util.toFixed( this.wavelengthProperty.value / 1000.0, 3 ); // nm to microns
-      this.spectralRadianceValueText.text = Util.toFixed( spectralRadianceOfPoint * 1e33, 0 ); // multiplier is to match y axis
+      this.spectralRadianceValueText.text = Util.toFixed( spectralRadianceOfPoint * 1e33, 3 ); // multiplier is to match y axis
 
       // Updates value labels' positioning
       this.wavelengthValueText.centerX = this.draggableCircle.centerX;

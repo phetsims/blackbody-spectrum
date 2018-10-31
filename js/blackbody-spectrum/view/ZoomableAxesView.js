@@ -71,13 +71,13 @@ define( function( require ) {
       minorTickLength: 10,
       majorTickLength: 20,
       horizontalZoomFactor: 2,
-      verticalZoomFactor: Math.sqrt( 10 ),
+      verticalZoomFactor: 5,
       defaultHorizontalZoom: model.wavelengthMax,
-      defaultVerticalZoom: 100,
-      maxHorizontalZoom: 12000,
+      defaultVerticalZoom: 140.0,
+      maxHorizontalZoom: 48000,
       minHorizontalZoom: 750,
-      maxVerticalZoom: 1000,
-      minVerticalZoom: 10,
+      maxVerticalZoom: 700,
+      minVerticalZoom: 0.000014336,
       axisBoundsLabelColor: BlackbodyColorProfile.titlesTextProperty,
       axisLabelColor: BlackbodyColorProfile.titlesTextProperty,
       electromagneticSpectrumLabelTextOptions: {
@@ -183,10 +183,10 @@ define( function( require ) {
       font: new PhetFont( 32 ),
       fill: options.axisBoundsLabelColor
     } );
-    this.verticalTickLabelMax = new Text( this.verticalZoomProperty.value, {
+    this.verticalTickLabelMax = new Text( this.truncateNum( this.verticalZoomProperty.value, 3, 5 ), {
       font: new PhetFont( 32 ),
-      direction: 'rtl',
-      fill: options.axisBoundsLabelColor
+      fill: options.axisBoundsLabelColor,
+      maxWidth: 80
     } );
 
     // Call to node superconstructor: no options passed in
@@ -209,9 +209,9 @@ define( function( require ) {
     this.horizontalTickLabelZero.centerX = this.axesPath.left - 10;
     this.horizontalTickLabelMax.top = this.axesPath.bottom;
     this.horizontalTickLabelMax.centerX = this.axesPath.right + 5;
-    this.verticalTickLabelMax.right = this.axesPath.left + 20;
-    this.verticalTickLabelMax.top = this.axesPath.top - 45;
-    verticalAxisLabelNode.centerX = this.axesPath.left - 60;
+    this.verticalTickLabelMax.right = this.axesPath.left + 10;
+    this.verticalTickLabelMax.bottom = this.axesPath.top - 8;
+    verticalAxisLabelNode.centerX = this.axesPath.left - 90;
     verticalAxisLabelNode.centerY = this.axesPath.centerY + 10;
     horizontalAxisTopLabelNode.centerX = this.axesPath.centerX;
     horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
@@ -376,7 +376,23 @@ define( function( require ) {
      */
     update: function() {
       this.horizontalTickLabelMax.text = this.model.wavelengthMax / 1000; // Conversion from nm to microns
-      this.verticalTickLabelMax.text = Util.toFixed( this.verticalZoomProperty.value, 0 );
+      this.verticalTickLabelMax.text = this.truncateNum( this.verticalZoomProperty.value, 2, 5 );
+
+      this.verticalTickLabelMax.right = this.axesPath.left + 10;
+      this.verticalTickLabelMax.bottom = this.axesPath.top - 8;
+    },
+
+    /**
+     * Sets sigfigs of a number, then truncates to decimal limit
+     * Returns number as a string
+     * @param {number} value
+     * @param {number} sigfigs
+     * @param {number} decimals
+     * @private
+     */
+    truncateNum: function( value, sigfigs, decimals ) {
+      var sfNumber = parseFloat( value.toPrecision( sigfigs ) );
+      return ( Util.numberOfDecimalPlaces( sfNumber ) > 4 ) ? Util.toFixed( sfNumber, decimals ) : sfNumber.toString();
     }
 
   } );
