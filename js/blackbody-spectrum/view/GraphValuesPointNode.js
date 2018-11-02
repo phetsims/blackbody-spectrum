@@ -175,9 +175,13 @@ define( function( require ) {
       this.cueingArrows.centerY = this.draggableCircle.centerY;
 
       // Updates dashed lines to follow draggable circle
+      // The 6,000,000 limit is necessary because of a property of dashed lines that causes
+      // warping and stretching of line segments when line becomes too large
       this.dashedLinesPath.shape = new Shape()
         .moveTo( this.draggableCircle.centerX, 0 )
-        .lineTo( this.draggableCircle.centerX, this.draggableCircle.centerY );
+        .lineTo( this.draggableCircle.centerX,
+          this.draggableCircle.centerY < -6000000 ? -6000000 : this.draggableCircle.centerY );
+      console.log( this.draggableCircle.centerY );
       if ( spectralRadianceOfPoint * 1e33 < this.axes.verticalZoomProperty.value ) {
         this.dashedLinesPath.shape.lineTo( 0, this.draggableCircle.centerY );
         this.spectralRadianceValueText.visible = true;

@@ -66,7 +66,7 @@ define( function( require ) {
         lineCap: 'butt',
         lineJoin: 'bevel'
       },
-      wavelengthPerTick: 150,
+      wavelengthPerTick: 100,
       minorTicksPerMajorTick: 5,
       minorTickLength: 10,
       majorTickLength: 20,
@@ -74,6 +74,7 @@ define( function( require ) {
       verticalZoomFactor: 5,
       defaultHorizontalZoom: model.wavelengthMax,
       defaultVerticalZoom: 140.0,
+      minorTickMaxHorizontalZoom: 12000,
       maxHorizontalZoom: 48000,
       minHorizontalZoom: 750,
       maxVerticalZoom: 700,
@@ -130,6 +131,7 @@ define( function( require ) {
     this.minorTicksPerMajorTick = options.minorTicksPerMajorTick;
     this.minorTickLength = options.minorTickLength;
     this.majorTickLength = options.majorTickLength;
+    this.minorTickMaxHorizontalZoom = options.minorTickMaxHorizontalZoom;
 
     // Labels for the axes
     var verticalAxisLabelNode = new Text( verticalLabelSpectralRadianceString, {
@@ -243,6 +245,7 @@ define( function( require ) {
         if ( i % this.minorTicksPerMajorTick === 0 ) {
           tickHeight = this.majorTickLength;
         }
+
         var x = this.wavelengthToViewX( i * this.wavelengthPerTick );
         horizontalTicksShape.moveTo( x, 0 ).lineTo( x, -tickHeight );
       }
