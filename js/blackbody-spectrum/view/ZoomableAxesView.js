@@ -28,10 +28,9 @@ define( function( require ) {
   // Max wavelengths for each region of the electromagnetic spectrum in nm
   var ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS = {
     'X-Ray': 10,
-    'Ultraviolet': 380,
+    'Ultraviolet': 400,
     'Visible': 700,
-    'Infrared': 1000,
-    'Radio': Infinity
+    'Infrared': 100000
   };
   // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
   var SPECTRAL_RADIANCE_CONVERSION_FACTOR = 1e33;

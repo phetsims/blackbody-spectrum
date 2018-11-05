@@ -26,7 +26,7 @@ define( function( require ) {
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
 
   // constants
-  var ULTRAVIOLET_WAVELENGTH = 380; // in nm, max bounds for the uv part of the electromagnetic spectrum
+  var ULTRAVIOLET_WAVELENGTH = 400; // in nm, max bounds for the uv part of the electromagnetic spectrum
   var VISIBLE_WAVELENGTH = 700; // in nm, max bounds for the visible part of the electromagnetic spectrum
   var GRAPH_NUMBER_POINTS = 300; // number of points blackbody curve is evaluated at
   var ZOOM_BUTTON_ICON_RADIUS = 8; // size of zoom buttons
