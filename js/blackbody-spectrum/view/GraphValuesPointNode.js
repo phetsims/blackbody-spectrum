@@ -181,7 +181,6 @@ define( function( require ) {
         .moveTo( this.draggableCircle.centerX, 0 )
         .lineTo( this.draggableCircle.centerX,
           this.draggableCircle.centerY < -6000000 ? -6000000 : this.draggableCircle.centerY );
-      console.log( this.draggableCircle.centerY );
       if ( spectralRadianceOfPoint * 1e33 < this.axes.verticalZoomProperty.value ) {
         this.dashedLinesPath.shape.lineTo( 0, this.draggableCircle.centerY );
         this.spectralRadianceValueText.visible = true;
