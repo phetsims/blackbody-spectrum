@@ -114,7 +114,7 @@ define( function( require ) {
     // @private Components for the electromagnetic spectrum labels
     this.electromagneticSpectrumAxisPath = new Path(
       new Shape().moveTo( 0, -this.verticalAxisLength ).lineTo( this.horizontalAxisLength, -this.verticalAxisLength ),
-      options.axesPathOptions
+      _.extend( options.axesPathOptions, { lineWidth: 1 } )
     );
     this.electromagneticSpectrumTicksPath = new Path( null, options.ticksPathOptions );
     this.electromagneticSpectrumLabelTexts = new Node( {
