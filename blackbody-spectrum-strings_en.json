@@ -20,7 +20,7 @@
   "r": {
     "value": "R"
   },
-  "sirius":{
+  "sirius": {
     "value": "Sirius A"
   },
   "sun": {
@@ -46,5 +46,17 @@
   },
   "intensityLabelPattern": {
     "value": "{{intensity}} W/m<sup>2</sup>"
+  },
+  "xrayLabel": {
+    "value": "X-Ray"
+  },
+  "ultravioletLabel": {
+    "value": "Ultraviolet"
+  },
+  "visibleLabel": {
+    "value": "Visible"
+  },
+  "infraredLabel": {
+    "value": "Infrared"
   }
 }

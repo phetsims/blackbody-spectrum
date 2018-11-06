@@ -25,13 +25,7 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
 
   // constants
-  // Max wavelengths for each region of the electromagnetic spectrum in nm
-  var ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS = {
-    'X-Ray': 10,
-    'Ultraviolet': 400,
-    'Visible': 700,
-    'Infrared': 100000
-  };
+
   // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
   var SPECTRAL_RADIANCE_CONVERSION_FACTOR = 1e33;
 
@@ -39,6 +33,17 @@ define( function( require ) {
   var horizontalLabelWavelengthString = require( 'string!BLACKBODY_SPECTRUM/horizontalLabelWavelength' );
   var subtitleLabelString = require( 'string!BLACKBODY_SPECTRUM/subtitleLabel' );
   var verticalLabelSpectralRadianceString = require( 'string!BLACKBODY_SPECTRUM/verticalLabelSpectralRadiance' );
+  var xrayLabelString = require( 'string!BLACKBODY_SPECTRUM/xrayLabel' );
+  var ultravioletLabelString = require( 'string!BLACKBODY_SPECTRUM/ultravioletLabel' );
+  var visibleLabelString = require( 'string!BLACKBODY_SPECTRUM/visibleLabel' );
+  var infraredLabelString = require( 'string!BLACKBODY_SPECTRUM/infraredLabel' );
+
+  // Max wavelengths for each region of the electromagnetic spectrum in nm, type Object
+  var ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS = {};
+  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ xrayLabelString ] = 10;
+  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ ultravioletLabelString ] = 400;
+  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ visibleLabelString ] = 700;
+  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ infraredLabelString ] = 100000;
 
   /**
    * Makes a ZoomableAxesView
