@@ -104,13 +104,9 @@ define( function( require ) {
     // Links the saved bodies to the saved temperature boxes' visibility and text
     model.savedBodies.lengthProperty.link( function( numberOfSavedBodies ) {
       var oldCenterX = self.centerX;
-      content.removeAllChildren();
+      self.visible = numberOfSavedBodies > 0;
+      secondarySavedTemperatureBox.visible = numberOfSavedBodies > 1;
       if ( numberOfSavedBodies > 0 ) {
-        content.addChild( primaryTemperatureBox );
-        content.addChild( primarySavedTemperatureBox );
-        if ( numberOfSavedBodies > 1 ) {
-          content.addChild( secondarySavedTemperatureBox );
-        }
         primarySavedTemperatureLabel.text = formatTemperature( model.savedBodies.get( numberOfSavedBodies - 1 ).temperatureProperty.value );
         secondarySavedTemperatureLabel.text = formatTemperature( model.savedBodies.get( 0 ).temperatureProperty.value ); // text is set, but this label isn't necessarily visible
       }
