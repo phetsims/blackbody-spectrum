@@ -42,7 +42,7 @@ define( function( require ) {
   function BlackbodySpectrumThermometer( temperatureProperty, options ) {
 
     options = _.extend( {
-      minTemperature: 300,
+      minTemperature: 270,
       maxTemperature: 11000,
       bulbDiameter: 35,
       tubeWidth: 20,
