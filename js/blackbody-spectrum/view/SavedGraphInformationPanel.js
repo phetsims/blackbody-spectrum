@@ -32,7 +32,7 @@ define( function( require ) {
     options = _.extend( {
       panelFill: 'rgba( 0, 0, 0, 0 )',
       panelStroke: BlackbodyColorProfile.panelStrokeProperty,
-      minWidth: 80,
+      minWidth: 140,
       spacing: 10,
       curveWidth: 50,
       curveLineWidth: 5,
@@ -81,14 +81,16 @@ define( function( require ) {
 
     var content = new VBox( {
       children: [ primaryTemperatureBox, primarySavedTemperatureBox, secondarySavedTemperatureBox ],
-      spacing: options.spacing
+      spacing: options.spacing,
+      align: 'left'
     } );
     Panel.call( this, content, {
       fill: 'rgba( 0, 0, 0, 0 )',
       stroke: options.panelStroke,
       minWidth: options.minWidth,
-      align: 'center',
-      yMargin: 10
+      align: 'left',
+      yMargin: 10,
+      xMargin: 10
     } );
 
     // A small local function that takes in a temperature and formats it consistently
