@@ -13,6 +13,7 @@ define( function( require ) {
   var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var Circle = require( 'SCENERY/nodes/Circle' );
+  var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
   var NumberProperty = require( 'AXON/NumberProperty' );
@@ -62,14 +63,20 @@ define( function( require ) {
     // @private
     this.body = body;
     this.axes = axes;
-    this.draggableCircle = new Circle( options.circleOptions );
+    this.draggableCircle = new Node( { size: new Dimension2( 80, 20 ) } );
     this.dashedLinesPath = new Path( null, options.dashedLineOptions );
     this.wavelengthValueText = new Text( '', options.valueTextOptions );
     this.spectralRadianceValueText = new Text( '', options.valueTextOptions );
     this.labelOffset = options.labelOffset;
     this.cueingArrows = new Node( {
-      children: [ new ArrowNode( 15, 0, 40, 0, options.arrowOptions ), new ArrowNode( -15, 0, -40, 0, options.arrowOptions ) ]
+      children: [ new ArrowNode( 15, 0, 40, 0, options.arrowOptions ), new ArrowNode( -15, 0, -40, 0, options.arrowOptions ) ],
+      cursor: 'pointer'
     } );
+
+    // Links cueing arrows and circle to a single draggable node
+    var circle = new Circle( options.circleOptions );
+    this.draggableCircle.addChild( circle );
+    this.draggableCircle.addChild( this.cueingArrows );
 
     // @public {Property.<number>}
     this.wavelengthProperty = new NumberProperty( this.body.peakWavelength );
@@ -110,7 +117,6 @@ define( function( require ) {
     this.addChild( this.draggableCircle );
     this.addChild( this.wavelengthValueText );
     this.addChild( this.spectralRadianceValueText );
-    this.addChild( this.cueingArrows );
   }
 
   blackbodySpectrum.register( 'GraphValuesPointNode', GraphValuesPointNode );
@@ -169,10 +175,6 @@ define( function( require ) {
       else if ( this.spectralRadianceValueText.bottom > this.labelOffset ) {
         this.spectralRadianceValueText.bottom = this.labelOffset;
       }
-
-      // Moves the cueing arrows to surround the draggable circle
-      this.cueingArrows.centerX = this.draggableCircle.centerX;
-      this.cueingArrows.centerY = this.draggableCircle.centerY;
 
       // Updates dashed lines to follow draggable circle
       // The 6,000,000 limit is necessary because of a property of dashed lines that causes
