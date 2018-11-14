@@ -193,15 +193,20 @@ define( function( require ) {
         this.intensityPath.shape.lineToPoint( newPoint );
       }
 
+      // Clips the paths to the axes bounds
+      var clipShape = Shape.rectangle( 0, 0, this.axes.horizontalAxisLength, -this.axes.verticalAxisLength );
+      this.mainGraph.shape = this.mainGraph.shape.shapeClip( clipShape );
+
       // Updates the saved graph(s)
       var numberOfSavedBodies = this.model.savedBodies.length;
       this.primarySavedGraph.shape = null;
       this.secondarySavedGraph.shape = null;
       if ( numberOfSavedBodies > 0 ) {
-        this.primarySavedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( numberOfSavedBodies - 1 ) );
+        this.primarySavedGraph.shape =
+          this.shapeOfBody( this.model.savedBodies.get( numberOfSavedBodies - 1 ) ).shapeClip( clipShape );
       }
       if ( numberOfSavedBodies === 2 ) {
-        this.secondarySavedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( 0 ) );
+        this.secondarySavedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( 0 ) ).shapeClip( clipShape );
       }
     },
 
