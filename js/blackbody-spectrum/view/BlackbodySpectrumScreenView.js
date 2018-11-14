@@ -71,10 +71,6 @@ define( function( require ) {
     var triangleNode = new TriangleSliderThumb( { size: thumbSize } );
     triangleNode.touchArea = triangleNode.localBounds.dilatedXY( 10, 10 );
 
-    // Parent that keeps the TriangleSliderThumb bundled with the temperature text
-    var thumbNode = new Node( { size: new Dimension2( 20, 40 ) } );
-    thumbNode.addChild( triangleNode );
-
     // Creates a temperature slider in Kelvin with a range that is clamped between MIN_TEMPERATURE and MAX_TEMPERATURE
     var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.mainBody.temperatureProperty.value );
     var temperatureSlider = new VSlider( model.mainBody.temperatureProperty, temperatureRange, {
@@ -82,7 +78,7 @@ define( function( require ) {
       trackFillEnabled: 'rgba( 0, 0, 0, 0 )',
       trackFillDisabled: 'rgba( 0, 0, 0, 0 )',
       trackStroke: 'rgba( 0, 0, 0, 0 )',
-      thumbNode: thumbNode
+      thumbNode: triangleNode
     } );
     var thermometerLabel = new RichText( blackbodyTemperatureString, {
       font: LABEL_FONT,
