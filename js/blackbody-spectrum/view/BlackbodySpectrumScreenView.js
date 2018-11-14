@@ -46,7 +46,6 @@ define( function( require ) {
   var LABEL_FONT = new PhetFont( 22 );
   var MIN_TEMPERATURE = 300; // in kelvin
   var MAX_TEMPERATURE = 11000;
-  var TITLE_FONT = new PhetFont( { size: 18, weight: 'bold' } );
   var TEMPERATURE_FONT = new PhetFont( { size: 22, weight: 'bold' } );
   var TITLE_COLOR = BlackbodyColorProfile.titlesTextProperty;
   var TEMPERATURE_COLOR = BlackbodyColorProfile.temperatureTextProperty;
@@ -86,7 +85,7 @@ define( function( require ) {
       thumbNode: thumbNode
     } );
     var thermometerLabel = new RichText( blackbodyTemperatureString, {
-      font: TITLE_FONT,
+      font: LABEL_FONT,
       fill: TITLE_COLOR,
       align: 'center'
     } );
