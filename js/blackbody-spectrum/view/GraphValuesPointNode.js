@@ -151,6 +151,8 @@ define( function( require ) {
       // Updates location of draggable circle in view
       this.draggableCircle.centerX = this.axes.wavelengthToViewX( this.wavelengthProperty.value );
       this.draggableCircle.centerY = this.axes.spectralRadianceToViewY( spectralRadianceOfPoint );
+      this.draggableCircle.visible = this.draggableCircle.centerX < this.axes.horizontalAxisLength;
+      this.draggableCircle.visible = this.draggableCircle.centerY > -this.axes.verticalAxisLength;
 
       // Updates value labels' text
       this.wavelengthValueText.text = Util.toFixed( this.wavelengthProperty.value / 1000.0, 3 ); // nm to microns
@@ -177,12 +179,11 @@ define( function( require ) {
       }
 
       // Updates dashed lines to follow draggable circle
-      // The 6,000,000 limit is necessary because of a property of dashed lines that causes
-      // warping and stretching of line segments when line becomes too large
       this.dashedLinesPath.shape = new Shape()
         .moveTo( this.draggableCircle.centerX, 0 )
         .lineTo( this.draggableCircle.centerX,
-          this.draggableCircle.centerY < -6000000 ? -6000000 : this.draggableCircle.centerY );
+          this.draggableCircle.centerY < -this.axes.verticalAxisLength ?
+          -this.axes.verticalAxisLength : this.draggableCircle.centerY );
       if ( spectralRadianceOfPoint * 1e33 < this.axes.verticalZoomProperty.value ) {
         this.dashedLinesPath.shape.lineTo( 0, this.draggableCircle.centerY );
         this.spectralRadianceValueText.visible = true;
