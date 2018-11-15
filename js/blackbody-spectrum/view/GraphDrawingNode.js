@@ -113,13 +113,13 @@ define( function( require ) {
 
     // Adds children in rendering order
     this.addChild( this.wavelengthSpectrumNode );
+    this.addChild( this.intensityPath );
     this.addChild( this.axes );
     this.addChild( horizontalZoomButtons );
     this.addChild( verticalZoomButtons );
     this.addChild( this.mainGraph );
     this.addChild( this.primarySavedGraph );
     this.addChild( this.secondarySavedGraph );
-    this.addChild( this.intensityPath );
     this.addChild( this.draggablePointNode );
 
     // Sets layout of graph node elements to be all ultimately relative to the axes
