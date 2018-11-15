@@ -100,8 +100,7 @@ define( function( require ) {
       drag: function( event ) {
         var horizontalChange = event.pointer.point.x - mouseStartX;
 
-
-        self.wavelengthProperty.value = self.axes.viewXToWavelength( circleStartX + horizontalChange );
+        self.wavelengthProperty.value = self.axes.viewXToWavelength( circleStartX + ( 0.818 * horizontalChange ) );
         self.update();
       },
       end: function() {
