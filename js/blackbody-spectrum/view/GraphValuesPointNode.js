@@ -1,4 +1,4 @@
-// Copyright 2014-2018, University of Colorado Boulder
+// Copyright 2018, University of Colorado Boulder
 
 /**
  * The class that handles showing a draggable point that follows a graph and shows its x and y values
