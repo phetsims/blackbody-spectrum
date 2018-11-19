@@ -16,7 +16,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var ColorProfile = require( 'SCENERY_PHET/ColorProfile' );
 
-  var BlackbodyColorProfile = new ColorProfile( {
+  var BlackbodyColorProfile = new ColorProfile( [ 'default', 'projector' ], {
     background: {
       default: 'black',
       projector: 'white'
@@ -69,7 +69,7 @@ define( function( require ) {
       default: 'rgba( 0, 0, 0, 0 )',
       projector: 'black'
     }
-  }, [ 'default', 'projector' ] );
+  } );
 
   blackbodySpectrum.register( 'BlackbodyColorProfile', BlackbodyColorProfile );
 
