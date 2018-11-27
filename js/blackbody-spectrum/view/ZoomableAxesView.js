@@ -246,6 +246,9 @@ define( function( require ) {
       var horizontalTicksShape = new Shape();
       for ( var i = 0; i < this.model.wavelengthMax / this.wavelengthPerTick; i++ ) {
         var tickHeight = this.minorTickLength;
+        if ( this.model.wavelengthMax > 12000 ) {
+          tickHeight = 0;
+        }
         if ( i % this.minorTicksPerMajorTick === 0 ) {
           tickHeight = this.majorTickLength;
         }
