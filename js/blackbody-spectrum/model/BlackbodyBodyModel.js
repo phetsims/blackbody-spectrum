@@ -135,7 +135,7 @@ define( function( require ) {
      */
     getRedColor: function() {
       var colorIntensity = this.getRenormalizedColorIntensity( RED_WAVELENGTH );
-      return new Color( colorIntensity, 0, 0, colorIntensity / 255 );
+      return new Color( colorIntensity, 0, 0, 1 );
     },
     get redColor() { return this.getRedColor(); },
 
@@ -146,7 +146,7 @@ define( function( require ) {
      */
     getBluColor: function() {
       var colorIntensity = this.getRenormalizedColorIntensity( BLU_WAVELENGTH );
-      return new Color( 0, 0, colorIntensity, colorIntensity / 255 );
+      return new Color( 0, 0, colorIntensity, 1 );
     },
     get bluColor() { return this.getBluColor(); },
 
@@ -157,7 +157,7 @@ define( function( require ) {
      */
     getGreColor: function() {
       var colorIntensity = this.getRenormalizedColorIntensity( GRE_WAVELENGTH );
-      return new Color( 0, colorIntensity, 0, colorIntensity / 255 );
+      return new Color( 0, colorIntensity, 0, 1 );
     },
     get greColor() { return this.getGreColor(); },
 
