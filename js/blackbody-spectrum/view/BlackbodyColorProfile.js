@@ -38,7 +38,7 @@ define( function( require ) {
       projector: 'deeppink'
     },
     graphValuesLabels: {
-      default: 'pink',
+      default: 'yellow',
       projector: 'deeppink'
     },
     graphValuesPoint: {
