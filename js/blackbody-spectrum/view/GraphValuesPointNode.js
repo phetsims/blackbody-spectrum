@@ -101,6 +101,13 @@ define( function( require ) {
         var horizontalChange = event.pointer.point.x - mouseStartX;
 
         self.wavelengthProperty.value = self.axes.viewXToWavelength( circleStartX + ( 0.818 * horizontalChange ) );
+
+        // Clamp to make sure wavelength property is within graph bounds
+        self.wavelengthProperty.value = Util.clamp(
+          self.wavelengthProperty.value,
+          0,
+          self.axes.viewXToWavelength( self.axes.horizontalAxisLength )
+        );
         self.update();
       },
       end: function() {
@@ -137,21 +144,14 @@ define( function( require ) {
      */
     update: function() {
 
-      // Clamp to make sure wavelength property is within graph bounds
-      this.wavelengthProperty.value = Util.clamp(
-        this.wavelengthProperty.value,
-        0,
-        this.axes.viewXToWavelength( this.axes.horizontalAxisLength )
-      );
-
       // Update spectral radiance for changes in wavelength
       var spectralRadianceOfPoint = this.body.getSpectralRadianceAt( this.wavelengthProperty.value );
 
       // Updates location of draggable circle in view
       this.draggableCircle.centerX = this.axes.wavelengthToViewX( this.wavelengthProperty.value );
       this.draggableCircle.centerY = this.axes.spectralRadianceToViewY( spectralRadianceOfPoint );
-      this.draggableCircle.visible = this.draggableCircle.centerX < this.axes.horizontalAxisLength;
-      this.draggableCircle.visible = this.draggableCircle.centerY > -this.axes.verticalAxisLength;
+      this.draggableCircle.visible = this.draggableCircle.centerX <= this.axes.horizontalAxisLength &&
+                                     this.draggableCircle.centerY >= -this.axes.verticalAxisLength;
 
       // Updates value labels' text
       this.wavelengthValueText.text = Util.toFixed( this.wavelengthProperty.value / 1000.0, 3 ); // nm to microns
@@ -178,11 +178,19 @@ define( function( require ) {
       }
 
       // Updates dashed lines to follow draggable circle
-      this.dashedLinesPath.shape = new Shape()
-        .moveTo( this.draggableCircle.centerX, 0 )
-        .lineTo( this.draggableCircle.centerX,
-          this.draggableCircle.centerY < -this.axes.verticalAxisLength ?
-          -this.axes.verticalAxisLength : this.draggableCircle.centerY );
+      this.dashedLinesPath.shape = new Shape();
+      if ( this.draggableCircle.centerX <= this.axes.horizontalAxisLength ) {
+        this.dashedLinesPath.shape.moveTo( this.draggableCircle.centerX, 0 );
+        if ( this.draggableCircle.centerY > -this.axes.verticalAxisLength ) {
+          this.dashedLinesPath.shape.lineTo( this.draggableCircle.centerX, this.draggableCircle.centerY );
+        }
+        else {
+          this.dashedLinesPath.shape.lineTo( this.draggableCircle.centerX, -this.axes.verticalAxisLength );
+        }
+      }
+      else {
+        this.dashedLinesPath.shape.moveTo( this.axes.horizontalAxisLength, this.draggableCircle.centerY );
+      }
       if ( spectralRadianceOfPoint * 1e33 < this.axes.verticalZoomProperty.value ) {
         this.dashedLinesPath.shape.lineTo( 0, this.draggableCircle.centerY );
         this.spectralRadianceValueText.visible = true;
