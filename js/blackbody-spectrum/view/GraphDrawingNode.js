@@ -168,6 +168,7 @@ define( function( require ) {
       var graphShape = new Shape();
       var deltaWavelength = this.model.wavelengthMax / ( GRAPH_NUMBER_POINTS - 1 );
       var pointsXOffset = this.axes.horizontalAxisLength / ( GRAPH_NUMBER_POINTS - 1 );
+      var yCutoff = this.axes.verticalAxisLength + 1;
       var peakWavelength = body.peakWavelength;
       var findingPeak = true;
       graphShape.moveTo( 0, 0 );
@@ -176,11 +177,11 @@ define( function( require ) {
 
           // Force peak wavelength point to be added
           var yMax = this.axes.spectralRadianceToViewY( body.getSpectralRadianceAt( peakWavelength ) );
-          graphShape.lineTo( this.axes.wavelengthToViewX( peakWavelength ), yMax < -1000 ? -1000 : yMax );
+          graphShape.lineTo( this.axes.wavelengthToViewX( peakWavelength ), yMax < -yCutoff ? -yCutoff : yMax );
           findingPeak = false;
         }
         var y = this.axes.spectralRadianceToViewY( body.getSpectralRadianceAt( deltaWavelength * i ) );
-        graphShape.lineTo( pointsXOffset * i, y < -1000 ? -1000 : y );
+        graphShape.lineTo( pointsXOffset * i, y < -yCutoff ? -yCutoff : y );
       }
       return graphShape;
     },
