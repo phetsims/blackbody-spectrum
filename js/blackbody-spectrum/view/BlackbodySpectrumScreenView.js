@@ -132,8 +132,7 @@ define( function( require ) {
         model.reset();
         graphNode.reset();
         triangleNode.reset();
-      },
-      touchAreaDilation: 12
+      }
     } );
 
     var controlPanel = new BlackBodySpectrumControlPanel( model );
