@@ -36,7 +36,7 @@ define( function( require ) {
   function GraphValuesPointNode( body, axes, options ) {
     var self = this;
 
-    Node.call( this, { cursor: 'pointer' } );
+    Node.call( this, { cursor: 'ew-resize' } );
 
     options = _.extend( {
       circleOptions: {
@@ -63,20 +63,21 @@ define( function( require ) {
     // @private
     this.body = body;
     this.axes = axes;
-    this.draggableCircle = new Node( { size: new Dimension2( 80, 20 ) } );
-    this.dashedLinesPath = new Path( null, options.dashedLineOptions );
+    this.graphPointCircle = new Node( { size: new Dimension2( 80, 20 ) } );
+    this.dashedVerticalLinePath = new Path( null, options.dashedLineOptions );
+    this.dashedHorizontalLinePath = new Path( null, options.dashedLineOptions );
     this.wavelengthValueText = new Text( '', options.valueTextOptions );
     this.spectralRadianceValueText = new Text( '', options.valueTextOptions );
     this.labelOffset = options.labelOffset;
     this.cueingArrows = new Node( {
-      children: [ new ArrowNode( 15, 0, 40, 0, options.arrowOptions ), new ArrowNode( -15, 0, -40, 0, options.arrowOptions ) ],
-      cursor: 'pointer'
+      children: [ new ArrowNode( 15, 0, 40, 0, options.arrowOptions ), new ArrowNode( -15, 0, -40, 0, options.arrowOptions ) ]
     } );
 
     // Links cueing arrows and circle to a single draggable node
     var circle = new Circle( options.circleOptions );
-    this.draggableCircle.addChild( circle );
-    this.draggableCircle.addChild( this.cueingArrows );
+    circle.mouseArea = circle.localBounds.dilated( 4 );
+    this.graphPointCircle.addChild( circle );
+    this.graphPointCircle.addChild( this.cueingArrows );
 
     // @public {Property.<number>}
     this.wavelengthProperty = new NumberProperty( this.body.peakWavelength );
@@ -89,13 +90,13 @@ define( function( require ) {
       self.update();
     } );
 
-    // Sets up the drag handler for the draggable circle
+    // Sets up the drag handler for the point circle and vertical dashed line
     var mouseStartX;
     var circleStartX;
-    this.draggableCircle.addInputListener( new SimpleDragHandler( {
+    var graphValueDragHandler = new SimpleDragHandler( {
       start: function( event ) {
         mouseStartX = event.pointer.point.x;
-        circleStartX = self.draggableCircle.centerX;
+        circleStartX = self.graphPointCircle.centerX;
       },
       drag: function( event ) {
         var horizontalChange = event.pointer.point.x - mouseStartX;
@@ -113,14 +114,17 @@ define( function( require ) {
       end: function() {
         self.cueingArrows.visible = false;
       },
-      allowTouchSnag: true
-    } ) );
+      allowTouchSnag: true,
+      dragCursor: 'ew-resize'
+    } );
 
-    this.draggableCircle.touchArea = this.draggableCircle.localBounds.dilated( 8 );
+    this.graphPointCircle.addInputListener( graphValueDragHandler );
+    this.dashedVerticalLinePath.addInputListener( graphValueDragHandler );
 
     // Adds children in rendering order
-    this.addChild( this.dashedLinesPath );
-    this.addChild( this.draggableCircle );
+    this.addChild( this.dashedVerticalLinePath );
+    this.addChild( this.dashedHorizontalLinePath );
+    this.addChild( this.graphPointCircle );
     this.addChild( this.wavelengthValueText );
     this.addChild( this.spectralRadianceValueText );
   }
@@ -147,20 +151,20 @@ define( function( require ) {
       // Update spectral radiance for changes in wavelength
       var spectralRadianceOfPoint = this.body.getSpectralRadianceAt( this.wavelengthProperty.value );
 
-      // Updates location of draggable circle in view
-      this.draggableCircle.centerX = this.axes.wavelengthToViewX( this.wavelengthProperty.value );
-      this.draggableCircle.centerY = this.axes.spectralRadianceToViewY( spectralRadianceOfPoint );
-      this.draggableCircle.visible = this.draggableCircle.centerX <= this.axes.horizontalAxisLength &&
-                                     this.draggableCircle.centerY >= -this.axes.verticalAxisLength;
+      // Updates location of graph point circle in view
+      this.graphPointCircle.centerX = this.axes.wavelengthToViewX( this.wavelengthProperty.value );
+      this.graphPointCircle.centerY = this.axes.spectralRadianceToViewY( spectralRadianceOfPoint );
+      this.graphPointCircle.visible = this.graphPointCircle.centerX <= this.axes.horizontalAxisLength &&
+                                      this.graphPointCircle.centerY >= -this.axes.verticalAxisLength;
 
       // Updates value labels' text
       this.wavelengthValueText.text = Util.toFixed( this.wavelengthProperty.value / 1000.0, 3 ); // nm to microns
       this.spectralRadianceValueText.text = Util.toFixed( spectralRadianceOfPoint * 1e33, 3 ); // multiplier is to match y axis
 
       // Updates value labels' positioning
-      this.wavelengthValueText.centerX = this.draggableCircle.centerX;
+      this.wavelengthValueText.centerX = this.graphPointCircle.centerX;
       this.wavelengthValueText.top = this.labelOffset;
-      this.spectralRadianceValueText.centerY = this.draggableCircle.centerY;
+      this.spectralRadianceValueText.centerY = this.graphPointCircle.centerY;
       this.spectralRadianceValueText.right = -this.labelOffset;
 
       // Clamps label positions so that they don't go off the graph
@@ -177,27 +181,36 @@ define( function( require ) {
         this.spectralRadianceValueText.bottom = this.labelOffset;
       }
 
-      // Updates dashed lines to follow draggable circle
-      this.dashedLinesPath.shape = new Shape();
-      if ( this.draggableCircle.centerX <= this.axes.horizontalAxisLength ) {
-        this.dashedLinesPath.shape.moveTo( this.draggableCircle.centerX, 0 );
-        if ( this.draggableCircle.centerY > -this.axes.verticalAxisLength ) {
-          this.dashedLinesPath.shape.lineTo( this.draggableCircle.centerX, this.draggableCircle.centerY );
-        }
-        else {
-          this.dashedLinesPath.shape.lineTo( this.draggableCircle.centerX, -this.axes.verticalAxisLength );
-        }
+      // Updates dashed lines to follow graph point circle
+      this.dashedVerticalLinePath.shape = new Shape();
+      this.dashedHorizontalLinePath.shape = new Shape();
+
+      this.dashedVerticalLinePath.shape.moveTo( this.graphPointCircle.centerX, 0 );
+      this.dashedHorizontalLinePath.shape.moveTo( 0, this.graphPointCircle.centerY );
+
+      if ( this.graphPointCircle.centerX > this.axes.horizontalAxisLength ) {
+        this.dashedHorizontalLinePath.shape.lineTo( this.axes.horizontalAxisLength, this.graphPointCircle.centerY );
+        this.dashedVerticalLinePath.visible = false;
       }
       else {
-        this.dashedLinesPath.shape.moveTo( this.axes.horizontalAxisLength, this.draggableCircle.centerY );
+        this.dashedHorizontalLinePath.shape.lineTo( this.graphPointCircle.centerX, this.graphPointCircle.centerY );
+        this.dashedVerticalLinePath.visible = true;
       }
-      if ( spectralRadianceOfPoint * 1e33 < this.axes.verticalZoomProperty.value ) {
-        this.dashedLinesPath.shape.lineTo( 0, this.draggableCircle.centerY );
-        this.spectralRadianceValueText.visible = true;
+
+      if ( this.graphPointCircle.centerY > -this.axes.verticalAxisLength ) {
+        this.dashedVerticalLinePath.shape.lineTo( this.graphPointCircle.centerX, this.graphPointCircle.centerY );
+        this.dashedHorizontalLinePath.visible = true;
       }
       else {
-        this.spectralRadianceValueText.visible = false;
+        this.dashedVerticalLinePath.shape.lineTo( this.graphPointCircle.centerX, -this.axes.verticalAxisLength );
+        this.dashedHorizontalLinePath.visible = false;
       }
+
+      this.spectralRadianceValueText.visible = spectralRadianceOfPoint * 1e33 < this.axes.verticalZoomProperty.value;
+
+      this.dashedVerticalLinePath.touchArea = this.dashedVerticalLinePath.localBounds.dilated( 4 );
+      this.dashedVerticalLinePath.mouseArea = this.dashedVerticalLinePath.localBounds.dilated( 4 );
+      this.graphPointCircle.touchArea = this.graphPointCircle.localBounds.dilated( 4 );
     }
 
   } );
