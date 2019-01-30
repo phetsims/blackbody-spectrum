@@ -268,7 +268,7 @@ define( function( require ) {
 
       // Makes the ticks for demarcating regions of the electromagnetic spectrum
       var labelsTickShape = new Shape();
-      var tickLocations = Object.values( ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS ).filter( function( wavelength ) {
+      var tickLocations = _.values( ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS ).filter( function( wavelength ) {
         return wavelength <= self.model.wavelengthMax;
       } ).map( function( wavelength ) {
         return self.wavelengthToViewX( wavelength );
