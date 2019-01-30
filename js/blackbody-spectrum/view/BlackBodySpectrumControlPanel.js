@@ -163,7 +163,7 @@ define( function( require ) {
 
     var intensityDisplay = new Node( {
       children: [ intensityTextBox ],
-      minWidth: DEFAULT_WIDTH
+      maxWidth: DEFAULT_WIDTH
     } );
     intensityText.center = intensityTextBox.center;
 
