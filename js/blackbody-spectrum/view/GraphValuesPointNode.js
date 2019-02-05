@@ -19,6 +19,8 @@ define( function( require ) {
   var NumberProperty = require( 'AXON/NumberProperty' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
+  var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   var Text = require( 'SCENERY/nodes/Text' );
@@ -67,7 +69,7 @@ define( function( require ) {
     this.dashedVerticalLinePath = new Path( null, options.dashedLineOptions );
     this.dashedHorizontalLinePath = new Path( null, options.dashedLineOptions );
     this.wavelengthValueText = new Text( '', options.valueTextOptions );
-    this.spectralRadianceValueText = new Text( '', options.valueTextOptions );
+    this.spectralRadianceValueText = new RichText( '', options.valueTextOptions );
     this.labelOffset = options.labelOffset;
     this.cueingArrows = new Node( {
       children: [ new ArrowNode( 15, 0, 40, 0, options.arrowOptions ), new ArrowNode( -15, 0, -40, 0, options.arrowOptions ) ]
@@ -159,7 +161,22 @@ define( function( require ) {
 
       // Updates value labels' text
       this.wavelengthValueText.text = Util.toFixed( this.wavelengthProperty.value / 1000.0, 3 ); // nm to microns
-      this.spectralRadianceValueText.text = Util.toFixed( spectralRadianceOfPoint * 1e33, 3 ); // multiplier is to match y axis
+
+      // Spectral Radiance is given special case for scientific notation
+      var spectralRadianceValue = spectralRadianceOfPoint * 1e33; // multiplier is to match y axis
+      if ( spectralRadianceValue < 0.01 && spectralRadianceValue !== 0 ) {
+        var notationObject = ScientificNotationNode.toScientificNotation( spectralRadianceValue, {
+          mantissaDecimalPlaces: 0
+        } );
+        var formattedString = notationObject.mantissa;
+        if ( notationObject.exponent !== '0' ) {
+          formattedString += ' X 10<sup>' + notationObject.exponent + '</sup>';
+        }
+        this.spectralRadianceValueText.text = formattedString;
+      }
+      else {
+        this.spectralRadianceValueText.text = Util.toFixed( spectralRadianceValue, 2 );
+      }
 
       // Updates value labels' positioning
       this.wavelengthValueText.centerX = this.graphPointCircle.centerX;

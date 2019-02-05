@@ -20,6 +20,8 @@ define( function( require ) {
   var NumberProperty = require( 'AXON/NumberProperty' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var RichText = require( 'SCENERY/nodes/RichText' );
+  var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var Shape = require( 'KITE/Shape' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
@@ -189,7 +191,7 @@ define( function( require ) {
       font: new PhetFont( 32 ),
       fill: options.axisBoundsLabelColor
     } );
-    this.verticalTickLabelMax = new Text( this.truncateNum( this.verticalZoomProperty.value, 3, 5 ), {
+    this.verticalTickLabelMax = new RichText( this.truncateNum( this.verticalZoomProperty.value, 3, 5 ), {
       font: new PhetFont( 32 ),
       fill: options.axisBoundsLabelColor,
       maxWidth: 80
@@ -386,7 +388,19 @@ define( function( require ) {
      */
     update: function() {
       this.horizontalTickLabelMax.text = this.model.wavelengthMax / 1000; // Conversion from nm to microns
-      this.verticalTickLabelMax.text = this.truncateNum( this.verticalZoomProperty.value, 2, 5 );
+      if ( this.verticalZoomProperty.value < 0.01 ) {
+        var notationObject = ScientificNotationNode.toScientificNotation( this.verticalZoomProperty.value, {
+          mantissaDecimalPlaces: 0
+        } );
+        var formattedString = notationObject.mantissa;
+        if ( notationObject.exponent !== '0' ) {
+          formattedString += ' X 10<sup>' + notationObject.exponent + '</sup>';
+        }
+        this.verticalTickLabelMax.text = formattedString;
+      }
+      else {
+        this.verticalTickLabelMax.text = this.truncateNum( this.verticalZoomProperty.value, 2, 2 );
+      }
 
       this.verticalTickLabelMax.right = this.axesPath.left + 10;
       this.verticalTickLabelMax.bottom = this.axesPath.top - 8;
@@ -402,7 +416,7 @@ define( function( require ) {
      */
     truncateNum: function( value, sigfigs, decimals ) {
       var sfNumber = parseFloat( value.toPrecision( sigfigs ) );
-      return ( Util.numberOfDecimalPlaces( sfNumber ) > 4 ) ? Util.toFixed( sfNumber, decimals ) : sfNumber.toString();
+      return ( Util.numberOfDecimalPlaces( sfNumber ) > decimals ) ? Util.toFixed( sfNumber, decimals ) : sfNumber.toString();
     }
 
   } );
