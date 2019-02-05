@@ -60,10 +60,12 @@ define( function( require ) {
     // @private paths for the main and saved graphs
     this.mainGraph = new Path( null, options.graphPathOptions );
     this.primarySavedGraph = new Path( null, _.extend( options.graphPathOptions, {
-      stroke: options.savedGraphPathColor
+      stroke: options.savedGraphPathColor,
+      lineWidth: 4
     } ) );
     this.secondarySavedGraph = new Path( null, _.extend( options.graphPathOptions, {
       stroke: options.savedGraphPathColor,
+      lineWidth: 4,
       lineDash: [ 5, 5 ],
       lineCap: 'butt'
     } ) );
