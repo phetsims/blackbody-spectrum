@@ -27,7 +27,7 @@ define( function( require ) {
 
   // constants
   var ULTRAVIOLET_WAVELENGTH = 400; // in nm, max bounds for the uv part of the electromagnetic spectrum
-  var VISIBLE_WAVELENGTH = 700; // in nm, max bounds for the visible part of the electromagnetic spectrum
+  var VISIBLE_WAVELENGTH = 705; // in nm, max bounds for the visible part of the electromagnetic spectrum
   var GRAPH_NUMBER_POINTS = 300; // number of points blackbody curve is evaluated at
   var ZOOM_BUTTON_ICON_RADIUS = 8; // size of zoom buttons
 
@@ -99,8 +99,7 @@ define( function( require ) {
       size: new Dimension2( spectrumWidth, this.axes.verticalAxisLength ),
       minWavelength: ULTRAVIOLET_WAVELENGTH,
       maxWavelength: VISIBLE_WAVELENGTH,
-      opacity: 0.9,
-      left: ultravioletPosition + this.axes.left
+      opacity: 0.9
     } );
 
     // Links the GraphDrawingNode to update whenever any tracked property changes
@@ -132,6 +131,7 @@ define( function( require ) {
     this.verticalZoomInButton.centerX = this.verticalZoomOutButton.centerX;
     this.verticalZoomInButton.bottom = this.verticalZoomOutButton.top - 10;
     this.wavelengthSpectrumNode.top = this.axes.top + 45;
+    this.wavelengthSpectrumNode.left = ultravioletPosition;
   }
 
   // Helper function for creating zoom buttons with repeated options
