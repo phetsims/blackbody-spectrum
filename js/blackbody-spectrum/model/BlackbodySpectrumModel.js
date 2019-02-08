@@ -33,7 +33,7 @@ define( function( require ) {
     this.labelsVisibleProperty = new BooleanProperty( false );
 
     // @public {BlackbodyBodyModel} the main body for the simulation
-    this.mainBody = new BlackbodyBodyModel( this, 6000 );
+    this.mainBody = new BlackbodyBodyModel( this, 5778 );
 
     // @public {ObservableArray.<BlackbodyBodyModel>} a property for the user's saved blackbodies
     this.savedBodies = new ObservableArray();
@@ -73,7 +73,7 @@ define( function( require ) {
     /**
      * A function that clears saved graphs
      */
-    clearSavedGraphs: function () {
+    clearSavedGraphs: function() {
       this.savedBodies.clear();
     }
 

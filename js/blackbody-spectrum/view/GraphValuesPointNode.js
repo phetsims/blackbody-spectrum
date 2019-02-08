@@ -51,7 +51,7 @@ define( function( require ) {
       },
       valueTextOptions: {
         fill: BlackbodyColorProfile.graphValuesLabelsProperty,
-        font: new PhetFont( 22 )
+        font: new PhetFont( 18 )
       },
       arrowOptions: {
         fill: '#64dc64',

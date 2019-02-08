@@ -22,7 +22,6 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var RangeWithValue = require( 'DOT/RangeWithValue' );
   var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
   var RichText = require( 'SCENERY/nodes/RichText' );
   var SavedGraphInformationPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/SavedGraphInformationPanel' );
@@ -31,7 +30,6 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var TriangleSliderThumb = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/TriangleSliderThumb' );
   var Util = require( 'DOT/Util' );
-  var VSlider = require( 'SUN/VSlider' );
 
   // strings
   var blackbodyTemperatureString = require( 'string!BLACKBODY_SPECTRUM/blackbodyTemperature' );
@@ -43,8 +41,6 @@ define( function( require ) {
   var CIRCLE_LABEL_COLOR = BlackbodyColorProfile.titlesTextProperty;
   var CIRCLE_RADIUS = 15;
   var LABEL_FONT = new PhetFont( 22 );
-  var MIN_TEMPERATURE = 300; // in kelvin
-  var MAX_TEMPERATURE = 11000;
   var TEMPERATURE_FONT = new PhetFont( { size: 22, weight: 'bold' } );
   var TITLE_COLOR = BlackbodyColorProfile.titlesTextProperty;
   var TEMPERATURE_COLOR = BlackbodyColorProfile.temperatureTextProperty;
@@ -70,15 +66,6 @@ define( function( require ) {
     var triangleNode = new TriangleSliderThumb( { size: thumbSize } );
     triangleNode.touchArea = triangleNode.localBounds.dilatedXY( 10, 10 );
 
-    // Creates a temperature slider in Kelvin with a range that is clamped between MIN_TEMPERATURE and MAX_TEMPERATURE
-    var temperatureRange = new RangeWithValue( MIN_TEMPERATURE, MAX_TEMPERATURE, model.mainBody.temperatureProperty.value );
-    var temperatureSlider = new VSlider( model.mainBody.temperatureProperty, temperatureRange, {
-      trackSize: new Dimension2( 400, 5 ),
-      trackFillEnabled: 'rgba( 0, 0, 0, 0 )',
-      trackFillDisabled: 'rgba( 0, 0, 0, 0 )',
-      trackStroke: 'rgba( 0, 0, 0, 0 )',
-      thumbNode: triangleNode
-    } );
     var thermometerLabel = new RichText( blackbodyTemperatureString, {
       font: LABEL_FONT,
       fill: TITLE_COLOR,
@@ -120,7 +107,7 @@ define( function( require ) {
       glowingStarHalo.radius = model.mainBody.glowingStarHaloRadius;
       starPath.fill = model.mainBody.starColor;
       temperatureText.text = Util.toFixed( temperature, 0 ) + ' K';
-      temperatureText.centerX = blackbodySpectrumThermometer.right - 16; // In case the size of the temperature text changes
+      temperatureText.centerX = blackbodySpectrumThermometer.right - 55; // In case the size of the temperature text changes
     } );
 
     // create graph with zoom buttons
@@ -132,6 +119,7 @@ define( function( require ) {
         model.reset();
         graphNode.reset();
         triangleNode.reset();
+        blackbodySpectrumThermometer.reset();
       }
     } );
 
@@ -142,7 +130,6 @@ define( function( require ) {
     this.addChild( graphNode );
     this.addChild( controlPanel );
     this.addChild( savedInformationPanel );
-    this.addChild( temperatureSlider );
     this.addChild( blackbodySpectrumThermometer );
     this.addChild( thermometerLabel );
     this.addChild( temperatureText );
@@ -161,13 +148,11 @@ define( function( require ) {
     graphNode.bottom = this.layoutBounds.maxY - INSET;
     resetAllButton.right = this.layoutBounds.maxX - INSET;
     resetAllButton.bottom = this.layoutBounds.maxY - INSET;
-    blackbodySpectrumThermometer.right = this.layoutBounds.maxX - temperatureSlider.width - INSET - 10;
+    blackbodySpectrumThermometer.right = this.layoutBounds.maxX - INSET - 10;
     blackbodySpectrumThermometer.centerY = this.layoutBounds.centerY + 20;
-    temperatureSlider.left = blackbodySpectrumThermometer.right - 10;
-    temperatureSlider.centerY = blackbodySpectrumThermometer.centerY - 14;
     temperatureText.bottom = blackbodySpectrumThermometer.top - 5;
-    temperatureText.centerX = blackbodySpectrumThermometer.right - 16;
-    thermometerLabel.centerX = blackbodySpectrumThermometer.right - 16;
+    temperatureText.centerX = blackbodySpectrumThermometer.right - 55;
+    thermometerLabel.centerX = blackbodySpectrumThermometer.right - 55;
     thermometerLabel.bottom = temperatureText.top - 5;
     controlPanel.right = blackbodySpectrumThermometer.left - 20;
     controlPanel.top = thermometerLabel.centerY;
