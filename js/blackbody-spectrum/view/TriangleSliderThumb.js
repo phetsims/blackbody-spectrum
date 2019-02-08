@@ -47,7 +47,8 @@ define( function( require ) {
       dashedLineOptions: {
         stroke: BlackbodyColorProfile.triangleStrokeProperty,
         lineDash: [ 3, 3 ]
-      }
+      },
+      cursor: 'pointer'
     }, options );
 
     // Draw the thumb shape starting at the bottom corner, moving up to the top left
@@ -87,6 +88,8 @@ define( function( require ) {
 
     this.addChild( this.cueingArrows );
     this.addChild( this.dashedLinesPath );
+
+    this.touchArea = this.localBounds.dilatedY( 5 );
 
   }
 
