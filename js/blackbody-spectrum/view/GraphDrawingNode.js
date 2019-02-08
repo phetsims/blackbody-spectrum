@@ -128,11 +128,11 @@ define( function( require ) {
     horizontalZoomButtons.bottom = this.axes.bottom - 10;
     this.horizontalZoomInButton.left = this.horizontalZoomOutButton.right + 10;
     this.horizontalZoomInButton.centerY = this.horizontalZoomOutButton.centerY;
-    verticalZoomButtons.left = this.axes.left - 5;
-    verticalZoomButtons.bottom = this.axes.top + 58;
-    this.verticalZoomInButton.centerX = this.verticalZoomOutButton.centerX;
-    this.verticalZoomInButton.bottom = this.verticalZoomOutButton.top - 10;
-    this.wavelengthSpectrumNode.top = this.axes.top + 45;
+    verticalZoomButtons.left = this.axes.left + 30;
+    verticalZoomButtons.bottom = this.axes.top - 5;
+    this.verticalZoomInButton.centerY = this.verticalZoomOutButton.centerY;
+    this.verticalZoomInButton.left = this.verticalZoomOutButton.right + 10;
+    this.wavelengthSpectrumNode.top = this.axes.top + 18;
     this.wavelengthSpectrumNode.left = ultravioletPosition;
   }
 

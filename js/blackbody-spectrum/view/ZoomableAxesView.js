@@ -192,9 +192,9 @@ define( function( require ) {
       fill: options.axisBoundsLabelColor
     } );
     this.verticalTickLabelMax = new RichText( this.truncateNum( this.verticalZoomProperty.value, 3, 5 ), {
-      font: new PhetFont( 32 ),
+      font: new PhetFont( 24 ),
       fill: options.axisBoundsLabelColor,
-      maxWidth: 80
+      maxWidth: 60
     } );
 
     // Call to node superconstructor: no options passed in
@@ -217,10 +217,8 @@ define( function( require ) {
     this.horizontalTickLabelZero.centerX = this.axesPath.left - 10;
     this.horizontalTickLabelMax.top = this.axesPath.bottom;
     this.horizontalTickLabelMax.centerX = this.axesPath.right + 5;
-    this.verticalTickLabelMax.right = this.axesPath.left + 10;
-    this.verticalTickLabelMax.bottom = this.axesPath.top - 8;
     verticalAxisLabelNode.centerX = this.axesPath.left - 90;
-    verticalAxisLabelNode.centerY = this.axesPath.centerY + 10;
+    verticalAxisLabelNode.centerY = this.axesPath.centerY;
     horizontalAxisTopLabelNode.centerX = this.axesPath.centerX;
     horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
     horizontalAxisBottomLabelNode.centerX = this.axesPath.centerX;
@@ -402,8 +400,8 @@ define( function( require ) {
         this.verticalTickLabelMax.text = this.truncateNum( this.verticalZoomProperty.value, 2, 2 );
       }
 
-      this.verticalTickLabelMax.right = this.axesPath.left + 10;
-      this.verticalTickLabelMax.bottom = this.axesPath.top - 8;
+      this.verticalTickLabelMax.right = this.axesPath.left - 10;
+      this.verticalTickLabelMax.bottom = this.axesPath.top + 10;
     },
 
     /**
