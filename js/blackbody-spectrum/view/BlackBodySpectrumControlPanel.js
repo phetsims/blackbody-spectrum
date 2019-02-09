@@ -39,6 +39,7 @@ define( function( require ) {
   // constants
   var DISPLAY_FONT = new PhetFont( 18 );
   var CHECKBOX_TEXT_FILL = BlackbodyColorProfile.panelTextProperty;
+  var CHECKBOX_TEXT_WIDTH = 100;
   var CONTROL_PANEL_FILL = 'rgba( 0, 0, 0, 0 )';
   var CHECKBOX_COLOR = BlackbodyColorProfile.panelStrokeProperty;
   var CHECKBOX_TOUCH_DILATION = 6;
@@ -72,10 +73,10 @@ define( function( require ) {
     }, options );
 
     // create the text nodes
-    var checkboxFont = { font: DISPLAY_FONT, fill: CHECKBOX_TEXT_FILL };
-    var valuesCheckboxText = new Text( graphValuesString, checkboxFont );
-    var intensityCheckboxText = new Text( intensityString, checkboxFont );
-    var labelsCheckboxText = new Text( labelsString, checkboxFont );
+    var checkboxTextOptions = { font: DISPLAY_FONT, fill: CHECKBOX_TEXT_FILL, maxWidth: CHECKBOX_TEXT_WIDTH };
+    var valuesCheckboxText = new Text( graphValuesString, checkboxTextOptions );
+    var intensityCheckboxText = new Text( intensityString, checkboxTextOptions );
+    var labelsCheckboxText = new Text( labelsString, checkboxTextOptions );
 
     // Save button
     var saveButton = new RectangularPushButton( {

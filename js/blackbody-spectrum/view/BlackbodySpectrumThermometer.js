@@ -60,6 +60,7 @@ define( function( require ) {
       tickSpacing: 20,
       tickLabelFont: new PhetFont( { size: 18 } ),
       tickLabelColor: BlackbodyColorProfile.thermometerTubeStrokeProperty,
+      tickLabelWidth: 100,
       zeroLevel: 'bulbTop',
       thumbSize: 25
     }, options );
@@ -127,7 +128,11 @@ define( function( require ) {
       shape.moveTo( options.tubeWidth / 2, objectHeight ).horizontalLineToRelative( tickMarkLength );
 
       var tickNode = new Path( shape, { stroke: options.outlineStroke, lineWidth: options.lineWidth } );
-      var textNode = new Text( text, { font: options.tickLabelFont, fill: options.tickLabelColor } );
+      var textNode = new Text( text, {
+        font: options.tickLabelFont,
+        fill: options.tickLabelColor,
+        maxWidth: options.tickLabelWidth
+      } );
 
       var parentNode = new Node( {
         children: [ tickNode, textNode ]

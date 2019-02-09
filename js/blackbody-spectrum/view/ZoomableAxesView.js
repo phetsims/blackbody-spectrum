@@ -143,15 +143,18 @@ define( function( require ) {
     var verticalAxisLabelNode = new Text( verticalLabelSpectralRadianceString, {
       font: new PhetFont( 26 ),
       fill: options.axisLabelColor,
-      rotation: -Math.PI / 2
+      rotation: -Math.PI / 2,
+      maxWidth: options.axesHeight
     } );
     var horizontalAxisTopLabelNode = new Text( horizontalLabelWavelengthString, {
       font: new PhetFont( 24 ),
-      fill: options.axisLabelColor
+      fill: options.axisLabelColor,
+      maxWidth: options.axesWidth * 0.8
     } );
     var horizontalAxisBottomLabelNode = new Text( subtitleLabelString, {
       font: new PhetFont( 16 ),
-      fill: options.axisLabelColor
+      fill: options.axisLabelColor,
+      maxWidth: options.axesWidth * 0.8
     } );
     var horizontalAxisLabelNode = new Node( {
       children: [ horizontalAxisTopLabelNode, horizontalAxisBottomLabelNode ]

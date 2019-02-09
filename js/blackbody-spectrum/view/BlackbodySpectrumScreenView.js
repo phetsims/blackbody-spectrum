@@ -69,7 +69,8 @@ define( function( require ) {
     var thermometerLabel = new RichText( blackbodyTemperatureString, {
       font: LABEL_FONT,
       fill: TITLE_COLOR,
-      align: 'center'
+      align: 'center',
+      maxWidth: 200
     } );
 
     // A text node that reflects the temperature of the slider or main model
@@ -82,9 +83,9 @@ define( function( require ) {
     var circleBlue = new Circle( CIRCLE_RADIUS );
     var circleGreen = new Circle( CIRCLE_RADIUS );
     var circleRed = new Circle( CIRCLE_RADIUS );
-    var circleBlueLabel = new Text( bString, { font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR } );
-    var circleGreenLabel = new Text( gString, { font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR } );
-    var circleRedLabel = new Text( rString, { font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR } );
+    var circleBlueLabel = new Text( bString, { font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR, maxWidth: 20 } );
+    var circleGreenLabel = new Text( gString, { font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR, maxWidth: 20 } );
+    var circleRedLabel = new Text( rString, { font: LABEL_FONT, fill: CIRCLE_LABEL_COLOR, maxWidth: 20 } );
     var glowingStarHalo = new Circle( 10 );
     var starPath = new Path(
       new StarShape( {
