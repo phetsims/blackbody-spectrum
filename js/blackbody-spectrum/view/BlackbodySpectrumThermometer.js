@@ -85,7 +85,7 @@ define( function( require ) {
 
         // Clamp to make sure wavelength property is within graph bounds
         temperatureProperty.value = Util.clamp(
-          self.heightToTemperature( -y ),
+          self.yPosToTemperature( -y ),
           options.minTemperature,
           options.maxTemperature
         );
@@ -98,7 +98,7 @@ define( function( require ) {
 
     this.triangleNode.rotation = -Math.PI / 2;
     this.triangleNode.left = options.tubeWidth / 2;
-    this.triangleNode.centerY = -this.temperatureToHeight( TICK_MARKS[ 1 ].temperature );
+    this.triangleNode.centerY = -this.temperatureToYPos( TICK_MARKS[ 1 ].temperature );
   }
 
   blackbodySpectrum.register( 'BlackbodySpectrumThermometer', BlackbodySpectrumThermometer );
@@ -110,7 +110,7 @@ define( function( require ) {
      * @public
      */
     reset: function() {
-      this.triangleNode.centerY = -this.temperatureToHeight( TICK_MARKS[ 1 ].temperature );
+      this.triangleNode.centerY = -this.temperatureToYPos( TICK_MARKS[ 1 ].temperature );
       this.triangleNode.reset();
     },
 
@@ -121,7 +121,7 @@ define( function( require ) {
      * @param {Object} options - options that were provided to BlackbodySpectrumThermometer constructor
      */
     createLabeledTick: function( text, temperature, options ) {
-      var objectHeight = -this.temperatureToHeight( temperature );
+      var objectHeight = -this.temperatureToYPos( temperature );
       var tickMarkLength = options.tubeWidth * 0.5;
 
       var shape = new Shape();
@@ -152,7 +152,7 @@ define( function( require ) {
      */
     updateThumb: function( temperatureProperty, options ) {
       this.triangleNode.left = options.tubeWidth / 2;
-      this.triangleNode.centerY = -this.temperatureToHeight( temperatureProperty.value );
+      this.triangleNode.centerY = -this.temperatureToYPos( temperatureProperty.value );
     }
   } );
 
