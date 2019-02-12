@@ -93,21 +93,17 @@ define( function( require ) {
     } );
 
     // Sets up the drag handler for the point circle and vertical dashed line
-    var mouseStartX;
-    var circleStartX;
+    var clickXOffset;
     var graphValueDragHandler = new SimpleDragHandler( {
       start: function( event ) {
-        mouseStartX = event.pointer.point.x;
-        circleStartX = self.graphPointCircle.centerX;
+        clickXOffset = self.graphPointCircle.globalToParentPoint( event.pointer.point ).x - self.graphPointCircle.x;
       },
       drag: function( event ) {
-        var horizontalChange = event.pointer.point.x - mouseStartX;
-
-        self.wavelengthProperty.value = self.axes.viewXToWavelength( circleStartX + ( 0.818 * horizontalChange ) );
+        var x = self.graphPointCircle.globalToParentPoint( event.pointer.point ).x - clickXOffset;
 
         // Clamp to make sure wavelength property is within graph bounds
         self.wavelengthProperty.value = Util.clamp(
-          self.wavelengthProperty.value,
+          self.axes.viewXToWavelength( x ),
           0,
           self.axes.viewXToWavelength( self.axes.horizontalAxisLength )
         );
