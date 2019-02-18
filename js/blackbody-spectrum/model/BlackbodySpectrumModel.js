@@ -33,6 +33,8 @@ define( function( require ) {
     this.labelsVisibleProperty = new BooleanProperty( false );
 
     // @public {BlackbodyBodyModel} the main body for the simulation
+    // REVIEW: the significant of 5778 should be documented. On second thought, it looks like it's used elsewhere as the
+    // temperature of the sun, so it should be pulled out as a constant for both use cases.
     this.mainBody = new BlackbodyBodyModel( this, 5778 );
 
     // @public {ObservableArray.<BlackbodyBodyModel>} a property for the user's saved blackbodies
