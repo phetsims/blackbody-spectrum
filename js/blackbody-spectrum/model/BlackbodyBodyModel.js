@@ -19,6 +19,8 @@ define( function( require ) {
   // constants
   // colors used for glowing star and circles
   var RED_WAVELENGTH = 650; // red wavelength in nanometers
+  // REVIEW: "gre" and "blu" should be changed to "green" and "blue", respectively. All uses in this file, including
+  // constants, vars, and function names should be updated.
   var GRE_WAVELENGTH = 550; // green wavelength in nanometers
   var BLU_WAVELENGTH = 450; // blue wavelength in nanometers
   var GLOWING_STAR_HALO_MINIMUM_RADIUS = 5; // in pixels
@@ -31,6 +33,7 @@ define( function( require ) {
    * @constructor
    */
   function BlackbodyBodyModel( model, temperature ) {
+
     // @private
     this.model = model;
 
@@ -53,13 +56,14 @@ define( function( require ) {
      * Function that returns the spectral radiance at a given wavelength (in nm)
      * The units of spectral radiance are in megaWatts per meter^2 per micrometer
      * Equation in use is Planck's Law which returns a spectral radiance of a Blackbody given a temperature and wavelength
-     * Plancks law is that spectral radiance = 2hc^2 / ( l^5 * ( e^( hc / lkt ) - 1 ) )
+     * Planck's law is that spectral radiance = 2hc^2 / ( l^5 * ( e^( hc / lkt ) - 1 ) )
      * h is Planck's constant, c is the speed of light, l is wavelength, k is the Boltzmann constant, and t is the temperature
      * @public
      * @param {number} wavelength
      * @returns {number}
      */
     getSpectralRadianceAt: function( wavelength ) {
+
       // Avoiding division by 0
       if ( wavelength === 0 ) {
         return 0;
@@ -67,6 +71,8 @@ define( function( require ) {
 
       var A = 1.191042e-16; // is 2hc^2 in units of watts*m^2/steradian
       var B = 1.438770e7; // is hc/k in units of nanometer-kelvin
+      // REVIEW: The form of the equation below should match what is written in the comment so that it's easier to read
+      // and directly compare to the comment.
       return A / Math.pow( wavelength, 5 ) / ( Math.exp( B / ( wavelength * this.temperatureProperty.value ) ) - 1 );
     },
 
@@ -76,6 +82,9 @@ define( function( require ) {
      * @returns {number}
      */
     getRenormalizedTemperature: function() {
+      // REVIEW: The comment below should be addressed. If a non-hacky solution is still needed, then that should be
+      // investigated and implemented. Otherwise, the comment should be deleted and another added that explains what's
+      // happening.
       /*
        the function below seems very hacky but it was found in MD flash implementation.
        This renormalized temperature is above 0 but it can exceed one.
@@ -84,6 +93,7 @@ define( function( require ) {
       var POWER_EXPONENT = 0.7; // an exponent to calculate the renormalized temperature
       var temperatureMinimum = 700; // temp(K) at which color of the circles and star turns on
       var temperatureMaximum = 3000; // temp(K) at which color of the circles maxes out
+      // REVIEW: expand to multiple lines to stay within 120 characters
       return Math.pow( Math.max( this.temperatureProperty.value - temperatureMinimum, 0 ) / ( temperatureMaximum - temperatureMinimum ), POWER_EXPONENT );
     },
     get renormalizedTemperature() { return this.getRenormalizedTemperature(); },
@@ -91,7 +101,7 @@ define( function( require ) {
     /**
      * Function that returns a color intensity (an integer ranging from 0 to 255) for a given wavelength
      * @private
-     * @param {number} wavelength - in nanometer
+     * @param {number} wavelength - in nanometers
      * @returns {number}
      */
     getRenormalizedColorIntensity: function( wavelength ) {
@@ -168,6 +178,7 @@ define( function( require ) {
      * @returns {number}
      */
     getGlowingStarHaloRadius: function() {
+      // REVIEW: expand to multiple lines to stay within 120 characters
       return Util.linear( 0, 1, GLOWING_STAR_HALO_MINIMUM_RADIUS, GLOWING_STAR_HALO_MAXIMUM_RADIUS, this.renormalizedTemperature ); // temperature -> radius
     },
     get glowingStarHaloRadius() { return this.getGlowingStarHaloRadius(); },
