@@ -59,6 +59,8 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
+  // REVIEW: Unless there is a specific reason why this file's prefix is "BlackBody", it should be changed to
+  // "Blackbody" to match the rest of the use cases.
   function BlackBodySpectrumControlPanel( model, options ) {
 
     options = _.extend( {
