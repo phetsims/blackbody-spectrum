@@ -30,6 +30,7 @@ define( function( require ) {
       { backgroundColorProperty: BlackbodyColorProfile.backgroundProperty }
     );
   }
+
   blackbodySpectrum.register( 'BlackbodySpectrumScreen', BlackbodySpectrumScreen );
 
   return inherit( Screen, BlackbodySpectrumScreen );

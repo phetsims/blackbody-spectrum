@@ -193,7 +193,8 @@ define( function( require ) {
           new HSeparator( DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
           buttons
         ] );
-      } else {
+      }
+      else {
         content.setChildren( [
           checkboxes,
           intensityDisplay,
