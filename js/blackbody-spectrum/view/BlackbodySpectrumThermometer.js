@@ -25,6 +25,7 @@ define( function( require ) {
 
   // string
   var earthString = require( 'string!BLACKBODY_SPECTRUM/earth' );
+  // REVIEW: This var name should be updated once the key name is changed in https://github.com/phetsims/blackbody-spectrum/issues/76
   var lightbulbString = require( 'string!BLACKBODY_SPECTRUM/lightbulb' );
   var siriusString = require( 'string!BLACKBODY_SPECTRUM/sirius' );
   var sunString = require( 'string!BLACKBODY_SPECTRUM/sun' );
@@ -73,6 +74,7 @@ define( function( require ) {
     }
 
     var thumbDimension = new Dimension2( options.thumbSize, options.thumbSize );
+    // REVIEW: Needs doc
     this.triangleNode = new TriangleSliderThumb( { size: thumbDimension } );
 
     var clickYOffset;
@@ -119,6 +121,7 @@ define( function( require ) {
      * @param {string} text
      * @param {number} temperature
      * @param {Object} options - options that were provided to BlackbodySpectrumThermometer constructor
+     * // REVIEW: Needs @returns and visibility annotation
      */
     createLabeledTick: function( text, temperature, options ) {
       var objectHeight = -this.temperatureToYPos( temperature );
@@ -148,6 +151,7 @@ define( function( require ) {
 
     /**
      * Updates the location of the thumb
+     * // REVIEW: Needs @param
      * @public
      */
     updateThumb: function( temperatureProperty, options ) {
