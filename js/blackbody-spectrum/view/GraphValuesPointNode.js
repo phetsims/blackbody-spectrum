@@ -88,7 +88,7 @@ define( function( require ) {
     // Links a change in the body's temperature to always set the wavelength to the peak wavelength
     this.body.temperatureProperty.link( function() {
 
-      // Clamp to make sure wavelength property is within graph bounds
+      // Clamp to make sure wavelength Property is within graph bounds
       self.wavelengthProperty.value = self.body.peakWavelength;
       self.update();
     } );
@@ -102,7 +102,7 @@ define( function( require ) {
       drag: function( event ) {
         var x = self.graphPointCircle.globalToParentPoint( event.pointer.point ).x - clickXOffset;
 
-        // Clamp to make sure wavelength property is within graph bounds
+        // Clamp to make sure wavelength Property is within graph bounds
         self.wavelengthProperty.value = Util.clamp(
           self.axes.viewXToWavelength( x ),
           0,

@@ -172,12 +172,12 @@ define( function( require ) {
     this.minVerticalZoom = options.minVerticalZoom;
     this.maxVerticalZoom = options.maxVerticalZoom;
 
-    // @public Links the horizontal zoom property to update the model for the max wavelength
+    // @public Links the horizontal zoom Property to update the model for the max wavelength
     this.horizontalZoomProperty.link( function( horizontalZoom ) {
       model.wavelengthMax = horizontalZoom;
     } );
 
-    // @public Links the horizontal zoom property to update horizontal ticks and the EM spectrum labels on change
+    // @public Links the horizontal zoom Property to update horizontal ticks and the EM spectrum labels on change
     this.horizontalZoomProperty.link( function() {
       self.redrawHorizontalTicks();
       self.redrawElectromagneticSpectrumLabel();

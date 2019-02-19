@@ -108,7 +108,7 @@ define( function( require ) {
       opacity: 0.9
     } );
 
-    // Links the GraphDrawingNode to update whenever any tracked property changes
+    // Links the GraphDrawingNode to update whenever any tracked Property changes
     function updateAllProcedure() { self.update(); }
 
     model.mainBody.temperatureProperty.link( updateAllProcedure );

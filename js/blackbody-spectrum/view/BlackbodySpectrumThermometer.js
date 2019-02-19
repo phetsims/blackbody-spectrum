@@ -39,7 +39,7 @@ define( function( require ) {
   ];
 
   /**
-   * Constructs a thermometer for the sim given the property for the temperature to track
+   * Constructs a thermometer for the sim given the Property for the temperature to track
    * @param {Property.<number>} temperatureProperty
    * @param {Object} [options]
    * @constructor
@@ -85,7 +85,8 @@ define( function( require ) {
       drag: function( event ) {
         var y = self.triangleNode.globalToParentPoint( event.pointer.point ).y - clickYOffset;
 
-        // Clamp to make sure wavelength property is within graph bounds
+        // REVIEW: temperature Property?
+        // Clamp to make sure wavelength Property is within graph bounds
         temperatureProperty.value = Util.clamp(
           self.yPosToTemperature( -y ),
           options.minTemperature,
