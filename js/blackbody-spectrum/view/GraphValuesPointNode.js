@@ -72,6 +72,7 @@ define( function( require ) {
     this.spectralRadianceValueText = new RichText( '', options.valueTextOptions );
     this.labelOffset = options.labelOffset;
     this.cueingArrows = new Node( {
+      // REVIEW: 15/-15, 40/-40 should be factored out
       children: [ new ArrowNode( 15, 0, 40, 0, options.arrowOptions ), new ArrowNode( -15, 0, -40, 0, options.arrowOptions ) ]
     } );
 
