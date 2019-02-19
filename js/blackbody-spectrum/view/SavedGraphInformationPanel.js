@@ -2,6 +2,7 @@
 
 /**
  * The menu that handles showing saved curve temperatures
+ * // REVIEW: Needs @author annotations
  */
 define( function( require ) {
   'use strict';
@@ -53,6 +54,7 @@ define( function( require ) {
       lineWidth: options.curveLineWidth,
       maxWidth: options.curveWidth
     } );
+    // REVIEW: 'gray' can be pulled out into an option or constant for something like savedCurveStroke
     var primarySavedGenericCurve = new Path( new GenericCurveShape(), {
       stroke: 'gray',
       lineWidth: options.curveLineWidth,
@@ -94,6 +96,7 @@ define( function( require ) {
     } );
 
     // A small local function that takes in a temperature and formats it consistently
+    // REVIEW: Needs JSDoc or line comment for @param and @returns
     function formatTemperature( temperature ) {
       return Util.toFixed( temperature, 0 ) + ' K';
     }
@@ -109,6 +112,7 @@ define( function( require ) {
       self.visible = numberOfSavedBodies > 0;
       secondarySavedTemperatureBox.visible = numberOfSavedBodies > 1;
       if ( numberOfSavedBodies > 0 ) {
+        // REVIEW: the following two lines need to be broken into multiple lines so they're shorter
         primarySavedTemperatureLabel.text = formatTemperature( model.savedBodies.get( numberOfSavedBodies - 1 ).temperatureProperty.value );
         secondarySavedTemperatureLabel.text = formatTemperature( model.savedBodies.get( 0 ).temperatureProperty.value ); // text is set, but this label isn't necessarily visible
       }
