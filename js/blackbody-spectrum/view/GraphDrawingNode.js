@@ -199,7 +199,7 @@ define( function( require ) {
       // Easiest way to implement intensity shape is to copy graph shape and bring down to x-axis
       this.intensityPath.shape = updatedGraphShape.copy();
       var newPoint = new Vector2( this.axes.horizontalAxisLength, 0 );
-      if ( this.intensityPath.shape.getLastPoint().minus( newPoint ).magnitude() > 0 ) {
+      if ( this.intensityPath.shape.getLastPoint().minus( newPoint ).magnitude > 0 ) {
         this.intensityPath.shape.lineToPoint( newPoint );
       }
 
