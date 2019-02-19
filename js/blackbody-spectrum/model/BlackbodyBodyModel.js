@@ -40,6 +40,7 @@ define( function( require ) {
     this.model = model;
 
     // @public {Property.<number>} initial temperature in kelvin
+    // REVIEW: Is there a range of valid temperatures that you could add to this Property?
     this.temperatureProperty = new NumberProperty( temperature );
   }
 

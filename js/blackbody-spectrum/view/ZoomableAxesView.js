@@ -163,6 +163,7 @@ define( function( require ) {
     } );
 
     // @public {Property.<number>} current zoom values
+    // REVIEW: Could you add the zoom bounds below as a range for these Properties?
     this.horizontalZoomProperty = new NumberProperty( options.defaultHorizontalZoom );
     this.verticalZoomProperty = new NumberProperty( options.defaultVerticalZoom );
 

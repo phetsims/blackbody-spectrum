@@ -83,6 +83,7 @@ define( function( require ) {
     this.graphPointCircle.addChild( this.cueingArrows );
 
     // @public {Property.<number>}
+    // REVIEW: Is there a range of valid wavelengths that you could add to this Property?
     this.wavelengthProperty = new NumberProperty( this.body.peakWavelength );
 
     // Links a change in the body's temperature to always set the wavelength to the peak wavelength
