@@ -1,4 +1,4 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2018-2019, University of Colorado Boulder
 
 /**
  * Control panel with Check Boxes that control the graphical properties of the simulation
@@ -59,6 +59,8 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
+  // REVIEW: Unless there is a specific reason why this file's prefix is "BlackBody", it should be changed to
+  // "Blackbody" to match the rest of the use cases.
   function BlackBodySpectrumControlPanel( model, options ) {
 
     options = _.extend( {
@@ -191,7 +193,8 @@ define( function( require ) {
           new HSeparator( DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
           buttons
         ] );
-      } else {
+      }
+      else {
         content.setChildren( [
           checkboxes,
           intensityDisplay,
