@@ -1,7 +1,7 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2018-2019, University of Colorado Boulder
 
 /**
- * Control panel with Check Boxes that control the graphical properties of the simulation
+ * Control panel with Checkboxes that control the graphical properties of the simulation
  *
  * @author Arnab Purkayastha
  * @author Saurabh Totey
@@ -36,6 +36,11 @@ define( function( require ) {
   var intensityString = require( 'string!BLACKBODY_SPECTRUM/intensity' );
   var labelsString = require( 'string!BLACKBODY_SPECTRUM/labels' );
 
+  // REVIEW: Given their current usages, DISPLAY_FONT, CHECKBOX_TEXT_FILL, CHECKBOX_TEXT_WIDTH, CONTROL_PANEL_FILL,
+  // CHECKBOX_COLOR, INTENSITY_TEXT_OPTIONS, INTENSITY_TEXT_BOX_STROKE, and INTENSITY_TEXT_BOX_FILL don't seem like they
+  // need to be file constants. CONTROL_PANEL_FILL can be moved to the options block, and the rest can be omitted if
+  // they are only used in one place. Maybe omit INTENSITY_TEXT_OPTIONS and then DISPLAY_FONT and CHECKBOX_TEXT_FILL
+  // would be used in two places.
   // constants
   var DISPLAY_FONT = new PhetFont( 18 );
   var CHECKBOX_TEXT_FILL = BlackbodyColorProfile.panelTextProperty;
@@ -45,7 +50,7 @@ define( function( require ) {
   var CHECKBOX_TOUCH_DILATION = 6;
   var BUTTON_ICON_WIDTH = 35;
   var BUTTON_TOUCH_DILATION = 6;
-  var DEFAULT_WIDTH = 140;
+  var DEFAULT_WIDTH = 140; // REVIEW: Default width of what? Improve var name or add comment.
   var INTENSITY_TEXT_OPTIONS = {
     font: new PhetFont( 18 ),
     fill: BlackbodyColorProfile.panelTextProperty
@@ -59,6 +64,8 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
+  // REVIEW: Unless there is a specific reason why this file's prefix is "BlackBody", it should be changed to
+  // "Blackbody" to match the rest of the use cases.
   function BlackBodySpectrumControlPanel( model, options ) {
 
     options = _.extend( {
@@ -191,7 +198,8 @@ define( function( require ) {
           new HSeparator( DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
           buttons
         ] );
-      } else {
+      }
+      else {
         content.setChildren( [
           checkboxes,
           intensityDisplay,

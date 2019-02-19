@@ -1,4 +1,4 @@
-// Copyright 2014-2018, University of Colorado Boulder
+// Copyright 2014-2019, University of Colorado Boulder
 
 /**
  * The 'Blackbody Spectrum' screen, which shows everything in that screen.
@@ -30,6 +30,7 @@ define( function( require ) {
       { backgroundColorProperty: BlackbodyColorProfile.backgroundProperty }
     );
   }
+
   blackbodySpectrum.register( 'BlackbodySpectrumScreen', BlackbodySpectrumScreen );
 
   return inherit( Screen, BlackbodySpectrumScreen );
