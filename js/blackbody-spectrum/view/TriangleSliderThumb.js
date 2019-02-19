@@ -21,6 +21,7 @@ define( function( require ) {
   var Shape = require( 'KITE/Shape' );
 
   // constants
+  // REVIEW: Probably only needs to be a local var by this.cueingArrows
   var ARROW_OPTIONS = {
     fill: '#64dc64',
     headHeight: 15,
@@ -61,11 +62,13 @@ define( function( require ) {
       .lineTo( arrowHalfWidth, arrowHalfLength )
       .close();
 
+    // REVIEW: Needs doc and visibility annotation
     this.dashedLinesPath = new Path( null, options.dashedLineOptions );
     this.dashedLinesPath.shape = new Shape()
       .moveTo( 0, -arrowHalfLength )
       .lineTo( 0, -2.5 * arrowHalfLength );
 
+    // REVIEW: Needs visibility annotation
     // Arrows that will disappear after first click
     this.cueingArrows = new Node( {
       children: [ new ArrowNode( 15, 0, 40, 0, ARROW_OPTIONS ), new ArrowNode( -15, 0, -40, 0, ARROW_OPTIONS ) ]
@@ -89,8 +92,8 @@ define( function( require ) {
     this.addChild( this.cueingArrows );
     this.addChild( this.dashedLinesPath );
 
+    // REVIEW: Needs doc and visibility annotation
     this.touchArea = this.localBounds.dilatedY( 5 );
-
   }
 
   blackbodySpectrum.register( 'TriangleSliderThumb', TriangleSliderThumb );
