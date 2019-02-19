@@ -137,6 +137,7 @@ define( function( require ) {
     this.minorTicksPerMajorTick = options.minorTicksPerMajorTick;
     this.minorTickLength = options.minorTickLength;
     this.majorTickLength = options.majorTickLength;
+    // REVIEW: Is this used for anything?
     this.minorTickMaxHorizontalZoom = options.minorTickMaxHorizontalZoom;
 
     // Labels for the axes
@@ -146,6 +147,7 @@ define( function( require ) {
       rotation: -Math.PI / 2,
       maxWidth: options.axesHeight
     } );
+    // REVIEW: These maxWidths can be pulled out to a var
     var horizontalAxisTopLabelNode = new Text( horizontalLabelWavelengthString, {
       font: new PhetFont( 24 ),
       fill: options.axisLabelColor,
@@ -302,6 +304,7 @@ define( function( require ) {
     },
 
     /**
+     * REVIEW: Missing @returns
      * Converts a given wavelength in nm to an x distance along the view
      * @param {number} wavelength
      * @public
@@ -311,6 +314,7 @@ define( function( require ) {
     },
 
     /**
+     * REVIEW: Missing @returns
      * Converts a given x distance along the view to a wavelength in nm
      * @param {number} viewX
      * @public
@@ -320,6 +324,7 @@ define( function( require ) {
     },
 
     /**
+     * REVIEW: Missing @returns
      * Converts a given spectral radiance to a y distance along the view
      * @param {number} spectralRadiance
      * @public
@@ -330,6 +335,7 @@ define( function( require ) {
     },
 
     /**
+     * REVIEW: Missing @returns
      * Converts a given y distance along the view to a spectral radiance
      * @param {number} viewY
      * @public
@@ -362,7 +368,7 @@ define( function( require ) {
     },
 
     /**
-     * Zoooms the vertical axis in
+     * Zooms the vertical axis in
      * @public
      */
     zoomInVertical: function() {
@@ -408,6 +414,8 @@ define( function( require ) {
     },
 
     /**
+     * REVIEW: PhET conventions say that sigfigs should probably be significantFigures, but sig figs is a pretty common
+     * term, so I'll leave that decision to you. It should probably at least be sigFigs.
      * Sets sigfigs of a number, then truncates to decimal limit
      * Returns number as a string
      * @param {number} value

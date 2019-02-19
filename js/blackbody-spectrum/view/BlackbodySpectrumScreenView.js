@@ -130,7 +130,7 @@ define( function( require ) {
     var savedInformationPanel = new SavedGraphInformationPanel( model, { minWidth: controlPanel.width } );
 
     // REVIEW: I think it would make a little more sense for the addChild()s to happen after the node positioning, but
-    // perhaps it doesn't matter.
+    // perhaps it doesn't matter. If you make the change, follow the same pattern in the other few cases in this sim.
     // rendering order
     this.addChild( graphNode );
     this.addChild( controlPanel );
