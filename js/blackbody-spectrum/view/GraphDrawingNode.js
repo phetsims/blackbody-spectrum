@@ -29,11 +29,12 @@ define( function( require ) {
   var ULTRAVIOLET_WAVELENGTH = 400; // in nm, max bounds for the uv part of the electromagnetic spectrum
   var VISIBLE_WAVELENGTH = 705; // in nm, max bounds for the visible part of the electromagnetic spectrum
   var GRAPH_NUMBER_POINTS = 300; // number of points blackbody curve is evaluated at
+  // REVIEW: Only seeing one usage of ZOOM_BUTTON_ICON_RADIUS, it's probably not needed
   var ZOOM_BUTTON_ICON_RADIUS = 8; // size of zoom buttons
 
   /**
    * The node that handles keeping all of the graph elements together and working
-   * @param {BlackbodySpectrumModel}  model - model for the entire screen
+   * @param {BlackbodySpectrumModel} model - model for the entire screen
    * @param {Object} options
    * @constructor
    */
@@ -52,6 +53,7 @@ define( function( require ) {
     }, options );
 
     Node.call( this );
+    // REVIEW: Needs visibility annotation
     this.model = model;
 
     // @private The axes with the ticks and EM spectrum labels
@@ -86,6 +88,7 @@ define( function( require ) {
     } );
 
     // Zoom Buttons
+    // REVIEW: Needs visibility annotation
     this.horizontalZoomInButton = createZoomButton( true, function() { self.axes.zoomInHorizontal(); } );
     this.horizontalZoomOutButton = createZoomButton( false, function() { self.axes.zoomOutHorizontal(); } );
     this.verticalZoomInButton = createZoomButton( true, function() { self.axes.zoomInVertical(); } );
@@ -97,6 +100,7 @@ define( function( require ) {
     var infraredPosition = this.axes.wavelengthToViewX( VISIBLE_WAVELENGTH );
     var ultravioletPosition = this.axes.wavelengthToViewX( ULTRAVIOLET_WAVELENGTH );
     var spectrumWidth = infraredPosition - ultravioletPosition;
+    // REVIEW: Needs visibility annotation
     this.wavelengthSpectrumNode = new WavelengthSpectrumNode( {
       size: new Dimension2( spectrumWidth, this.axes.verticalAxisLength ),
       minWavelength: ULTRAVIOLET_WAVELENGTH,
@@ -112,6 +116,7 @@ define( function( require ) {
     this.axes.verticalZoomProperty.link( updateAllProcedure );
     this.model.savedBodies.lengthProperty.link( updateAllProcedure );
 
+    // REVIEW: See comment in similar place in BlackbodySpectrumScreenView
     // Adds children in rendering order
     this.addChild( this.wavelengthSpectrumNode );
     this.addChild( this.intensityPath );
@@ -137,6 +142,7 @@ define( function( require ) {
   }
 
   // Helper function for creating zoom buttons with repeated options
+  // REVIEW: needs JSDoc for @param and @returns
   function createZoomButton( type, listener ) {
     return new ZoomButton( {
       in: type,
@@ -163,6 +169,7 @@ define( function( require ) {
 
     /**
      * Gets the shape of a given BlackbodyBodyModel
+     * REVIEW: Needs @returns annotation
      * @param {BlackbodyBodyModel} body
      * @private
      */
@@ -190,6 +197,7 @@ define( function( require ) {
 
     /**
      * Updates the saved and main graph paths as well as their corresponding text boxes or intensity paths
+     * @private
      */
     updateGraphPaths: function() {
       // Updates the main graph
@@ -234,6 +242,7 @@ define( function( require ) {
 
     /**
      * Updates everything in the graph drawing node
+     * REVIEW: Needs visibility annotation
      */
     update: function() {
       var verticalZoom = this.axes.verticalZoomProperty.value;
