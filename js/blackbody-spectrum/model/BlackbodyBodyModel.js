@@ -28,6 +28,8 @@ define( function( require ) {
 
   /**
    * Constructs a Blackbody body at the given temperature
+   * REVIEW: Maybe I'm missing something, but it seems like model isn't needed in this type at all. I commented out the
+   * param, and the corresponding args in the two uses of new BlackbodyBodyModel(), and the sim still worked fine.
    * @param {BlackbodySpectrumModel} model
    * @param {number} temperature
    * @constructor

@@ -22,6 +22,7 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   /**
+   * REVIEW: It might be better to just pass in mainBody and savedBodies instead of the whole model, but up to you
    * Makes a SavedGraphInformationPanel given a model that has saved bodies
    * @param {BlackbodySpectrumModel} model
    * @param {Object} [options]
