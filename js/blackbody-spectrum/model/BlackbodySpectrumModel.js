@@ -53,6 +53,7 @@ define( function( require ) {
 
     /**
      * Resets all of the model's settings and bodies
+     * REVIEW: Needs visibility annotation
      */
     reset: function() {
       this.graphValuesVisibleProperty.reset();
@@ -64,6 +65,7 @@ define( function( require ) {
 
     /**
      * Saves the main body
+     * REVIEW: Needs visibility annotation
      */
     saveMainBody: function() {
       this.savedBodies.add( new BlackbodyBodyModel( this, this.mainBody.temperatureProperty.value ) );
@@ -74,6 +76,7 @@ define( function( require ) {
 
     /**
      * A function that clears saved graphs
+     * REVIEW: Needs visibility annotation
      */
     clearSavedGraphs: function() {
       this.savedBodies.clear();
