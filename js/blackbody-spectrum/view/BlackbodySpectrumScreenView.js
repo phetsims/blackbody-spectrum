@@ -41,6 +41,7 @@ define( function( require ) {
   var CIRCLE_LABEL_COLOR = BlackbodyColorProfile.titlesTextProperty;
   var CIRCLE_RADIUS = 15;
   var LABEL_FONT = new PhetFont( 22 );
+  // REVIEW: Looks like the rest of these except INSET are only used once and probably don't need to be file constants
   var TEMPERATURE_FONT = new PhetFont( { size: 22, weight: 'bold' } );
   var TITLE_COLOR = BlackbodyColorProfile.titlesTextProperty;
   var TEMPERATURE_COLOR = BlackbodyColorProfile.temperatureTextProperty;
@@ -55,7 +56,8 @@ define( function( require ) {
    * @constructor
    */
   function BlackbodySpectrumScreenView( model ) {
-
+    // REVIEW: These hardcoded layout bounds are the same as default in ScreenView, so they aren't overriding anything
+    // and can be omitted
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 1024, 618 ) } );
 
     var blackbodySpectrumThermometer = new BlackbodySpectrumThermometer( model.mainBody.temperatureProperty );
@@ -127,6 +129,8 @@ define( function( require ) {
     var controlPanel = new BlackBodySpectrumControlPanel( model );
     var savedInformationPanel = new SavedGraphInformationPanel( model, { minWidth: controlPanel.width } );
 
+    // REVIEW: I think it would make a little more sense for the addChild()s to happen after the node positioning, but
+    // perhaps it doesn't matter.
     // rendering order
     this.addChild( graphNode );
     this.addChild( controlPanel );
@@ -144,6 +148,8 @@ define( function( require ) {
     this.addChild( circleRedLabel );
     this.addChild( resetAllButton );
 
+    // REVIEW: some of the magic positioning numbers match - if they are related, e.g. circleBlue.centerX + 50 and
+    // circleGreen.centerX + 50, then 50 should be a var like circleXSpacing or something
     // layout for things that don't have a location in the model
     graphNode.left = INSET;
     graphNode.bottom = this.layoutBounds.maxY - INSET;

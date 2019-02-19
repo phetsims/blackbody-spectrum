@@ -20,7 +20,7 @@ define( function( require ) {
   // colors used for glowing star and circles
   var RED_WAVELENGTH = 650; // red wavelength in nanometers
   // REVIEW: "gre" and "blu" should be changed to "green" and "blue", respectively. All uses in this file, including
-  // constants, vars, and function names should be updated.
+  // constants, vars, and function names should be updated. I'm seeing uses in BlackbodySpectrumScreenView as well.
   var GRE_WAVELENGTH = 550; // green wavelength in nanometers
   var BLU_WAVELENGTH = 450; // blue wavelength in nanometers
   var GLOWING_STAR_HALO_MINIMUM_RADIUS = 5; // in pixels
