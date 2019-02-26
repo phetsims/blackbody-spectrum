@@ -73,7 +73,7 @@ define( function( require ) {
       font: LABEL_FONT,
       fill: TITLE_COLOR,
       align: 'center',
-      maxWidth: 200
+      maxWidth: 130
     } );
 
     // A text node that reflects the temperature of the slider or main model
