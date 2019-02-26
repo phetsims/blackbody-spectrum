@@ -2,10 +2,10 @@
   "blackbody-spectrum.title": {
     "value": "Blackbody Spectrum"
   },
-  "verticalLabelSpectralRadiance": {
+  "spectralRadianceLabel": {
     "value": "Spectral Radiance (MW/m²/µm)"
   },
-  "horizontalLabelWavelength": {
+  "wavelengthLabel": {
     "value": "Wavelength (µm)"
   },
   "subtitleLabel": {
@@ -20,14 +20,14 @@
   "r": {
     "value": "R"
   },
-  "sirius": {
+  "siriusA": {
     "value": "Sirius A"
   },
   "sun": {
     "value": "Sun"
   },
-  "lightbulb": {
-    "value": "Lightbulb"
+  "lightBulb": {
+    "value": "Light Bulb"
   },
   "earth": {
     "value": "Earth"
@@ -47,19 +47,19 @@
   "labels": {
     "value": "Labels"
   },
-  "intensityLabelPattern": {
+  "intensityUnitsLabel": {
     "value": "{{intensity}} W/m<sup>2</sup>"
   },
-  "xrayLabel": {
+  "xRay": {
     "value": "X-Ray"
   },
-  "ultravioletLabel": {
+  "ultraviolet": {
     "value": "Ultraviolet"
   },
-  "visibleLabel": {
+  "visible": {
     "value": "Visible"
   },
-  "infraredLabel": {
+  "infrared": {
     "value": "Infrared"
   }
 }

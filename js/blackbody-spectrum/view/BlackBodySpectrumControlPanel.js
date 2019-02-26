@@ -32,7 +32,7 @@ define( function( require ) {
 
   // strings
   var graphValuesString = require( 'string!BLACKBODY_SPECTRUM/graphValues' );
-  var intensityLabelPatternString = require( 'string!BLACKBODY_SPECTRUM/intensityLabelPattern' );
+  var intensityUnitsLabelString = require( 'string!BLACKBODY_SPECTRUM/intensityUnitsLabel' );
   var intensityString = require( 'string!BLACKBODY_SPECTRUM/intensity' );
   var labelsString = require( 'string!BLACKBODY_SPECTRUM/labels' );
 
@@ -142,7 +142,7 @@ define( function( require ) {
       if ( notationObject.exponent !== '0' ) {
         formattedString += ' X 10<sup>' + notationObject.exponent + '</sup>';
       }
-      intensityText.text = StringUtils.fillIn( intensityLabelPatternString, { intensity: formattedString } );
+      intensityText.text = StringUtils.fillIn( intensityUnitsLabelString, { intensity: formattedString } );
 
       // Updates positions and sizes
       intensityTextBox.setRect( 0, 0, intensityText.width + 20, intensityText.height + 10, 0, 0 );

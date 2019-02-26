@@ -26,15 +26,15 @@ define( function( require ) {
   // string
   var earthString = require( 'string!BLACKBODY_SPECTRUM/earth' );
   // REVIEW: This var name should be updated once the key name is changed in https://github.com/phetsims/blackbody-spectrum/issues/76
-  var lightbulbString = require( 'string!BLACKBODY_SPECTRUM/lightbulb' );
-  var siriusString = require( 'string!BLACKBODY_SPECTRUM/sirius' );
+  var lightBulbString = require( 'string!BLACKBODY_SPECTRUM/lightBulb' );
+  var siriusAString = require( 'string!BLACKBODY_SPECTRUM/siriusA' );
   var sunString = require( 'string!BLACKBODY_SPECTRUM/sun' );
 
   // constants
   var TICK_MARKS = [
-    { text: siriusString, temperature: 9940 },
+    { text: siriusAString, temperature: 9940 },
     { text: sunString, temperature: 5778 },
-    { text: lightbulbString, temperature: 3000 },
+    { text: lightBulbString, temperature: 3000 },
     { text: earthString, temperature: 300 }
   ];
 

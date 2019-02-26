@@ -32,20 +32,20 @@ define( function( require ) {
   var SPECTRAL_RADIANCE_CONVERSION_FACTOR = 1e33;
 
   // strings
-  var horizontalLabelWavelengthString = require( 'string!BLACKBODY_SPECTRUM/horizontalLabelWavelength' );
+  var wavelengthLabelString = require( 'string!BLACKBODY_SPECTRUM/wavelengthLabel' );
   var subtitleLabelString = require( 'string!BLACKBODY_SPECTRUM/subtitleLabel' );
-  var verticalLabelSpectralRadianceString = require( 'string!BLACKBODY_SPECTRUM/verticalLabelSpectralRadiance' );
-  var xrayLabelString = require( 'string!BLACKBODY_SPECTRUM/xrayLabel' );
-  var ultravioletLabelString = require( 'string!BLACKBODY_SPECTRUM/ultravioletLabel' );
-  var visibleLabelString = require( 'string!BLACKBODY_SPECTRUM/visibleLabel' );
-  var infraredLabelString = require( 'string!BLACKBODY_SPECTRUM/infraredLabel' );
+  var spectralRadianceLabelString = require( 'string!BLACKBODY_SPECTRUM/spectralRadianceLabel' );
+  var xRayString = require( 'string!BLACKBODY_SPECTRUM/xRay' );
+  var ultravioletString = require( 'string!BLACKBODY_SPECTRUM/ultraviolet' );
+  var visibleString = require( 'string!BLACKBODY_SPECTRUM/visible' );
+  var infraredString = require( 'string!BLACKBODY_SPECTRUM/infrared' );
 
   // Max wavelengths for each region of the electromagnetic spectrum in nm, type Object
   var ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS = {};
-  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ xrayLabelString ] = 10;
-  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ ultravioletLabelString ] = 400;
-  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ visibleLabelString ] = 700;
-  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ infraredLabelString ] = 100000;
+  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ xRayString ] = 10;
+  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ ultravioletString ] = 400;
+  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ visibleString ] = 700;
+  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ infraredString ] = 100000;
 
   /**
    * Makes a ZoomableAxesView
@@ -141,14 +141,14 @@ define( function( require ) {
     this.minorTickMaxHorizontalZoom = options.minorTickMaxHorizontalZoom;
 
     // Labels for the axes
-    var verticalAxisLabelNode = new Text( verticalLabelSpectralRadianceString, {
+    var verticalAxisLabelNode = new Text( spectralRadianceLabelString, {
       font: new PhetFont( 26 ),
       fill: options.axisLabelColor,
       rotation: -Math.PI / 2,
       maxWidth: options.axesHeight
     } );
     // REVIEW: These maxWidths can be pulled out to a var
-    var horizontalAxisTopLabelNode = new Text( horizontalLabelWavelengthString, {
+    var horizontalAxisTopLabelNode = new Text( wavelengthLabelString, {
       font: new PhetFont( 24 ),
       fill: options.axisLabelColor,
       maxWidth: options.axesWidth * 0.8
