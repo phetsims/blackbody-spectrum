@@ -211,8 +211,9 @@ define( function( require ) {
         this.intensityPath.shape.lineToPoint( newPoint );
       }
 
-      // Clips the paths to the axes bounds
-      var clipShape = Shape.rectangle( 0, 0, this.axes.horizontalAxisLength, -this.axes.verticalAxisLength );
+      // Clips the paths to the axes bounds, pushed shape down 1 pixel to prevent performance degradation when clipping
+      // at low temperatures
+      var clipShape = Shape.rectangle( 0, 1, this.axes.horizontalAxisLength, -this.axes.verticalAxisLength );
       this.mainGraph.shape = this.mainGraph.shape.shapeClip( clipShape );
 
       // Updates the saved graph(s)
