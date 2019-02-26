@@ -35,6 +35,9 @@
   "blackbodyTemperature": {
     "value": "Blackbody<br>Temperature"
   },
+  "kelvinUnits": {
+    "value": "K"
+  },
   "graphValues": {
     "value": "Graph Values"
   },

@@ -33,6 +33,7 @@ define( function( require ) {
 
   // strings
   var blackbodyTemperatureString = require( 'string!BLACKBODY_SPECTRUM/blackbodyTemperature' );
+  var kelvinUnitsString = require( 'string!BLACKBODY_SPECTRUM/kelvinUnits' );
   var bString = require( 'string!BLACKBODY_SPECTRUM/b' );
   var gString = require( 'string!BLACKBODY_SPECTRUM/g' );
   var rString = require( 'string!BLACKBODY_SPECTRUM/r' );
@@ -109,7 +110,7 @@ define( function( require ) {
       glowingStarHalo.fill = model.mainBody.glowingStarHaloColor;
       glowingStarHalo.radius = model.mainBody.glowingStarHaloRadius;
       starPath.fill = model.mainBody.starColor;
-      temperatureText.text = Util.toFixed( temperature, 0 ) + ' K';
+      temperatureText.text = Util.toFixed( temperature, 0 ) + ' ' + kelvinUnitsString;
       temperatureText.centerX = blackbodySpectrumThermometer.right - 55; // In case the size of the temperature text changes
     } );
 
