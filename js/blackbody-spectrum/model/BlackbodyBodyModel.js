@@ -5,6 +5,7 @@
  *
  * @author Martin Veillette (Berea College)
  * @author Saurabh Totey
+ * @author Arnab Purkayastha
  */
 define( function( require ) {
 	'use strict';
@@ -14,6 +15,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
   var NumberProperty = require( 'AXON/NumberProperty' );
+  var Range = require( 'DOT/Range' );
   var Util = require( 'DOT/Util' );
 
   // constants
@@ -24,7 +26,7 @@ define( function( require ) {
   var GRE_WAVELENGTH = 550; // green wavelength in nanometers
   var BLU_WAVELENGTH = 450; // blue wavelength in nanometers
   var GLOWING_STAR_HALO_MINIMUM_RADIUS = 5; // in pixels
-  var GLOWING_STAR_HALO_MAXIMUM_RADIUS = 40; // in pixels
+  var GLOWING_STAR_HALO_MAXIMUM_RADIUS = 100; // in pixels
 
   /**
    * Constructs a Blackbody body at the given temperature
@@ -40,8 +42,7 @@ define( function( require ) {
     this.model = model;
 
     // @public {Property.<number>} initial temperature in kelvin
-    // REVIEW: Is there a range of valid temperatures that you could add to this Property?
-    this.temperatureProperty = new NumberProperty( temperature );
+    this.temperatureProperty = new NumberProperty( temperature, { range: new Range( 0, 1e6 ) } );
   }
 
   blackbodySpectrum.register( 'BlackbodyBodyModel', BlackbodyBodyModel );
@@ -75,30 +76,25 @@ define( function( require ) {
 
       var A = 1.191042e-16; // is 2hc^2 in units of watts*m^2/steradian
       var B = 1.438770e7; // is hc/k in units of nanometer-kelvin
-      // REVIEW: The form of the equation below should match what is written in the comment so that it's easier to read
-      // and directly compare to the comment.
-      return A / Math.pow( wavelength, 5 ) / ( Math.exp( B / ( wavelength * this.temperatureProperty.value ) ) - 1 );
+      return A / ( Math.pow( wavelength, 5 ) * ( Math.exp( B / ( wavelength * this.temperatureProperty.value ) ) - 1 ) );
     },
 
     /**
      * Returns a dimensionless temperature parameter
+     * Equation uses a standard normalization function with an additional power exponent to help low temperatures be
+     * more visible.
      * @private
      * @returns {number}
      */
     getRenormalizedTemperature: function() {
-      // REVIEW: The comment below should be addressed. If a non-hacky solution is still needed, then that should be
-      // investigated and implemented. Otherwise, the comment should be deleted and another added that explains what's
-      // happening.
-      /*
-       the function below seems very hacky but it was found in MD flash implementation.
-       This renormalized temperature is above 0 but it can exceed one.
-       I dont know why you would want to raise it to a power of 0.7
-       */
-      var POWER_EXPONENT = 0.7; // an exponent to calculate the renormalized temperature
-      var temperatureMinimum = 700; // temp(K) at which color of the circles and star turns on
-      var temperatureMaximum = 3000; // temp(K) at which color of the circles maxes out
-      // REVIEW: expand to multiple lines to stay within 120 characters
-      return Math.pow( Math.max( this.temperatureProperty.value - temperatureMinimum, 0 ) / ( temperatureMaximum - temperatureMinimum ), POWER_EXPONENT );
+      var POWER_EXPONENT = 0.7; // used to create a more significant difference in normalized temperature near minimum
+      var temperatureMinimum = 270; // temp(K) at which color of the circles and star turns on
+      var temperatureMaximum = 11000; // temp(K) at which color of the circles maxes out
+      return Math.pow(
+        Math.max( this.temperatureProperty.value - temperatureMinimum, 0 ) /
+        ( temperatureMaximum - temperatureMinimum ),
+        POWER_EXPONENT
+      );
     },
     get renormalizedTemperature() { return this.getRenormalizedTemperature(); },
 
@@ -114,7 +110,7 @@ define( function( require ) {
       var blu = this.getSpectralRadianceAt( BLU_WAVELENGTH );
       var largestColorIntensity = Math.max( red, gre, blu );
       var colorIntensity = this.getSpectralRadianceAt( wavelength );
-      var boundedRenormalizedTemp = Math.min( this.renormalizedTemperature, 1 );
+      var boundedRenormalizedTemp = Math.min( this.renormalizedTemperature * 1.5, 1 );
       return Math.floor( 255 * boundedRenormalizedTemp * colorIntensity / largestColorIntensity );
     },
 
@@ -194,7 +190,7 @@ define( function( require ) {
      * @returns {Color}
      */
     getGlowingStarHaloColor: function() {
-      var alpha = Util.linear( 0, 1, 0, 0.1, this.renormalizedTemperature ); // temperature -> transparency
+      var alpha = Util.linear( 0, 1, 0, 0.3, this.renormalizedTemperature ); // temperature -> transparency
       return this.starColor.withAlpha( alpha );
     },
     get glowingStarHaloColor() { return this.getGlowingStarHaloColor(); },
