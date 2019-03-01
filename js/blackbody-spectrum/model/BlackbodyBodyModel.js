@@ -21,8 +21,6 @@ define( function( require ) {
   // constants
   // colors used for glowing star and circles
   var RED_WAVELENGTH = 650; // red wavelength in nanometers
-  // REVIEW: "gre" and "blu" should be changed to "green" and "blue", respectively. All uses in this file, including
-  // constants, vars, and function names should be updated. I'm seeing uses in BlackbodySpectrumScreenView as well.
   var GREEN_WAVELENGTH = 550; // green wavelength in nanometers
   var BLUE_WAVELENGTH = 450; // blue wavelength in nanometers
   var GLOWING_STAR_HALO_MINIMUM_RADIUS = 5; // in pixels
@@ -178,8 +176,13 @@ define( function( require ) {
      * @returns {number}
      */
     getGlowingStarHaloRadius: function() {
-      // REVIEW: expand to multiple lines to stay within 120 characters
-      return Util.linear( 0, 1, GLOWING_STAR_HALO_MINIMUM_RADIUS, GLOWING_STAR_HALO_MAXIMUM_RADIUS, this.renormalizedTemperature ); // temperature -> radius
+      return Util.linear(
+        0,
+        1,
+        GLOWING_STAR_HALO_MINIMUM_RADIUS,
+        GLOWING_STAR_HALO_MAXIMUM_RADIUS,
+        this.renormalizedTemperature
+      );
     },
     get glowingStarHaloRadius() { return this.getGlowingStarHaloRadius(); },
 
