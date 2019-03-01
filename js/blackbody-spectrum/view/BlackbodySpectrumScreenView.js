@@ -104,8 +104,8 @@ define( function( require ) {
 
     // Links the current temperature to the RGB indicators and the temperature text along the TriangleSliderThumb
     model.mainBody.temperatureProperty.link( function( temperature ) {
-      circleBlue.fill = model.mainBody.bluColor;
-      circleGreen.fill = model.mainBody.greColor;
+      circleBlue.fill = model.mainBody.blueColor;
+      circleGreen.fill = model.mainBody.greenColor;
       circleRed.fill = model.mainBody.redColor;
       glowingStarHalo.fill = model.mainBody.glowingStarHaloColor;
       glowingStarHalo.radius = model.mainBody.glowingStarHaloRadius;

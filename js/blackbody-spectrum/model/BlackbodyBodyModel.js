@@ -8,7 +8,7 @@
  * @author Arnab Purkayastha
  */
 define( function( require ) {
-	'use strict';
+  'use strict';
 
   // modules
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
@@ -23,8 +23,8 @@ define( function( require ) {
   var RED_WAVELENGTH = 650; // red wavelength in nanometers
   // REVIEW: "gre" and "blu" should be changed to "green" and "blue", respectively. All uses in this file, including
   // constants, vars, and function names should be updated. I'm seeing uses in BlackbodySpectrumScreenView as well.
-  var GRE_WAVELENGTH = 550; // green wavelength in nanometers
-  var BLU_WAVELENGTH = 450; // blue wavelength in nanometers
+  var GREEN_WAVELENGTH = 550; // green wavelength in nanometers
+  var BLUE_WAVELENGTH = 450; // blue wavelength in nanometers
   var GLOWING_STAR_HALO_MINIMUM_RADIUS = 5; // in pixels
   var GLOWING_STAR_HALO_MAXIMUM_RADIUS = 100; // in pixels
 
@@ -106,9 +106,9 @@ define( function( require ) {
      */
     getRenormalizedColorIntensity: function( wavelength ) {
       var red = this.getSpectralRadianceAt( RED_WAVELENGTH ); // intensity as a function of wavelength in nm
-      var gre = this.getSpectralRadianceAt( GRE_WAVELENGTH );
-      var blu = this.getSpectralRadianceAt( BLU_WAVELENGTH );
-      var largestColorIntensity = Math.max( red, gre, blu );
+      var green = this.getSpectralRadianceAt( GREEN_WAVELENGTH );
+      var blue = this.getSpectralRadianceAt( BLUE_WAVELENGTH );
+      var largestColorIntensity = Math.max( red, green, blue );
       var colorIntensity = this.getSpectralRadianceAt( wavelength );
       var boundedRenormalizedTemp = Math.min( this.renormalizedTemperature * 1.5, 1 );
       return Math.floor( 255 * boundedRenormalizedTemp * colorIntensity / largestColorIntensity );
@@ -154,22 +154,22 @@ define( function( require ) {
      * @public
      * @returns {Color}
      */
-    getBluColor: function() {
-      var colorIntensity = this.getRenormalizedColorIntensity( BLU_WAVELENGTH );
+    getBlueColor: function() {
+      var colorIntensity = this.getRenormalizedColorIntensity( BLUE_WAVELENGTH );
       return new Color( 0, 0, colorIntensity, 1 );
     },
-    get bluColor() { return this.getBluColor(); },
+    get blueColor() { return this.getBlueColor(); },
 
     /**
      * Function that returns a green color with an intensity that matches the blackbody temperature
      * @public
      * @returns {Color}
      */
-    getGreColor: function() {
-      var colorIntensity = this.getRenormalizedColorIntensity( GRE_WAVELENGTH );
+    getGreenColor: function() {
+      var colorIntensity = this.getRenormalizedColorIntensity( GREEN_WAVELENGTH );
       return new Color( 0, colorIntensity, 0, 1 );
     },
-    get greColor() { return this.getGreColor(); },
+    get greenColor() { return this.getGreenColor(); },
 
     /**
      * Function that returns a radius (in scenery coordinates) for a given temperature.
@@ -203,9 +203,9 @@ define( function( require ) {
      */
     getStarColor: function() {
       var red = this.getRenormalizedColorIntensity( RED_WAVELENGTH );
-      var gre = this.getRenormalizedColorIntensity( GRE_WAVELENGTH );
-      var blu = this.getRenormalizedColorIntensity( BLU_WAVELENGTH );
-      return new Color( red, gre, blu, 1 );
+      var green = this.getRenormalizedColorIntensity( GREEN_WAVELENGTH );
+      var blue = this.getRenormalizedColorIntensity( BLUE_WAVELENGTH );
+      return new Color( red, green, blue, 1 );
     },
     get starColor() { return this.getStarColor(); }
 
