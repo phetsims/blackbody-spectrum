@@ -11,7 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var blackbodyConstants = require( 'BLACKBODY_SPECTRUM/blackbodyConstants' );
+  var BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
   var BlackbodyBodyModel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/model/BlackbodyBodyModel' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
@@ -35,7 +35,7 @@ define( function( require ) {
     this.labelsVisibleProperty = new BooleanProperty( false );
 
     // @public {BlackbodyBodyModel} the main body for the simulation
-    this.mainBody = new BlackbodyBodyModel( blackbodyConstants.earthTemperature );
+    this.mainBody = new BlackbodyBodyModel( BlackbodyConstants.earthTemperature );
 
     // @public {ObservableArray.<BlackbodyBodyModel>} a property for the user's saved blackbodies
     this.savedBodies = new ObservableArray();

@@ -11,7 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var blackbodyConstants = require( 'BLACKBODY_SPECTRUM/blackbodyConstants' );
+  var BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -83,8 +83,8 @@ define( function( require ) {
     getRenormalizedTemperature: function() {
       var POWER_EXPONENT = 0.7; // used to create a more significant difference in normalized temperature near minimum
       return Math.pow(
-        Math.max( this.temperatureProperty.value - blackbodyConstants.minTemperature, 0 ) /
-        ( blackbodyConstants.maxTemperature - blackbodyConstants.minTemperature ),
+        Math.max( this.temperatureProperty.value - BlackbodyConstants.minTemperature, 0 ) /
+        ( BlackbodyConstants.maxTemperature - BlackbodyConstants.minTemperature ),
         POWER_EXPONENT
       );
     },
