@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var blackbodyConstants = require( 'BLACKBODY_SPECTRUM/blackbodyConstants' );
   var BlackbodyBodyModel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/model/BlackbodyBodyModel' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var BooleanProperty = require( 'AXON/BooleanProperty' );
@@ -34,9 +35,7 @@ define( function( require ) {
     this.labelsVisibleProperty = new BooleanProperty( false );
 
     // @public {BlackbodyBodyModel} the main body for the simulation
-    // REVIEW: the significance of 5778 should be documented. On second thought, it looks like it's used elsewhere as the
-    // temperature of the sun, so it should be pulled out as a constant for both use cases.
-    this.mainBody = new BlackbodyBodyModel( 5778 );
+    this.mainBody = new BlackbodyBodyModel( blackbodyConstants.earthTemperature );
 
     // @public {ObservableArray.<BlackbodyBodyModel>} a property for the user's saved blackbodies
     this.savedBodies = new ObservableArray();
