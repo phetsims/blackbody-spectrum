@@ -36,7 +36,7 @@ define( function( require ) {
     // @public {BlackbodyBodyModel} the main body for the simulation
     // REVIEW: the significance of 5778 should be documented. On second thought, it looks like it's used elsewhere as the
     // temperature of the sun, so it should be pulled out as a constant for both use cases.
-    this.mainBody = new BlackbodyBodyModel( this, 5778 );
+    this.mainBody = new BlackbodyBodyModel( 5778 );
 
     // @public {ObservableArray.<BlackbodyBodyModel>} a property for the user's saved blackbodies
     this.savedBodies = new ObservableArray();
@@ -69,7 +69,7 @@ define( function( require ) {
      * REVIEW: Needs visibility annotation
      */
     saveMainBody: function() {
-      this.savedBodies.add( new BlackbodyBodyModel( this, this.mainBody.temperatureProperty.value ) );
+      this.savedBodies.add( new BlackbodyBodyModel( this.mainBody.temperatureProperty.value ) );
       while ( this.savedBodies.length > this.maxSavedGraphs ) {
         this.savedBodies.shift();
       }

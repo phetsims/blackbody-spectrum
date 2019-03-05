@@ -35,10 +35,7 @@ define( function( require ) {
    * @param {number} temperature
    * @constructor
    */
-  function BlackbodyBodyModel( model, temperature ) {
-
-    // @private
-    this.model = model;
+  function BlackbodyBodyModel( temperature ) {
 
     // @public {Property.<number>} initial temperature in kelvin
     this.temperatureProperty = new NumberProperty( temperature, { range: new Range( 0, 1e6 ) } );
