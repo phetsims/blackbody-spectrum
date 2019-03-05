@@ -19,9 +19,10 @@ define( function( require ) {
 
   /**
    * Main constructor for BlackbodySpectrumModel, which contains the general model logic for the sim screen.
+   * @param {Tandem} tandem
    * @constructor
    */
-  function BlackbodySpectrumModel() {
+  function BlackbodySpectrumModel( tandem ) {
 
     // @public {Property.<boolean>} whether the graph values should be visible
     this.graphValuesVisibleProperty = new BooleanProperty( false );

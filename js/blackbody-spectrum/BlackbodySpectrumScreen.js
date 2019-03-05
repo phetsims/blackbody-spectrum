@@ -17,17 +17,20 @@ define( function( require ) {
   var Screen = require( 'JOIST/Screen' );
 
   /**
+   * @param {Tandem} tandem
    * @constructor
    */
-  function BlackbodySpectrumScreen() {
+  function BlackbodySpectrumScreen( tandem ) {
     Screen.call( this,
       function() {
-        return new BlackbodySpectrumModel();
+        return new BlackbodySpectrumModel( tandem.createTandem( 'model' ) );
       },
       function( model ) {
-        return new BlackbodySpectrumScreenView( model );
-      },
-      { backgroundColorProperty: BlackbodyColorProfile.backgroundProperty }
+        return new BlackbodySpectrumScreenView( model, tandem.createTandem( 'view' ) );
+      }, {
+        backgroundColorProperty: BlackbodyColorProfile.backgroundProperty,
+        tandem: tandem
+      }
     );
   }
 

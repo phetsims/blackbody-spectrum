@@ -13,6 +13,7 @@ define( function( require ) {
   var GlobalOptionsNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GlobalOptionsNode' );
   var Sim = require( 'JOIST/Sim' );
   var SimLauncher = require( 'JOIST/SimLauncher' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   // strings
   var blackbodySpectrumTitleString = require( 'string!BLACKBODY_SPECTRUM/blackbody-spectrum.title' );
@@ -32,7 +33,9 @@ define( function( require ) {
   };
 
   SimLauncher.launch( function() {
-    var sim = new Sim( blackbodySpectrumTitleString, [ new BlackbodySpectrumScreen() ], simOptions );
+    var sim = new Sim( blackbodySpectrumTitleString, [
+      new BlackbodySpectrumScreen( Tandem.rootTandem.createTandem( 'blackbodySpectrumScreen' ) )
+    ], simOptions );
     sim.start();
   } );
 } );

@@ -54,9 +54,10 @@ define( function( require ) {
   /**
    * Constructor for the BlackbodySpectrumView
    * @param {BlackbodySpectrumModel} model - the main model for the simulation
+   * @param {Tandem} tandem
    * @constructor
    */
-  function BlackbodySpectrumScreenView( model ) {
+  function BlackbodySpectrumScreenView( model, tandem ) {
     // REVIEW: These hardcoded layout bounds are the same as default in ScreenView, so they aren't overriding anything
     // and can be omitted
     ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 1024, 618 ) } );
