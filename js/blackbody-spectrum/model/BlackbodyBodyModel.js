@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var blackbodyConstants = require( 'BLACKBODY_SPECTRUM/blackbodyConstants' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var Color = require( 'SCENERY/util/Color' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -86,11 +87,9 @@ define( function( require ) {
      */
     getRenormalizedTemperature: function() {
       var POWER_EXPONENT = 0.7; // used to create a more significant difference in normalized temperature near minimum
-      var temperatureMinimum = 270; // temp(K) at which color of the circles and star turns on
-      var temperatureMaximum = 11000; // temp(K) at which color of the circles maxes out
       return Math.pow(
-        Math.max( this.temperatureProperty.value - temperatureMinimum, 0 ) /
-        ( temperatureMaximum - temperatureMinimum ),
+        Math.max( this.temperatureProperty.value - blackbodyConstants.minTemperature, 0 ) /
+        ( blackbodyConstants.maxTemperature - blackbodyConstants.minTemperature ),
         POWER_EXPONENT
       );
     },
@@ -108,7 +107,10 @@ define( function( require ) {
       var blue = this.getSpectralRadianceAt( BLUE_WAVELENGTH );
       var largestColorIntensity = Math.max( red, green, blue );
       var colorIntensity = this.getSpectralRadianceAt( wavelength );
+
+      // Scaled renormalizedTemperature by 1.5 to make colors more visible and opaque
       var boundedRenormalizedTemp = Math.min( this.renormalizedTemperature * 1.5, 1 );
+
       return Math.floor( 255 * boundedRenormalizedTemp * colorIntensity / largestColorIntensity );
     },
 
