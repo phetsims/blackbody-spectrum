@@ -31,12 +31,17 @@ define( function( require ) {
    * Constructs a Blackbody body at the given temperature
    * @param {BlackbodySpectrumModel} model
    * @param {number} temperature
+   * @param {Tandem} tandem
    * @constructor
    */
-  function BlackbodyBodyModel( temperature ) {
+  function BlackbodyBodyModel( temperature, tandem ) {
 
-    // @public {Property.<number>} initial temperature in kelvin
-    this.temperatureProperty = new NumberProperty( temperature, { range: new Range( 0, 1e6 ) } );
+    // @public {Property.<number>}
+    this.temperatureProperty = new NumberProperty( temperature, {
+      range: new Range( 0, 1e6 ),
+      tandem: tandem.createTandem( 'temperatureProperty' ),
+      phetioDocumentation: 'blackbody temperature'
+    } );
   }
 
   blackbodySpectrum.register( 'BlackbodyBodyModel', BlackbodyBodyModel );

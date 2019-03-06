@@ -25,17 +25,29 @@ define( function( require ) {
    */
   function BlackbodySpectrumModel( tandem ) {
 
-    // @public {Property.<boolean>} whether the graph values should be visible
-    this.graphValuesVisibleProperty = new BooleanProperty( false );
-
-    // @public {Property.<boolean>} whether the intensity (area under the curve) of the graph should be visible
-    this.intensityVisibleProperty = new BooleanProperty( false );
+    // @public {Property.<boolean>}
+    this.graphValuesVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'graphValuesVisibleProperty' ),
+      phetioDocumentation: 'whether the graph values should be visible'
+    } );
 
     // @public {Property.<boolean>}
-    this.labelsVisibleProperty = new BooleanProperty( false );
+    this.intensityVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'intensityVisibleProperty' ),
+      phetioDocumentation: 'whether the intensity (area under the curve) of the graph should be visible'
+    } );
+
+    // @public {Property.<boolean>}
+    this.labelsVisibleProperty = new BooleanProperty( false, {
+      tandem: tandem.createTandem( 'labelsVisibleProperty' ),
+      phetioDocumentation: 'whether the graph labels should be visible'
+    } );
 
     // @public {BlackbodyBodyModel} the main body for the simulation
-    this.mainBody = new BlackbodyBodyModel( BlackbodyConstants.earthTemperature );
+    this.mainBody = new BlackbodyBodyModel(
+      BlackbodyConstants.earthTemperature,
+      tandem.createTandem( 'blackbodyBodyModel' )
+    );
 
     // @public {ObservableArray.<BlackbodyBodyModel>} a property for the user's saved blackbodies
     this.savedBodies = new ObservableArray();
