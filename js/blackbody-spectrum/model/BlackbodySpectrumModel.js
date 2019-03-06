@@ -49,6 +49,9 @@ define( function( require ) {
       tandem.createTandem( 'blackbodyBodyModel' )
     );
 
+    // @private
+    this.savedBodiesGroupTandem = tandem.createGroupTandem( 'savedBlackbodyBodyModel' );
+
     // @public {ObservableArray.<BlackbodyBodyModel>} a property for the user's saved blackbodies
     this.savedBodies = new ObservableArray();
 
@@ -80,7 +83,10 @@ define( function( require ) {
      * REVIEW: Needs visibility annotation
      */
     saveMainBody: function() {
-      this.savedBodies.add( new BlackbodyBodyModel( this.mainBody.temperatureProperty.value ) );
+      this.savedBodies.add( new BlackbodyBodyModel(
+        this.mainBody.temperatureProperty.value,
+        this.savedBodiesGroupTandem.createNextTandem()
+      ) );
       while ( this.savedBodies.length > this.maxSavedGraphs ) {
         this.savedBodies.shift();
       }
