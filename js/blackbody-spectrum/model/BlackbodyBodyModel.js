@@ -29,7 +29,6 @@ define( function( require ) {
 
   /**
    * Constructs a Blackbody body at the given temperature
-   * @param {BlackbodySpectrumModel} model
    * @param {number} temperature
    * @param {Tandem} tandem
    * @constructor
