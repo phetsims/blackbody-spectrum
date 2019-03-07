@@ -37,7 +37,7 @@ define( function( require ) {
 
     // @public {Property.<number>}
     this.temperatureProperty = new NumberProperty( temperature, {
-      range: new Range( 0, 1e6 ),
+      range: new Range( BlackbodyConstants.minTemperature, BlackbodyConstants.maxTemperature ),
       tandem: tandem.createTandem( 'temperatureProperty' ),
       phetioDocumentation: 'blackbody temperature'
     } );
