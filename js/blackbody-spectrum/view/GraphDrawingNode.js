@@ -11,7 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var blackbodyConstants = require( 'BLACKBODY_SPECTRUM/blackbodyConstants' );
+  var BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var ColorConstants = require( 'SUN/ColorConstants' );
   var Dimension2 = require( 'DOT/Dimension2' );
@@ -97,14 +97,14 @@ define( function( require ) {
     var verticalZoomButtons = new Node( { children: [ self.verticalZoomOutButton, self.verticalZoomInButton ] } );
 
     // Node for that displays the rainbow for the visible portion of the electromagnetic spectrum
-    var infraredPosition = this.axes.wavelengthToViewX( blackbodyConstants.visibleWavelength );
-    var ultravioletPosition = this.axes.wavelengthToViewX( blackbodyConstants.ultravioletWavelength );
+    var infraredPosition = this.axes.wavelengthToViewX( BlackbodyConstants.visibleWavelength );
+    var ultravioletPosition = this.axes.wavelengthToViewX( BlackbodyConstants.ultravioletWavelength );
     var spectrumWidth = infraredPosition - ultravioletPosition;
     // REVIEW: Needs visibility annotation
     this.wavelengthSpectrumNode = new WavelengthSpectrumNode( {
       size: new Dimension2( spectrumWidth, this.axes.verticalAxisLength ),
-      minWavelength: blackbodyConstants.ultravioletWavelength,
-      maxWavelength: blackbodyConstants.visibleWavelength,
+      minWavelength: BlackbodyConstants.ultravioletWavelength,
+      maxWavelength: BlackbodyConstants.visibleWavelength,
       opacity: 0.9
     } );
 
@@ -234,8 +234,8 @@ define( function( require ) {
      * @private
      */
     updateVisibleSpectrumNode: function() {
-      var infraredPosition = this.axes.wavelengthToViewX( blackbodyConstants.visibleWavelength );
-      var ultravioletPosition = this.axes.wavelengthToViewX( blackbodyConstants.ultravioletWavelength );
+      var infraredPosition = this.axes.wavelengthToViewX( BlackbodyConstants.visibleWavelength );
+      var ultravioletPosition = this.axes.wavelengthToViewX( BlackbodyConstants.ultravioletWavelength );
       var spectrumWidth = infraredPosition - ultravioletPosition;
       this.wavelengthSpectrumNode.left = ultravioletPosition;
       this.wavelengthSpectrumNode.scale( new Vector2( spectrumWidth / this.wavelengthSpectrumNode.width, 1 ) );
