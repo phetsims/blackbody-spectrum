@@ -45,7 +45,7 @@ define( function( require ) {
 
     // @public {BlackbodyBodyModel} the main body for the simulation
     this.mainBody = new BlackbodyBodyModel(
-      BlackbodyConstants.earthTemperature,
+      BlackbodyConstants.sunTemperature,
       tandem.createTandem( 'blackbodyBodyModel' )
     );
 
