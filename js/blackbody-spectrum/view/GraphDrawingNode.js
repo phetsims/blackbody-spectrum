@@ -11,6 +11,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var blackbodyConstants = require( 'BLACKBODY_SPECTRUM/blackbodyConstants' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var ColorConstants = require( 'SUN/ColorConstants' );
   var Dimension2 = require( 'DOT/Dimension2' );
@@ -26,11 +27,10 @@ define( function( require ) {
   var ZoomButton = require( 'SCENERY_PHET/buttons/ZoomButton' );
 
   // constants
-  var ULTRAVIOLET_WAVELENGTH = 400; // in nm, max bounds for the uv part of the electromagnetic spectrum
-  var VISIBLE_WAVELENGTH = 705; // in nm, max bounds for the visible part of the electromagnetic spectrum
   var GRAPH_NUMBER_POINTS = 300; // number of points blackbody curve is evaluated at
-  // REVIEW: Only seeing one usage of ZOOM_BUTTON_ICON_RADIUS, it's probably not needed
   var ZOOM_BUTTON_ICON_RADIUS = 8; // size of zoom buttons
+  var ZOOM_BUTTON_SPACING = 10; // spacing between + and - zoom buttons
+  var ZOOM_BUTTON_AXES_MARGIN = 10; // spacing between zoom buttons and axes
 
   /**
    * The node that handles keeping all of the graph elements together and working
@@ -97,14 +97,14 @@ define( function( require ) {
     var verticalZoomButtons = new Node( { children: [ self.verticalZoomOutButton, self.verticalZoomInButton ] } );
 
     // Node for that displays the rainbow for the visible portion of the electromagnetic spectrum
-    var infraredPosition = this.axes.wavelengthToViewX( VISIBLE_WAVELENGTH );
-    var ultravioletPosition = this.axes.wavelengthToViewX( ULTRAVIOLET_WAVELENGTH );
+    var infraredPosition = this.axes.wavelengthToViewX( blackbodyConstants.visibleWavelength );
+    var ultravioletPosition = this.axes.wavelengthToViewX( blackbodyConstants.ultravioletWavelength );
     var spectrumWidth = infraredPosition - ultravioletPosition;
     // REVIEW: Needs visibility annotation
     this.wavelengthSpectrumNode = new WavelengthSpectrumNode( {
       size: new Dimension2( spectrumWidth, this.axes.verticalAxisLength ),
-      minWavelength: ULTRAVIOLET_WAVELENGTH,
-      maxWavelength: VISIBLE_WAVELENGTH,
+      minWavelength: blackbodyConstants.ultravioletWavelength,
+      maxWavelength: blackbodyConstants.visibleWavelength,
       opacity: 0.9
     } );
 
@@ -130,14 +130,14 @@ define( function( require ) {
 
     // Sets layout of graph node elements to be all ultimately relative to the axes
     horizontalZoomButtons.left = this.axes.right - 52;
-    horizontalZoomButtons.bottom = this.axes.bottom - 10;
-    this.horizontalZoomInButton.left = this.horizontalZoomOutButton.right + 10;
+    horizontalZoomButtons.bottom = this.axes.bottom - ZOOM_BUTTON_AXES_MARGIN;
+    this.horizontalZoomInButton.left = this.horizontalZoomOutButton.right + ZOOM_BUTTON_SPACING;
     this.horizontalZoomInButton.centerY = this.horizontalZoomOutButton.centerY;
     verticalZoomButtons.left = this.axes.left + 30;
-    verticalZoomButtons.bottom = this.axes.top - 5;
+    verticalZoomButtons.bottom = this.axes.top - ZOOM_BUTTON_AXES_MARGIN;
     this.verticalZoomInButton.centerY = this.verticalZoomOutButton.centerY;
-    this.verticalZoomInButton.left = this.verticalZoomOutButton.right + 10;
-    this.wavelengthSpectrumNode.top = this.axes.top + 18;
+    this.verticalZoomInButton.left = this.verticalZoomOutButton.right + ZOOM_BUTTON_SPACING;
+    this.wavelengthSpectrumNode.top = this.axes.top + ZOOM_BUTTON_AXES_MARGIN + ZOOM_BUTTON_ICON_RADIUS;
     this.wavelengthSpectrumNode.left = ultravioletPosition;
   }
 
@@ -234,8 +234,8 @@ define( function( require ) {
      * @private
      */
     updateVisibleSpectrumNode: function() {
-      var infraredPosition = this.axes.wavelengthToViewX( VISIBLE_WAVELENGTH );
-      var ultravioletPosition = this.axes.wavelengthToViewX( ULTRAVIOLET_WAVELENGTH );
+      var infraredPosition = this.axes.wavelengthToViewX( blackbodyConstants.visibleWavelength );
+      var ultravioletPosition = this.axes.wavelengthToViewX( blackbodyConstants.ultravioletWavelength );
       var spectrumWidth = infraredPosition - ultravioletPosition;
       this.wavelengthSpectrumNode.left = ultravioletPosition;
       this.wavelengthSpectrumNode.scale( new Vector2( spectrumWidth / this.wavelengthSpectrumNode.width, 1 ) );
