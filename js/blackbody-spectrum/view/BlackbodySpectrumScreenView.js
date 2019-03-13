@@ -125,7 +125,9 @@ define( function( require ) {
         graphNode.reset();
         triangleNode.reset();
         blackbodySpectrumThermometer.reset();
-      }
+      },
+      tandem: tandem.createTandem( 'resetAllButton' ),
+      phetioDocumentation: 'button that resets the screen to its initial state'
     } );
 
     var controlPanel = new BlackBodySpectrumControlPanel( model );
