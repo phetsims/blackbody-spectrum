@@ -130,8 +130,13 @@ define( function( require ) {
       phetioDocumentation: 'button that resets the screen to its initial state'
     } );
 
-    var controlPanel = new BlackBodySpectrumControlPanel( model );
-    var savedInformationPanel = new SavedGraphInformationPanel( model, { minWidth: controlPanel.width } );
+    var controlPanel = new BlackBodySpectrumControlPanel( model, {
+      tandem: tandem.createTandem( 'controlPanel' )
+    } );
+    var savedInformationPanel = new SavedGraphInformationPanel( model, {
+      minWidth: controlPanel.width,
+      tandem: tandem.createTandem( 'savedGraphsPanel' )
+    } );
 
     // REVIEW: I think it would make a little more sense for the addChild()s to happen after the node positioning, but
     // perhaps it doesn't matter. If you make the change, follow the same pattern in the other few cases in this sim.

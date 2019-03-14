@@ -17,6 +17,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
   var VBox = require( 'SCENERY/nodes/VBox' );
@@ -41,7 +42,11 @@ define( function( require ) {
       labelOptions: {
         font: new PhetFont( 16 ),
         fill: BlackbodyColorProfile.titlesTextProperty
-      }
+      },
+
+      // phet-io
+      tandem: Tandem.required,
+      phetioDocumentation: 'panel that contains saved blackbody temperatures',
     }, options );
 
     // The labels for all of the graphs' information
@@ -93,7 +98,9 @@ define( function( require ) {
       minWidth: options.minWidth,
       align: 'left',
       yMargin: 10,
-      xMargin: 10
+      xMargin: 10,
+      tandem: options.tandem,
+      phetioDocumentation: options.phetioDocumentation
     } );
 
     // A small local function that takes in a temperature and formats it consistently

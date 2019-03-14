@@ -27,6 +27,7 @@ define( function( require ) {
   var RichText = require( 'SCENERY/nodes/RichText' );
   var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var VBox = require( 'SCENERY/nodes/VBox' );
 
@@ -76,7 +77,11 @@ define( function( require ) {
       resize: true,
       stroke: BlackbodyColorProfile.panelStrokeProperty,
       minWidth: DEFAULT_WIDTH,
-      maxWidth: DEFAULT_WIDTH
+      maxWidth: DEFAULT_WIDTH,
+
+      // phet-io
+      tandem: Tandem.required,
+      phetioDocumentation: '',
     }, options );
 
     // create the text nodes
