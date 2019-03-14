@@ -80,8 +80,7 @@ define( function( require ) {
       maxWidth: DEFAULT_WIDTH,
 
       // phet-io
-      tandem: Tandem.required,
-      phetioDocumentation: ''
+      tandem: Tandem.required
     }, options );
 
     // create the text nodes
