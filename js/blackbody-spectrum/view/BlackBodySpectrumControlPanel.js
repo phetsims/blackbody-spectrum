@@ -81,7 +81,7 @@ define( function( require ) {
 
       // phet-io
       tandem: Tandem.required,
-      phetioDocumentation: '',
+      phetioDocumentation: ''
     }, options );
 
     // create the text nodes

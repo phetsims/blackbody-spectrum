@@ -46,7 +46,7 @@ define( function( require ) {
 
       // phet-io
       tandem: Tandem.required,
-      phetioDocumentation: 'panel that contains saved blackbody temperatures',
+      phetioDocumentation: 'panel that contains saved blackbody temperatures'
     }, options );
 
     // The labels for all of the graphs' information
