@@ -14,6 +14,9 @@
     "requirejsNamespace": "BLACKBODY_SPECTRUM",
     "runnable": true,
     "simulation": true,
+    "preload": [
+      "../blackbody-spectrum/phet-io-elements.js"
+    ],
     "supportedBrands": [
       "phet",
       "adapted-from-phet",
