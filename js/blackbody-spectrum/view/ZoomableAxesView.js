@@ -168,7 +168,7 @@ define( function( require ) {
       range: new Range( options.minHorizontalZoom, options.maxHorizontalZoom )
     } );
     this.verticalZoomProperty = new NumberProperty( options.defaultVerticalZoom, {
-      range: new Range( options.minVerticalZoom, optinos.maxVerticalZoom )
+      range: new Range( options.minVerticalZoom, options.maxVerticalZoom )
     } );
 
     // @public {number} zoom bounds
