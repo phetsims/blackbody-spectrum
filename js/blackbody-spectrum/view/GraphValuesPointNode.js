@@ -55,6 +55,8 @@ define( function( require ) {
         fill: BlackbodyColorProfile.graphValuesLabelsProperty,
         font: new PhetFont( 18 )
       },
+      arrowMargin: 30,
+      arrowLength: 25,
       arrowOptions: {
         fill: '#64dc64',
         headHeight: 15,
@@ -74,8 +76,17 @@ define( function( require ) {
     this.spectralRadianceValueText = new RichText( '', options.valueTextOptions );
     this.labelOffset = options.labelOffset;
     this.cueingArrows = new Node( {
-      // REVIEW: 15/-15, 40/-40 should be factored out
-      children: [ new ArrowNode( 15, 0, 40, 0, options.arrowOptions ), new ArrowNode( -15, 0, -40, 0, options.arrowOptions ) ]
+      children: [ new ArrowNode( options.arrowMargin / 2,
+        0,
+        options.arrowLength + options.arrowMargin / 2,
+        0,
+        options.arrowOptions ),
+        new ArrowNode( -options.arrowMargin / 2,
+          0,
+          -options.arrowLength + options.arrowMargin / 2,
+          0,
+          options.arrowOptions )
+      ]
     } );
 
     // Links cueing arrows and circle to a single draggable node
