@@ -20,6 +20,7 @@ define( function( require ) {
   var NumberProperty = require( 'AXON/NumberProperty' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Range = require( 'DOT/Range' );
   var RichText = require( 'SCENERY/nodes/RichText' );
   var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var Shape = require( 'KITE/Shape' );
@@ -137,7 +138,6 @@ define( function( require ) {
     this.minorTicksPerMajorTick = options.minorTicksPerMajorTick;
     this.minorTickLength = options.minorTickLength;
     this.majorTickLength = options.majorTickLength;
-    // REVIEW: Is this used for anything?
     this.minorTickMaxHorizontalZoom = options.minorTickMaxHorizontalZoom;
 
     // Labels for the axes
@@ -147,25 +147,29 @@ define( function( require ) {
       rotation: -Math.PI / 2,
       maxWidth: options.axesHeight
     } );
-    // REVIEW: These maxWidths can be pulled out to a var
+
+    var axesWidth = options.axesWidth * 0.8;
     var horizontalAxisTopLabelNode = new Text( wavelengthLabelString, {
       font: new PhetFont( 24 ),
       fill: options.axisLabelColor,
-      maxWidth: options.axesWidth * 0.8
+      maxWidth: axesWidth
     } );
     var horizontalAxisBottomLabelNode = new Text( subtitleLabelString, {
       font: new PhetFont( 16 ),
       fill: options.axisLabelColor,
-      maxWidth: options.axesWidth * 0.8
+      maxWidth: axesWidth
     } );
     var horizontalAxisLabelNode = new Node( {
       children: [ horizontalAxisTopLabelNode, horizontalAxisBottomLabelNode ]
     } );
 
     // @public {Property.<number>} current zoom values
-    // REVIEW: Could you add the zoom bounds below as a range for these Properties?
-    this.horizontalZoomProperty = new NumberProperty( options.defaultHorizontalZoom );
-    this.verticalZoomProperty = new NumberProperty( options.defaultVerticalZoom );
+    this.horizontalZoomProperty = new NumberProperty( options.defaultHorizontalZoom, {
+      range: new Range( options.minHorizontalZoom, options.maxHorizontalZoom )
+    } );
+    this.verticalZoomProperty = new NumberProperty( options.defaultVerticalZoom, {
+      range: new Range( options.minVerticalZoom, optinos.maxVerticalZoom )
+    } );
 
     // @public {number} zoom bounds
     this.minHorizontalZoom = options.minHorizontalZoom;
@@ -252,7 +256,7 @@ define( function( require ) {
       var horizontalTicksShape = new Shape();
       for ( var i = 0; i < this.model.wavelengthMax / this.wavelengthPerTick; i++ ) {
         var tickHeight = this.minorTickLength;
-        if ( this.model.wavelengthMax > 12000 ) {
+        if ( this.model.wavelengthMax > this.minorTickMaxHorizontalZoom ) {
           tickHeight = 0;
         }
         if ( i % this.minorTicksPerMajorTick === 0 ) {
@@ -305,9 +309,9 @@ define( function( require ) {
     },
 
     /**
-     * REVIEW: Missing @returns
      * Converts a given wavelength in nm to an x distance along the view
      * @param {number} wavelength
+     * @returns {number}
      * @public
      */
     wavelengthToViewX: function( wavelength ) {
@@ -315,9 +319,9 @@ define( function( require ) {
     },
 
     /**
-     * REVIEW: Missing @returns
      * Converts a given x distance along the view to a wavelength in nm
      * @param {number} viewX
+     * @returns {number}
      * @public
      */
     viewXToWavelength: function( viewX ) {
@@ -325,9 +329,9 @@ define( function( require ) {
     },
 
     /**
-     * REVIEW: Missing @returns
      * Converts a given spectral radiance to a y distance along the view
      * @param {number} spectralRadiance
+     * @returns {number}
      * @public
      */
     spectralRadianceToViewY: function( spectralRadiance ) {
@@ -336,9 +340,9 @@ define( function( require ) {
     },
 
     /**
-     * REVIEW: Missing @returns
      * Converts a given y distance along the view to a spectral radiance
      * @param {number} viewY
+     * @returns {number}
      * @public
      */
     viewYToSpectralRadiance: function( viewY ) {
@@ -415,17 +419,15 @@ define( function( require ) {
     },
 
     /**
-     * REVIEW: PhET conventions say that sigfigs should probably be significantFigures, but sig figs is a pretty common
-     * term, so I'll leave that decision to you. It should probably at least be sigFigs.
      * Sets sigfigs of a number, then truncates to decimal limit
      * Returns number as a string
      * @param {number} value
-     * @param {number} sigfigs
+     * @param {number} significantFigures
      * @param {number} decimals
      * @private
      */
-    truncateNum: function( value, sigfigs, decimals ) {
-      var sfNumber = parseFloat( value.toPrecision( sigfigs ) );
+    truncateNum: function( value, significantFigures, decimals ) {
+      var sfNumber = parseFloat( value.toPrecision( significantFigures ) );
       return ( Util.numberOfDecimalPlaces( sfNumber ) > decimals ) ? Util.toFixed( sfNumber, decimals ) : sfNumber.toString();
     }
 
