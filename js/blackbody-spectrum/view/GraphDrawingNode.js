@@ -277,10 +277,10 @@ define( function( require ) {
       this.updateVisibleSpectrumNode();
       this.draggablePointNode.update();
       this.axes.update();
-      this.horizontalZoomInButton.enabled = horizontalZoom > this.axes.minHorizontalZoom;
-      this.horizontalZoomOutButton.enabled = horizontalZoom < this.axes.maxHorizontalZoom;
-      this.verticalZoomInButton.enabled = verticalZoom > this.axes.minVerticalZoom;
-      this.verticalZoomOutButton.enabled = verticalZoom < this.axes.maxVerticalZoom;
+      this.horizontalZoomInButton.enabled = horizontalZoom > BlackbodyConstants.minHorizontalZoom;
+      this.horizontalZoomOutButton.enabled = horizontalZoom < BlackbodyConstants.maxHorizontalZoom;
+      this.verticalZoomInButton.enabled = verticalZoom > BlackbodyConstants.minVerticalZoom;
+      this.verticalZoomOutButton.enabled = verticalZoom < BlackbodyConstants.maxVerticalZoom;
     }
 
   } );

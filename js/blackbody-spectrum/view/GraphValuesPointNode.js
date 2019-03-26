@@ -11,6 +11,7 @@ define( function( require ) {
   // modules
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
   var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
+  var BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Dimension2 = require( 'DOT/Dimension2' );
@@ -19,6 +20,7 @@ define( function( require ) {
   var NumberProperty = require( 'AXON/NumberProperty' );
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  var Range = require( 'DOT/Range' );
   var RichText = require( 'SCENERY/nodes/RichText' );
   var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var Shape = require( 'KITE/Shape' );
@@ -83,8 +85,9 @@ define( function( require ) {
     this.graphPointCircle.addChild( this.cueingArrows );
 
     // @public {Property.<number>}
-    // REVIEW: Is there a range of valid wavelengths that you could add to this Property?
-    this.wavelengthProperty = new NumberProperty( this.body.peakWavelength );
+    this.wavelengthProperty = new NumberProperty( this.body.peakWavelength, {
+      range: new Range( 0, BlackbodyConstants.maxHorizontalZoom )
+    } );
 
     // Links a change in the body's temperature to always set the wavelength to the peak wavelength
     this.body.temperatureProperty.link( function() {

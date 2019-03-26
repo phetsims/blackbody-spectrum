@@ -26,7 +26,13 @@ define( function( require ) {
     xRayWavelength: 10,
     ultravioletWavelength: 400,
     visibleWavelength: 700,
-    infraredWavelength: 100000
+    infraredWavelength: 100000,
+
+    // Axes Values
+    minHorizontalZoom: 750,
+    maxHorizontalZoom: 48000,
+    minVerticalZoom: 0.000014336,
+    maxVerticalZoom: 700
 
   };
 

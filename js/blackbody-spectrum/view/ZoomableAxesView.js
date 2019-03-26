@@ -14,6 +14,7 @@ define( function( require ) {
 
   // modules
   var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
+  var BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Node = require( 'SCENERY/nodes/Node' );
@@ -82,10 +83,6 @@ define( function( require ) {
       defaultHorizontalZoom: model.wavelengthMax,
       defaultVerticalZoom: 140.0,
       minorTickMaxHorizontalZoom: 12000,
-      maxHorizontalZoom: 48000,
-      minHorizontalZoom: 750,
-      maxVerticalZoom: 700,
-      minVerticalZoom: 0.000014336,
       axisBoundsLabelColor: BlackbodyColorProfile.titlesTextProperty,
       axisLabelColor: BlackbodyColorProfile.titlesTextProperty,
       electromagneticSpectrumLabelTextOptions: {
@@ -165,17 +162,17 @@ define( function( require ) {
 
     // @public {Property.<number>} current zoom values
     this.horizontalZoomProperty = new NumberProperty( options.defaultHorizontalZoom, {
-      range: new Range( options.minHorizontalZoom, options.maxHorizontalZoom )
+      range: new Range( BlackbodyConstants.minHorizontalZoom, BlackbodyConstants.maxHorizontalZoom )
     } );
     this.verticalZoomProperty = new NumberProperty( options.defaultVerticalZoom, {
-      range: new Range( options.minVerticalZoom, options.maxVerticalZoom )
+      range: new Range( BlackbodyConstants.minVerticalZoom, BlackbodyConstants.maxVerticalZoom )
     } );
 
     // @public {number} zoom bounds
-    this.minHorizontalZoom = options.minHorizontalZoom;
-    this.maxHorizontalZoom = options.maxHorizontalZoom;
-    this.minVerticalZoom = options.minVerticalZoom;
-    this.maxVerticalZoom = options.maxVerticalZoom;
+    this.minHorizontalZoom = BlackbodyConstants.minHorizontalZoom;
+    this.maxHorizontalZoom = BlackbodyConstants.maxHorizontalZoom;
+    this.minVerticalZoom = BlackbodyConstants.minVerticalZoom;
+    this.maxVerticalZoom = BlackbodyConstants.maxVerticalZoom;
 
     // @public Links the horizontal zoom Property to update the model for the max wavelength
     this.horizontalZoomProperty.link( function( horizontalZoom ) {
