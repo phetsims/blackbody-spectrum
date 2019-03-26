@@ -21,6 +21,7 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
   var Shape = require( 'KITE/Shape' );
+  var Tandem = require( 'TANDEM/Tandem' );
   var Vector2 = require( 'DOT/Vector2' );
   var WavelengthSpectrumNode = require( 'SCENERY_PHET/WavelengthSpectrumNode' );
   var ZoomableAxesView = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/ZoomableAxesView' );
@@ -49,7 +50,8 @@ define( function( require ) {
         lineWidth: 5,
         lineJoin: 'round',
         lineCap: 'round'
-      }
+      },
+      tandem: Tandem.required
     }, options );
 
     Node.call( this );
@@ -89,10 +91,26 @@ define( function( require ) {
 
     // Zoom Buttons
     // REVIEW: Needs visibility annotation
-    this.horizontalZoomInButton = createZoomButton( true, function() { self.axes.zoomInHorizontal(); } );
-    this.horizontalZoomOutButton = createZoomButton( false, function() { self.axes.zoomOutHorizontal(); } );
-    this.verticalZoomInButton = createZoomButton( true, function() { self.axes.zoomInVertical(); } );
-    this.verticalZoomOutButton = createZoomButton( false, function() { self.axes.zoomOutVertical(); } );
+    this.horizontalZoomInButton = createZoomButton(
+      true,
+      function() { self.axes.zoomInHorizontal(); },
+      options.tandem.createTandem( 'horizontalZoomInButton' )
+    );
+    this.horizontalZoomOutButton = createZoomButton(
+      false,
+      function() { self.axes.zoomOutHorizontal(); },
+      options.tandem.createTandem( 'horizontalZoomOutButton' )
+    );
+    this.verticalZoomInButton = createZoomButton(
+      true,
+      function() { self.axes.zoomInVertical(); },
+      options.tandem.createTandem( 'verticalZoomInButton' )
+    );
+    this.verticalZoomOutButton = createZoomButton(
+      false,
+      function() { self.axes.zoomOutVertical(); },
+      options.tandem.createTandem( 'verticalZoomOutButton' )
+    );
     var horizontalZoomButtons = new Node( { children: [ self.horizontalZoomOutButton, self.horizontalZoomInButton ] } );
     var verticalZoomButtons = new Node( { children: [ self.verticalZoomOutButton, self.verticalZoomInButton ] } );
 
@@ -143,14 +161,15 @@ define( function( require ) {
 
   // Helper function for creating zoom buttons with repeated options
   // REVIEW: needs JSDoc for @param and @returns
-  function createZoomButton( type, listener ) {
+  function createZoomButton( type, listener, tandem ) {
     return new ZoomButton( {
       in: type,
       radius: ZOOM_BUTTON_ICON_RADIUS,
       touchAreaXDilation: 5,
       touchAreaYDilation: 5,
       baseColor: ColorConstants.LIGHT_BLUE,
-      listener: listener
+      listener: listener,
+      tandem: tandem
     } );
   }
 

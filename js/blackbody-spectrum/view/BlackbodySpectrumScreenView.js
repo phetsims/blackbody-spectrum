@@ -116,7 +116,7 @@ define( function( require ) {
     } );
 
     // create graph with zoom buttons
-    var graphNode = new GraphDrawingNode( model );
+    var graphNode = new GraphDrawingNode( model, { tandem: tandem.createTandem( 'graphDrawingNode' ) } );
 
     // create the Reset All Button in the bottom right
     var resetAllButton = new ResetAllButton( {
