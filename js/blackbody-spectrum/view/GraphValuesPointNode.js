@@ -55,7 +55,7 @@ define( function( require ) {
         fill: BlackbodyColorProfile.graphValuesLabelsProperty,
         font: new PhetFont( 18 )
       },
-      arrowMargin: 30,
+      arrowSpacing: 30,
       arrowLength: 25,
       arrowOptions: {
         fill: '#64dc64',
@@ -75,17 +75,13 @@ define( function( require ) {
     this.wavelengthValueText = new Text( '', options.valueTextOptions );
     this.spectralRadianceValueText = new RichText( '', options.valueTextOptions );
     this.labelOffset = options.labelOffset;
+
+    var halfArrowSpacing = options.arrowSpacing / 2;
+    var arrowTip = halfArrowSpacing + options.arrowLength;
     this.cueingArrows = new Node( {
-      children: [ new ArrowNode( options.arrowMargin / 2,
-        0,
-        options.arrowLength + options.arrowMargin / 2,
-        0,
-        options.arrowOptions ),
-        new ArrowNode( -options.arrowMargin / 2,
-          0,
-          -options.arrowLength + options.arrowMargin / 2,
-          0,
-          options.arrowOptions )
+      children: [
+        new ArrowNode( halfArrowSpacing, 0, arrowTip, 0, options.arrowOptions ),
+        new ArrowNode( -halfArrowSpacing, 0, -arrowTip, 0, options.arrowOptions )
       ]
     } );
 
