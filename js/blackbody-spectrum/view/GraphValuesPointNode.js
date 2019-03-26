@@ -225,7 +225,7 @@ define( function( require ) {
         this.dashedHorizontalLinePath.visible = false;
       }
 
-      this.dashedVerticalLinePath.visible = this.graphPointCircle.centerY < -1e-10;
+      this.dashedVerticalLinePath.visible = this.graphPointCircle.centerX < this.axes.horizontalAxisLength;
 
       this.spectralRadianceValueText.visible = spectralRadianceOfPoint * 1e33 < this.axes.verticalZoomProperty.value;
 
