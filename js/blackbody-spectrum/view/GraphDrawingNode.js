@@ -160,7 +160,13 @@ define( function( require ) {
   }
 
   // Helper function for creating zoom buttons with repeated options
-  // REVIEW: needs JSDoc for @param and @returns
+  /**
+   * Template for new ZoomButton objects
+   * @param {bool} type - indicates whether button is for zoom in
+   * @param {function} listener
+   * @returns {ZoomButton}
+   * @private
+   */
   function createZoomButton( type, listener, tandem ) {
     return new ZoomButton( {
       in: type,
@@ -188,8 +194,8 @@ define( function( require ) {
 
     /**
      * Gets the shape of a given BlackbodyBodyModel
-     * REVIEW: Needs @returns annotation
      * @param {BlackbodyBodyModel} body
+     * @return {Shape}
      * @private
      */
     shapeOfBody: function( body ) {
