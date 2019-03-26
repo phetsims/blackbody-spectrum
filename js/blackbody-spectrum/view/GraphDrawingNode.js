@@ -195,7 +195,7 @@ define( function( require ) {
     /**
      * Gets the shape of a given BlackbodyBodyModel
      * @param {BlackbodyBodyModel} body
-     * @return {Shape}
+     * @returns {Shape}
      * @private
      */
     shapeOfBody: function( body ) {
