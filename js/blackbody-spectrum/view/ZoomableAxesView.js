@@ -28,8 +28,6 @@ define( function( require ) {
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
 
-  // constants
-
   // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
   var SPECTRAL_RADIANCE_CONVERSION_FACTOR = 1e33;
 

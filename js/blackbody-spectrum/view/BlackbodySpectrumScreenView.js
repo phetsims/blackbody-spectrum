@@ -6,6 +6,7 @@
  *
  * @author Martin Veillette (Berea College)
  * @author Saurabh Totey
+ * @author Arnab Purkayastha
  */
 define( function( require ) {
   'use strict';
@@ -15,7 +16,6 @@ define( function( require ) {
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var BlackBodySpectrumControlPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackBodySpectrumControlPanel' );
   var BlackbodySpectrumThermometer = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumThermometer' );
-  var Bounds2 = require( 'DOT/Bounds2' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var GraphDrawingNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GraphDrawingNode' );
@@ -42,14 +42,16 @@ define( function( require ) {
   var CIRCLE_LABEL_COLOR = BlackbodyColorProfile.titlesTextProperty;
   var CIRCLE_RADIUS = 15;
   var LABEL_FONT = new PhetFont( 22 );
-  // REVIEW: Looks like the rest of these except INSET are only used once and probably don't need to be file constants
   var TEMPERATURE_FONT = new PhetFont( { size: 22, weight: 'bold' } );
   var TITLE_COLOR = BlackbodyColorProfile.titlesTextProperty;
   var TEMPERATURE_COLOR = BlackbodyColorProfile.temperatureTextProperty;
   var INSET = 10;
+  var TEMPERATURE_LABEL_SPACING = 5;
+  var TRIANGLE_SIZE = 25;
   var STAR_INNER_RADIUS = 20;
   var STAR_OUTER_RADIUS = 35;
   var STAR_NUMBER_POINTS = 9;
+  var STAR_SPACING = 50;
 
   /**
    * Constructor for the BlackbodySpectrumView
@@ -58,15 +60,13 @@ define( function( require ) {
    * @constructor
    */
   function BlackbodySpectrumScreenView( model, tandem ) {
-    // REVIEW: These hardcoded layout bounds are the same as default in ScreenView, so they aren't overriding anything
-    // and can be omitted
-    ScreenView.call( this, { layoutBounds: new Bounds2( 0, 0, 1024, 618 ) } );
+    ScreenView.call( this );
 
     var blackbodySpectrumThermometer = new BlackbodySpectrumThermometer( model.mainBody.temperatureProperty );
 
     // Note: for VSlider nodes, coordinates go where x axis is from bottom to top, and y axis is from left to right
     // The selectable triangle for the temperature slider
-    var thumbSize = new Dimension2( 25, 25 );
+    var thumbSize = new Dimension2( TRIANGLE_SIZE, TRIANGLE_SIZE );
     var triangleNode = new TriangleSliderThumb( { size: thumbSize } );
     triangleNode.touchArea = triangleNode.localBounds.dilatedXY( 10, 10 );
 
@@ -138,9 +138,37 @@ define( function( require ) {
       tandem: tandem.createTandem( 'savedGraphsPanel' )
     } );
 
-    // REVIEW: I think it would make a little more sense for the addChild()s to happen after the node positioning, but
-    // perhaps it doesn't matter. If you make the change, follow the same pattern in the other few cases in this sim.
-    // rendering order
+    graphNode.left = INSET;
+    graphNode.bottom = this.layoutBounds.maxY - INSET;
+    resetAllButton.right = this.layoutBounds.maxX - INSET;
+    resetAllButton.bottom = this.layoutBounds.maxY - INSET;
+    thermometerLabel.right = this.layoutBounds.maxX - INSET;
+    thermometerLabel.top = INSET + TEMPERATURE_LABEL_SPACING;
+    temperatureText.centerX = thermometerLabel.centerX;
+    temperatureText.top = thermometerLabel.bottom + TEMPERATURE_LABEL_SPACING;
+    blackbodySpectrumThermometer.centerX = temperatureText.centerX - TRIANGLE_SIZE;
+    blackbodySpectrumThermometer.top = temperatureText.bottom + TEMPERATURE_LABEL_SPACING;
+    controlPanel.right = blackbodySpectrumThermometer.left - 20;
+    controlPanel.top = thermometerLabel.centerY;
+    savedInformationPanel.centerX = controlPanel.centerX;
+    savedInformationPanel.top = controlPanel.bottom + 55;
+    circleBlue.centerX = 225;
+    circleBlue.centerY = STAR_SPACING;
+    circleGreen.centerX = circleBlue.centerX + STAR_SPACING;
+    circleGreen.centerY = circleBlue.centerY;
+    circleRed.centerX = circleGreen.centerX + STAR_SPACING;
+    circleRed.centerY = circleBlue.centerY;
+    circleBlueLabel.centerX = circleBlue.centerX;
+    circleBlueLabel.centerY = circleBlue.top + STAR_SPACING;
+    circleGreenLabel.centerX = circleGreen.centerX;
+    circleGreenLabel.centerY = circleBlueLabel.centerY;
+    circleRedLabel.centerX = circleRed.centerX;
+    circleRedLabel.centerY = circleBlueLabel.centerY;
+    starPath.left = circleRed.right + STAR_SPACING;
+    starPath.centerY = circleBlue.centerY;
+    glowingStarHalo.centerX = starPath.centerX;
+    glowingStarHalo.centerY = starPath.centerY;
+
     this.addChild( graphNode );
     this.addChild( controlPanel );
     this.addChild( savedInformationPanel );
@@ -156,40 +184,6 @@ define( function( require ) {
     this.addChild( circleGreenLabel );
     this.addChild( circleRedLabel );
     this.addChild( resetAllButton );
-
-    // REVIEW: some of the magic positioning numbers match - if they are related, e.g. circleBlue.centerX + 50 and
-    // circleGreen.centerX + 50, then 50 should be a var like circleXSpacing or something
-    // layout for things that don't have a location in the model
-    graphNode.left = INSET;
-    graphNode.bottom = this.layoutBounds.maxY - INSET;
-    resetAllButton.right = this.layoutBounds.maxX - INSET;
-    resetAllButton.bottom = this.layoutBounds.maxY - INSET;
-    blackbodySpectrumThermometer.right = this.layoutBounds.maxX - INSET - 10;
-    blackbodySpectrumThermometer.centerY = this.layoutBounds.centerY + 20;
-    temperatureText.bottom = blackbodySpectrumThermometer.top - 5;
-    temperatureText.centerX = blackbodySpectrumThermometer.right - 55;
-    thermometerLabel.centerX = blackbodySpectrumThermometer.right - 55;
-    thermometerLabel.bottom = temperatureText.top - 5;
-    controlPanel.right = blackbodySpectrumThermometer.left - 20;
-    controlPanel.top = thermometerLabel.centerY;
-    savedInformationPanel.centerX = controlPanel.centerX;
-    savedInformationPanel.top = controlPanel.bottom + 55;
-    circleBlue.centerX = 225;
-    circleBlue.centerY = 50;
-    circleGreen.centerX = circleBlue.centerX + 50;
-    circleGreen.centerY = circleBlue.centerY;
-    circleRed.centerX = circleGreen.centerX + 50;
-    circleRed.centerY = circleBlue.centerY;
-    circleBlueLabel.centerX = circleBlue.centerX;
-    circleBlueLabel.centerY = circleBlue.centerY + 35;
-    circleGreenLabel.centerX = circleGreen.centerX;
-    circleGreenLabel.centerY = circleBlueLabel.centerY;
-    circleRedLabel.centerX = circleRed.centerX;
-    circleRedLabel.centerY = circleBlueLabel.centerY;
-    starPath.left = circleRed.right + 60;
-    starPath.centerY = circleBlue.centerY;
-    glowingStarHalo.centerX = starPath.centerX;
-    glowingStarHalo.centerY = starPath.centerY;
   }
 
   blackbodySpectrum.register( 'BlackbodySpectrumScreenView', BlackbodySpectrumScreenView );
