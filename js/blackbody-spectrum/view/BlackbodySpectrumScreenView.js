@@ -133,7 +133,7 @@ define( function( require ) {
     var controlPanel = new BlackBodySpectrumControlPanel( model, {
       tandem: tandem.createTandem( 'controlPanel' )
     } );
-    var savedInformationPanel = new SavedGraphInformationPanel( model, {
+    var savedInformationPanel = new SavedGraphInformationPanel( model.mainBody, model.savedBodies, {
       minWidth: controlPanel.width,
       tandem: tandem.createTandem( 'savedGraphsPanel' )
     } );

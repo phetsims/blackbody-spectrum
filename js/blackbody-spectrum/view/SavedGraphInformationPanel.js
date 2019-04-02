@@ -29,7 +29,7 @@ define( function( require ) {
    * @param {Object} [options]
    * @constructor
    */
-  function SavedGraphInformationPanel( model, options ) {
+  function SavedGraphInformationPanel( mainBody, savedBodies, options ) {
     var self = this;
 
     options = _.extend( {
@@ -39,6 +39,7 @@ define( function( require ) {
       spacing: 10,
       curveWidth: 50,
       curveLineWidth: 5,
+      savedCurveStroke: 'gray',
       labelOptions: {
         font: new PhetFont( 16 ),
         fill: BlackbodyColorProfile.titlesTextProperty
@@ -60,14 +61,13 @@ define( function( require ) {
       lineWidth: options.curveLineWidth,
       maxWidth: options.curveWidth
     } );
-    // REVIEW: 'gray' can be pulled out into an option or constant for something like savedCurveStroke
     var primarySavedGenericCurve = new Path( new GenericCurveShape(), {
-      stroke: 'gray',
+      stroke: options.savedCurveStroke,
       lineWidth: options.curveLineWidth,
       maxWidth: options.curveWidth
     } );
     var secondarySavedGenericCurve = new Path( new GenericCurveShape(), {
-      stroke: 'gray',
+      stroke: options.savedCurveStroke,
       lineDash: [ 5, 5 ],
       lineWidth: options.curveLineWidth,
       maxWidth: options.curveWidth
@@ -103,26 +103,30 @@ define( function( require ) {
       phetioDocumentation: options.phetioDocumentation
     } );
 
-    // A small local function that takes in a temperature and formats it consistently
-    // REVIEW: Needs JSDoc or line comment for @param and @returns
+    /**
+     * Local function for temperature formatting
+     * @param {number} temperature
+     * @returns {string}
+     * @private
+     */
     function formatTemperature( temperature ) {
       return Util.toFixed( temperature, 0 ) + ' K';
     }
 
     // Link's the main body's temperature to the primaryTemperatureLabel
-    model.mainBody.temperatureProperty.link( function( temperature ) {
+    mainBody.temperatureProperty.link( function( temperature ) {
       primaryTemperatureLabel.text = formatTemperature( temperature );
     } );
 
     // Links the saved bodies to the saved temperature boxes' visibility and text
-    model.savedBodies.lengthProperty.link( function( numberOfSavedBodies ) {
+    savedBodies.lengthProperty.link( function( numberOfSavedBodies ) {
       var oldCenterX = self.centerX;
       self.visible = numberOfSavedBodies > 0;
       secondarySavedTemperatureBox.visible = numberOfSavedBodies > 1;
       if ( numberOfSavedBodies > 0 ) {
         // REVIEW: the following two lines need to be broken into multiple lines so they're shorter
-        primarySavedTemperatureLabel.text = formatTemperature( model.savedBodies.get( numberOfSavedBodies - 1 ).temperatureProperty.value );
-        secondarySavedTemperatureLabel.text = formatTemperature( model.savedBodies.get( 0 ).temperatureProperty.value ); // text is set, but this label isn't necessarily visible
+        primarySavedTemperatureLabel.text = formatTemperature( savedBodies.get( numberOfSavedBodies - 1 ).temperatureProperty.value );
+        secondarySavedTemperatureLabel.text = formatTemperature( savedBodies.get( 0 ).temperatureProperty.value ); // text is set, but this label isn't necessarily visible
       }
       self.centerX = oldCenterX;
     } );
