@@ -37,11 +37,6 @@ define( function( require ) {
   var intensityString = require( 'string!BLACKBODY_SPECTRUM/intensity' );
   var labelsString = require( 'string!BLACKBODY_SPECTRUM/labels' );
 
-  // REVIEW: Given their current usages, DISPLAY_FONT, CHECKBOX_TEXT_FILL, CHECKBOX_TEXT_WIDTH, CONTROL_PANEL_FILL,
-  // CHECKBOX_COLOR, INTENSITY_TEXT_OPTIONS, INTENSITY_TEXT_BOX_STROKE, and INTENSITY_TEXT_BOX_FILL don't seem like they
-  // need to be file constants. CONTROL_PANEL_FILL can be moved to the options block, and the rest can be omitted if
-  // they are only used in one place. Maybe omit INTENSITY_TEXT_OPTIONS and then DISPLAY_FONT and CHECKBOX_TEXT_FILL
-  // would be used in two places.
   // constants
   var DISPLAY_FONT = new PhetFont( 18 );
   var CHECKBOX_TEXT_FILL = BlackbodyColorProfile.panelTextProperty;
@@ -51,7 +46,7 @@ define( function( require ) {
   var CHECKBOX_TOUCH_DILATION = 6;
   var BUTTON_ICON_WIDTH = 35;
   var BUTTON_TOUCH_DILATION = 6;
-  var DEFAULT_WIDTH = 140; // REVIEW: Default width of what? Improve var name or add comment.
+  var CHECKBOX_DEFAULT_WIDTH = 140;
   var INTENSITY_TEXT_OPTIONS = {
     font: new PhetFont( 18 ),
     fill: BlackbodyColorProfile.panelTextProperty
@@ -74,8 +69,8 @@ define( function( require ) {
       fill: CONTROL_PANEL_FILL,
       resize: true,
       stroke: BlackbodyColorProfile.panelStrokeProperty,
-      minWidth: DEFAULT_WIDTH,
-      maxWidth: DEFAULT_WIDTH,
+      minWidth: CHECKBOX_DEFAULT_WIDTH,
+      maxWidth: CHECKBOX_DEFAULT_WIDTH,
 
       // phet-io
       tandem: Tandem.required
@@ -173,7 +168,7 @@ define( function( require ) {
 
     var intensityDisplay = new Node( {
       children: [ intensityTextBox ],
-      maxWidth: DEFAULT_WIDTH
+      maxWidth: CHECKBOX_DEFAULT_WIDTH
     } );
     intensityText.center = intensityTextBox.center;
 
@@ -181,7 +176,7 @@ define( function( require ) {
       children: [
         checkboxes,
         intensityDisplay,
-        new HSeparator( DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
+        new HSeparator( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
         buttons
       ],
       align: 'center',
@@ -197,7 +192,7 @@ define( function( require ) {
       if ( !intensityVisible ) {
         content.setChildren( [
           checkboxes,
-          new HSeparator( DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
+          new HSeparator( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
           buttons
         ] );
       }
@@ -205,7 +200,7 @@ define( function( require ) {
         content.setChildren( [
           checkboxes,
           intensityDisplay,
-          new HSeparator( DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
+          new HSeparator( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
           buttons
         ] );
       }
