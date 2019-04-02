@@ -2,7 +2,8 @@
 
 /**
  * The menu that handles showing saved curve temperatures
- * // REVIEW: Needs @author annotations
+ * @author Saurabh Totey
+ * @author Arnab Purkayastha
  */
 define( function( require ) {
   'use strict';
@@ -23,7 +24,6 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   /**
-   * REVIEW: It might be better to just pass in mainBody and savedBodies instead of the whole model, but up to you
    * Makes a SavedGraphInformationPanel given a model that has saved bodies
    * @param {BlackbodySpectrumModel} model
    * @param {Object} [options]
@@ -124,9 +124,14 @@ define( function( require ) {
       self.visible = numberOfSavedBodies > 0;
       secondarySavedTemperatureBox.visible = numberOfSavedBodies > 1;
       if ( numberOfSavedBodies > 0 ) {
-        // REVIEW: the following two lines need to be broken into multiple lines so they're shorter
-        primarySavedTemperatureLabel.text = formatTemperature( savedBodies.get( numberOfSavedBodies - 1 ).temperatureProperty.value );
-        secondarySavedTemperatureLabel.text = formatTemperature( savedBodies.get( 0 ).temperatureProperty.value ); // text is set, but this label isn't necessarily visible
+        primarySavedTemperatureLabel.text = formatTemperature(
+          savedBodies.get( numberOfSavedBodies - 1 ).temperatureProperty.value
+        );
+
+        // text is set, but this label isn't necessarily visible
+        secondarySavedTemperatureLabel.text = formatTemperature(
+          savedBodies.get( 0 ).temperatureProperty.value
+        );
       }
       self.centerX = oldCenterX;
     } );
