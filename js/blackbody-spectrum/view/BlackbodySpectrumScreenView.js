@@ -14,7 +14,7 @@ define( function( require ) {
   // modules
   var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  var BlackBodySpectrumControlPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackBodySpectrumControlPanel' );
+  var BlackbodySpectrumControlPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumControlPanel' );
   var BlackbodySpectrumThermometer = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumThermometer' );
   var Circle = require( 'SCENERY/nodes/Circle' );
   var Dimension2 = require( 'DOT/Dimension2' );
@@ -130,7 +130,7 @@ define( function( require ) {
       phetioDocumentation: 'button that resets the screen to its initial state'
     } );
 
-    var controlPanel = new BlackBodySpectrumControlPanel( model, {
+    var controlPanel = new BlackbodySpectrumControlPanel( model, {
       tandem: tandem.createTandem( 'controlPanel' )
     } );
     var savedInformationPanel = new SavedGraphInformationPanel( model.mainBody, model.savedBodies, {

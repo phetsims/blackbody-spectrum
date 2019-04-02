@@ -61,13 +61,11 @@ define( function( require ) {
   var SEPARATOR_COLOR = 'rgb( 212, 212, 212 )';
 
   /**
-   * @param {BlackBodySpectrumModel} model
+   * @param {BlackbodySpectrumModel} model
    * @param {Object} [options]
    * @constructor
    */
-  // REVIEW: Unless there is a specific reason why this file's prefix is "BlackBody", it should be changed to
-  // "Blackbody" to match the rest of the use cases.
-  function BlackBodySpectrumControlPanel( model, options ) {
+  function BlackbodySpectrumControlPanel( model, options ) {
 
     options = _.extend( {
       xMargin: 15,
@@ -215,7 +213,7 @@ define( function( require ) {
 
   }
 
-  blackbodySpectrum.register( 'BlackBodySpectrumControlPanel', BlackBodySpectrumControlPanel );
+  blackbodySpectrum.register( 'BlackbodySpectrumControlPanel', BlackbodySpectrumControlPanel );
 
-  return inherit( Panel, BlackBodySpectrumControlPanel );
+  return inherit( Panel, BlackbodySpectrumControlPanel );
 } );
