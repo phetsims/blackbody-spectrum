@@ -20,15 +20,6 @@ define( function( require ) {
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
 
-  // constants
-  // REVIEW: Probably only needs to be a local var by this.cueingArrows
-  var ARROW_OPTIONS = {
-    fill: '#64dc64',
-    headHeight: 15,
-    headWidth: 15,
-    tailWidth: 7
-  };
-
   /**
    * Creates the triangle thumb slider
    * Triangle points down in just logical coordinates because this node eventually gets rotated for actual display
@@ -70,6 +61,12 @@ define( function( require ) {
 
     // REVIEW: Needs visibility annotation
     // Arrows that will disappear after first click
+    var ARROW_OPTIONS = {
+      fill: '#64dc64',
+      headHeight: 15,
+      headWidth: 15,
+      tailWidth: 7
+    };
     this.cueingArrows = new Node( {
       children: [ new ArrowNode( 15, 0, 40, 0, ARROW_OPTIONS ), new ArrowNode( -15, 0, -40, 0, ARROW_OPTIONS ) ]
     } );

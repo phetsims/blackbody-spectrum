@@ -25,7 +25,6 @@ define( function( require ) {
 
   // string
   var earthString = require( 'string!BLACKBODY_SPECTRUM/earth' );
-  // REVIEW: This var name should be updated once the key name is changed in https://github.com/phetsims/blackbody-spectrum/issues/76
   var lightBulbString = require( 'string!BLACKBODY_SPECTRUM/lightBulb' );
   var siriusAString = require( 'string!BLACKBODY_SPECTRUM/siriusA' );
   var sunString = require( 'string!BLACKBODY_SPECTRUM/sun' );
@@ -85,8 +84,7 @@ define( function( require ) {
       drag: function( event ) {
         var y = self.triangleNode.globalToParentPoint( event.pointer.point ).y - clickYOffset;
 
-        // REVIEW: temperature Property?
-        // Clamp to make sure wavelength Property is within graph bounds
+        // Clamp to make sure temperature Property is within graph bounds
         temperatureProperty.value = Util.clamp(
           self.yPosToTemperature( -y ),
           options.minTemperature,
