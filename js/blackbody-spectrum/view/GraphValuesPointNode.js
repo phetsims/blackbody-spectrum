@@ -10,7 +10,7 @@ define( function( require ) {
 
   // modules
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
+  var blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
   var BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var Circle = require( 'SCENERY/nodes/Circle' );
@@ -45,14 +45,14 @@ define( function( require ) {
     options = _.extend( {
       circleOptions: {
         radius: 5,
-        fill: BlackbodyColorProfile.graphValuesPointProperty
+        fill: blackbodyColorProfile.graphValuesPointProperty
       },
       dashedLineOptions: {
-        stroke: BlackbodyColorProfile.graphValuesDashedLineProperty,
+        stroke: blackbodyColorProfile.graphValuesDashedLineProperty,
         lineDash: [ 4, 4 ]
       },
       valueTextOptions: {
-        fill: BlackbodyColorProfile.graphValuesLabelsProperty,
+        fill: blackbodyColorProfile.graphValuesLabelsProperty,
         font: new PhetFont( 18 )
       },
       arrowSpacing: 30,

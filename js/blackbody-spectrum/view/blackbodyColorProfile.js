@@ -16,10 +16,7 @@ define( function( require ) {
   var Color = require( 'SCENERY/util/Color' );
   var ColorProfile = require( 'SCENERY_PHET/ColorProfile' );
 
-  // REVIEW: Since this is a singleton instance, the type should begin with a lowercase letter, e.g "blackbodyColorProfile"
-  // This is a fairly recent convention decided by the dev team, which is probably why the example is still incorrect in
-  // ColorProfile.js
-  var BlackbodyColorProfile = new ColorProfile( [ 'default', 'projector' ], {
+  var blackbodyColorProfile = new ColorProfile( [ 'default', 'projector' ], {
     background: {
       default: 'black',
       projector: 'white'
@@ -74,8 +71,8 @@ define( function( require ) {
     }
   } );
 
-  blackbodySpectrum.register( 'BlackbodyColorProfile', BlackbodyColorProfile );
+  blackbodySpectrum.register( 'blackbodyColorProfile', blackbodyColorProfile );
 
-  return BlackbodyColorProfile;
+  return blackbodyColorProfile;
 } );
 

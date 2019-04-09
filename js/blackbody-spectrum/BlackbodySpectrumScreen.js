@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
+  var blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var BlackbodySpectrumModel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/model/BlackbodySpectrumModel' );
   var BlackbodySpectrumScreenView = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumScreenView' );
@@ -28,7 +28,7 @@ define( function( require ) {
       function( model ) {
         return new BlackbodySpectrumScreenView( model, tandem.createTandem( 'view' ) );
       }, {
-        backgroundColorProperty: BlackbodyColorProfile.backgroundProperty,
+        backgroundColorProperty: blackbodyColorProfile.backgroundProperty,
         tandem: tandem
       }
     );

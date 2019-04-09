@@ -9,7 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
+  var blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var GenericCurveShape = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GenericCurveShape' );
   var HBox = require( 'SCENERY/nodes/HBox' );
@@ -34,7 +34,7 @@ define( function( require ) {
 
     options = _.extend( {
       panelFill: 'rgba( 0, 0, 0, 0 )',
-      panelStroke: BlackbodyColorProfile.panelStrokeProperty,
+      panelStroke: blackbodyColorProfile.panelStrokeProperty,
       minWidth: 140,
       spacing: 10,
       curveWidth: 50,
@@ -42,7 +42,7 @@ define( function( require ) {
       savedCurveStroke: 'gray',
       labelOptions: {
         font: new PhetFont( 16 ),
-        fill: BlackbodyColorProfile.titlesTextProperty
+        fill: blackbodyColorProfile.titlesTextProperty
       },
 
       // phet-io

@@ -13,7 +13,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
+  var blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
   var BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -61,13 +61,13 @@ define( function( require ) {
       axesWidth: 550,
       axesHeight: 400,
       axesPathOptions: {
-        stroke: BlackbodyColorProfile.graphAxesStrokeProperty,
+        stroke: blackbodyColorProfile.graphAxesStrokeProperty,
         lineWidth: 3,
         lineCap: 'round',
         lineJoin: 'round'
       },
       ticksPathOptions: {
-        stroke: BlackbodyColorProfile.graphAxesStrokeProperty,
+        stroke: blackbodyColorProfile.graphAxesStrokeProperty,
         lineWidth: 1,
         lineCap: 'butt',
         lineJoin: 'bevel'
@@ -81,11 +81,11 @@ define( function( require ) {
       defaultHorizontalZoom: model.wavelengthMax,
       defaultVerticalZoom: 140.0,
       minorTickMaxHorizontalZoom: 12000,
-      axisBoundsLabelColor: BlackbodyColorProfile.titlesTextProperty,
-      axisLabelColor: BlackbodyColorProfile.titlesTextProperty,
+      axisBoundsLabelColor: blackbodyColorProfile.titlesTextProperty,
+      axisLabelColor: blackbodyColorProfile.titlesTextProperty,
       electromagneticSpectrumLabelTextOptions: {
         font: new PhetFont( 14 ),
-        fill: BlackbodyColorProfile.titlesTextProperty
+        fill: blackbodyColorProfile.titlesTextProperty
       }
     }, options );
 

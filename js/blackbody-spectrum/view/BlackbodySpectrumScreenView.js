@@ -12,7 +12,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
+  var blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var BlackbodySpectrumControlPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumControlPanel' );
   var BlackbodySpectrumThermometer = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumThermometer' );
@@ -39,12 +39,12 @@ define( function( require ) {
   var rString = require( 'string!BLACKBODY_SPECTRUM/r' );
 
   // constants
-  var CIRCLE_LABEL_COLOR = BlackbodyColorProfile.titlesTextProperty;
+  var CIRCLE_LABEL_COLOR = blackbodyColorProfile.titlesTextProperty;
   var CIRCLE_RADIUS = 15;
   var LABEL_FONT = new PhetFont( 22 );
   var TEMPERATURE_FONT = new PhetFont( { size: 22, weight: 'bold' } );
-  var TITLE_COLOR = BlackbodyColorProfile.titlesTextProperty;
-  var TEMPERATURE_COLOR = BlackbodyColorProfile.temperatureTextProperty;
+  var TITLE_COLOR = blackbodyColorProfile.titlesTextProperty;
+  var TEMPERATURE_COLOR = blackbodyColorProfile.temperatureTextProperty;
   var INSET = 10;
   var TEMPERATURE_LABEL_SPACING = 5;
   var TRIANGLE_SIZE = 25;
@@ -99,7 +99,7 @@ define( function( require ) {
       } ), {
         lineWidth: 1.5,
         lineJoin: 'round',
-        stroke: BlackbodyColorProfile.starStrokeProperty
+        stroke: blackbodyColorProfile.starStrokeProperty
       }
     );
 

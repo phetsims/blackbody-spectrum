@@ -10,7 +10,7 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
+  var blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var inherit = require( 'PHET_CORE/inherit' );
   var OptionsDialog = require( 'JOIST/OptionsDialog' );
@@ -26,10 +26,10 @@ define( function( require ) {
     var projectorModeCheckbox = new ProjectorModeCheckbox();
     projectorModeCheckbox.projectorModeEnabledProperty.link( function( projectorMode ) {
       if ( projectorMode ) {
-        BlackbodyColorProfile.profileNameProperty.set( 'projector' );
+        blackbodyColorProfile.profileNameProperty.set( 'projector' );
       }
       else {
-        BlackbodyColorProfile.profileNameProperty.set( 'default' );
+        blackbodyColorProfile.profileNameProperty.set( 'default' );
       }
     } );
 

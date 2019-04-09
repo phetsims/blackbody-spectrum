@@ -11,7 +11,7 @@ define( function( require ) {
 
   // modules
   var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  var BlackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodyColorProfile' );
+  var blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var ButtonListener = require( 'SCENERY/input/ButtonListener' );
   var Dimension2 = require( 'DOT/Dimension2' );
@@ -41,12 +41,12 @@ define( function( require ) {
 
     options = _.extend( {
       size: new Dimension2( 15, 15 ),
-      stroke: BlackbodyColorProfile.triangleStrokeProperty,
+      stroke: blackbodyColorProfile.triangleStrokeProperty,
       lineWidth: 1,
       fill: 'rgb( 50, 145, 184 )',
       fillHighlighted: 'rgb( 71, 207, 255 )',
       dashedLineOptions: {
-        stroke: BlackbodyColorProfile.triangleStrokeProperty,
+        stroke: blackbodyColorProfile.triangleStrokeProperty,
         lineDash: [ 3, 3 ]
       },
       cursor: 'pointer'
