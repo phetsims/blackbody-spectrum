@@ -21,7 +21,7 @@ define( function( require ) {
   var simOptions = {
     credits: {
 
-      leadDesign: 'Mike Dubson, Diana L\u00f3pez Tavares',
+      leadDesign: 'Michael Dubson, Diana L\u00f3pez Tavares',
       softwareDevelopment: 'Arnab Purkayastha, Saurabh Totey, Martin Veillette',
       team: 'Wendy Adams, John Blanco, Ariel Paul, Kathy Perkins',
       qualityAssurance: 'Katie Woessner',
