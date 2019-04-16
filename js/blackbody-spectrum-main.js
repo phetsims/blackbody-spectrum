@@ -21,11 +21,10 @@ define( function( require ) {
   var simOptions = {
     credits: {
 
-      //TODO complete the credits, see https://github.com/phetsims/blackbody-spectrum/issues/16
-      leadDesign: '',
-      softwareDevelopment: '',
-      team: '',
-      qualityAssurance: '',
+      leadDesign: 'Mike Dubson, Diana L\u00f3pez Tavares',
+      softwareDevelopment: 'Arnab Purkayastha, Saurabh Totey, Martin Veillette',
+      team: 'Wendy Adams, John Blanco, Ariel Paul, Kathy Perkins',
+      qualityAssurance: 'Katie Woessner',
       graphicArts: '',
       thanks: ''
     },
