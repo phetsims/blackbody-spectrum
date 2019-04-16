@@ -205,18 +205,6 @@ define( function( require ) {
     // Call to node superconstructor: no options passed in
     Node.call( this );
 
-    // Adds children in rendering order
-    this.addChild( verticalAxisLabelNode );
-    this.addChild( horizontalAxisLabelNode );
-    this.addChild( this.horizontalTickLabelZero );
-    this.addChild( this.horizontalTickLabelMax );
-    this.addChild( this.verticalTickLabelMax );
-    this.addChild( this.axesPath );
-    this.addChild( this.horizontalTicksPath );
-    this.addChild( this.electromagneticSpectrumAxisPath );
-    this.addChild( this.electromagneticSpectrumTicksPath );
-    this.addChild( this.electromagneticSpectrumLabelTexts );
-
     // Set layout of labels relative to axes, all values were determined empirically by looking at the design document
     this.horizontalTickLabelZero.top = this.axesPath.bottom;
     this.horizontalTickLabelZero.centerX = this.axesPath.left - 10;
@@ -228,6 +216,18 @@ define( function( require ) {
     horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
     horizontalAxisBottomLabelNode.centerX = this.axesPath.centerX;
     horizontalAxisLabelNode.centerY = this.axesPath.bottom + 59;
+
+    // Adds children in rendering order
+    this.addChild( verticalAxisLabelNode );
+    this.addChild( horizontalAxisLabelNode );
+    this.addChild( this.horizontalTickLabelZero );
+    this.addChild( this.horizontalTickLabelMax );
+    this.addChild( this.verticalTickLabelMax );
+    this.addChild( this.axesPath );
+    this.addChild( this.horizontalTicksPath );
+    this.addChild( this.electromagneticSpectrumAxisPath );
+    this.addChild( this.electromagneticSpectrumTicksPath );
+    this.addChild( this.electromagneticSpectrumLabelTexts );
   }
 
   blackbodySpectrum.register( 'ZoomableAxesView', ZoomableAxesView );

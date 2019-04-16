@@ -134,18 +134,6 @@ define( function( require ) {
     this.axes.verticalZoomProperty.link( updateAllProcedure );
     this.model.savedBodies.lengthProperty.link( updateAllProcedure );
 
-    // REVIEW: See comment in similar place in BlackbodySpectrumScreenView
-    // Adds children in rendering order
-    this.addChild( this.wavelengthSpectrumNode );
-    this.addChild( this.intensityPath );
-    this.addChild( this.axes );
-    this.addChild( horizontalZoomButtons );
-    this.addChild( verticalZoomButtons );
-    this.addChild( this.mainGraph );
-    this.addChild( this.primarySavedGraph );
-    this.addChild( this.secondarySavedGraph );
-    this.addChild( this.draggablePointNode );
-
     // Sets layout of graph node elements to be all ultimately relative to the axes
     horizontalZoomButtons.left = this.axes.right - 52;
     horizontalZoomButtons.bottom = this.axes.bottom - ZOOM_BUTTON_AXES_MARGIN;
@@ -157,6 +145,17 @@ define( function( require ) {
     this.verticalZoomInButton.left = this.verticalZoomOutButton.right + ZOOM_BUTTON_SPACING;
     this.wavelengthSpectrumNode.top = this.axes.top + ZOOM_BUTTON_AXES_MARGIN + ZOOM_BUTTON_ICON_RADIUS;
     this.wavelengthSpectrumNode.left = ultravioletPosition;
+
+    // Adds children in rendering order
+    this.addChild( this.wavelengthSpectrumNode );
+    this.addChild( this.intensityPath );
+    this.addChild( this.axes );
+    this.addChild( horizontalZoomButtons );
+    this.addChild( verticalZoomButtons );
+    this.addChild( this.mainGraph );
+    this.addChild( this.primarySavedGraph );
+    this.addChild( this.secondarySavedGraph );
+    this.addChild( this.draggablePointNode );
   }
 
   // Helper function for creating zoom buttons with repeated options

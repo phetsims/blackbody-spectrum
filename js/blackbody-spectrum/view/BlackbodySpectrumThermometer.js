@@ -95,11 +95,11 @@ define( function( require ) {
       allowTouchSnag: true
     } ) );
 
-    this.addChild( this.triangleNode );
-
     this.triangleNode.rotation = -Math.PI / 2;
     this.triangleNode.left = options.tubeWidth / 2;
     this.triangleNode.centerY = -this.temperatureToYPos( TICK_MARKS[ 1 ].temperature );
+
+    this.addChild( this.triangleNode );
   }
 
   blackbodySpectrum.register( 'BlackbodySpectrumThermometer', BlackbodySpectrumThermometer );
