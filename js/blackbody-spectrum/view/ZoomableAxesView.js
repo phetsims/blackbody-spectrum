@@ -205,11 +205,12 @@ define( function( require ) {
     // Call to node superconstructor: no options passed in
     Node.call( this );
 
-    // Set layout of labels relative to axes, all values were determined empirically by looking at the design document
+    // Set layout of labels relative to axes, these objects are static
+    // Remaining object layouts are set in update() below
     this.horizontalTickLabelZero.top = this.axesPath.bottom;
-    this.horizontalTickLabelZero.centerX = this.axesPath.left - 10;
+    this.horizontalTickLabelZero.right = this.axesPath.left;
     this.horizontalTickLabelMax.top = this.axesPath.bottom;
-    this.horizontalTickLabelMax.centerX = this.axesPath.right + 5;
+    this.horizontalTickLabelMax.left = this.axesPath.right;
     verticalAxisLabelNode.centerX = this.axesPath.left - 90;
     verticalAxisLabelNode.centerY = this.axesPath.centerY;
     horizontalAxisTopLabelNode.centerX = this.axesPath.centerX;
@@ -409,8 +410,8 @@ define( function( require ) {
         this.verticalTickLabelMax.text = this.truncateNum( this.verticalZoomProperty.value, 2, 2 );
       }
 
-      this.verticalTickLabelMax.right = this.axesPath.left - 10;
-      this.verticalTickLabelMax.bottom = this.axesPath.top + 10;
+      this.verticalTickLabelMax.right = this.axesPath.left;
+      this.verticalTickLabelMax.bottom = this.axesPath.top;
     },
 
     /**

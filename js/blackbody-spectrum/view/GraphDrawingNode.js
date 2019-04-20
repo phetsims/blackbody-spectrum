@@ -31,7 +31,7 @@ define( function( require ) {
   var GRAPH_NUMBER_POINTS = 300; // number of points blackbody curve is evaluated at
   var ZOOM_BUTTON_ICON_RADIUS = 8; // size of zoom buttons
   var ZOOM_BUTTON_SPACING = 10; // spacing between + and - zoom buttons
-  var ZOOM_BUTTON_AXES_MARGIN = 10; // spacing between zoom buttons and axes
+  var ZOOM_BUTTON_AXES_MARGIN = 35; // spacing between zoom buttons and axes
 
   /**
    * The node that handles keeping all of the graph elements together and working
@@ -135,15 +135,16 @@ define( function( require ) {
     this.model.savedBodies.lengthProperty.link( updateAllProcedure );
 
     // Sets layout of graph node elements to be all ultimately relative to the axes
-    horizontalZoomButtons.left = this.axes.right - 52;
-    horizontalZoomButtons.bottom = this.axes.bottom - ZOOM_BUTTON_AXES_MARGIN;
+    var axesPath = this.axes.axesPath;
     this.horizontalZoomInButton.left = this.horizontalZoomOutButton.right + ZOOM_BUTTON_SPACING;
     this.horizontalZoomInButton.centerY = this.horizontalZoomOutButton.centerY;
-    verticalZoomButtons.left = this.axes.left + 30;
-    verticalZoomButtons.bottom = this.axes.top - ZOOM_BUTTON_AXES_MARGIN;
+    horizontalZoomButtons.centerX = axesPath.right + ZOOM_BUTTON_ICON_RADIUS;
+    horizontalZoomButtons.top = axesPath.bottom + ZOOM_BUTTON_AXES_MARGIN;
     this.verticalZoomInButton.centerY = this.verticalZoomOutButton.centerY;
     this.verticalZoomInButton.left = this.verticalZoomOutButton.right + ZOOM_BUTTON_SPACING;
-    this.wavelengthSpectrumNode.top = this.axes.top + ZOOM_BUTTON_AXES_MARGIN + ZOOM_BUTTON_ICON_RADIUS;
+    verticalZoomButtons.centerX = axesPath.left - ZOOM_BUTTON_ICON_RADIUS * 2;
+    verticalZoomButtons.bottom = axesPath.top - ZOOM_BUTTON_AXES_MARGIN;
+    this.wavelengthSpectrumNode.centerY = axesPath.centerY;
     this.wavelengthSpectrumNode.left = ultravioletPosition;
 
     // Adds children in rendering order
