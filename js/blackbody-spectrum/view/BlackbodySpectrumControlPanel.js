@@ -90,7 +90,8 @@ define( function( require ) {
       touchAreaYDilation: BUTTON_TOUCH_DILATION,
       listener: function() {
         model.saveMainBody();
-      }
+      },
+      tandem: options.tandem.createTandem( 'saveButton' )
     } );
 
     // Erase button
@@ -100,7 +101,8 @@ define( function( require ) {
       touchAreaYDilation: BUTTON_TOUCH_DILATION,
       listener: function() {
         model.clearSavedGraphs();
-      }
+      },
+      tandem: options.tandem.createTandem( 'eraseButton' )
     } );
 
     // Makes the eraseButton enabled when there is a saved graph to clear, and disabled when there is no graph to clear
@@ -113,9 +115,15 @@ define( function( require ) {
       checkboxColorBackground: CONTROL_PANEL_FILL,
       checkboxColor: CHECKBOX_COLOR
     };
-    var valuesCheckbox = new Checkbox( valuesCheckboxText, model.graphValuesVisibleProperty, checkboxOptions );
-    var intensityCheckbox = new Checkbox( intensityCheckboxText, model.intensityVisibleProperty, checkboxOptions );
-    var labelsCheckbox = new Checkbox( labelsCheckboxText, model.labelsVisibleProperty, checkboxOptions );
+    var valuesCheckbox = new Checkbox( valuesCheckboxText, model.graphValuesVisibleProperty,
+      _.assign( checkboxOptions, { tandem: options.tandem.createTandem( 'graphValuesCheckbox' ) } )
+    );
+    var intensityCheckbox = new Checkbox( intensityCheckboxText, model.intensityVisibleProperty,
+      _.assign( checkboxOptions, { tandem: options.tandem.createTandem( 'intensityCheckbox' ) } )
+    );
+    var labelsCheckbox = new Checkbox( labelsCheckboxText, model.labelsVisibleProperty,
+      _.assign( checkboxOptions, { tandem: options.tandem.createTandem( 'labelsCheckbox' ) } )
+    );
 
     valuesCheckbox.touchArea = valuesCheckbox.localBounds.dilated( CHECKBOX_TOUCH_DILATION );
     intensityCheckbox.touchArea = intensityCheckbox.localBounds.dilated( CHECKBOX_TOUCH_DILATION );
