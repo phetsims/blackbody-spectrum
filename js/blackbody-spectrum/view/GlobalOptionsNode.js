@@ -18,12 +18,13 @@ define( function( require ) {
   var VBox = require( 'SCENERY/nodes/VBox' );
 
   /**
+   * @param {Tandem} tandem
    * @constructor
    */
-  function GlobalOptionsNode() {
+  function GlobalOptionsNode( tandem ) {
 
     // add support for setting projector mode
-    var projectorModeCheckbox = new ProjectorModeCheckbox();
+    var projectorModeCheckbox = new ProjectorModeCheckbox( { tandem: tandem.createTandem( 'projectorModeCheckbox' ) } );
     projectorModeCheckbox.projectorModeEnabledProperty.link( function( projectorMode ) {
       if ( projectorMode ) {
         blackbodyColorProfile.profileNameProperty.set( 'projector' );

@@ -11,6 +11,7 @@ define( function( require ) {
 
   // modules
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   var BlackbodyConstants = {
 
@@ -32,8 +33,9 @@ define( function( require ) {
     minHorizontalZoom: 750,
     maxHorizontalZoom: 48000,
     minVerticalZoom: 0.000014336,
-    maxVerticalZoom: 700
+    maxVerticalZoom: 700,
 
+    GLOBALS_TANDEM: Tandem.rootTandem.createTandem( 'globals' ) // A static tandem that all globals can be created under.
   };
 
   blackbodySpectrum.register( 'BlackbodyConstants', BlackbodyConstants );

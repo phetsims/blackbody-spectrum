@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  var BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
   var BlackbodySpectrumScreen = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/BlackbodySpectrumScreen' );
   var GlobalOptionsNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GlobalOptionsNode' );
   var Sim = require( 'JOIST/Sim' );
@@ -28,7 +29,7 @@ define( function( require ) {
       graphicArts: '',
       thanks: ''
     },
-    optionsNode: new GlobalOptionsNode()
+    optionsNode: new GlobalOptionsNode( BlackbodyConstants.GLOBALS_TANDEM.createTandem( 'options' ) )
   };
 
   SimLauncher.launch( function() {
