@@ -62,7 +62,9 @@ define( function( require ) {
   function BlackbodySpectrumScreenView( model, tandem ) {
     ScreenView.call( this );
 
-    var blackbodySpectrumThermometer = new BlackbodySpectrumThermometer( model.mainBody.temperatureProperty );
+    var blackbodySpectrumThermometer = new BlackbodySpectrumThermometer( model.mainBody.temperatureProperty, {
+      tandem: tandem.createTandem( 'thermometerNode' )
+    } );
 
     // Note: for VSlider nodes, coordinates go where x axis is from bottom to top, and y axis is from left to right
     // The selectable triangle for the temperature slider
