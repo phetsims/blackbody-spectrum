@@ -81,7 +81,9 @@ define( function( require ) {
     } );
 
     // @private The point node that can be dragged to find out graph values
-    this.draggablePointNode = new GraphValuesPointNode( model.mainBody, this.axes );
+    this.draggablePointNode = new GraphValuesPointNode( model.mainBody, this.axes, {
+      tandem: options.tandem.createTandem( 'graphValuesPointNode' )
+    } );
     model.graphValuesVisibleProperty.link( function( graphValuesVisible ) {
 
       // Node will move back to top of graph on visibility change

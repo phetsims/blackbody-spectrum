@@ -25,6 +25,7 @@ define( function( require ) {
   var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
 
@@ -63,7 +64,9 @@ define( function( require ) {
         headWidth: 15,
         tailWidth: 7
       },
-      labelOffset: 5
+      labelOffset: 5,
+
+      tandem: Tandem.required
     }, options );
 
     // @private
@@ -125,7 +128,8 @@ define( function( require ) {
         self.cueingArrows.visible = false;
       },
       allowTouchSnag: true,
-      dragCursor: 'ew-resize'
+      dragCursor: 'ew-resize',
+      tandem: options.tandem.createTandem( 'dragListener' )
     } );
 
     this.graphPointCircle.addInputListener( graphValueDragHandler );

@@ -18,6 +18,7 @@ define( function( require ) {
   var PhetFont = require( 'SCENERY_PHET/PhetFont' );
   var Shape = require( 'KITE/Shape' );
   var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
   var TriangleSliderThumb = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/TriangleSliderThumb' );
@@ -62,7 +63,9 @@ define( function( require ) {
       tickLabelColor: blackbodyColorProfile.thermometerTubeStrokeProperty,
       tickLabelWidth: 100,
       zeroLevel: 'bulbTop',
-      thumbSize: 25
+      thumbSize: 25,
+
+      tandem: Tandem.required
     }, options );
 
     ThermometerNode.call( this, options.minTemperature, options.maxTemperature, temperatureProperty, options );
@@ -92,7 +95,8 @@ define( function( require ) {
         );
         self.updateThumb( temperatureProperty, options );
       },
-      allowTouchSnag: true
+      allowTouchSnag: true,
+      tandem: options.tandem.createTandem( 'dragListener' )
     } ) );
 
     this.triangleNode.rotation = -Math.PI / 2;
