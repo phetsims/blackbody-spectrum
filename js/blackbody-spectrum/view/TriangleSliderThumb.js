@@ -19,6 +19,7 @@ define( function( require ) {
   var Node = require( 'SCENERY/nodes/Node' );
   var Path = require( 'SCENERY/nodes/Path' );
   var Shape = require( 'KITE/Shape' );
+  var Tandem = require( 'TANDEM/Tandem' );
 
   /**
    * Creates the triangle thumb slider
@@ -40,7 +41,8 @@ define( function( require ) {
         stroke: blackbodyColorProfile.triangleStrokeProperty,
         lineDash: [ 3, 3 ]
       },
-      cursor: 'pointer'
+      cursor: 'pointer',
+      tandem: Tandem.required
     }, options );
 
     // Draw the thumb shape starting at the bottom corner, moving up to the top left
@@ -68,7 +70,8 @@ define( function( require ) {
       tailWidth: 7
     };
     this.cueingArrows = new Node( {
-      children: [ new ArrowNode( 15, 0, 40, 0, ARROW_OPTIONS ), new ArrowNode( -15, 0, -40, 0, ARROW_OPTIONS ) ]
+      children: [ new ArrowNode( 15, 0, 40, 0, ARROW_OPTIONS ), new ArrowNode( -15, 0, -40, 0, ARROW_OPTIONS ) ],
+      tandem: options.tandem.createTandem( 'cueingArrows' )
     } );
 
     Path.call( this, shape, options );

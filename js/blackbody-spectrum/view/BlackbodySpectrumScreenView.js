@@ -66,12 +66,6 @@ define( function( require ) {
       tandem: tandem.createTandem( 'thermometerNode' )
     } );
 
-    // Note: for VSlider nodes, coordinates go where x axis is from bottom to top, and y axis is from left to right
-    // The selectable triangle for the temperature slider
-    var thumbSize = new Dimension2( TRIANGLE_SIZE, TRIANGLE_SIZE );
-    var triangleNode = new TriangleSliderThumb( { size: thumbSize } );
-    triangleNode.touchArea = triangleNode.localBounds.dilatedXY( 10, 10 );
-
     var thermometerLabel = new RichText( blackbodyTemperatureString, {
       font: LABEL_FONT,
       fill: TITLE_COLOR,
