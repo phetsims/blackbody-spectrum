@@ -66,7 +66,7 @@ define( function( require ) {
       fill: TEMPERATURE_COLOR
     } );
 
-    // create the RGB and Star display
+    // create the BGR and star display
     var bgrAndStarDisplay = new BGRAndStarDisplay( model.mainBody, {
       tandem: tandem.createTandem( 'bgrAndStarDisplay' )
     } );
