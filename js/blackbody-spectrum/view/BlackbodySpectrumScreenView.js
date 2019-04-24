@@ -17,7 +17,6 @@ define( function( require ) {
   var BlackbodySpectrumControlPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumControlPanel' );
   var BlackbodySpectrumThermometer = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumThermometer' );
   var Circle = require( 'SCENERY/nodes/Circle' );
-  var Dimension2 = require( 'DOT/Dimension2' );
   var GraphDrawingNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GraphDrawingNode' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Path = require( 'SCENERY/nodes/Path' );
@@ -28,7 +27,6 @@ define( function( require ) {
   var ScreenView = require( 'JOIST/ScreenView' );
   var StarShape = require( 'SCENERY_PHET/StarShape' );
   var Text = require( 'SCENERY/nodes/Text' );
-  var TriangleSliderThumb = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/TriangleSliderThumb' );
   var Util = require( 'DOT/Util' );
 
   // strings
@@ -119,7 +117,6 @@ define( function( require ) {
       listener: function() {
         model.reset();
         graphNode.reset();
-        triangleNode.reset();
         blackbodySpectrumThermometer.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' ),
