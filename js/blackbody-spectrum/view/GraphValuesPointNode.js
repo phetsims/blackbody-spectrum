@@ -85,7 +85,8 @@ define( function( require ) {
       children: [
         new ArrowNode( halfArrowSpacing, 0, arrowTip, 0, options.arrowOptions ),
         new ArrowNode( -halfArrowSpacing, 0, -arrowTip, 0, options.arrowOptions )
-      ]
+      ],
+      tandem: options.tandem.createTandem( 'cueingArrows' )
     } );
 
     // Links cueing arrows and circle to a single draggable node
