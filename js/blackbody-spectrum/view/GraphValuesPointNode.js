@@ -41,8 +41,6 @@ define( function( require ) {
   function GraphValuesPointNode( body, axes, options ) {
     var self = this;
 
-    Node.call( this, { cursor: 'ew-resize' } );
-
     options = _.extend( {
       circleOptions: {
         radius: 5,
@@ -65,9 +63,11 @@ define( function( require ) {
         tailWidth: 7
       },
       labelOffset: 5,
-
+      cursor: 'ew-resize',
       tandem: Tandem.required
     }, options );
+
+    Node.call( this, options );
 
     // @private
     this.body = body;
