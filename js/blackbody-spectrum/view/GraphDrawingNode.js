@@ -59,7 +59,7 @@ define( function( require ) {
     this.model = model;
 
     // @private The axes with the ticks and EM spectrum labels
-    this.axes = new ZoomableAxesView( model );
+    this.axes = new ZoomableAxesView( model, { tandem: options.tandem.createTandem( 'axesView' ) } );
 
     // @private paths for the main and saved graphs
     this.mainGraph = new Path( null, options.graphPathOptions );

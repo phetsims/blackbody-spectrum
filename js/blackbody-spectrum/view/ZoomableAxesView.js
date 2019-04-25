@@ -25,6 +25,7 @@ define( function( require ) {
   var RichText = require( 'SCENERY/nodes/RichText' );
   var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
   var Shape = require( 'KITE/Shape' );
+  var Tandem = require( 'TANDEM/Tandem' );
   var Text = require( 'SCENERY/nodes/Text' );
   var Util = require( 'DOT/Util' );
 
@@ -86,7 +87,8 @@ define( function( require ) {
       electromagneticSpectrumLabelTextOptions: {
         font: new PhetFont( 14 ),
         fill: blackbodyColorProfile.titlesTextProperty
-      }
+      },
+      tandem: Tandem.required
     }, options );
 
     // @private
@@ -152,7 +154,8 @@ define( function( require ) {
     var horizontalAxisBottomLabelNode = new Text( subtitleLabelString, {
       font: new PhetFont( 16 ),
       fill: options.axisLabelColor,
-      maxWidth: axesWidth
+      maxWidth: axesWidth,
+      tandem: options.tandem.createTandem( 'horizontalAxisSubtitleLabel' )
     } );
     var horizontalAxisLabelNode = new Node( {
       children: [ horizontalAxisTopLabelNode, horizontalAxisBottomLabelNode ]
