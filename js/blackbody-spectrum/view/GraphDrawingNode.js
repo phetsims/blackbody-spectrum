@@ -125,7 +125,8 @@ define( function( require ) {
       size: new Dimension2( spectrumWidth, this.axes.verticalAxisLength ),
       minWavelength: BlackbodyConstants.ultravioletWavelength,
       maxWavelength: BlackbodyConstants.visibleWavelength,
-      opacity: 0.9
+      opacity: 0.9,
+      tandem: options.tandem.createTandem( 'wavelengthSpectrumNode' )
     } );
 
     // Links the GraphDrawingNode to update whenever any tracked Property changes
