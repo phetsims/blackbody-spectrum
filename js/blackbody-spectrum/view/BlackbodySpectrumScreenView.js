@@ -63,7 +63,8 @@ define( function( require ) {
     // A text node that reflects the temperature of the slider or main model
     var temperatureText = new Text( '?', {
       font: TEMPERATURE_FONT,
-      fill: TEMPERATURE_COLOR
+      fill: TEMPERATURE_COLOR,
+      tandem: tandem.createTandem( 'temperatureText' )
     } );
 
     // create the BGR and star display
