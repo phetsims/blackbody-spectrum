@@ -59,7 +59,7 @@ define( function( require ) {
     this.model = model;
 
     // @private The axes with the ticks and EM spectrum labels
-    this.axes = new ZoomableAxesView( model );
+    this.axes = new ZoomableAxesView( model, { tandem: options.tandem.createTandem( 'axesView' ) } );
 
     // @private paths for the main and saved graphs
     this.mainGraph = new Path( null, options.graphPathOptions );
@@ -125,7 +125,8 @@ define( function( require ) {
       size: new Dimension2( spectrumWidth, this.axes.verticalAxisLength ),
       minWavelength: BlackbodyConstants.ultravioletWavelength,
       maxWavelength: BlackbodyConstants.visibleWavelength,
-      opacity: 0.9
+      opacity: 0.9,
+      tandem: options.tandem.createTandem( 'wavelengthSpectrumNode' )
     } );
 
     // Links the GraphDrawingNode to update whenever any tracked Property changes

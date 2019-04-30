@@ -76,9 +76,12 @@ define( function( require ) {
     }
 
     var thumbDimension = new Dimension2( options.thumbSize, options.thumbSize );
-
     // @private thumb node thermometer's slider
-    this.triangleNode = new TriangleSliderThumb( { size: thumbDimension } );
+    this.triangleNode = new TriangleSliderThumb( {
+      size: thumbDimension,
+      tandem: options.tandem.createTandem( 'slider' )
+    } );
+    this.triangleNode.touchArea = this.triangleNode.localBounds.dilatedXY( 10, 10 );
 
     var clickYOffset;
     this.triangleNode.addInputListener( new SimpleDragHandler( {
