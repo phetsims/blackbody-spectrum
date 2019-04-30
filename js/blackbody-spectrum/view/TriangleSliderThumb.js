@@ -55,14 +55,13 @@ define( function( require ) {
       .lineTo( arrowHalfWidth, arrowHalfLength )
       .close();
 
-    // REVIEW: Needs doc and visibility annotation
+    // @private dashed lines to visibly anchor the triangleslider to the thermometer
     this.dashedLinesPath = new Path( null, options.dashedLineOptions );
     this.dashedLinesPath.shape = new Shape()
       .moveTo( 0, -arrowHalfLength )
       .lineTo( 0, -2.5 * arrowHalfLength );
 
-    // REVIEW: Needs visibility annotation
-    // Arrows that will disappear after first click
+    // @private Arrows that will disappear after first click
     var ARROW_OPTIONS = {
       fill: '#64dc64',
       headHeight: 15,
@@ -91,9 +90,6 @@ define( function( require ) {
 
     this.addChild( this.cueingArrows );
     this.addChild( this.dashedLinesPath );
-
-    // REVIEW: Needs doc and visibility annotation
-    this.touchArea = this.localBounds.dilatedY( 5 );
   }
 
   blackbodySpectrum.register( 'TriangleSliderThumb', TriangleSliderThumb );

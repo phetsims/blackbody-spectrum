@@ -49,7 +49,7 @@ define( function( require ) {
 
     /**
      * Resets the model's temperature and settings
-     * REVIEW: Needs visibility annotation
+     * @public
      */
     reset: function() {
       this.temperatureProperty.reset();

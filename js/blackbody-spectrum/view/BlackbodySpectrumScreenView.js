@@ -73,7 +73,7 @@ define( function( require ) {
       tandem: tandem.createTandem( 'bgrAndStarDisplay' )
     } );
 
-    // Links the current temperature to the temperature text along the TriangleSliderThumb
+    // Links the current temperature to the temperature text above the thermometer
     model.mainBody.temperatureProperty.link( function( temperature ) {
       temperatureText.text = Util.toFixed( temperature, 0 ) + ' ' + kelvinUnitsString;
       temperatureText.centerX = blackbodySpectrumThermometer.right - 55; // In case the size of the temperature text changes

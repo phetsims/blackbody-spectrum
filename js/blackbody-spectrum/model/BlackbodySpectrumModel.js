@@ -68,7 +68,7 @@ define( function( require ) {
 
     /**
      * Resets all of the model's settings and bodies
-     * REVIEW: Needs visibility annotation
+     * @public
      */
     reset: function() {
       this.graphValuesVisibleProperty.reset();
@@ -80,7 +80,7 @@ define( function( require ) {
 
     /**
      * Saves the main body
-     * REVIEW: Needs visibility annotation
+     * @public
      */
     saveMainBody: function() {
       this.savedBodies.add( new BlackbodyBodyModel(
@@ -94,7 +94,7 @@ define( function( require ) {
 
     /**
      * A function that clears saved graphs
-     * REVIEW: Needs visibility annotation
+     * @public
      */
     clearSavedGraphs: function() {
       this.savedBodies.clear();

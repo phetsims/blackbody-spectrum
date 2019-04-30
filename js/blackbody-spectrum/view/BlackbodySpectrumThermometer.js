@@ -128,7 +128,8 @@ define( function( require ) {
      * @param {string} text
      * @param {number} temperature
      * @param {Object} options - options that were provided to BlackbodySpectrumThermometer constructor
-     * // REVIEW: Needs @returns and visibility annotation
+     * @returns {Node}
+     * @private
      */
     createLabeledTick: function( text, temperature, options ) {
       var objectHeight = -this.temperatureToYPos( temperature );
@@ -158,7 +159,8 @@ define( function( require ) {
 
     /**
      * Updates the location of the thumb
-     * // REVIEW: Needs @param
+     * @param {Property.<number>}
+     * @param {Object} [options]
      * @public
      */
     updateThumb: function( temperatureProperty, options ) {
