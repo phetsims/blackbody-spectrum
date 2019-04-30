@@ -55,7 +55,7 @@ define( function( require ) {
     }, options );
 
     Node.call( this );
-    // REVIEW: Needs visibility annotation
+    // @private
     this.model = model;
 
     // @private The axes with the ticks and EM spectrum labels
@@ -91,8 +91,7 @@ define( function( require ) {
       self.draggablePointNode.visible = graphValuesVisible;
     } );
 
-    // Zoom Buttons
-    // REVIEW: Needs visibility annotation
+    // @private Zoom Buttons
     this.horizontalZoomInButton = createZoomButton(
       true,
       function() { self.axes.zoomInHorizontal(); },
@@ -120,7 +119,8 @@ define( function( require ) {
     var infraredPosition = this.axes.wavelengthToViewX( BlackbodyConstants.visibleWavelength );
     var ultravioletPosition = this.axes.wavelengthToViewX( BlackbodyConstants.ultravioletWavelength );
     var spectrumWidth = infraredPosition - ultravioletPosition;
-    // REVIEW: Needs visibility annotation
+
+    // @private Color spectrum for visible light
     this.wavelengthSpectrumNode = new WavelengthSpectrumNode( {
       size: new Dimension2( spectrumWidth, this.axes.verticalAxisLength ),
       minWavelength: BlackbodyConstants.ultravioletWavelength,
@@ -250,9 +250,9 @@ define( function( require ) {
       if ( numberOfSavedBodies > 0 ) {
         this.primarySavedGraph.shape =
           this.shapeOfBody( this.model.savedBodies.get( numberOfSavedBodies - 1 ) ).shapeClip( clipShape );
-      }
-      if ( numberOfSavedBodies === 2 ) {
-        this.secondarySavedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( 0 ) ).shapeClip( clipShape );
+        if ( numberOfSavedBodies === 2 ) {
+          this.secondarySavedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( 0 ) ).shapeClip( clipShape );
+        }
       }
     },
 
@@ -270,7 +270,7 @@ define( function( require ) {
 
     /**
      * Updates everything in the graph drawing node
-     * REVIEW: Needs visibility annotation
+     * @private
      */
     update: function() {
       var verticalZoom = this.axes.verticalZoomProperty.value;

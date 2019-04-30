@@ -149,7 +149,7 @@ define( function( require ) {
 
     /**
      * Puts this node back at the peak of the graph
-     * REVIEW: Needs visibility annotation
+     * @public
      */
     reset: function() {
       this.wavelengthProperty.value = this.body.peakWavelength;

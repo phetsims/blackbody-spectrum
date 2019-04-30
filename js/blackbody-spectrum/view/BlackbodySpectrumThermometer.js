@@ -76,7 +76,8 @@ define( function( require ) {
     }
 
     var thumbDimension = new Dimension2( options.thumbSize, options.thumbSize );
-    // REVIEW: Needs doc
+
+    // @private thumb node thermometer's slider
     this.triangleNode = new TriangleSliderThumb( { size: thumbDimension } );
 
     var clickYOffset;
