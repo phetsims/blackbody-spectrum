@@ -166,8 +166,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<NullableIO.<BooleanIO>>"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.controlPanel.eraseButton.pressListener.pressedEmitter": {
-      "phetioDocumentation": "Emits whenever a press occurs. The first argument when emitting can be used to convey info about the Event.",
+    "blackbodySpectrum.blackbodySpectrumScreen.view.controlPanel.eraseButton.pressListener.pressedAction": {
+      "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -177,8 +177,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.controlPanel.eraseButton.pressListener.releasedEmitter": {
-      "phetioDocumentation": "Emits whenever a release occurs.",
+    "blackbodySpectrum.blackbodySpectrumScreen.view.controlPanel.eraseButton.pressListener.releasedAction": {
+      "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -254,7 +254,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "LinkedElementIO"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.controlPanel.graphValuesCheckbox.toggledEmitter": {
+    "blackbodySpectrum.blackbodySpectrumScreen.view.controlPanel.graphValuesCheckbox.toggledAction": {
       "phetioDocumentation": "Emits when user input causes the checkbox to toggle, emitting a single arg: the new boolean value of the checkbox state.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -331,7 +331,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "LinkedElementIO"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.controlPanel.intensityCheckbox.toggledEmitter": {
+    "blackbodySpectrum.blackbodySpectrumScreen.view.controlPanel.intensityCheckbox.toggledAction": {
       "phetioDocumentation": "Emits when user input causes the checkbox to toggle, emitting a single arg: the new boolean value of the checkbox state.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -408,7 +408,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "LinkedElementIO"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.controlPanel.labelsCheckbox.toggledEmitter": {
+    "blackbodySpectrum.blackbodySpectrumScreen.view.controlPanel.labelsCheckbox.toggledAction": {
       "phetioDocumentation": "Emits when user input causes the checkbox to toggle, emitting a single arg: the new boolean value of the checkbox state.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -507,8 +507,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<NullableIO.<BooleanIO>>"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.controlPanel.saveButton.pressListener.pressedEmitter": {
-      "phetioDocumentation": "Emits whenever a press occurs. The first argument when emitting can be used to convey info about the Event.",
+    "blackbodySpectrum.blackbodySpectrumScreen.view.controlPanel.saveButton.pressListener.pressedAction": {
+      "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -518,8 +518,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.controlPanel.saveButton.pressListener.releasedEmitter": {
-      "phetioDocumentation": "Emits whenever a release occurs.",
+    "blackbodySpectrum.blackbodySpectrumScreen.view.controlPanel.saveButton.pressListener.releasedAction": {
+      "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -672,7 +672,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ObjectIO"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.graphValuesPointNode.dragListener.dragEndedEmitter": {
+    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.graphValuesPointNode.dragListener.dragEndedAction": {
       "phetioDocumentation": "",
       "phetioEventType": "model",
       "phetioFeatured": false,
@@ -683,7 +683,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<Vector2IO, VoidIO>"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.graphValuesPointNode.dragListener.dragStartedEmitter": {
+    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.graphValuesPointNode.dragListener.dragStartedAction": {
       "phetioDocumentation": "",
       "phetioEventType": "model",
       "phetioFeatured": false,
@@ -694,7 +694,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<Vector2IO, VoidIO>"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.graphValuesPointNode.dragListener.draggedEmitter": {
+    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.graphValuesPointNode.dragListener.draggedAction": {
       "phetioDocumentation": "",
       "phetioEventType": "model",
       "phetioFeatured": false,
@@ -848,8 +848,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<NullableIO.<BooleanIO>>"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.horizontalZoomInButton.pressListener.pressedEmitter": {
-      "phetioDocumentation": "Emits whenever a press occurs. The first argument when emitting can be used to convey info about the Event.",
+    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.horizontalZoomInButton.pressListener.pressedAction": {
+      "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -859,8 +859,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.horizontalZoomInButton.pressListener.releasedEmitter": {
-      "phetioDocumentation": "Emits whenever a release occurs.",
+    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.horizontalZoomInButton.pressListener.releasedAction": {
+      "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -1024,8 +1024,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<NullableIO.<BooleanIO>>"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.horizontalZoomOutButton.pressListener.pressedEmitter": {
-      "phetioDocumentation": "Emits whenever a press occurs. The first argument when emitting can be used to convey info about the Event.",
+    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.horizontalZoomOutButton.pressListener.pressedAction": {
+      "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -1035,8 +1035,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.horizontalZoomOutButton.pressListener.releasedEmitter": {
-      "phetioDocumentation": "Emits whenever a release occurs.",
+    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.horizontalZoomOutButton.pressListener.releasedAction": {
+      "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -1200,8 +1200,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<NullableIO.<BooleanIO>>"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.verticalZoomInButton.pressListener.pressedEmitter": {
-      "phetioDocumentation": "Emits whenever a press occurs. The first argument when emitting can be used to convey info about the Event.",
+    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.verticalZoomInButton.pressListener.pressedAction": {
+      "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -1211,8 +1211,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.verticalZoomInButton.pressListener.releasedEmitter": {
-      "phetioDocumentation": "Emits whenever a release occurs.",
+    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.verticalZoomInButton.pressListener.releasedAction": {
+      "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -1376,8 +1376,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<NullableIO.<BooleanIO>>"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.verticalZoomOutButton.pressListener.pressedEmitter": {
-      "phetioDocumentation": "Emits whenever a press occurs. The first argument when emitting can be used to convey info about the Event.",
+    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.verticalZoomOutButton.pressListener.pressedAction": {
+      "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -1387,8 +1387,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.verticalZoomOutButton.pressListener.releasedEmitter": {
-      "phetioDocumentation": "Emits whenever a release occurs.",
+    "blackbodySpectrum.blackbodySpectrumScreen.view.graphDrawingNode.verticalZoomOutButton.pressListener.releasedAction": {
+      "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -1563,8 +1563,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<NullableIO.<BooleanIO>>"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.resetAllButton.pressListener.pressedEmitter": {
-      "phetioDocumentation": "Emits whenever a press occurs. The first argument when emitting can be used to convey info about the Event.",
+    "blackbodySpectrum.blackbodySpectrumScreen.view.resetAllButton.pressListener.pressedAction": {
+      "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -1574,8 +1574,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.resetAllButton.pressListener.releasedEmitter": {
-      "phetioDocumentation": "Emits whenever a release occurs.",
+    "blackbodySpectrum.blackbodySpectrumScreen.view.resetAllButton.pressListener.releasedAction": {
+      "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -1772,7 +1772,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ObjectIO"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.thermometerNode.dragListener.dragEndedEmitter": {
+    "blackbodySpectrum.blackbodySpectrumScreen.view.thermometerNode.dragListener.dragEndedAction": {
       "phetioDocumentation": "",
       "phetioEventType": "model",
       "phetioFeatured": false,
@@ -1783,7 +1783,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<Vector2IO, VoidIO>"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.thermometerNode.dragListener.dragStartedEmitter": {
+    "blackbodySpectrum.blackbodySpectrumScreen.view.thermometerNode.dragListener.dragStartedAction": {
       "phetioDocumentation": "",
       "phetioEventType": "model",
       "phetioFeatured": false,
@@ -1794,7 +1794,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<Vector2IO, VoidIO>"
     },
-    "blackbodySpectrum.blackbodySpectrumScreen.view.thermometerNode.dragListener.draggedEmitter": {
+    "blackbodySpectrum.blackbodySpectrumScreen.view.thermometerNode.dragListener.draggedAction": {
       "phetioDocumentation": "",
       "phetioEventType": "model",
       "phetioFeatured": false,
@@ -1981,8 +1981,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "EmitterIO.<>"
     },
-    "blackbodySpectrum.general.barrierRectangle.inputListener.pressedEmitter": {
-      "phetioDocumentation": "Emits whenever a press occurs. The first argument when emitting can be used to convey info about the Event.",
+    "blackbodySpectrum.general.barrierRectangle.inputListener.pressedAction": {
+      "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -1992,8 +1992,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "blackbodySpectrum.general.barrierRectangle.inputListener.releasedEmitter": {
-      "phetioDocumentation": "Emits whenever a release occurs.",
+    "blackbodySpectrum.general.barrierRectangle.inputListener.releasedAction": {
+      "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -2047,7 +2047,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<BooleanIO>"
     },
-    "blackbodySpectrum.general.controller.input.mouseDownEmitter": {
+    "blackbodySpectrum.general.controller.input.mouseDownAction": {
       "phetioDocumentation": "Emits when a mouse button is pressed",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -2058,7 +2058,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<Vector2IO, DOMEventIO>"
     },
-    "blackbodySpectrum.general.controller.input.mouseMovedEmitter": {
+    "blackbodySpectrum.general.controller.input.mouseMovedAction": {
       "phetioDocumentation": "Emits when the mouse is moved",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -2069,7 +2069,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<Vector2IO, DOMEventIO>"
     },
-    "blackbodySpectrum.general.controller.input.mouseOutEmitter": {
+    "blackbodySpectrum.general.controller.input.mouseOutAction": {
       "phetioDocumentation": "Emits when the mouse moves out of the display",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -2080,7 +2080,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<Vector2IO, DOMEventIO>"
     },
-    "blackbodySpectrum.general.controller.input.mouseOverEmitter": {
+    "blackbodySpectrum.general.controller.input.mouseOverAction": {
       "phetioDocumentation": "Emits when the mouse is moved over a Node",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -2091,7 +2091,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<Vector2IO, DOMEventIO>"
     },
-    "blackbodySpectrum.general.controller.input.mouseUpEmitter": {
+    "blackbodySpectrum.general.controller.input.mouseUpAction": {
       "phetioDocumentation": "Emits when a mouse button is released",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -2102,7 +2102,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<Vector2IO, DOMEventIO>"
     },
-    "blackbodySpectrum.general.controller.input.penCanceledEmitter": {
+    "blackbodySpectrum.general.controller.input.penCanceledAction": {
       "phetioDocumentation": "Emits when a pen is canceled",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -2113,7 +2113,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<NumberIO, Vector2IO, DOMEventIO>"
     },
-    "blackbodySpectrum.general.controller.input.penEndedEmitter": {
+    "blackbodySpectrum.general.controller.input.penEndedAction": {
       "phetioDocumentation": "Emits when a pen is lifted",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -2124,7 +2124,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<NumberIO, Vector2IO, DOMEventIO>"
     },
-    "blackbodySpectrum.general.controller.input.penMovedEmitter": {
+    "blackbodySpectrum.general.controller.input.penMovedAction": {
       "phetioDocumentation": "Emits when a pen is moved",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -2135,7 +2135,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<NumberIO, Vector2IO, DOMEventIO>"
     },
-    "blackbodySpectrum.general.controller.input.penStartedEmitter": {
+    "blackbodySpectrum.general.controller.input.penStartedAction": {
       "phetioDocumentation": "Emits when a pen touches the screen",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -2146,7 +2146,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<NumberIO, Vector2IO, DOMEventIO>"
     },
-    "blackbodySpectrum.general.controller.input.touchCanceledEmitter": {
+    "blackbodySpectrum.general.controller.input.touchCanceledAction": {
       "phetioDocumentation": "Emits when a touch is canceled",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -2157,7 +2157,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<NumberIO, Vector2IO, DOMEventIO>"
     },
-    "blackbodySpectrum.general.controller.input.touchEndedEmitter": {
+    "blackbodySpectrum.general.controller.input.touchEndedAction": {
       "phetioDocumentation": "Emits when a touch ends",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -2168,7 +2168,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<NumberIO, Vector2IO, DOMEventIO>"
     },
-    "blackbodySpectrum.general.controller.input.touchMovedEmitter": {
+    "blackbodySpectrum.general.controller.input.touchMovedAction": {
       "phetioDocumentation": "Emits when a touch moves",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -2179,7 +2179,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<NumberIO, Vector2IO, DOMEventIO>"
     },
-    "blackbodySpectrum.general.controller.input.touchStartedEmitter": {
+    "blackbodySpectrum.general.controller.input.touchStartedAction": {
       "phetioDocumentation": "Emits when a touch begins",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -2190,7 +2190,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<NumberIO, Vector2IO, DOMEventIO>"
     },
-    "blackbodySpectrum.general.controller.input.validatePointersEmitter": {
+    "blackbodySpectrum.general.controller.input.validatePointersAction": {
       "phetioDocumentation": "",
       "phetioEventType": "model",
       "phetioFeatured": false,
@@ -2201,7 +2201,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<>"
     },
-    "blackbodySpectrum.general.controller.input.wheelScrolledEmitter": {
+    "blackbodySpectrum.general.controller.input.wheelScrolledAction": {
       "phetioDocumentation": "Emits when the mouse wheel scrolls",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -2224,7 +2224,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioTypeName": "PhetioCommandProcessorIO"
     },
     "blackbodySpectrum.general.resizedAction": {
-      "phetioDocumentation": "Emits when the sim is resized",
+      "phetioDocumentation": "Executes when the sim is resized",
       "phetioEventType": "model",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -2322,7 +2322,7 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<BooleanIO>"
     },
-    "blackbodySpectrum.globals.options.projectorModeCheckbox.toggledEmitter": {
+    "blackbodySpectrum.globals.options.projectorModeCheckbox.toggledAction": {
       "phetioDocumentation": "Emits when user input causes the checkbox to toggle, emitting a single arg: the new boolean value of the checkbox state.",
       "phetioEventType": "user",
       "phetioFeatured": false,
@@ -2410,8 +2410,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "EmitterIO.<>"
     },
-    "blackbodySpectrum.navigationBar.phetButton.phetMenu.aboutMenuItem.inputListener.pressedEmitter": {
-      "phetioDocumentation": "Emits whenever a press occurs. The first argument when emitting can be used to convey info about the Event.",
+    "blackbodySpectrum.navigationBar.phetButton.phetMenu.aboutMenuItem.inputListener.pressedAction": {
+      "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -2421,8 +2421,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "blackbodySpectrum.navigationBar.phetButton.phetMenu.aboutMenuItem.inputListener.releasedEmitter": {
-      "phetioDocumentation": "Emits whenever a release occurs.",
+    "blackbodySpectrum.navigationBar.phetButton.phetMenu.aboutMenuItem.inputListener.releasedAction": {
+      "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -2487,8 +2487,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "EmitterIO.<>"
     },
-    "blackbodySpectrum.navigationBar.phetButton.phetMenu.optionsMenuItem.inputListener.pressedEmitter": {
-      "phetioDocumentation": "Emits whenever a press occurs. The first argument when emitting can be used to convey info about the Event.",
+    "blackbodySpectrum.navigationBar.phetButton.phetMenu.optionsMenuItem.inputListener.pressedAction": {
+      "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -2498,8 +2498,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "blackbodySpectrum.navigationBar.phetButton.phetMenu.optionsMenuItem.inputListener.releasedEmitter": {
-      "phetioDocumentation": "Emits whenever a release occurs.",
+    "blackbodySpectrum.navigationBar.phetButton.phetMenu.optionsMenuItem.inputListener.releasedAction": {
+      "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -2564,8 +2564,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "EmitterIO.<>"
     },
-    "blackbodySpectrum.navigationBar.phetButton.phetMenu.screenshotMenuItem.inputListener.pressedEmitter": {
-      "phetioDocumentation": "Emits whenever a press occurs. The first argument when emitting can be used to convey info about the Event.",
+    "blackbodySpectrum.navigationBar.phetButton.phetMenu.screenshotMenuItem.inputListener.pressedAction": {
+      "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -2575,8 +2575,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "blackbodySpectrum.navigationBar.phetButton.phetMenu.screenshotMenuItem.inputListener.releasedEmitter": {
-      "phetioDocumentation": "Emits whenever a release occurs.",
+    "blackbodySpectrum.navigationBar.phetButton.phetMenu.screenshotMenuItem.inputListener.releasedAction": {
+      "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -2630,8 +2630,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "PropertyIO.<NullableIO.<BooleanIO>>"
     },
-    "blackbodySpectrum.navigationBar.phetButton.pressListener.pressedEmitter": {
-      "phetioDocumentation": "Emits whenever a press occurs. The first argument when emitting can be used to convey info about the Event.",
+    "blackbodySpectrum.navigationBar.phetButton.pressListener.pressedAction": {
+      "phetioDocumentation": "Executes whenever a press occurs. The first argument when executing can be used to convey info about the Event.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
@@ -2641,8 +2641,8 @@ window.phet.phetio.phetioElementsBaseline =
       "phetioStudioControl": true,
       "phetioTypeName": "ActionIO.<EventIO, VoidIO, VoidIO>"
     },
-    "blackbodySpectrum.navigationBar.phetButton.pressListener.releasedEmitter": {
-      "phetioDocumentation": "Emits whenever a release occurs.",
+    "blackbodySpectrum.navigationBar.phetButton.pressListener.releasedAction": {
+      "phetioDocumentation": "Executes whenever a release occurs.",
       "phetioEventType": "user",
       "phetioFeatured": false,
       "phetioHighFrequency": false,
