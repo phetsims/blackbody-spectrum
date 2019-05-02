@@ -71,9 +71,11 @@ define( function( require ) {
     ThermometerNode.call( this, options.minTemperature, options.maxTemperature, temperatureProperty, options );
 
     // labeled tick marks
-    for ( var i = 0; i < TICK_MARKS.length; i++ ) {
-      this.addChild( this.createLabeledTick( TICK_MARKS[ i ].text, TICK_MARKS[ i ].temperature, options ) );
-    }
+    const tickContainer = new Node( {
+      children: _.range( 0, TICK_MARKS.length ).map( i => this.createLabeledTick( i, options ) ),
+      tandem: options.tandem.createTandem( 'labelsNode' )
+    } );
+    this.addChild( tickContainer );
 
     var thumbDimension = new Dimension2( options.thumbSize, options.thumbSize );
     // @private thumb node thermometer's slider
@@ -125,13 +127,15 @@ define( function( require ) {
 
     /**
      * Creates a labeled tick mark.
-     * @param {string} text
-     * @param {number} temperature
+     * @param {number} tickMarkIndex
      * @param {Object} options - options that were provided to BlackbodySpectrumThermometer constructor
      * @returns {Node}
      * @private
      */
-    createLabeledTick: function( text, temperature, options ) {
+    createLabeledTick: function( tickMarkIndex, options ) {
+      const text = TICK_MARKS[ tickMarkIndex ].text;
+      const temperature = TICK_MARKS[ tickMarkIndex ].temperature;
+
       var objectHeight = -this.temperatureToYPos( temperature );
       var tickMarkLength = options.tubeWidth * 0.5;
 
