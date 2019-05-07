@@ -115,6 +115,7 @@ define( function( require ) {
     controlPanel.top = thermometerLabel.centerY;
     savedInformationPanel.centerX = controlPanel.centerX;
     savedInformationPanel.top = controlPanel.bottom + 55;
+    bgrAndStarDisplay.left = 225;
 
     this.addChild( graphNode );
     this.addChild( controlPanel );
