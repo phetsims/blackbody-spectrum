@@ -75,7 +75,6 @@ define( function( require ) {
       }
     );
 
-    circleBlue.centerX = 225;
     circleBlue.centerY = STAR_SPACING;
     circleGreen.centerX = circleBlue.centerX + STAR_SPACING;
     circleGreen.centerY = circleBlue.centerY;
