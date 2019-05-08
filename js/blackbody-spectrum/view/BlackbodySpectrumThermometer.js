@@ -75,9 +75,9 @@ define( function( require ) {
       children: _.range( 0, TICK_MARKS.length ).map( i => this.createLabeledTick( i, options ) ),
       tandem: options.tandem.createTandem( 'labelsNode' )
     } );
-    this.addChild( tickContainer );
 
     var thumbDimension = new Dimension2( options.thumbSize, options.thumbSize );
+
     // @private thumb node thermometer's slider
     this.triangleNode = new TriangleSliderThumb( {
       size: thumbDimension,
@@ -109,8 +109,10 @@ define( function( require ) {
     this.triangleNode.left = options.tubeWidth / 2;
     this.triangleNode.centerY = -this.temperatureToYPos( TICK_MARKS[ 1 ].temperature );
 
+    this.addChild( tickContainer );
     this.addChild( this.triangleNode );
 
+    // @private location of the center of the thermometer (not the whole node) relative to the right of the node
     this._thermometerCenterXFromRight = -this.triangleNode.width - options.tubeWidth / 2;
   }
 
