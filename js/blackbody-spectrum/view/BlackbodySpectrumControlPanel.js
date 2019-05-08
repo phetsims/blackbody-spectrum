@@ -53,6 +53,7 @@ define( function( require ) {
   };
   var INTENSITY_TEXT_BOX_STROKE = 'red';
   var INTENSITY_TEXT_BOX_FILL = 'gray';
+  var INTENSITY_TEXT_BOX_PADDING = 5;
   var SEPARATOR_COLOR = 'rgb( 212, 212, 212 )';
 
   /**
@@ -130,10 +131,15 @@ define( function( require ) {
     labelsCheckbox.touchArea = labelsCheckbox.localBounds.dilated( CHECKBOX_TOUCH_DILATION );
 
     var intensityText = new RichText( '?', INTENSITY_TEXT_OPTIONS );
-    var intensityTextBox = new Rectangle( 0, 0, intensityText.width + 5, intensityText.height + 5, 0, 0, {
-      children: [ intensityText ],
-      stroke: INTENSITY_TEXT_BOX_STROKE,
-      fill: INTENSITY_TEXT_BOX_FILL
+    var intensityTextBox = new Rectangle(
+      0, 0,
+      intensityText.width + INTENSITY_TEXT_BOX_PADDING,
+      intensityText.height + INTENSITY_TEXT_BOX_PADDING,
+      0, 0,
+      {
+        children: [ intensityText ],
+        stroke: INTENSITY_TEXT_BOX_STROKE,
+        fill: INTENSITY_TEXT_BOX_FILL
     } );
 
     // Links the intensity text to update whenever the model's temperature changes
