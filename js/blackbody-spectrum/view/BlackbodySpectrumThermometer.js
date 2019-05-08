@@ -110,6 +110,8 @@ define( function( require ) {
     this.triangleNode.centerY = -this.temperatureToYPos( TICK_MARKS[ 1 ].temperature );
 
     this.addChild( this.triangleNode );
+
+    this._thermometerCenterXFromRight = -this.triangleNode.width - options.tubeWidth / 2;
   }
 
   blackbodySpectrum.register( 'BlackbodySpectrumThermometer', BlackbodySpectrumThermometer );
@@ -170,7 +172,14 @@ define( function( require ) {
     updateThumb: function( temperatureProperty, options ) {
       this.triangleNode.left = options.tubeWidth / 2;
       this.triangleNode.centerY = -this.temperatureToYPos( temperatureProperty.value );
-    }
+    },
+
+    /**
+     * Get horizontal location of thermometer center relative to centerX of the node
+     * @returns {number}
+     * @public
+     */
+    get thermometerCenterXFromRight() { return this._thermometerCenterXFromRight; }
   } );
 
   return BlackbodySpectrumThermometer;
