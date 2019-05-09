@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
+  var BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -48,8 +49,8 @@ define( function( require ) {
     var self = this;
 
     options = _.extend( {
-      minTemperature: 270,
-      maxTemperature: 11000,
+      minTemperature: BlackbodyConstants.minTemperature,
+      maxTemperature: BlackbodyConstants.maxTemperature,
       bulbDiameter: 35,
       tubeWidth: 20,
       tubeHeight: 400,
