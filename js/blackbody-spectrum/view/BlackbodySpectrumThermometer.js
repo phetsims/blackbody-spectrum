@@ -10,6 +10,7 @@ define( function( require ) {
 
   // modules
   var blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
+  var BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
   var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var inherit = require( 'PHET_CORE/inherit' );
@@ -48,8 +49,8 @@ define( function( require ) {
     var self = this;
 
     options = _.extend( {
-      minTemperature: 270,
-      maxTemperature: 11000,
+      minTemperature: BlackbodyConstants.minTemperature,
+      maxTemperature: BlackbodyConstants.maxTemperature,
       bulbDiameter: 35,
       tubeWidth: 20,
       tubeHeight: 400,
@@ -75,9 +76,9 @@ define( function( require ) {
       children: _.range( 0, TICK_MARKS.length ).map( i => this.createLabeledTick( i, options ) ),
       tandem: options.tandem.createTandem( 'labelsNode' )
     } );
-    this.addChild( tickContainer );
 
     var thumbDimension = new Dimension2( options.thumbSize, options.thumbSize );
+
     // @private thumb node thermometer's slider
     this.triangleNode = new TriangleSliderThumb( {
       size: thumbDimension,
@@ -109,7 +110,11 @@ define( function( require ) {
     this.triangleNode.left = options.tubeWidth / 2;
     this.triangleNode.centerY = -this.temperatureToYPos( TICK_MARKS[ 1 ].temperature );
 
+    this.addChild( tickContainer );
     this.addChild( this.triangleNode );
+
+    // @private location of the center of the thermometer (not the whole node) relative to the right of the node
+    this._thermometerCenterXFromRight = -this.triangleNode.width - options.tubeWidth / 2;
   }
 
   blackbodySpectrum.register( 'BlackbodySpectrumThermometer', BlackbodySpectrumThermometer );
@@ -170,7 +175,14 @@ define( function( require ) {
     updateThumb: function( temperatureProperty, options ) {
       this.triangleNode.left = options.tubeWidth / 2;
       this.triangleNode.centerY = -this.temperatureToYPos( temperatureProperty.value );
-    }
+    },
+
+    /**
+     * Get horizontal location of thermometer center relative to centerX of the node
+     * @returns {number}
+     * @public
+     */
+    get thermometerCenterXFromRight() { return this._thermometerCenterXFromRight; }
   } );
 
   return BlackbodySpectrumThermometer;

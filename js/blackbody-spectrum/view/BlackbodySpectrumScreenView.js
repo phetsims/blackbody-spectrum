@@ -38,7 +38,6 @@ define( function( require ) {
   var TEMPERATURE_COLOR = blackbodyColorProfile.temperatureTextProperty;
   var INSET = 10;
   var TEMPERATURE_LABEL_SPACING = 5;
-  var TRIANGLE_SIZE = 25;
 
   /**
    * Constructor for the BlackbodySpectrumView
@@ -49,7 +48,7 @@ define( function( require ) {
   function BlackbodySpectrumScreenView( model, tandem ) {
     ScreenView.call( this );
 
-    var blackbodySpectrumThermometer = new BlackbodySpectrumThermometer( model.mainBody.temperatureProperty, {
+    var thermometer = new BlackbodySpectrumThermometer( model.mainBody.temperatureProperty, {
       tandem: tandem.createTandem( 'thermometerNode' )
     } );
 
@@ -76,7 +75,7 @@ define( function( require ) {
     // Links the current temperature to the temperature text above the thermometer
     model.mainBody.temperatureProperty.link( function( temperature ) {
       temperatureText.text = Util.toFixed( temperature, 0 ) + ' ' + kelvinUnitsString;
-      temperatureText.centerX = blackbodySpectrumThermometer.right - 55; // In case the size of the temperature text changes
+      temperatureText.centerX = thermometerLabel.centerX; // In case the size of the temperature text changes
     } );
 
     // create graph with zoom buttons
@@ -87,7 +86,7 @@ define( function( require ) {
       listener: function() {
         model.reset();
         graphNode.reset();
-        blackbodySpectrumThermometer.reset();
+        thermometer.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' ),
       phetioDocumentation: 'button that resets the screen to its initial state'
@@ -109,9 +108,9 @@ define( function( require ) {
     thermometerLabel.top = INSET + TEMPERATURE_LABEL_SPACING;
     temperatureText.centerX = thermometerLabel.centerX;
     temperatureText.top = thermometerLabel.bottom + TEMPERATURE_LABEL_SPACING;
-    blackbodySpectrumThermometer.centerX = temperatureText.centerX - TRIANGLE_SIZE;
-    blackbodySpectrumThermometer.top = temperatureText.bottom + TEMPERATURE_LABEL_SPACING;
-    controlPanel.right = blackbodySpectrumThermometer.left - 20;
+    thermometer.right = temperatureText.centerX - thermometer.thermometerCenterXFromRight;
+    thermometer.top = temperatureText.bottom + TEMPERATURE_LABEL_SPACING;
+    controlPanel.right = thermometer.left - 20;
     controlPanel.top = thermometerLabel.centerY;
     savedInformationPanel.centerX = controlPanel.centerX;
     savedInformationPanel.top = controlPanel.bottom + 55;
@@ -120,7 +119,7 @@ define( function( require ) {
     this.addChild( graphNode );
     this.addChild( controlPanel );
     this.addChild( savedInformationPanel );
-    this.addChild( blackbodySpectrumThermometer );
+    this.addChild( thermometer );
     this.addChild( thermometerLabel );
     this.addChild( temperatureText );
     this.addChild( bgrAndStarDisplay );
