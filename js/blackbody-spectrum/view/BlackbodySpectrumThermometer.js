@@ -4,6 +4,7 @@
  * Scenery Node that displays a thermometer with labels attached to the left hand side of the thermometer
  *
  * @author Martin Veillette (Berea College)
+ * @author Arnab Purkayastha
  */
 define( function( require ) {
   'use strict';
@@ -173,6 +174,9 @@ define( function( require ) {
      * @public
      */
     updateThumb: function( temperatureProperty, options ) {
+      assert && assert( temperatureProperty.value >= options.minTemperature &&
+      temperatureProperty.value <= options.maxTemperature,
+        'temperature has exceeded thermometer bounds' );
       this.triangleNode.left = options.tubeWidth / 2;
       this.triangleNode.centerY = -this.temperatureToYPos( temperatureProperty.value );
     },

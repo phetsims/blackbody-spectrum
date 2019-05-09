@@ -85,9 +85,11 @@ define( function( require ) {
      * @returns {number}
      */
     getRenormalizedTemperature: function() {
+      assert && assert( this.temperatureProperty.value >= BlackbodyConstants.minTemperature,
+        'Temperature set lower than minimum: ' + BlackbodyConstants.minTemperature );
       var POWER_EXPONENT = 0.7; // used to create a more significant difference in normalized temperature near minimum
       return Math.pow(
-        Math.max( this.temperatureProperty.value - BlackbodyConstants.minTemperature, 0 ) /
+        ( this.temperatureProperty.value - BlackbodyConstants.minTemperature ) /
         ( BlackbodyConstants.maxTemperature - BlackbodyConstants.minTemperature ),
         POWER_EXPONENT
       );
@@ -132,6 +134,7 @@ define( function( require ) {
      * @returns {number}
      */
     getPeakWavelength: function() {
+      assert && assert( this.temperatureProperty.value > 0, 'Temperature must be positive' );
       var WIEN_CONSTANT = 2.897773e-3; // is equal to b in units of meters-kelvin
       return 1e9 * WIEN_CONSTANT / this.temperatureProperty.value;
     },
