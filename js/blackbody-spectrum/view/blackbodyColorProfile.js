@@ -12,11 +12,11 @@ define( require => {
   'use strict';
 
   // modules
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  var Color = require( 'SCENERY/util/Color' );
-  var ColorProfile = require( 'SCENERY_PHET/ColorProfile' );
+  const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  const Color = require( 'SCENERY/util/Color' );
+  const ColorProfile = require( 'SCENERY_PHET/ColorProfile' );
 
-  var blackbodyColorProfile = new ColorProfile( [ 'default', 'projector' ], {
+  const blackbodyColorProfile = new ColorProfile( [ 'default', 'projector' ], {
     background: {
       default: 'black',
       projector: 'white'

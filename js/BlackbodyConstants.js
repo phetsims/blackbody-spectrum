@@ -6,15 +6,15 @@
  *
  * @author Arnab Purkayastha
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
-  var BlackbodyConstants = {
+  const BlackbodyConstants = {
 
     // Thermometer Temperature Values
     minTemperature: 270,
@@ -41,8 +41,5 @@ define( function( require ) {
     GLOBALS_TANDEM: Tandem.rootTandem.createTandem( 'globals' ) // A static tandem that all globals can be created under.
   };
 
-  blackbodySpectrum.register( 'BlackbodyConstants', BlackbodyConstants );
-
-  return BlackbodyConstants;
-
+  return blackbodySpectrum.register( 'BlackbodyConstants', BlackbodyConstants );
 } );

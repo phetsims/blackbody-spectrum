@@ -5,36 +5,30 @@
  *
  * @author Martin Veillette (Berea College)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  var BlackbodySpectrumModel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/model/BlackbodySpectrumModel' );
-  var BlackbodySpectrumScreenView = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumScreenView' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Screen = require( 'JOIST/Screen' );
+  const blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
+  const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  const BlackbodySpectrumModel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/model/BlackbodySpectrumModel' );
+  const BlackbodySpectrumScreenView = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumScreenView' );
+  const Screen = require( 'JOIST/Screen' );
 
-  /**
-   * @param {Tandem} tandem
-   * @constructor
-   */
-  function BlackbodySpectrumScreen( tandem ) {
-    Screen.call( this,
-      function() {
-        return new BlackbodySpectrumModel( tandem.createTandem( 'model' ) );
-      },
-      function( model ) {
-        return new BlackbodySpectrumScreenView( model, tandem.createTandem( 'view' ) );
-      }, {
-        backgroundColorProperty: blackbodyColorProfile.backgroundProperty,
-        tandem: tandem
-      }
-    );
+  class BlackbodySpectrumScreen extends Screen {
+
+    /**
+     * @param {Tandem} tandem
+     */
+    constructor( tandem ) {
+      super( () => new BlackbodySpectrumModel( tandem.createTandem( 'model' ) ),
+        model => new BlackbodySpectrumScreenView( model, tandem.createTandem( 'view' ) ), {
+          backgroundColorProperty: blackbodyColorProfile.backgroundProperty,
+          tandem: tandem
+        }
+      );
+    }
   }
 
-  blackbodySpectrum.register( 'BlackbodySpectrumScreen', BlackbodySpectrumScreen );
-
-  return inherit( Screen, BlackbodySpectrumScreen );
+  return blackbodySpectrum.register( 'BlackbodySpectrumScreen', BlackbodySpectrumScreen );
 } );

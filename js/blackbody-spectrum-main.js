@@ -1,27 +1,26 @@
-// Copyright 2014-2018, University of Colorado Boulder
+// Copyright 2014-2019, University of Colorado Boulder
 
 /**
  * Main entry point for the sim.
  *
  * @author Martin Veillette (Berea College)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
-  var BlackbodySpectrumScreen = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/BlackbodySpectrumScreen' );
-  var GlobalOptionsNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GlobalOptionsNode' );
-  var Sim = require( 'JOIST/Sim' );
-  var SimLauncher = require( 'JOIST/SimLauncher' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  const BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
+  const BlackbodySpectrumScreen = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/BlackbodySpectrumScreen' );
+  const GlobalOptionsNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GlobalOptionsNode' );
+  const Sim = require( 'JOIST/Sim' );
+  const SimLauncher = require( 'JOIST/SimLauncher' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
   // strings
-  var blackbodySpectrumTitleString = require( 'string!BLACKBODY_SPECTRUM/blackbody-spectrum.title' );
+  const blackbodySpectrumTitleString = require( 'string!BLACKBODY_SPECTRUM/blackbody-spectrum.title' );
 
-  var simOptions = {
+  const simOptions = {
     credits: {
-
       leadDesign: 'Michael Dubson, Diana L\u00f3pez Tavares',
       softwareDevelopment: 'Arnab Purkayastha, Saurabh Totey, Martin Veillette',
       team: 'Wendy Adams, John Blanco, Ariel Paul, Kathy Perkins',
@@ -32,8 +31,8 @@ define( function( require ) {
     optionsNode: new GlobalOptionsNode( BlackbodyConstants.GLOBALS_TANDEM.createTandem( 'options' ) )
   };
 
-  SimLauncher.launch( function() {
-    var sim = new Sim( blackbodySpectrumTitleString, [
+  SimLauncher.launch( () => {
+    const sim = new Sim( blackbodySpectrumTitleString, [
       new BlackbodySpectrumScreen( Tandem.rootTandem.createTandem( 'blackbodySpectrumScreen' ) )
     ], simOptions );
     sim.start();

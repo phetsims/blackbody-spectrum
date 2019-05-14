@@ -32,7 +32,6 @@ define( require => {
      * Constructs a Blackbody body at the given temperature
      * @param {number} temperature
      * @param {Tandem} tandem
-     * @constructor
      */
     constructor( temperature, tandem ) {
 
