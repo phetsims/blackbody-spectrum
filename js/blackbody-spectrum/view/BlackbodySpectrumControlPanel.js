@@ -6,223 +6,222 @@
  * @author Arnab Purkayastha
  * @author Saurabh Totey
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  var Checkbox = require( 'SUN/Checkbox' );
-  var EraserButton = require( 'SCENERY_PHET/buttons/EraserButton' );
-  var FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
-  var HBox = require( 'SCENERY/nodes/HBox' );
-  var HSeparator = require( 'SUN/HSeparator' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Panel = require( 'SUN/Panel' );
-  var PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Rectangle = require( 'SCENERY/nodes/Rectangle' );
-  var RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
-  var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var VBox = require( 'SCENERY/nodes/VBox' );
+  const blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
+  const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  const Checkbox = require( 'SUN/Checkbox' );
+  const EraserButton = require( 'SCENERY_PHET/buttons/EraserButton' );
+  const FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
+  const HBox = require( 'SCENERY/nodes/HBox' );
+  const HSeparator = require( 'SUN/HSeparator' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Panel = require( 'SUN/Panel' );
+  const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Rectangle = require( 'SCENERY/nodes/Rectangle' );
+  const RectangularPushButton = require( 'SUN/buttons/RectangularPushButton' );
+  const RichText = require( 'SCENERY/nodes/RichText' );
+  const ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
-  var graphValuesString = require( 'string!BLACKBODY_SPECTRUM/graphValues' );
-  var intensityUnitsLabelString = require( 'string!BLACKBODY_SPECTRUM/intensityUnitsLabel' );
-  var intensityString = require( 'string!BLACKBODY_SPECTRUM/intensity' );
-  var labelsString = require( 'string!BLACKBODY_SPECTRUM/labels' );
+  const graphValuesString = require( 'string!BLACKBODY_SPECTRUM/graphValues' );
+  const intensityUnitsLabelString = require( 'string!BLACKBODY_SPECTRUM/intensityUnitsLabel' );
+  const intensityString = require( 'string!BLACKBODY_SPECTRUM/intensity' );
+  const labelsString = require( 'string!BLACKBODY_SPECTRUM/labels' );
 
   // constants
-  var DISPLAY_FONT = new PhetFont( 18 );
-  var CHECKBOX_TEXT_FILL = blackbodyColorProfile.panelTextProperty;
-  var CHECKBOX_TEXT_WIDTH = 100;
-  var CONTROL_PANEL_FILL = 'rgba( 0, 0, 0, 0 )';
-  var CHECKBOX_COLOR = blackbodyColorProfile.panelStrokeProperty;
-  var CHECKBOX_TOUCH_DILATION = 6;
-  var BUTTON_ICON_WIDTH = 35;
-  var BUTTON_TOUCH_DILATION = 6;
-  var CHECKBOX_DEFAULT_WIDTH = 140;
-  var INTENSITY_TEXT_OPTIONS = {
+  const DISPLAY_FONT = new PhetFont( 18 );
+  const CHECKBOX_TEXT_FILL = blackbodyColorProfile.panelTextProperty;
+  const CHECKBOX_TEXT_WIDTH = 100;
+  const CONTROL_PANEL_FILL = 'rgba( 0, 0, 0, 0 )';
+  const CHECKBOX_COLOR = blackbodyColorProfile.panelStrokeProperty;
+  const CHECKBOX_TOUCH_DILATION = 6;
+  const BUTTON_ICON_WIDTH = 35;
+  const BUTTON_TOUCH_DILATION = 6;
+  const CHECKBOX_DEFAULT_WIDTH = 140;
+  const INTENSITY_TEXT_OPTIONS = {
     font: new PhetFont( 18 ),
     fill: blackbodyColorProfile.panelTextProperty
   };
-  var INTENSITY_TEXT_BOX_STROKE = 'red';
-  var INTENSITY_TEXT_BOX_FILL = 'gray';
-  var INTENSITY_TEXT_BOX_PADDING = 5;
-  var SEPARATOR_COLOR = 'rgb( 212, 212, 212 )';
+  const INTENSITY_TEXT_BOX_STROKE = 'red';
+  const INTENSITY_TEXT_BOX_FILL = 'gray';
+  const INTENSITY_TEXT_BOX_PADDING = 5;
+  const SEPARATOR_COLOR = 'rgb( 212, 212, 212 )';
 
-  /**
-   * @param {BlackbodySpectrumModel} model
-   * @param {Object} [options]
-   * @constructor
-   */
-  function BlackbodySpectrumControlPanel( model, options ) {
+  class BlackbodySpectrumControlPanel extends Panel {
 
-    options = _.extend( {
-      xMargin: 15,
-      yMargin: 15,
-      lineWidth: 1,
-      fill: CONTROL_PANEL_FILL,
-      resize: true,
-      stroke: blackbodyColorProfile.panelStrokeProperty,
-      minWidth: CHECKBOX_DEFAULT_WIDTH,
-      maxWidth: CHECKBOX_DEFAULT_WIDTH,
+    /**
+     * @param {BlackbodySpectrumModel} model
+     * @param {Object} [options]
+     */
+    constructor( model, options ) {
 
-      // phet-io
-      tandem: Tandem.required
-    }, options );
+      options = _.extend( {
+        xMargin: 15,
+        yMargin: 15,
+        lineWidth: 1,
+        fill: CONTROL_PANEL_FILL,
+        resize: true,
+        stroke: blackbodyColorProfile.panelStrokeProperty,
+        minWidth: CHECKBOX_DEFAULT_WIDTH,
+        maxWidth: CHECKBOX_DEFAULT_WIDTH,
 
-    // create the text nodes
-    var checkboxTextOptions = { font: DISPLAY_FONT, fill: CHECKBOX_TEXT_FILL, maxWidth: CHECKBOX_TEXT_WIDTH };
-    var valuesCheckboxText = new Text( graphValuesString, checkboxTextOptions );
-    var intensityCheckboxText = new Text( intensityString, checkboxTextOptions );
-    var labelsCheckboxText = new Text( labelsString, checkboxTextOptions );
+        // phet-io
+        tandem: Tandem.required
+      }, options );
 
-    // Save button
-    var saveButton = new RectangularPushButton( {
-      content: new FontAwesomeNode( 'camera', { maxWidth: BUTTON_ICON_WIDTH } ),
-      baseColor: PhetColorScheme.BUTTON_YELLOW,
-      touchAreaXDilation: BUTTON_TOUCH_DILATION,
-      touchAreaYDilation: BUTTON_TOUCH_DILATION,
-      listener: function() {
-        model.saveMainBody();
-      },
-      tandem: options.tandem.createTandem( 'saveButton' )
-    } );
+      // create the text nodes
+      const checkboxTextOptions = { font: DISPLAY_FONT, fill: CHECKBOX_TEXT_FILL, maxWidth: CHECKBOX_TEXT_WIDTH };
+      const valuesCheckboxText = new Text( graphValuesString, checkboxTextOptions );
+      const intensityCheckboxText = new Text( intensityString, checkboxTextOptions );
+      const labelsCheckboxText = new Text( labelsString, checkboxTextOptions );
 
-    // Erase button
-    var eraseButton = new EraserButton( {
-      iconWidth: BUTTON_ICON_WIDTH,
-      touchAreaXDilation: BUTTON_TOUCH_DILATION,
-      touchAreaYDilation: BUTTON_TOUCH_DILATION,
-      listener: function() {
-        model.clearSavedGraphs();
-      },
-      tandem: options.tandem.createTandem( 'eraseButton' )
-    } );
-
-    // Makes the eraseButton enabled when there is a saved graph to clear, and disabled when there is no graph to clear
-    model.savedBodies.lengthProperty.link( function( length ) {
-      eraseButton.enabled = length !== 0;
-    } );
-
-    // 3 checkboxes: Peak Values, Intensity, Labels
-    var checkboxOptions = {
-      checkboxColorBackground: CONTROL_PANEL_FILL,
-      checkboxColor: CHECKBOX_COLOR
-    };
-    var valuesCheckbox = new Checkbox( valuesCheckboxText, model.graphValuesVisibleProperty,
-      _.assign( checkboxOptions, { tandem: options.tandem.createTandem( 'graphValuesCheckbox' ) } )
-    );
-    var intensityCheckbox = new Checkbox( intensityCheckboxText, model.intensityVisibleProperty,
-      _.assign( checkboxOptions, { tandem: options.tandem.createTandem( 'intensityCheckbox' ) } )
-    );
-    var labelsCheckbox = new Checkbox( labelsCheckboxText, model.labelsVisibleProperty,
-      _.assign( checkboxOptions, { tandem: options.tandem.createTandem( 'labelsCheckbox' ) } )
-    );
-
-    valuesCheckbox.touchArea = valuesCheckbox.localBounds.dilated( CHECKBOX_TOUCH_DILATION );
-    intensityCheckbox.touchArea = intensityCheckbox.localBounds.dilated( CHECKBOX_TOUCH_DILATION );
-    labelsCheckbox.touchArea = labelsCheckbox.localBounds.dilated( CHECKBOX_TOUCH_DILATION );
-
-    var intensityText = new RichText( '?', INTENSITY_TEXT_OPTIONS );
-    var intensityTextBox = new Rectangle(
-      0, 0,
-      intensityText.width + INTENSITY_TEXT_BOX_PADDING,
-      intensityText.height + INTENSITY_TEXT_BOX_PADDING,
-      0, 0,
-      {
-        children: [ intensityText ],
-        stroke: INTENSITY_TEXT_BOX_STROKE,
-        fill: INTENSITY_TEXT_BOX_FILL
-    } );
-
-    // Links the intensity text to update whenever the model's temperature changes
-    model.mainBody.temperatureProperty.link( function() {
-
-      // Gets the model intensity and formats it to a nice scientific notation string to put as the intensityText
-      var notationObject = ScientificNotationNode.toScientificNotation( model.mainBody.totalIntensity, {
-        mantissaDecimalPlaces: 2
+      // Save button
+      const saveButton = new RectangularPushButton( {
+        content: new FontAwesomeNode( 'camera', { maxWidth: BUTTON_ICON_WIDTH } ),
+        baseColor: PhetColorScheme.BUTTON_YELLOW,
+        touchAreaXDilation: BUTTON_TOUCH_DILATION,
+        touchAreaYDilation: BUTTON_TOUCH_DILATION,
+        listener: () => {
+          model.saveMainBody();
+        },
+        tandem: options.tandem.createTandem( 'saveButton' )
       } );
-      var formattedString = notationObject.mantissa;
-      if ( notationObject.exponent !== '0' ) {
-        formattedString += ' X 10<sup>' + notationObject.exponent + '</sup>';
-      }
-      intensityText.text = StringUtils.fillIn( intensityUnitsLabelString, { intensity: formattedString } );
 
-      // Updates positions and sizes
-      intensityTextBox.setRect( 0, 0, intensityText.width + 20, intensityText.height + 10, 0, 0 );
+      // Erase button
+      const eraseButton = new EraserButton( {
+        iconWidth: BUTTON_ICON_WIDTH,
+        touchAreaXDilation: BUTTON_TOUCH_DILATION,
+        touchAreaYDilation: BUTTON_TOUCH_DILATION,
+        listener: () => {
+          model.clearSavedGraphs();
+        },
+        tandem: options.tandem.createTandem( 'eraseButton' )
+      } );
+
+      // Makes the eraseButton enabled when there is a saved graph to clear, and disabled when there is no graph to clear
+      model.savedBodies.lengthProperty.link( length => {
+        eraseButton.enabled = length !== 0;
+      } );
+
+      // 3 checkboxes: Peak Values, Intensity, Labels
+      const checkboxOptions = {
+        checkboxColorBackground: CONTROL_PANEL_FILL,
+        checkboxColor: CHECKBOX_COLOR
+      };
+      const valuesCheckbox = new Checkbox( valuesCheckboxText, model.graphValuesVisibleProperty,
+        _.assign( checkboxOptions, { tandem: options.tandem.createTandem( 'graphValuesCheckbox' ) } )
+      );
+      const intensityCheckbox = new Checkbox( intensityCheckboxText, model.intensityVisibleProperty,
+        _.assign( checkboxOptions, { tandem: options.tandem.createTandem( 'intensityCheckbox' ) } )
+      );
+      const labelsCheckbox = new Checkbox( labelsCheckboxText, model.labelsVisibleProperty,
+        _.assign( checkboxOptions, { tandem: options.tandem.createTandem( 'labelsCheckbox' ) } )
+      );
+
+      valuesCheckbox.touchArea = valuesCheckbox.localBounds.dilated( CHECKBOX_TOUCH_DILATION );
+      intensityCheckbox.touchArea = intensityCheckbox.localBounds.dilated( CHECKBOX_TOUCH_DILATION );
+      labelsCheckbox.touchArea = labelsCheckbox.localBounds.dilated( CHECKBOX_TOUCH_DILATION );
+
+      const intensityText = new RichText( '?', INTENSITY_TEXT_OPTIONS );
+      const intensityTextBox = new Rectangle(
+        0, 0,
+        intensityText.width + INTENSITY_TEXT_BOX_PADDING,
+        intensityText.height + INTENSITY_TEXT_BOX_PADDING,
+        0, 0,
+        {
+          children: [ intensityText ],
+          stroke: INTENSITY_TEXT_BOX_STROKE,
+          fill: INTENSITY_TEXT_BOX_FILL
+        } );
+
+      // Links the intensity text to update whenever the model's temperature changes
+      model.mainBody.temperatureProperty.link( () => {
+
+        // Gets the model intensity and formats it to a nice scientific notation string to put as the intensityText
+        const notationObject = ScientificNotationNode.toScientificNotation( model.mainBody.totalIntensity, {
+          mantissaDecimalPlaces: 2
+        } );
+        let formattedString = notationObject.mantissa;
+        if ( notationObject.exponent !== '0' ) {
+          formattedString += ' X 10<sup>' + notationObject.exponent + '</sup>';
+        }
+        intensityText.text = StringUtils.fillIn( intensityUnitsLabelString, { intensity: formattedString } );
+
+        // Updates positions and sizes
+        intensityTextBox.setRect( 0, 0, intensityText.width + 20, intensityText.height + 10, 0, 0 );
+        intensityText.center = intensityTextBox.center;
+      } );
+
+      const spacing = 15;
+      const buttons = new HBox( {
+        children: [
+          saveButton,
+          eraseButton
+        ],
+        align: 'center',
+        spacing: spacing
+      } );
+      const checkboxes = new VBox( {
+        children: [
+          valuesCheckbox,
+          labelsCheckbox,
+          intensityCheckbox
+        ],
+        align: 'left',
+        spacing: spacing,
+        resize: false
+      } );
+
+      const intensityDisplay = new Node( {
+        children: [ intensityTextBox ],
+        maxWidth: CHECKBOX_DEFAULT_WIDTH
+      } );
       intensityText.center = intensityTextBox.center;
-    } );
 
-    var spacing = 15;
-    var buttons = new HBox( {
-      children: [
-        saveButton,
-        eraseButton
-      ],
-      align: 'center',
-      spacing: spacing
-    } );
-    var checkboxes = new VBox( {
-      children: [
-        valuesCheckbox,
-        labelsCheckbox,
-        intensityCheckbox
-      ],
-      align: 'left',
-      spacing: spacing,
-      resize: false
-    } );
-
-    var intensityDisplay = new Node( {
-      children: [ intensityTextBox ],
-      maxWidth: CHECKBOX_DEFAULT_WIDTH
-    } );
-    intensityText.center = intensityTextBox.center;
-
-    var content = new VBox( {
-      children: [
-        checkboxes,
-        intensityDisplay,
-        new HSeparator( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
-        buttons
-      ],
-      align: 'center',
-      spacing: spacing,
-      resize: true
-    } );
-
-    Panel.call( this, content, options );
-
-    // The label and the box containing the intensity value text have the same visibility as the model's intensityVisibleProperty
-    model.intensityVisibleProperty.link( function( intensityVisible ) {
-      intensityDisplay.visible = intensityVisible;
-      if ( !intensityVisible ) {
-        content.setChildren( [
-          checkboxes,
-          new HSeparator( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
-          buttons
-        ] );
-      }
-      else {
-        content.setChildren( [
+      const content = new VBox( {
+        children: [
           checkboxes,
           intensityDisplay,
           new HSeparator( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
           buttons
-        ] );
-      }
-    } );
+        ],
+        align: 'center',
+        spacing: spacing,
+        resize: true
+      } );
 
+      super( content, options );
+
+      // The label and the box containing the intensity value text have the same visibility as the model's intensityVisibleProperty
+      model.intensityVisibleProperty.link( intensityVisible => {
+        intensityDisplay.visible = intensityVisible;
+        if ( !intensityVisible ) {
+          content.setChildren( [
+            checkboxes,
+            new HSeparator( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
+            buttons
+          ] );
+        }
+        else {
+          content.setChildren( [
+            checkboxes,
+            intensityDisplay,
+            new HSeparator( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
+            buttons
+          ] );
+        }
+      } );
+
+    }
   }
-
-  blackbodySpectrum.register( 'BlackbodySpectrumControlPanel', BlackbodySpectrumControlPanel );
-
-  return inherit( Panel, BlackbodySpectrumControlPanel );
+  
+  return blackbodySpectrum.register( 'BlackbodySpectrumControlPanel', BlackbodySpectrumControlPanel );
 } );

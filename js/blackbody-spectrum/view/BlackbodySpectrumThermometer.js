@@ -6,130 +6,125 @@
  * @author Martin Veillette (Berea College)
  * @author Arnab Purkayastha
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
-  var BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Shape = require( 'KITE/Shape' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
-  var TriangleSliderThumb = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/TriangleSliderThumb' );
-  var Util = require( 'DOT/Util' );
+  const blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
+  const BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
+  const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Shape = require( 'KITE/Shape' );
+  const SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
+  const TriangleSliderThumb = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/TriangleSliderThumb' );
+  const Util = require( 'DOT/Util' );
 
   // string
-  var earthString = require( 'string!BLACKBODY_SPECTRUM/earth' );
-  var lightBulbString = require( 'string!BLACKBODY_SPECTRUM/lightBulb' );
-  var siriusAString = require( 'string!BLACKBODY_SPECTRUM/siriusA' );
-  var sunString = require( 'string!BLACKBODY_SPECTRUM/sun' );
+  const earthString = require( 'string!BLACKBODY_SPECTRUM/earth' );
+  const lightBulbString = require( 'string!BLACKBODY_SPECTRUM/lightBulb' );
+  const siriusAString = require( 'string!BLACKBODY_SPECTRUM/siriusA' );
+  const sunString = require( 'string!BLACKBODY_SPECTRUM/sun' );
 
   // constants
-  var TICK_MARKS = [
+  const TICK_MARKS = [
     { text: siriusAString, temperature: 9940 },
     { text: sunString, temperature: 5778 },
     { text: lightBulbString, temperature: 3000 },
     { text: earthString, temperature: 300 }
   ];
 
-  /**
-   * Constructs a thermometer for the sim given the Property for the temperature to track
-   * @param {Property.<number>} temperatureProperty
-   * @param {Object} [options]
-   * @constructor
-   */
-  function BlackbodySpectrumThermometer( temperatureProperty, options ) {
-    var self = this;
+  class BlackbodySpectrumThermometer extends ThermometerNode {
 
-    options = _.extend( {
-      minTemperature: BlackbodyConstants.minTemperature,
-      maxTemperature: BlackbodyConstants.maxTemperature,
-      bulbDiameter: 35,
-      tubeWidth: 20,
-      tubeHeight: 400,
-      majorTickLength: 10,
-      minorTickLength: 5,
-      glassThickness: 3,
-      lineWidth: 3,
-      outlineStroke: blackbodyColorProfile.thermometerTubeStrokeProperty,
-      tickSpacing: 20,
-      tickLabelFont: new PhetFont( { size: 18 } ),
-      tickLabelColor: blackbodyColorProfile.thermometerTubeStrokeProperty,
-      tickLabelWidth: 100,
-      zeroLevel: 'bulbTop',
-      thumbSize: 25,
+    /**
+     * Constructs a thermometer for the sim given the Property for the temperature to track
+     * @param {Property.<number>} temperatureProperty
+     * @param {Object} [options]
+     */
+    constructor( temperatureProperty, options ) {
 
-      tandem: Tandem.required
-    }, options );
+      options = _.extend( {
+        minTemperature: BlackbodyConstants.minTemperature,
+        maxTemperature: BlackbodyConstants.maxTemperature,
+        bulbDiameter: 35,
+        tubeWidth: 20,
+        tubeHeight: 400,
+        majorTickLength: 10,
+        minorTickLength: 5,
+        glassThickness: 3,
+        lineWidth: 3,
+        outlineStroke: blackbodyColorProfile.thermometerTubeStrokeProperty,
+        tickSpacing: 20,
+        tickLabelFont: new PhetFont( { size: 18 } ),
+        tickLabelColor: blackbodyColorProfile.thermometerTubeStrokeProperty,
+        tickLabelWidth: 100,
+        zeroLevel: 'bulbTop',
+        thumbSize: 25,
 
-    ThermometerNode.call( this, options.minTemperature, options.maxTemperature, temperatureProperty, options );
+        tandem: Tandem.required
+      }, options );
 
-    // labeled tick marks
-    const tickContainer = new Node( {
-      children: _.range( 0, TICK_MARKS.length ).map( i => this.createLabeledTick( i, options ) ),
-      tandem: options.tandem.createTandem( 'labelsNode' )
-    } );
+      super( options.minTemperature, options.maxTemperature, temperatureProperty, options );
 
-    var thumbDimension = new Dimension2( options.thumbSize, options.thumbSize );
+      // labeled tick marks
+      const tickContainer = new Node( {
+        children: _.range( 0, TICK_MARKS.length ).map( i => this.createLabeledTick( i, options ) ),
+        tandem: options.tandem.createTandem( 'labelsNode' )
+      } );
 
-    // @private thumb node thermometer's slider
-    this.triangleNode = new TriangleSliderThumb( {
-      size: thumbDimension,
-      tandem: options.tandem.createTandem( 'slider' )
-    } );
-    this.triangleNode.touchArea = this.triangleNode.localBounds.dilatedXY( 10, 10 );
+      const thumbDimension = new Dimension2( options.thumbSize, options.thumbSize );
 
-    var clickYOffset;
-    this.triangleNode.addInputListener( new SimpleDragHandler( {
-      start: function( event ) {
-        clickYOffset = self.triangleNode.globalToParentPoint( event.pointer.point ).y - self.triangleNode.y;
-      },
-      drag: function( event ) {
-        var y = self.triangleNode.globalToParentPoint( event.pointer.point ).y - clickYOffset;
+      // @private thumb node thermometer's slider
+      this.triangleNode = new TriangleSliderThumb( {
+        size: thumbDimension,
+        tandem: options.tandem.createTandem( 'slider' )
+      } );
+      this.triangleNode.touchArea = this.triangleNode.localBounds.dilatedXY( 10, 10 );
 
-        // Clamp to make sure temperature Property is within graph bounds
-        temperatureProperty.value = Util.clamp(
-          self.yPosToTemperature( -y ),
-          options.minTemperature,
-          options.maxTemperature
-        );
-        self.updateThumb( temperatureProperty, options );
-      },
-      allowTouchSnag: true,
-      tandem: options.tandem.createTandem( 'dragListener' )
-    } ) );
+      let clickYOffset;
+      this.triangleNode.addInputListener( new SimpleDragHandler( {
+        start: event => {
+          clickYOffset = this.triangleNode.globalToParentPoint( event.pointer.point ).y - this.triangleNode.y;
+        },
+        drag: event => {
+          const y = this.triangleNode.globalToParentPoint( event.pointer.point ).y - clickYOffset;
 
-    this.triangleNode.rotation = -Math.PI / 2;
-    this.triangleNode.left = options.tubeWidth / 2;
-    this.triangleNode.centerY = -this.temperatureToYPos( TICK_MARKS[ 1 ].temperature );
+          // Clamp to make sure temperature Property is within graph bounds
+          temperatureProperty.value = Util.clamp(
+            this.yPosToTemperature( -y ),
+            options.minTemperature,
+            options.maxTemperature
+          );
+          this.updateThumb( temperatureProperty, options );
+        },
+        allowTouchSnag: true,
+        tandem: options.tandem.createTandem( 'dragListener' )
+      } ) );
 
-    this.addChild( tickContainer );
-    this.addChild( this.triangleNode );
+      this.triangleNode.rotation = -Math.PI / 2;
+      this.triangleNode.left = options.tubeWidth / 2;
+      this.triangleNode.centerY = -this.temperatureToYPos( TICK_MARKS[ 1 ].temperature );
 
-    // @private location of the center of the thermometer (not the whole node) relative to the right of the node
-    this._thermometerCenterXFromRight = -this.triangleNode.width - options.tubeWidth / 2;
-  }
+      this.addChild( tickContainer );
+      this.addChild( this.triangleNode );
 
-  blackbodySpectrum.register( 'BlackbodySpectrumThermometer', BlackbodySpectrumThermometer );
-
-  inherit( ThermometerNode, BlackbodySpectrumThermometer, {
+      // @private location of the center of the thermometer (not the whole node) relative to the right of the node
+      this._thermometerCenterXFromRight = -this.triangleNode.width - options.tubeWidth / 2;
+    }
 
     /**
      * Reset Properties associated with this Node
      * @public
      */
-    reset: function() {
+    reset() {
       this.triangleNode.centerY = -this.temperatureToYPos( TICK_MARKS[ 1 ].temperature );
       this.triangleNode.reset();
-    },
+    }
 
     /**
      * Creates a labeled tick mark.
@@ -138,24 +133,24 @@ define( function( require ) {
      * @returns {Node}
      * @private
      */
-    createLabeledTick: function( tickMarkIndex, options ) {
+    createLabeledTick( tickMarkIndex, options ) {
       const text = TICK_MARKS[ tickMarkIndex ].text;
       const temperature = TICK_MARKS[ tickMarkIndex ].temperature;
 
-      var objectHeight = -this.temperatureToYPos( temperature );
-      var tickMarkLength = options.tubeWidth * 0.5;
+      const objectHeight = -this.temperatureToYPos( temperature );
+      const tickMarkLength = options.tubeWidth * 0.5;
 
-      var shape = new Shape();
+      const shape = new Shape();
       shape.moveTo( options.tubeWidth / 2, objectHeight ).horizontalLineToRelative( tickMarkLength );
 
-      var tickNode = new Path( shape, { stroke: options.outlineStroke, lineWidth: options.lineWidth } );
-      var textNode = new Text( text, {
+      const tickNode = new Path( shape, { stroke: options.outlineStroke, lineWidth: options.lineWidth } );
+      const textNode = new Text( text, {
         font: options.tickLabelFont,
         fill: options.tickLabelColor,
         maxWidth: options.tickLabelWidth
       } );
 
-      var parentNode = new Node( {
+      const parentNode = new Node( {
         children: [ tickNode, textNode ]
       } );
 
@@ -165,7 +160,7 @@ define( function( require ) {
       textNode.right = tickNode.left - 10;
 
       return parentNode;
-    },
+    }
 
     /**
      * Updates the location of the thumb
@@ -173,13 +168,13 @@ define( function( require ) {
      * @param {Object} [options]
      * @public
      */
-    updateThumb: function( temperatureProperty, options ) {
+    updateThumb( temperatureProperty, options ) {
       assert && assert( temperatureProperty.value >= options.minTemperature &&
       temperatureProperty.value <= options.maxTemperature,
         'temperature has exceeded thermometer bounds' );
       this.triangleNode.left = options.tubeWidth / 2;
       this.triangleNode.centerY = -this.temperatureToYPos( temperatureProperty.value );
-    },
+    }
 
     /**
      * Get horizontal location of thermometer center relative to centerX of the node
@@ -187,7 +182,7 @@ define( function( require ) {
      * @public
      */
     get thermometerCenterXFromRight() { return this._thermometerCenterXFromRight; }
-  } );
+  }
 
-  return BlackbodySpectrumThermometer;
+  return blackbodySpectrum.register( 'BlackbodySpectrumThermometer', BlackbodySpectrumThermometer );
 } );

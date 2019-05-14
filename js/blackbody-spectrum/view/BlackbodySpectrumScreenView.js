@@ -8,125 +8,124 @@
  * @author Saurabh Totey
  * @author Arnab Purkayastha
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var BGRAndStarDisplay = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BGRAndStarDisplay' );
-  var blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
-  var BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  var BlackbodySpectrumControlPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumControlPanel' );
-  var BlackbodySpectrumThermometer = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumThermometer' );
-  var GraphDrawingNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GraphDrawingNode' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
-  var SavedGraphInformationPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/SavedGraphInformationPanel' );
-  var ScreenView = require( 'JOIST/ScreenView' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var Util = require( 'DOT/Util' );
+  const BGRAndStarDisplay = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BGRAndStarDisplay' );
+  const blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
+  const BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
+  const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  const BlackbodySpectrumControlPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumControlPanel' );
+  const BlackbodySpectrumThermometer = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumThermometer' );
+  const GraphDrawingNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GraphDrawingNode' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const ResetAllButton = require( 'SCENERY_PHET/buttons/ResetAllButton' );
+  const RichText = require( 'SCENERY/nodes/RichText' );
+  const SavedGraphInformationPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/SavedGraphInformationPanel' );
+  const ScreenView = require( 'JOIST/ScreenView' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const Util = require( 'DOT/Util' );
 
   // strings
-  var blackbodyTemperatureString = require( 'string!BLACKBODY_SPECTRUM/blackbodyTemperature' );
-  var kelvinUnitsString = require( 'string!BLACKBODY_SPECTRUM/kelvinUnits' );
+  const blackbodyTemperatureString = require( 'string!BLACKBODY_SPECTRUM/blackbodyTemperature' );
+  const kelvinUnitsString = require( 'string!BLACKBODY_SPECTRUM/kelvinUnits' );
 
   // constants
-  var TEMPERATURE_FONT = new PhetFont( { size: 22, weight: 'bold' } );
-  var TITLE_COLOR = blackbodyColorProfile.titlesTextProperty;
-  var TEMPERATURE_COLOR = blackbodyColorProfile.temperatureTextProperty;
-  var INSET = 10;
-  var TEMPERATURE_LABEL_SPACING = 5;
+  const TEMPERATURE_FONT = new PhetFont( { size: 22, weight: 'bold' } );
+  const TITLE_COLOR = blackbodyColorProfile.titlesTextProperty;
+  const TEMPERATURE_COLOR = blackbodyColorProfile.temperatureTextProperty;
+  const INSET = 10;
+  const TEMPERATURE_LABEL_SPACING = 5;
+  
+  class BlackbodySpectrumScreenView extends ScreenView {
 
-  /**
-   * Constructor for the BlackbodySpectrumView
-   * @param {BlackbodySpectrumModel} model - the main model for the simulation
-   * @param {Tandem} tandem
-   * @constructor
-   */
-  function BlackbodySpectrumScreenView( model, tandem ) {
-    ScreenView.call( this );
+    /**
+     * Constructor for the BlackbodySpectrumView
+     * @param {BlackbodySpectrumModel} model - the main model for the simulation
+     * @param {Tandem} tandem
+     */
+    constructor( model, tandem ) {
+      super();
 
-    var thermometer = new BlackbodySpectrumThermometer( model.mainBody.temperatureProperty, {
-      tandem: tandem.createTandem( 'thermometerNode' )
-    } );
+      const thermometer = new BlackbodySpectrumThermometer( model.mainBody.temperatureProperty, {
+        tandem: tandem.createTandem( 'thermometerNode' )
+      } );
 
-    var thermometerLabel = new RichText( blackbodyTemperatureString, {
-      font: BlackbodyConstants.LABEL_FONT,
-      fill: TITLE_COLOR,
-      align: 'center',
-      maxWidth: 130,
-      tandem: tandem.createTandem( 'thermometerLabel' )
-    } );
+      const thermometerLabel = new RichText( blackbodyTemperatureString, {
+        font: BlackbodyConstants.LABEL_FONT,
+        fill: TITLE_COLOR,
+        align: 'center',
+        maxWidth: 130,
+        tandem: tandem.createTandem( 'thermometerLabel' )
+      } );
 
-    // A text node that reflects the temperature of the slider or main model
-    var temperatureText = new Text( '?', {
-      font: TEMPERATURE_FONT,
-      fill: TEMPERATURE_COLOR,
-      tandem: tandem.createTandem( 'temperatureText' )
-    } );
+      // A text node that reflects the temperature of the slider or main model
+      const temperatureText = new Text( '?', {
+        font: TEMPERATURE_FONT,
+        fill: TEMPERATURE_COLOR,
+        tandem: tandem.createTandem( 'temperatureText' )
+      } );
 
-    // create the BGR and star display
-    var bgrAndStarDisplay = new BGRAndStarDisplay( model.mainBody, {
-      tandem: tandem.createTandem( 'bgrAndStarDisplay' )
-    } );
+      // create the BGR and star display
+      const bgrAndStarDisplay = new BGRAndStarDisplay( model.mainBody, {
+        tandem: tandem.createTandem( 'bgrAndStarDisplay' )
+      } );
 
-    // Links the current temperature to the temperature text above the thermometer
-    model.mainBody.temperatureProperty.link( function( temperature ) {
-      temperatureText.text = Util.toFixed( temperature, 0 ) + ' ' + kelvinUnitsString;
-      temperatureText.centerX = thermometerLabel.centerX; // In case the size of the temperature text changes
-    } );
+      // Links the current temperature to the temperature text above the thermometer
+      model.mainBody.temperatureProperty.link( temperature => {
+        temperatureText.text = Util.toFixed( temperature, 0 ) + ' ' + kelvinUnitsString;
+        temperatureText.centerX = thermometerLabel.centerX; // In case the size of the temperature text changes
+      } );
 
-    // create graph with zoom buttons
-    var graphNode = new GraphDrawingNode( model, { tandem: tandem.createTandem( 'graphDrawingNode' ) } );
+      // create graph with zoom buttons
+      const graphNode = new GraphDrawingNode( model, { tandem: tandem.createTandem( 'graphDrawingNode' ) } );
 
-    // create the Reset All Button in the bottom right
-    var resetAllButton = new ResetAllButton( {
-      listener: function() {
-        model.reset();
-        graphNode.reset();
-        thermometer.reset();
-      },
-      tandem: tandem.createTandem( 'resetAllButton' ),
-      phetioDocumentation: 'button that resets the screen to its initial state'
-    } );
+      // create the Reset All Button in the bottom right
+      const resetAllButton = new ResetAllButton( {
+        listener: () => {
+          model.reset();
+          graphNode.reset();
+          thermometer.reset();
+        },
+        tandem: tandem.createTandem( 'resetAllButton' ),
+        phetioDocumentation: 'button that resets the screen to its initial state'
+      } );
 
-    var controlPanel = new BlackbodySpectrumControlPanel( model, {
-      tandem: tandem.createTandem( 'controlPanel' )
-    } );
-    var savedInformationPanel = new SavedGraphInformationPanel( model.mainBody, model.savedBodies, {
-      minWidth: controlPanel.width,
-      tandem: tandem.createTandem( 'savedGraphsPanel' )
-    } );
+      const controlPanel = new BlackbodySpectrumControlPanel( model, {
+        tandem: tandem.createTandem( 'controlPanel' )
+      } );
+      const savedInformationPanel = new SavedGraphInformationPanel( model.mainBody, model.savedBodies, {
+        minWidth: controlPanel.width,
+        tandem: tandem.createTandem( 'savedGraphsPanel' )
+      } );
 
-    graphNode.left = INSET;
-    graphNode.bottom = this.layoutBounds.maxY - INSET;
-    resetAllButton.right = this.layoutBounds.maxX - INSET;
-    resetAllButton.bottom = this.layoutBounds.maxY - INSET;
-    thermometerLabel.right = this.layoutBounds.maxX - INSET;
-    thermometerLabel.top = INSET + TEMPERATURE_LABEL_SPACING;
-    temperatureText.centerX = thermometerLabel.centerX;
-    temperatureText.top = thermometerLabel.bottom + TEMPERATURE_LABEL_SPACING;
-    thermometer.right = temperatureText.centerX - thermometer.thermometerCenterXFromRight;
-    thermometer.top = temperatureText.bottom + TEMPERATURE_LABEL_SPACING;
-    controlPanel.right = thermometer.left - 20;
-    controlPanel.top = thermometerLabel.centerY;
-    savedInformationPanel.centerX = controlPanel.centerX;
-    savedInformationPanel.top = controlPanel.bottom + 55;
-    bgrAndStarDisplay.left = 225; // Layout empirically determined
+      graphNode.left = INSET;
+      graphNode.bottom = this.layoutBounds.maxY - INSET;
+      resetAllButton.right = this.layoutBounds.maxX - INSET;
+      resetAllButton.bottom = this.layoutBounds.maxY - INSET;
+      thermometerLabel.right = this.layoutBounds.maxX - INSET;
+      thermometerLabel.top = INSET + TEMPERATURE_LABEL_SPACING;
+      temperatureText.centerX = thermometerLabel.centerX;
+      temperatureText.top = thermometerLabel.bottom + TEMPERATURE_LABEL_SPACING;
+      thermometer.right = temperatureText.centerX - thermometer.thermometerCenterXFromRight;
+      thermometer.top = temperatureText.bottom + TEMPERATURE_LABEL_SPACING;
+      controlPanel.right = thermometer.left - 20;
+      controlPanel.top = thermometerLabel.centerY;
+      savedInformationPanel.centerX = controlPanel.centerX;
+      savedInformationPanel.top = controlPanel.bottom + 55;
+      bgrAndStarDisplay.left = 225; // Layout empirically determined
 
-    this.addChild( graphNode );
-    this.addChild( controlPanel );
-    this.addChild( savedInformationPanel );
-    this.addChild( thermometer );
-    this.addChild( thermometerLabel );
-    this.addChild( temperatureText );
-    this.addChild( bgrAndStarDisplay );
-    this.addChild( resetAllButton );
+      this.addChild( graphNode );
+      this.addChild( controlPanel );
+      this.addChild( savedInformationPanel );
+      this.addChild( thermometer );
+      this.addChild( thermometerLabel );
+      this.addChild( temperatureText );
+      this.addChild( bgrAndStarDisplay );
+      this.addChild( resetAllButton );
+    }
   }
-
-  blackbodySpectrum.register( 'BlackbodySpectrumScreenView', BlackbodySpectrumScreenView );
-
-  return inherit( ScreenView, BlackbodySpectrumScreenView );
+  
+  return blackbodySpectrum.register( 'BlackbodySpectrumScreenView', BlackbodySpectrumScreenView );
 } );

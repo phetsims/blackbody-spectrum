@@ -6,103 +6,99 @@
  *
  * @author Arnab Purkayastha
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  var blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  var ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var Shape = require( 'KITE/Shape' );
-  var Tandem = require( 'TANDEM/Tandem' );
+  const ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
+  const blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
+  const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  const ButtonListener = require( 'SCENERY/input/ButtonListener' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const Shape = require( 'KITE/Shape' );
+  const Tandem = require( 'TANDEM/Tandem' );
 
-  /**
-   * Creates the triangle thumb slider
-   * Triangle points down in just logical coordinates because this node eventually gets rotated for actual display
-   * @param {Object} [options]
-   * @constructor
-   */
-  function TriangleSliderThumb( options ) {
+  class TriangleSliderThumb extends Path {
 
-    var self = this;
+    /**
+     * Creates the triangle thumb slider
+     * Triangle points down in just logical coordinates because this node eventually gets rotated for actual display
+     * @param {Object} [options]
+     */
+    constructor( options ) {
 
-    options = _.extend( {
-      size: new Dimension2( 15, 15 ),
-      stroke: blackbodyColorProfile.triangleStrokeProperty,
-      lineWidth: 1,
-      fill: 'rgb( 50, 145, 184 )',
-      fillHighlighted: 'rgb( 71, 207, 255 )',
-      dashedLineOptions: {
+      options = _.extend( {
+        size: new Dimension2( 15, 15 ),
         stroke: blackbodyColorProfile.triangleStrokeProperty,
-        lineDash: [ 3, 3 ]
-      },
-      cursor: 'pointer',
-      tandem: Tandem.required
-    }, options );
+        lineWidth: 1,
+        fill: 'rgb( 50, 145, 184 )',
+        fillHighlighted: 'rgb( 71, 207, 255 )',
+        dashedLineOptions: {
+          stroke: blackbodyColorProfile.triangleStrokeProperty,
+          lineDash: [ 3, 3 ]
+        },
+        cursor: 'pointer',
+        tandem: Tandem.required
+      }, options );
 
-    // Draw the thumb shape starting at the bottom corner, moving up to the top left
-    // then moving right and connecting back, all relative to a horizontal track
-    var arrowHalfLength = options.size.width / 2;
-    var arrowHalfWidth = options.size.width / 2;
-    var shape = new Shape()
-      .moveTo( 0, -arrowHalfLength )
-      .lineTo( -arrowHalfWidth, arrowHalfLength )
-      .lineTo( arrowHalfWidth, arrowHalfLength )
-      .close();
+      // Draw the thumb shape starting at the bottom corner, moving up to the top left
+      // then moving right and connecting back, all relative to a horizontal track
+      const arrowHalfLength = options.size.width / 2;
+      const arrowHalfWidth = options.size.width / 2;
+      const shape = new Shape()
+        .moveTo( 0, -arrowHalfLength )
+        .lineTo( -arrowHalfWidth, arrowHalfLength )
+        .lineTo( arrowHalfWidth, arrowHalfLength )
+        .close();
+      
+      super( shape, options );
 
-    // @private dashed lines to visibly anchor the triangleslider to the thermometer
-    this.dashedLinesPath = new Path( null, options.dashedLineOptions );
-    this.dashedLinesPath.shape = new Shape()
-      .moveTo( 0, -arrowHalfLength )
-      .lineTo( 0, -2.5 * arrowHalfLength );
+      // @private dashed lines to visibly anchor the triangle slider to the thermometer
+      this.dashedLinesPath = new Path( null, options.dashedLineOptions );
+      this.dashedLinesPath.shape = new Shape()
+        .moveTo( 0, -arrowHalfLength )
+        .lineTo( 0, -2.5 * arrowHalfLength );
 
-    // @private Arrows that will disappear after first click
-    var ARROW_OPTIONS = {
-      fill: '#64dc64',
-      headHeight: 15,
-      headWidth: 15,
-      tailWidth: 7
-    };
-    this.cueingArrows = new Node( {
-      children: [ new ArrowNode( 15, 0, 40, 0, ARROW_OPTIONS ), new ArrowNode( -15, 0, -40, 0, ARROW_OPTIONS ) ],
-      tandem: options.tandem.createTandem( 'cueingArrows' )
-    } );
+      // @private Arrows that will disappear after first click
+      const ARROW_OPTIONS = {
+        fill: '#64dc64',
+        headHeight: 15,
+        headWidth: 15,
+        tailWidth: 7
+      };
+      this.cueingArrows = new Node( {
+        children: [ new ArrowNode( 15, 0, 40, 0, ARROW_OPTIONS ), new ArrowNode( -15, 0, -40, 0, ARROW_OPTIONS ) ],
+        tandem: options.tandem.createTandem( 'cueingArrows' )
+      } );
+      
+      // Highlight thumb on pointer over and remove arrows on first click
+      this.addInputListener( new ButtonListener( {
+        over: () => {
+          this.fill = options.fillHighlighted;
+        },
+        up: () => {
+          this.fill = options.fill;
+        },
+        down: () => {
+          this.cueingArrows.visible = false;
+        }
+      } ) );
 
-    Path.call( this, shape, options );
-
-    // Highlight thumb on pointer over and remove arrows on first click
-    this.addInputListener( new ButtonListener( {
-      over: function() {
-        self.fill = options.fillHighlighted;
-      },
-      up: function() {
-        self.fill = options.fill;
-      },
-      down: function() {
-        self.cueingArrows.visible = false;
-      }
-    } ) );
-
-    this.addChild( this.cueingArrows );
-    this.addChild( this.dashedLinesPath );
-  }
-
-  blackbodySpectrum.register( 'TriangleSliderThumb', TriangleSliderThumb );
-
-  return inherit( Path, TriangleSliderThumb, {
+      this.addChild( this.cueingArrows );
+      this.addChild( this.dashedLinesPath );
+    }
 
     /**
      * Reset Properties associated with this Node
      * @public
      */
-    reset: function() {
+    reset() {
       this.cueingArrows.visible = true;
     }
 
-  } );
+  }
+
+  return blackbodySpectrum.register( 'TriangleSliderThumb', TriangleSliderThumb );
 } );

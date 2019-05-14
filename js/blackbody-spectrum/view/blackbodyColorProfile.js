@@ -1,4 +1,4 @@
-// Copyright 2018, University of Colorado Boulder
+// Copyright 2019, University of Colorado Boulder
 
 /**
  * An object that contains the colors used for various major components of the Blackbody simulation.  This
@@ -8,7 +8,7 @@
  * @author Arnab Purkayastha
  * @author Siddhartha Chinthapally (Actual Concepts)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
@@ -71,8 +71,6 @@ define( function( require ) {
     }
   } );
 
-  blackbodySpectrum.register( 'blackbodyColorProfile', blackbodyColorProfile );
-
-  return blackbodyColorProfile;
+  return blackbodySpectrum.register( 'blackbodyColorProfile', blackbodyColorProfile );
 } );
 

@@ -9,53 +9,52 @@
  * @author Saurabh Totey
  * @author Arnab Purkayastha
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
-  var BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var NumberProperty = require( 'AXON/NumberProperty' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Range = require( 'DOT/Range' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
-  var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
-  var Shape = require( 'KITE/Shape' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var Util = require( 'DOT/Util' );
+  const blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
+  const BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
+  const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Range = require( 'DOT/Range' );
+  const RichText = require( 'SCENERY/nodes/RichText' );
+  const ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
+  const Shape = require( 'KITE/Shape' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const Util = require( 'DOT/Util' );
 
   // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
-  var SPECTRAL_RADIANCE_CONVERSION_FACTOR = 1e33;
+  const SPECTRAL_RADIANCE_CONVERSION_FACTOR = 1e33;
 
   // strings
-  var wavelengthLabelString = require( 'string!BLACKBODY_SPECTRUM/wavelengthLabel' );
-  var subtitleLabelString = require( 'string!BLACKBODY_SPECTRUM/subtitleLabel' );
-  var spectralRadianceLabelString = require( 'string!BLACKBODY_SPECTRUM/spectralRadianceLabel' );
-  var xRayString = require( 'string!BLACKBODY_SPECTRUM/xRay' );
-  var ultravioletString = require( 'string!BLACKBODY_SPECTRUM/ultraviolet' );
-  var visibleString = require( 'string!BLACKBODY_SPECTRUM/visible' );
-  var infraredString = require( 'string!BLACKBODY_SPECTRUM/infrared' );
+  const wavelengthLabelString = require( 'string!BLACKBODY_SPECTRUM/wavelengthLabel' );
+  const subtitleLabelString = require( 'string!BLACKBODY_SPECTRUM/subtitleLabel' );
+  const spectralRadianceLabelString = require( 'string!BLACKBODY_SPECTRUM/spectralRadianceLabel' );
+  const xRayString = require( 'string!BLACKBODY_SPECTRUM/xRay' );
+  const ultravioletString = require( 'string!BLACKBODY_SPECTRUM/ultraviolet' );
+  const visibleString = require( 'string!BLACKBODY_SPECTRUM/visible' );
+  const infraredString = require( 'string!BLACKBODY_SPECTRUM/infrared' );
 
   // Max wavelengths for each region of the electromagnetic spectrum in nm, type Object
-  var ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS = {};
+  const ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS = {};
   ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ xRayString ] = 10;
   ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ ultravioletString ] = 400;
   ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ visibleString ] = 700;
   ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ infraredString ] = 100000;
+  
+  class ZoomableAxesView extends Node {
 
   /**
    * Makes a ZoomableAxesView
    * @param {BlackbodySpectrumModel} model
    * @param {Object} [options]
-   * @constructor
    */
-  function ZoomableAxesView( model, options ) {
-    var self = this;
+  constructor( model, options ) {
 
     // Default options
     options = _.extend( {
@@ -91,6 +90,9 @@ define( function( require ) {
       tandem: Tandem.required
     }, options );
 
+    // Call to node superconstructor: no options passed in
+    super();
+
     // @private
     this.model = model;
 
@@ -123,9 +125,9 @@ define( function( require ) {
     );
     this.electromagneticSpectrumTicksPath = new Path( null, options.ticksPathOptions );
     this.electromagneticSpectrumLabelTexts = new Node( {
-      children: Object.keys( ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS ).map( function( labelText ) {
-        var regionLabel = new Text( labelText, options.electromagneticSpectrumLabelTextOptions );
-        regionLabel.bottom = self.electromagneticSpectrumAxisPath.top;
+      children: Object.keys( ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS ).map( labelText => {
+        const regionLabel = new Text( labelText, options.electromagneticSpectrumLabelTextOptions );
+        regionLabel.bottom = this.electromagneticSpectrumAxisPath.top;
         return regionLabel;
       } )
     } );
@@ -138,26 +140,26 @@ define( function( require ) {
     this.minorTickMaxHorizontalZoom = options.minorTickMaxHorizontalZoom;
 
     // Labels for the axes
-    var verticalAxisLabelNode = new Text( spectralRadianceLabelString, {
+    const verticalAxisLabelNode = new Text( spectralRadianceLabelString, {
       font: new PhetFont( 26 ),
       fill: options.axisLabelColor,
       rotation: -Math.PI / 2,
       maxWidth: options.axesHeight
     } );
 
-    var axesWidth = options.axesWidth * 0.8;
-    var horizontalAxisTopLabelNode = new Text( wavelengthLabelString, {
+    const axesWidth = options.axesWidth * 0.8;
+    const horizontalAxisTopLabelNode = new Text( wavelengthLabelString, {
       font: new PhetFont( 24 ),
       fill: options.axisLabelColor,
       maxWidth: axesWidth
     } );
-    var horizontalAxisBottomLabelNode = new Text( subtitleLabelString, {
+    const horizontalAxisBottomLabelNode = new Text( subtitleLabelString, {
       font: new PhetFont( 16 ),
       fill: options.axisLabelColor,
       maxWidth: axesWidth,
       tandem: options.tandem.createTandem( 'horizontalAxisSubtitleLabel' )
     } );
-    var horizontalAxisLabelNode = new Node( {
+    const horizontalAxisLabelNode = new Node( {
       children: [ horizontalAxisTopLabelNode, horizontalAxisBottomLabelNode ]
     } );
 
@@ -176,21 +178,21 @@ define( function( require ) {
     this.maxVerticalZoom = BlackbodyConstants.maxVerticalZoom;
 
     // @public Links the horizontal zoom Property to update the model for the max wavelength
-    this.horizontalZoomProperty.link( function( horizontalZoom ) {
+    this.horizontalZoomProperty.link( horizontalZoom => {
       model.wavelengthMax = horizontalZoom;
     } );
 
     // @public Links the horizontal zoom Property to update horizontal ticks and the EM spectrum labels on change
-    this.horizontalZoomProperty.link( function() {
-      self.redrawHorizontalTicks();
-      self.redrawElectromagneticSpectrumLabel();
+    this.horizontalZoomProperty.link( () => {
+      this.redrawHorizontalTicks();
+      this.redrawElectromagneticSpectrumLabel();
     } );
 
     // @public Links the model's labelsVisibleProperty with the electromagnetic spectrum label's visibility
-    this.model.labelsVisibleProperty.link( function( labelsVisible ) {
-      self.electromagneticSpectrumAxisPath.visible = labelsVisible;
-      self.electromagneticSpectrumTicksPath.visible = labelsVisible;
-      self.electromagneticSpectrumLabelTexts.visible = labelsVisible;
+    this.model.labelsVisibleProperty.link( labelsVisible => {
+      this.electromagneticSpectrumAxisPath.visible = labelsVisible;
+      this.electromagneticSpectrumTicksPath.visible = labelsVisible;
+      this.electromagneticSpectrumLabelTexts.visible = labelsVisible;
     } );
 
     // @private Labels for axes bounds
@@ -204,9 +206,6 @@ define( function( require ) {
       fill: options.axisBoundsLabelColor,
       maxWidth: 60
     } );
-
-    // Call to node superconstructor: no options passed in
-    Node.call( this );
 
     // Set layout of labels relative to axes, these objects are static
     // Remaining object layouts are set in update() below
@@ -234,27 +233,23 @@ define( function( require ) {
     this.addChild( this.electromagneticSpectrumLabelTexts );
   }
 
-  blackbodySpectrum.register( 'ZoomableAxesView', ZoomableAxesView );
-
-  return inherit( Node, ZoomableAxesView, {
-
     /**
      * Resets the axes to their default state
      * @public
      */
-    reset: function() {
+    reset() {
       this.horizontalZoomProperty.reset();
       this.verticalZoomProperty.reset();
-    },
+    }
 
     /**
      * Updates the ZoomableAxesView's horizontal ticks to comply with any new changes
      * @private
      */
-    redrawHorizontalTicks: function() {
-      var horizontalTicksShape = new Shape();
-      for ( var i = 0; i < this.model.wavelengthMax / this.wavelengthPerTick; i++ ) {
-        var tickHeight = this.minorTickLength;
+    redrawHorizontalTicks() {
+      const horizontalTicksShape = new Shape();
+      for ( let i = 0; i < this.model.wavelengthMax / this.wavelengthPerTick; i++ ) {
+        let tickHeight = this.minorTickLength;
         if ( this.model.wavelengthMax > this.minorTickMaxHorizontalZoom ) {
           tickHeight = 0;
         }
@@ -262,50 +257,49 @@ define( function( require ) {
           tickHeight = this.majorTickLength;
         }
 
-        var x = this.wavelengthToViewX( i * this.wavelengthPerTick );
+        const x = this.wavelengthToViewX( i * this.wavelengthPerTick );
         horizontalTicksShape.moveTo( x, 0 ).lineTo( x, -tickHeight );
       }
       this.horizontalTicksPath.shape = horizontalTicksShape;
-    },
+    }
 
     /**
      * Updates the ZoomableAxesView's electromagnetic spectrum label to comply with any new changes
      * @private
      */
-    redrawElectromagneticSpectrumLabel: function() {
-      var self = this;
+    redrawElectromagneticSpectrumLabel() {
 
       // Makes the ticks for demarcating regions of the electromagnetic spectrum
-      var labelsTickShape = new Shape();
-      var tickLocations = _.values( ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS ).filter( function( wavelength ) {
-        return wavelength <= self.model.wavelengthMax;
-      } ).map( function( wavelength ) {
-        return self.wavelengthToViewX( wavelength );
+      const labelsTickShape = new Shape();
+      const tickLocations = _.values( ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS ).filter( wavelength => {
+        return wavelength <= this.model.wavelengthMax;
+      } ).map( wavelength => {
+        return this.wavelengthToViewX( wavelength );
       } );
-      tickLocations.forEach( function( x ) {
-        var bottomY = -self.verticalAxisLength + self.minorTickLength / 2;
-        labelsTickShape.moveTo( x, bottomY ).lineTo( x, bottomY - self.minorTickLength );
+      tickLocations.forEach( x => {
+        const bottomY = -this.verticalAxisLength + this.minorTickLength / 2;
+        labelsTickShape.moveTo( x, bottomY ).lineTo( x, bottomY - this.minorTickLength );
       } );
       this.electromagneticSpectrumTicksPath.shape = labelsTickShape;
 
       // Makes all text labels invisible
-      this.electromagneticSpectrumLabelTexts.children.forEach( function( regionLabel ) {
+      this.electromagneticSpectrumLabelTexts.children.forEach( regionLabel => {
         regionLabel.visible = false;
       } );
 
       // Using the locations for tick placement, updates location of electromagnetic spectrum text labels
-      var labelBounds = [ 0 ].concat( tickLocations ).concat( this.horizontalAxisLength );
-      for ( var i = 0; i < labelBounds.length - 1; i++ ) {
-        var lowerBound = labelBounds[ i ];
-        var upperBound = labelBounds[ i + 1 ];
-        var regionLabel = this.electromagneticSpectrumLabelTexts.children[ i ];
+      const labelBounds = [ 0 ].concat( tickLocations ).concat( this.horizontalAxisLength );
+      for ( let i = 0; i < labelBounds.length - 1; i++ ) {
+        const lowerBound = labelBounds[ i ];
+        const upperBound = labelBounds[ i + 1 ];
+        const regionLabel = this.electromagneticSpectrumLabelTexts.children[ i ];
         if ( upperBound - lowerBound < regionLabel.width ) {
           continue;
         }
         regionLabel.visible = true;
         regionLabel.centerX = ( upperBound + lowerBound ) / 2;
       }
-    },
+    }
 
     /**
      * Converts a given wavelength in nm to an x distance along the view
@@ -313,9 +307,9 @@ define( function( require ) {
      * @returns {number}
      * @public
      */
-    wavelengthToViewX: function( wavelength ) {
+    wavelengthToViewX( wavelength ) {
       return Util.linear( 0, this.model.wavelengthMax, 0, this.horizontalAxisLength, wavelength );
-    },
+    }
 
     /**
      * Converts a given x distance along the view to a wavelength in nm
@@ -323,9 +317,9 @@ define( function( require ) {
      * @returns {number}
      * @public
      */
-    viewXToWavelength: function( viewX ) {
+    viewXToWavelength( viewX ) {
       return Util.linear( 0, this.horizontalAxisLength, 0, this.model.wavelengthMax, viewX );
-    },
+    }
 
     /**
      * Converts a given spectral radiance to a y distance along the view
@@ -333,10 +327,10 @@ define( function( require ) {
      * @returns {number}
      * @public
      */
-    spectralRadianceToViewY: function( spectralRadiance ) {
+    spectralRadianceToViewY( spectralRadiance ) {
       return -SPECTRAL_RADIANCE_CONVERSION_FACTOR *
              Util.linear( 0, this.verticalZoomProperty.value, 0, this.verticalAxisLength, spectralRadiance );
-    },
+    }
 
     /**
      * Converts a given y distance along the view to a spectral radiance
@@ -344,68 +338,68 @@ define( function( require ) {
      * @returns {number}
      * @public
      */
-    viewYToSpectralRadiance: function( viewY ) {
+    viewYToSpectralRadiance( viewY ) {
       return Util.linear( 0, this.verticalAxisLength, 0, this.verticalZoomProperty.value, viewY ) /
              -SPECTRAL_RADIANCE_CONVERSION_FACTOR;
-    },
+    }
 
     /**
      * Zooms the horizontal axis in
      * @public
      */
-    zoomInHorizontal: function() {
+    zoomInHorizontal() {
       this.horizontalZoomProperty.value = Util.clamp( this.horizontalZoomProperty.value / this.horizontalZoomScale,
         this.minHorizontalZoom,
         this.maxHorizontalZoom
       );
-    },
+    }
 
     /**
      * Zooms the horizontal axis out
      * @public
      */
-    zoomOutHorizontal: function() {
+    zoomOutHorizontal() {
       this.horizontalZoomProperty.value = Util.clamp( this.horizontalZoomProperty.value * this.horizontalZoomScale,
         this.minHorizontalZoom,
         this.maxHorizontalZoom
       );
-    },
+    }
 
     /**
      * Zooms the vertical axis in
      * @public
      */
-    zoomInVertical: function() {
+    zoomInVertical() {
       this.verticalZoomProperty.value = Util.clamp( this.verticalZoomProperty.value / this.verticalZoomScale,
         this.minVerticalZoom,
         this.maxVerticalZoom
       );
-    },
+    }
 
     /**
      * Zooms the vertical axis out
      * @public
      */
-    zoomOutVertical: function() {
+    zoomOutVertical() {
       this.verticalZoomProperty.value = Util.clamp( this.verticalZoomProperty.value * this.verticalZoomScale,
         this.minVerticalZoom,
         this.maxVerticalZoom
       );
-    },
+    }
 
     /**
      * Updates everything in the axes view node
      * @public
      */
-    update: function() {
+    update() {
       this.horizontalTickLabelMax.text = this.model.wavelengthMax / 1000; // Conversion from nm to microns
       if ( this.verticalZoomProperty.value < 0.01 ) {
-        var notationObject = ScientificNotationNode.toScientificNotation( this.verticalZoomProperty.value, {
+        const notationObject = ScientificNotationNode.toScientificNotation( this.verticalZoomProperty.value, {
           mantissaDecimalPlaces: 0
         } );
-        var formattedString = notationObject.mantissa;
+        let formattedString = notationObject.mantissa;
         if ( notationObject.exponent !== '0' ) {
-          formattedString += ' X 10<sup>' + notationObject.exponent + '</sup>';
+          formattedString += ` X 10<sup>${notationObject.exponent}</sup>`;
         }
         this.verticalTickLabelMax.text = formattedString;
       }
@@ -415,7 +409,7 @@ define( function( require ) {
 
       this.verticalTickLabelMax.right = this.axesPath.left;
       this.verticalTickLabelMax.bottom = this.axesPath.top;
-    },
+    }
 
     /**
      * Sets sigfigs of a number, then truncates to decimal limit
@@ -425,11 +419,12 @@ define( function( require ) {
      * @param {number} decimals
      * @private
      */
-    truncateNum: function( value, significantFigures, decimals ) {
-      var sfNumber = parseFloat( value.toPrecision( significantFigures ) );
+    truncateNum( value, significantFigures, decimals ) {
+      const sfNumber = parseFloat( value.toPrecision( significantFigures ) );
       return ( Util.numberOfDecimalPlaces( sfNumber ) > decimals ) ? Util.toFixed( sfNumber, decimals ) : sfNumber.toString();
     }
 
-  } );
-
+  }
+  
+  return blackbodySpectrum.register( 'ZoomableAxesView', ZoomableAxesView );
 } );

@@ -5,29 +5,30 @@
  *
  * @author Saurabh Totey
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  var blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
-  var BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  var Circle = require( 'SCENERY/nodes/Circle' );
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Node = require( 'SCENERY/nodes/Node' );
-  var NumberProperty = require( 'AXON/NumberProperty' );
-  var Path = require( 'SCENERY/nodes/Path' );
-  var PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  var Range = require( 'DOT/Range' );
-  var RichText = require( 'SCENERY/nodes/RichText' );
-  var ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
-  var Shape = require( 'KITE/Shape' );
-  var SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Text = require( 'SCENERY/nodes/Text' );
-  var Util = require( 'DOT/Util' );
+  const ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
+  const blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
+  const BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
+  const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const Node = require( 'SCENERY/nodes/Node' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
+  const Path = require( 'SCENERY/nodes/Path' );
+  const PhetFont = require( 'SCENERY_PHET/PhetFont' );
+  const Range = require( 'DOT/Range' );
+  const RichText = require( 'SCENERY/nodes/RichText' );
+  const ScientificNotationNode = require( 'SCENERY_PHET/ScientificNotationNode' );
+  const Shape = require( 'KITE/Shape' );
+  const SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const Text = require( 'SCENERY/nodes/Text' );
+  const Util = require( 'DOT/Util' );
+  
+  class GraphValuesPointNode extends Node {
 
   /**
    * Constructs the GraphValuesPointNode given the body to follow and the axes that will handle coordinate conversions.
@@ -36,10 +37,8 @@ define( function( require ) {
    * @param {BlackbodyBodyModel} body
    * @param {ZoomableAxesView} axes
    * @param {Object} options
-   * @constructor
    */
-  function GraphValuesPointNode( body, axes, options ) {
-    var self = this;
+  constructor( body, axes, options ) {
 
     options = _.extend( {
       circleOptions: {
@@ -67,7 +66,7 @@ define( function( require ) {
       tandem: Tandem.required
     }, options );
 
-    Node.call( this, options );
+    super( options );
 
     // @private
     this.body = body;
@@ -79,8 +78,8 @@ define( function( require ) {
     this.spectralRadianceValueText = new RichText( '', options.valueTextOptions );
     this.labelOffset = options.labelOffset;
 
-    var halfArrowSpacing = options.arrowSpacing / 2;
-    var arrowTip = halfArrowSpacing + options.arrowLength;
+    const halfArrowSpacing = options.arrowSpacing / 2;
+    const arrowTip = halfArrowSpacing + options.arrowLength;
     this.cueingArrows = new Node( {
       children: [
         new ArrowNode( halfArrowSpacing, 0, arrowTip, 0, options.arrowOptions ),
@@ -90,7 +89,7 @@ define( function( require ) {
     } );
 
     // Links cueing arrows and circle to a single draggable node
-    var circle = new Circle( options.circleOptions );
+    const circle = new Circle( options.circleOptions );
     circle.mouseArea = circle.localBounds.dilated( 4 );
     this.graphPointCircle.addChild( circle );
     this.graphPointCircle.addChild( this.cueingArrows );
@@ -101,32 +100,32 @@ define( function( require ) {
     } );
 
     // Links a change in the body's temperature to always set the wavelength to the peak wavelength
-    this.body.temperatureProperty.link( function() {
+    this.body.temperatureProperty.link( () => {
 
       // Clamp to make sure wavelength Property is within graph bounds
-      self.wavelengthProperty.value = self.body.peakWavelength;
-      self.update();
+      this.wavelengthProperty.value = this.body.peakWavelength;
+      this.update();
     } );
 
     // Sets up the drag handler for the point circle and vertical dashed line
-    var clickXOffset;
-    var graphValueDragHandler = new SimpleDragHandler( {
-      start: function( event ) {
-        clickXOffset = self.graphPointCircle.globalToParentPoint( event.pointer.point ).x - self.graphPointCircle.x;
+    let clickXOffset;
+    const graphValueDragHandler = new SimpleDragHandler( {
+      start: event => {
+        clickXOffset = this.graphPointCircle.globalToParentPoint( event.pointer.point ).x - this.graphPointCircle.x;
       },
-      drag: function( event ) {
-        var x = self.graphPointCircle.globalToParentPoint( event.pointer.point ).x - clickXOffset;
+      drag: event => {
+        const x = this.graphPointCircle.globalToParentPoint( event.pointer.point ).x - clickXOffset;
 
         // Clamp to make sure wavelength Property is within graph bounds
-        self.wavelengthProperty.value = Util.clamp(
-          self.axes.viewXToWavelength( x ),
+        this.wavelengthProperty.value = Util.clamp(
+          this.axes.viewXToWavelength( x ),
           0,
-          self.axes.viewXToWavelength( self.axes.horizontalAxisLength )
+          this.axes.viewXToWavelength( this.axes.horizontalAxisLength )
         );
-        self.update();
+        this.update();
       },
-      end: function() {
-        self.cueingArrows.visible = false;
+      end: () => {
+        this.cueingArrows.visible = false;
       },
       allowTouchSnag: true,
       dragCursor: 'ew-resize',
@@ -144,28 +143,24 @@ define( function( require ) {
     this.addChild( this.spectralRadianceValueText );
   }
 
-  blackbodySpectrum.register( 'GraphValuesPointNode', GraphValuesPointNode );
-
-  return inherit( Node, GraphValuesPointNode, {
-
     /**
      * Puts this node back at the peak of the graph
      * @public
      */
-    reset: function() {
+    reset() {
       this.wavelengthProperty.value = this.body.peakWavelength;
       this.cueingArrows.visible = true;
       this.update();
-    },
+    }
 
     /**
      * Updates the location of the circle and the dashed lines of this graphValuesPointNode
      * @public
      */
-    update: function() {
+    update() {
 
       // Update spectral radiance for changes in wavelength
-      var spectralRadianceOfPoint = this.body.getSpectralRadianceAt( this.wavelengthProperty.value );
+      const spectralRadianceOfPoint = this.body.getSpectralRadianceAt( this.wavelengthProperty.value );
 
       // Updates location of graph point circle in view
       this.graphPointCircle.centerX = this.axes.wavelengthToViewX( this.wavelengthProperty.value );
@@ -177,14 +172,14 @@ define( function( require ) {
       this.wavelengthValueText.text = Util.toFixed( this.wavelengthProperty.value / 1000.0, 3 ); // nm to microns
 
       // Spectral Radiance is given special case for scientific notation
-      var spectralRadianceValue = spectralRadianceOfPoint * 1e33; // multiplier is to match y axis
+      const spectralRadianceValue = spectralRadianceOfPoint * 1e33; // multiplier is to match y axis
       if ( spectralRadianceValue < 0.01 && spectralRadianceValue !== 0 ) {
-        var notationObject = ScientificNotationNode.toScientificNotation( spectralRadianceValue, {
+        const notationObject = ScientificNotationNode.toScientificNotation( spectralRadianceValue, {
           mantissaDecimalPlaces: 0
         } );
-        var formattedString = notationObject.mantissa;
+        let formattedString = notationObject.mantissa;
         if ( notationObject.exponent !== '0' ) {
-          formattedString += ' X 10<sup>' + notationObject.exponent + '</sup>';
+          formattedString += ` X 10<sup>${notationObject.exponent}</sup>`;
         }
         this.spectralRadianceValueText.text = formattedString;
       }
@@ -246,6 +241,7 @@ define( function( require ) {
       this.graphPointCircle.touchArea = this.graphPointCircle.localBounds.dilated( 4 );
     }
 
-  } );
-
+  }
+  
+  return blackbodySpectrum.register( 'GraphValuesPointNode', GraphValuesPointNode );
 } );
