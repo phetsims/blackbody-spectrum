@@ -53,7 +53,7 @@ define( require => {
         tandem: Tandem.required
       }, options );
 
-      super( options );
+      super();
 
       // @private
       this.model = model;
