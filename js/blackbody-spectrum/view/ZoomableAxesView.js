@@ -165,10 +165,12 @@ define( require => {
 
     // @public {Property.<number>} current zoom values
     this.horizontalZoomProperty = new NumberProperty( options.defaultHorizontalZoom, {
-      range: new Range( BlackbodyConstants.minHorizontalZoom, BlackbodyConstants.maxHorizontalZoom )
+      range: new Range( BlackbodyConstants.minHorizontalZoom, BlackbodyConstants.maxHorizontalZoom ),
+      tandem: options.tandem.createTandem( 'horizontalZoomProperty' )
     } );
     this.verticalZoomProperty = new NumberProperty( options.defaultVerticalZoom, {
-      range: new Range( BlackbodyConstants.minVerticalZoom, BlackbodyConstants.maxVerticalZoom )
+      range: new Range( BlackbodyConstants.minVerticalZoom, BlackbodyConstants.maxVerticalZoom ),
+      tandem: options.tandem.createTandem( 'verticalZoomProperty' )
     } );
 
     // @public {number} zoom bounds
