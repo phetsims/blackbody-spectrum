@@ -7,82 +7,79 @@
  * @author Martin Veillette (Berea College)
  * @author Saurabh Totey
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
-  var BlackbodyBodyModel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/model/BlackbodyBodyModel' );
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  var BooleanProperty = require( 'AXON/BooleanProperty' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var ObservableArray = require( 'AXON/ObservableArray' );
+  const BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
+  const BlackbodyBodyModel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/model/BlackbodyBodyModel' );
+  const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  const BooleanProperty = require( 'AXON/BooleanProperty' );
+  const ObservableArray = require( 'AXON/ObservableArray' );
 
-  /**
-   * Main constructor for BlackbodySpectrumModel, which contains the general model logic for the sim screen.
-   * @param {Tandem} tandem
-   * @constructor
-   */
-  function BlackbodySpectrumModel( tandem ) {
+  class BlackbodySpectrumModel {
 
-    // @public {Property.<boolean>}
-    this.graphValuesVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'graphValuesVisibleProperty' ),
-      phetioDocumentation: 'whether the graph values should be visible'
-    } );
+    /**
+     * Main constructor for BlackbodySpectrumModel, which contains the general model logic for the sim screen.
+     * @param {Tandem} tandem
+     * @constructor
+     */
+    constructor( tandem ) {
 
-    // @public {Property.<boolean>}
-    this.intensityVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'intensityVisibleProperty' ),
-      phetioDocumentation: 'whether the intensity (area under the curve) of the graph should be visible'
-    } );
+      // @public {Property.<boolean>}
+      this.graphValuesVisibleProperty = new BooleanProperty( false, {
+        tandem: tandem.createTandem( 'graphValuesVisibleProperty' ),
+        phetioDocumentation: 'whether the graph values should be visible'
+      } );
 
-    // @public {Property.<boolean>}
-    this.labelsVisibleProperty = new BooleanProperty( false, {
-      tandem: tandem.createTandem( 'labelsVisibleProperty' ),
-      phetioDocumentation: 'whether the graph labels should be visible'
-    } );
+      // @public {Property.<boolean>}
+      this.intensityVisibleProperty = new BooleanProperty( false, {
+        tandem: tandem.createTandem( 'intensityVisibleProperty' ),
+        phetioDocumentation: 'whether the intensity (area under the curve) of the graph should be visible'
+      } );
 
-    // @public {BlackbodyBodyModel} the main body for the simulation
-    this.mainBody = new BlackbodyBodyModel(
-      BlackbodyConstants.sunTemperature,
-      tandem.createTandem( 'blackbodyBodyModel' )
-    );
+      // @public {Property.<boolean>}
+      this.labelsVisibleProperty = new BooleanProperty( false, {
+        tandem: tandem.createTandem( 'labelsVisibleProperty' ),
+        phetioDocumentation: 'whether the graph labels should be visible'
+      } );
 
-    // @private
-    this.savedBodiesGroupTandem = tandem.createGroupTandem( 'savedBlackbodyBodyModel' );
+      // @public {BlackbodyBodyModel} the main body for the simulation
+      this.mainBody = new BlackbodyBodyModel(
+        BlackbodyConstants.sunTemperature,
+        tandem.createTandem( 'blackbodyBodyModel' )
+      );
 
-    // @public {ObservableArray.<BlackbodyBodyModel>} a property for the user's saved blackbodies
-    this.savedBodies = new ObservableArray();
+      // @private
+      this.savedBodiesGroupTandem = tandem.createGroupTandem( 'savedBlackbodyBodyModel' );
 
-    // @public {number} max wavelength in nanometers
-    this.wavelengthMax = 3000;
+      // @public {ObservableArray.<BlackbodyBodyModel>} a property for the user's saved blackbodies
+      this.savedBodies = new ObservableArray();
 
-    // @private {number} maximum number of allowed saved graphs
-    this.maxSavedGraphs = 2;
-  }
+      // @public {number} max wavelength in nanometers
+      this.wavelengthMax = 3000;
 
-  blackbodySpectrum.register( 'BlackbodySpectrumModel', BlackbodySpectrumModel );
-
-  return inherit( Object, BlackbodySpectrumModel, {
+      // @private {number} maximum number of allowed saved graphs
+      this.maxSavedGraphs = 2;
+    }
 
     /**
      * Resets all of the model's settings and bodies
      * @public
      */
-    reset: function() {
+    reset() {
       this.graphValuesVisibleProperty.reset();
       this.intensityVisibleProperty.reset();
       this.labelsVisibleProperty.reset();
       this.mainBody.reset();
       this.clearSavedGraphs();
-    },
+    }
 
     /**
      * Saves the main body
      * @public
      */
-    saveMainBody: function() {
+    saveMainBody() {
       this.savedBodies.add( new BlackbodyBodyModel(
         this.mainBody.temperatureProperty.value,
         this.savedBodiesGroupTandem.createNextTandem()
@@ -90,15 +87,16 @@ define( function( require ) {
       while ( this.savedBodies.length > this.maxSavedGraphs ) {
         this.savedBodies.shift();
       }
-    },
+    }
 
     /**
      * A function that clears saved graphs
      * @public
      */
-    clearSavedGraphs: function() {
+    clearSavedGraphs() {
       this.savedBodies.clear();
     }
+  }
 
-  } );
+  return blackbodySpectrum.register( 'BlackbodySpectrumModel', BlackbodySpectrumModel );
 } );

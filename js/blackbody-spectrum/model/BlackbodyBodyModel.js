@@ -1,4 +1,4 @@
-// Copyright 2014-2018, University of Colorado Boulder
+// Copyright 2014-2019, University of Colorado Boulder
 
 /**
  * Model that holds and calculates all the numerical data for a Blackbody spectrum at a given temperature
@@ -7,53 +7,50 @@
  * @author Saurabh Totey
  * @author Arnab Purkayastha
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
-  var blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  var Color = require( 'SCENERY/util/Color' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var NumberProperty = require( 'AXON/NumberProperty' );
-  var Range = require( 'DOT/Range' );
-  var Util = require( 'DOT/Util' );
+  const BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
+  const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  const Color = require( 'SCENERY/util/Color' );
+  const NumberProperty = require( 'AXON/NumberProperty' );
+  const Range = require( 'DOT/Range' );
+  const Util = require( 'DOT/Util' );
 
   // constants
   // colors used for glowing star and circles
-  var RED_WAVELENGTH = 650; // red wavelength in nanometers
-  var GREEN_WAVELENGTH = 550; // green wavelength in nanometers
-  var BLUE_WAVELENGTH = 450; // blue wavelength in nanometers
-  var GLOWING_STAR_HALO_MINIMUM_RADIUS = 5; // in pixels
-  var GLOWING_STAR_HALO_MAXIMUM_RADIUS = 100; // in pixels
+  const RED_WAVELENGTH = 650; // red wavelength in nanometers
+  const GREEN_WAVELENGTH = 550; // green wavelength in nanometers
+  const BLUE_WAVELENGTH = 450; // blue wavelength in nanometers
+  const GLOWING_STAR_HALO_MINIMUM_RADIUS = 5; // in pixels
+  const GLOWING_STAR_HALO_MAXIMUM_RADIUS = 100; // in pixels
 
-  /**
-   * Constructs a Blackbody body at the given temperature
-   * @param {number} temperature
-   * @param {Tandem} tandem
-   * @constructor
-   */
-  function BlackbodyBodyModel( temperature, tandem ) {
+  class BlackbodyBodyModel {
 
-    // @public {Property.<number>}
-    this.temperatureProperty = new NumberProperty( temperature, {
-      range: new Range( BlackbodyConstants.minTemperature, BlackbodyConstants.maxTemperature ),
-      tandem: tandem.createTandem( 'temperatureProperty' ),
-      phetioDocumentation: 'blackbody temperature'
-    } );
-  }
+    /**
+     * Constructs a Blackbody body at the given temperature
+     * @param {number} temperature
+     * @param {Tandem} tandem
+     * @constructor
+     */
+    constructor( temperature, tandem ) {
 
-  blackbodySpectrum.register( 'BlackbodyBodyModel', BlackbodyBodyModel );
-
-  return inherit( Object, BlackbodyBodyModel, {
+      // @public {Property.<number>}
+      this.temperatureProperty = new NumberProperty( temperature, {
+        range: new Range( BlackbodyConstants.minTemperature, BlackbodyConstants.maxTemperature ),
+        tandem: tandem.createTandem( 'temperatureProperty' ),
+        phetioDocumentation: 'blackbody temperature'
+      } );
+    }
 
     /**
      * Resets the model's temperature and settings
      * @public
      */
-    reset: function() {
+    reset() {
       this.temperatureProperty.reset();
-    },
+    }
 
     /**
      * Function that returns the spectral radiance at a given wavelength (in nm)
@@ -65,17 +62,17 @@ define( function( require ) {
      * @param {number} wavelength
      * @returns {number}
      */
-    getSpectralRadianceAt: function( wavelength ) {
+    getSpectralRadianceAt( wavelength ) {
 
       // Avoiding division by 0
       if ( wavelength === 0 ) {
         return 0;
       }
 
-      var A = 1.191042e-16; // is 2hc^2 in units of watts*m^2/steradian
-      var B = 1.438770e7; // is hc/k in units of nanometer-kelvin
+      const A = 1.191042e-16; // is 2hc^2 in units of watts*m^2/steradian
+      const B = 1.438770e7; // is hc/k in units of nanometer-kelvin
       return A / ( Math.pow( wavelength, 5 ) * ( Math.exp( B / ( wavelength * this.temperatureProperty.value ) ) - 1 ) );
-    },
+    }
 
     /**
      * Returns a dimensionless temperature parameter
@@ -84,17 +81,17 @@ define( function( require ) {
      * @private
      * @returns {number}
      */
-    getRenormalizedTemperature: function() {
+    getRenormalizedTemperature() {
       assert && assert( this.temperatureProperty.value >= BlackbodyConstants.minTemperature,
         'Temperature set lower than minimum: ' + BlackbodyConstants.minTemperature );
-      var POWER_EXPONENT = 0.7; // used to create a more significant difference in normalized temperature near minimum
+      const POWER_EXPONENT = 0.7; // used to create a more significant difference in normalized temperature near minimum
       return Math.pow(
         ( this.temperatureProperty.value - BlackbodyConstants.minTemperature ) /
         ( BlackbodyConstants.maxTemperature - BlackbodyConstants.minTemperature ),
         POWER_EXPONENT
       );
-    },
-    get renormalizedTemperature() { return this.getRenormalizedTemperature(); },
+    }
+    get renormalizedTemperature() { return this.getRenormalizedTemperature(); }
 
     /**
      * Function that returns a color intensity (an integer ranging from 0 to 255) for a given wavelength
@@ -102,18 +99,18 @@ define( function( require ) {
      * @param {number} wavelength - in nanometers
      * @returns {number}
      */
-    getRenormalizedColorIntensity: function( wavelength ) {
-      var red = this.getSpectralRadianceAt( RED_WAVELENGTH ); // intensity as a function of wavelength in nm
-      var green = this.getSpectralRadianceAt( GREEN_WAVELENGTH );
-      var blue = this.getSpectralRadianceAt( BLUE_WAVELENGTH );
-      var largestColorIntensity = Math.max( red, green, blue );
-      var colorIntensity = this.getSpectralRadianceAt( wavelength );
+    getRenormalizedColorIntensity( wavelength ) {
+      const red = this.getSpectralRadianceAt( RED_WAVELENGTH ); // intensity as a function of wavelength in nm
+      const green = this.getSpectralRadianceAt( GREEN_WAVELENGTH );
+      const blue = this.getSpectralRadianceAt( BLUE_WAVELENGTH );
+      const largestColorIntensity = Math.max( red, green, blue );
+      const colorIntensity = this.getSpectralRadianceAt( wavelength );
 
       // Scaled renormalizedTemperature by 1.5 to make colors more visible and opaque
-      var boundedRenormalizedTemp = Math.min( this.renormalizedTemperature * 1.5, 1 );
+      const boundedRenormalizedTemp = Math.min( this.renormalizedTemperature * 1.5, 1 );
 
       return Math.floor( 255 * boundedRenormalizedTemp * colorIntensity / largestColorIntensity );
-    },
+    }
 
     /**
      * Function that returns the total intensity (area under the curve) of the blackbody
@@ -121,11 +118,11 @@ define( function( require ) {
      * @public
      * @returns {number}
      */
-    getTotalIntensity: function() {
-      var STEFAN_BOLTZMANN_CONSTANT = 5.670373e-8; // is equal to sigma in units of watts/(m^2*K^4)
+    getTotalIntensity() {
+      const STEFAN_BOLTZMANN_CONSTANT = 5.670373e-8; // is equal to sigma in units of watts/(m^2*K^4)
       return STEFAN_BOLTZMANN_CONSTANT * Math.pow( this.temperatureProperty.value, 4 );
-    },
-    get totalIntensity() { return this.getTotalIntensity(); },
+    }
+    get totalIntensity() { return this.getTotalIntensity(); }
 
     /**
      * Function that returns the peak wavelength (in nanometers) of the blackbody
@@ -133,45 +130,45 @@ define( function( require ) {
      * @public
      * @returns {number}
      */
-    getPeakWavelength: function() {
+    getPeakWavelength() {
       assert && assert( this.temperatureProperty.value > 0, 'Temperature must be positive' );
-      var WIEN_CONSTANT = 2.897773e-3; // is equal to b in units of meters-kelvin
+      const WIEN_CONSTANT = 2.897773e-3; // is equal to b in units of meters-kelvin
       return 1e9 * WIEN_CONSTANT / this.temperatureProperty.value;
-    },
-    get peakWavelength() { return this.getPeakWavelength(); },
+    }
+    get peakWavelength() { return this.getPeakWavelength(); }
 
     /**
      * Function that returns a red color with an intensity that matches the blackbody temperature
      * @public
      * @returns {Color}
      */
-    getRedColor: function() {
-      var colorIntensity = this.getRenormalizedColorIntensity( RED_WAVELENGTH );
+    getRedColor() {
+      const colorIntensity = this.getRenormalizedColorIntensity( RED_WAVELENGTH );
       return new Color( colorIntensity, 0, 0, 1 );
-    },
-    get redColor() { return this.getRedColor(); },
+    }
+    get redColor() { return this.getRedColor(); }
 
     /**
      * Function that returns a blue color with an intensity that matches the blackbody temperature
      * @public
      * @returns {Color}
      */
-    getBlueColor: function() {
-      var colorIntensity = this.getRenormalizedColorIntensity( BLUE_WAVELENGTH );
+    getBlueColor() {
+      const colorIntensity = this.getRenormalizedColorIntensity( BLUE_WAVELENGTH );
       return new Color( 0, 0, colorIntensity, 1 );
-    },
-    get blueColor() { return this.getBlueColor(); },
+    }
+    get blueColor() { return this.getBlueColor(); }
 
     /**
      * Function that returns a green color with an intensity that matches the blackbody temperature
      * @public
      * @returns {Color}
      */
-    getGreenColor: function() {
-      var colorIntensity = this.getRenormalizedColorIntensity( GREEN_WAVELENGTH );
+    getGreenColor() {
+      const colorIntensity = this.getRenormalizedColorIntensity( GREEN_WAVELENGTH );
       return new Color( 0, colorIntensity, 0, 1 );
-    },
-    get greenColor() { return this.getGreenColor(); },
+    }
+    get greenColor() { return this.getGreenColor(); }
 
     /**
      * Function that returns a radius (in scenery coordinates) for a given temperature.
@@ -179,7 +176,7 @@ define( function( require ) {
      * @public
      * @returns {number}
      */
-    getGlowingStarHaloRadius: function() {
+    getGlowingStarHaloRadius() {
       return Util.linear(
         0,
         1,
@@ -187,8 +184,8 @@ define( function( require ) {
         GLOWING_STAR_HALO_MAXIMUM_RADIUS,
         this.renormalizedTemperature
       );
-    },
-    get glowingStarHaloRadius() { return this.getGlowingStarHaloRadius(); },
+    }
+    get glowingStarHaloRadius() { return this.getGlowingStarHaloRadius(); }
 
     /**
      * Function that returns a color corresponding to the temperature of the star.
@@ -196,11 +193,11 @@ define( function( require ) {
      * @public
      * @returns {Color}
      */
-    getGlowingStarHaloColor: function() {
-      var alpha = Util.linear( 0, 1, 0, 0.3, this.renormalizedTemperature ); // temperature -> transparency
+    getGlowingStarHaloColor() {
+      const alpha = Util.linear( 0, 1, 0, 0.3, this.renormalizedTemperature ); // temperature -> transparency
       return this.starColor.withAlpha( alpha );
-    },
-    get glowingStarHaloColor() { return this.getGlowingStarHaloColor(); },
+    }
+    get glowingStarHaloColor() { return this.getGlowingStarHaloColor(); }
 
     /**
      * Function that returns a color corresponding the temperature of a star
@@ -208,14 +205,15 @@ define( function( require ) {
      * @public
      * @returns {Color}
      */
-    getStarColor: function() {
-      var red = this.getRenormalizedColorIntensity( RED_WAVELENGTH );
-      var green = this.getRenormalizedColorIntensity( GREEN_WAVELENGTH );
-      var blue = this.getRenormalizedColorIntensity( BLUE_WAVELENGTH );
+    getStarColor() {
+      const red = this.getRenormalizedColorIntensity( RED_WAVELENGTH );
+      const green = this.getRenormalizedColorIntensity( GREEN_WAVELENGTH );
+      const blue = this.getRenormalizedColorIntensity( BLUE_WAVELENGTH );
       return new Color( red, green, blue, 1 );
-    },
+    }
     get starColor() { return this.getStarColor(); }
 
-  } );
+  }
 
+  return blackbodySpectrum.register( 'BlackbodyBodyModel', BlackbodyBodyModel );
 } );
