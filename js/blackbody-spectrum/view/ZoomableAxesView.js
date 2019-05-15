@@ -46,194 +46,195 @@ define( require => {
   ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ ultravioletString ] = 400;
   ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ visibleString ] = 700;
   ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ infraredString ] = 100000;
-  
+
   class ZoomableAxesView extends Node {
 
-  /**
-   * Makes a ZoomableAxesView
-   * @param {BlackbodySpectrumModel} model
-   * @param {Object} [options]
-   */
-  constructor( model, options ) {
+    /**
+     * Makes a ZoomableAxesView
+     * @param {BlackbodySpectrumModel} model
+     * @param {Object} [options]
+     */
+    constructor( model, options ) {
 
-    // Default options
-    options = _.extend( {
-      axesWidth: 550,
-      axesHeight: 400,
-      axesPathOptions: {
-        stroke: blackbodyColorProfile.graphAxesStrokeProperty,
-        lineWidth: 3,
-        lineCap: 'round',
-        lineJoin: 'round'
-      },
-      ticksPathOptions: {
-        stroke: blackbodyColorProfile.graphAxesStrokeProperty,
-        lineWidth: 1,
-        lineCap: 'butt',
-        lineJoin: 'bevel'
-      },
-      wavelengthPerTick: 100,
-      minorTicksPerMajorTick: 5,
-      minorTickLength: 10,
-      majorTickLength: 20,
-      horizontalZoomFactor: 2,
-      verticalZoomFactor: 5,
-      defaultHorizontalZoom: model.wavelengthMax,
-      defaultVerticalZoom: 140.0,
-      minorTickMaxHorizontalZoom: 12000,
-      axisBoundsLabelColor: blackbodyColorProfile.titlesTextProperty,
-      axisLabelColor: blackbodyColorProfile.titlesTextProperty,
-      electromagneticSpectrumLabelTextOptions: {
-        font: new PhetFont( 14 ),
-        fill: blackbodyColorProfile.titlesTextProperty
-      },
-      tandem: Tandem.required
-    }, options );
+      // Default options
+      options = _.extend( {
+        axesWidth: 550,
+        axesHeight: 400,
+        axesPathOptions: {
+          stroke: blackbodyColorProfile.graphAxesStrokeProperty,
+          lineWidth: 3,
+          lineCap: 'round',
+          lineJoin: 'round'
+        },
+        ticksPathOptions: {
+          stroke: blackbodyColorProfile.graphAxesStrokeProperty,
+          lineWidth: 1,
+          lineCap: 'butt',
+          lineJoin: 'bevel'
+        },
+        wavelengthPerTick: 100,
+        minorTicksPerMajorTick: 5,
+        minorTickLength: 10,
+        majorTickLength: 20,
+        horizontalZoomFactor: 2,
+        verticalZoomFactor: 5,
+        defaultHorizontalZoom: model.wavelengthMax,
+        defaultVerticalZoom: 140.0,
+        minorTickMaxHorizontalZoom: 12000,
+        axisBoundsLabelColor: blackbodyColorProfile.titlesTextProperty,
+        axisLabelColor: blackbodyColorProfile.titlesTextProperty,
+        electromagneticSpectrumLabelTextOptions: {
+          font: new PhetFont( 14 ),
+          fill: blackbodyColorProfile.titlesTextProperty
+        },
+        tandem: Tandem.required
+      }, options );
 
-    // Call to node superconstructor: no options passed in
-    super();
+      // Call to node superconstructor: no options passed in
+      super();
 
-    // @private
-    this.model = model;
+      // @private
+      this.model = model;
 
-    // Axes dimensions
-    // @public {number}
-    this.horizontalAxisLength = options.axesWidth;
-    this.verticalAxisLength = options.axesHeight;
+      // Axes dimensions
+      // @public {number}
+      this.horizontalAxisLength = options.axesWidth;
+      this.verticalAxisLength = options.axesHeight;
 
-    // @private How each axis scales
-    this.horizontalZoomScale = options.horizontalZoomFactor;
-    this.verticalZoomScale = options.verticalZoomFactor;
+      // @private How each axis scales
+      this.horizontalZoomScale = options.horizontalZoomFactor;
+      this.verticalZoomScale = options.verticalZoomFactor;
 
-    // @private The path for the actual axes themselves
-    this.axesPath = new Path(
-      new Shape()
-        .moveTo( this.horizontalAxisLength, 0 )
-        .lineTo( 0, 0 )
-        .lineTo( 0, -this.verticalAxisLength )
-        .lineTo( 5, -this.verticalAxisLength ),
-      options.axesPathOptions
-    );
+      // @private The path for the actual axes themselves
+      this.axesPath = new Path(
+        new Shape()
+          .moveTo( this.horizontalAxisLength, -5 )
+          .lineTo( this.horizontalAxisLength, 0 )
+          .lineTo( 0, 0 )
+          .lineTo( 0, -this.verticalAxisLength )
+          .lineTo( 5, -this.verticalAxisLength ),
+        options.axesPathOptions
+      );
 
-    // @private Path for the horizontal axes ticks
-    this.horizontalTicksPath = new Path( null, options.ticksPathOptions );
+      // @private Path for the horizontal axes ticks
+      this.horizontalTicksPath = new Path( null, options.ticksPathOptions );
 
-    // @private Components for the electromagnetic spectrum labels
-    this.electromagneticSpectrumAxisPath = new Path(
-      new Shape().moveTo( 0, -this.verticalAxisLength ).lineTo( this.horizontalAxisLength, -this.verticalAxisLength ),
-      _.extend( options.axesPathOptions, { lineWidth: 1 } )
-    );
-    this.electromagneticSpectrumTicksPath = new Path( null, options.ticksPathOptions );
-    this.electromagneticSpectrumLabelTexts = new Node( {
-      children: Object.keys( ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS ).map( labelText => {
-        const regionLabel = new Text( labelText, options.electromagneticSpectrumLabelTextOptions );
-        regionLabel.bottom = this.electromagneticSpectrumAxisPath.top;
-        return regionLabel;
-      } )
-    } );
+      // @private Components for the electromagnetic spectrum labels
+      this.electromagneticSpectrumAxisPath = new Path(
+        new Shape().moveTo( 0, -this.verticalAxisLength ).lineTo( this.horizontalAxisLength, -this.verticalAxisLength ),
+        _.extend( options.axesPathOptions, { lineWidth: 1 } )
+      );
+      this.electromagneticSpectrumTicksPath = new Path( null, options.ticksPathOptions );
+      this.electromagneticSpectrumLabelTexts = new Node( {
+        children: Object.keys( ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS ).map( labelText => {
+          const regionLabel = new Text( labelText, options.electromagneticSpectrumLabelTextOptions );
+          regionLabel.bottom = this.electromagneticSpectrumAxisPath.top;
+          return regionLabel;
+        } )
+      } );
 
-    // @private Horizontal tick settings
-    this.wavelengthPerTick = options.wavelengthPerTick;
-    this.minorTicksPerMajorTick = options.minorTicksPerMajorTick;
-    this.minorTickLength = options.minorTickLength;
-    this.majorTickLength = options.majorTickLength;
-    this.minorTickMaxHorizontalZoom = options.minorTickMaxHorizontalZoom;
+      // @private Horizontal tick settings
+      this.wavelengthPerTick = options.wavelengthPerTick;
+      this.minorTicksPerMajorTick = options.minorTicksPerMajorTick;
+      this.minorTickLength = options.minorTickLength;
+      this.majorTickLength = options.majorTickLength;
+      this.minorTickMaxHorizontalZoom = options.minorTickMaxHorizontalZoom;
 
-    // Labels for the axes
-    const verticalAxisLabelNode = new Text( spectralRadianceLabelString, {
-      font: new PhetFont( 26 ),
-      fill: options.axisLabelColor,
-      rotation: -Math.PI / 2,
-      maxWidth: options.axesHeight
-    } );
+      // Labels for the axes
+      const verticalAxisLabelNode = new Text( spectralRadianceLabelString, {
+        font: new PhetFont( 26 ),
+        fill: options.axisLabelColor,
+        rotation: -Math.PI / 2,
+        maxWidth: options.axesHeight
+      } );
 
-    const axesWidth = options.axesWidth * 0.8;
-    const horizontalAxisTopLabelNode = new Text( wavelengthLabelString, {
-      font: new PhetFont( 24 ),
-      fill: options.axisLabelColor,
-      maxWidth: axesWidth
-    } );
-    const horizontalAxisBottomLabelNode = new Text( subtitleLabelString, {
-      font: new PhetFont( 16 ),
-      fill: options.axisLabelColor,
-      maxWidth: axesWidth,
-      tandem: options.tandem.createTandem( 'horizontalAxisSubtitleLabel' )
-    } );
-    const horizontalAxisLabelNode = new Node( {
-      children: [ horizontalAxisTopLabelNode, horizontalAxisBottomLabelNode ]
-    } );
+      const axesWidth = options.axesWidth * 0.8;
+      const horizontalAxisTopLabelNode = new Text( wavelengthLabelString, {
+        font: new PhetFont( 24 ),
+        fill: options.axisLabelColor,
+        maxWidth: axesWidth
+      } );
+      const horizontalAxisBottomLabelNode = new Text( subtitleLabelString, {
+        font: new PhetFont( 16 ),
+        fill: options.axisLabelColor,
+        maxWidth: axesWidth,
+        tandem: options.tandem.createTandem( 'horizontalAxisSubtitleLabel' )
+      } );
+      const horizontalAxisLabelNode = new Node( {
+        children: [ horizontalAxisTopLabelNode, horizontalAxisBottomLabelNode ]
+      } );
 
-    // @public {Property.<number>} current zoom values
-    this.horizontalZoomProperty = new NumberProperty( options.defaultHorizontalZoom, {
-      range: new Range( BlackbodyConstants.minHorizontalZoom, BlackbodyConstants.maxHorizontalZoom ),
-      tandem: options.tandem.createTandem( 'horizontalZoomProperty' )
-    } );
-    this.verticalZoomProperty = new NumberProperty( options.defaultVerticalZoom, {
-      range: new Range( BlackbodyConstants.minVerticalZoom, BlackbodyConstants.maxVerticalZoom ),
-      tandem: options.tandem.createTandem( 'verticalZoomProperty' )
-    } );
+      // @public {Property.<number>} current zoom values
+      this.horizontalZoomProperty = new NumberProperty( options.defaultHorizontalZoom, {
+        range: new Range( BlackbodyConstants.minHorizontalZoom, BlackbodyConstants.maxHorizontalZoom ),
+        tandem: options.tandem.createTandem( 'horizontalZoomProperty' )
+      } );
+      this.verticalZoomProperty = new NumberProperty( options.defaultVerticalZoom, {
+        range: new Range( BlackbodyConstants.minVerticalZoom, BlackbodyConstants.maxVerticalZoom ),
+        tandem: options.tandem.createTandem( 'verticalZoomProperty' )
+      } );
 
-    // @public {number} zoom bounds
-    this.minHorizontalZoom = BlackbodyConstants.minHorizontalZoom;
-    this.maxHorizontalZoom = BlackbodyConstants.maxHorizontalZoom;
-    this.minVerticalZoom = BlackbodyConstants.minVerticalZoom;
-    this.maxVerticalZoom = BlackbodyConstants.maxVerticalZoom;
+      // @public {number} zoom bounds
+      this.minHorizontalZoom = BlackbodyConstants.minHorizontalZoom;
+      this.maxHorizontalZoom = BlackbodyConstants.maxHorizontalZoom;
+      this.minVerticalZoom = BlackbodyConstants.minVerticalZoom;
+      this.maxVerticalZoom = BlackbodyConstants.maxVerticalZoom;
 
-    // @public Links the horizontal zoom Property to update the model for the max wavelength
-    this.horizontalZoomProperty.link( horizontalZoom => {
-      model.wavelengthMax = horizontalZoom;
-    } );
+      // @public Links the horizontal zoom Property to update the model for the max wavelength
+      this.horizontalZoomProperty.link( horizontalZoom => {
+        model.wavelengthMax = horizontalZoom;
+      } );
 
-    // @public Links the horizontal zoom Property to update horizontal ticks and the EM spectrum labels on change
-    this.horizontalZoomProperty.link( () => {
-      this.redrawHorizontalTicks();
-      this.redrawElectromagneticSpectrumLabel();
-    } );
+      // @public Links the horizontal zoom Property to update horizontal ticks and the EM spectrum labels on change
+      this.horizontalZoomProperty.link( () => {
+        this.redrawHorizontalTicks();
+        this.redrawElectromagneticSpectrumLabel();
+      } );
 
-    // @public Links the model's labelsVisibleProperty with the electromagnetic spectrum label's visibility
-    this.model.labelsVisibleProperty.link( labelsVisible => {
-      this.electromagneticSpectrumAxisPath.visible = labelsVisible;
-      this.electromagneticSpectrumTicksPath.visible = labelsVisible;
-      this.electromagneticSpectrumLabelTexts.visible = labelsVisible;
-    } );
+      // @public Links the model's labelsVisibleProperty with the electromagnetic spectrum label's visibility
+      this.model.labelsVisibleProperty.link( labelsVisible => {
+        this.electromagneticSpectrumAxisPath.visible = labelsVisible;
+        this.electromagneticSpectrumTicksPath.visible = labelsVisible;
+        this.electromagneticSpectrumLabelTexts.visible = labelsVisible;
+      } );
 
-    // @private Labels for axes bounds
-    this.horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 32 ), fill: options.axisBoundsLabelColor } );
-    this.horizontalTickLabelMax = new Text( model.wavelengthMax / 1000, {
-      font: new PhetFont( 32 ),
-      fill: options.axisBoundsLabelColor
-    } );
-    this.verticalTickLabelMax = new RichText( this.truncateNum( this.verticalZoomProperty.value, 3, 5 ), {
-      font: new PhetFont( 24 ),
-      fill: options.axisBoundsLabelColor,
-      maxWidth: 60
-    } );
+      // @private Labels for axes bounds
+      this.horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 32 ), fill: options.axisBoundsLabelColor } );
+      this.horizontalTickLabelMax = new Text( model.wavelengthMax / 1000, {
+        font: new PhetFont( 32 ),
+        fill: options.axisBoundsLabelColor
+      } );
+      this.verticalTickLabelMax = new RichText( this.truncateNum( this.verticalZoomProperty.value, 3, 5 ), {
+        font: new PhetFont( 24 ),
+        fill: options.axisBoundsLabelColor,
+        maxWidth: 60
+      } );
 
-    // Set layout of labels relative to axes, these objects are static
-    // Remaining object layouts are set in update() below
-    this.horizontalTickLabelZero.top = this.axesPath.bottom;
-    this.horizontalTickLabelZero.right = this.axesPath.left;
-    this.horizontalTickLabelMax.top = this.axesPath.bottom;
-    this.horizontalTickLabelMax.left = this.axesPath.right;
-    verticalAxisLabelNode.centerX = this.axesPath.left - 90;
-    verticalAxisLabelNode.centerY = this.axesPath.centerY;
-    horizontalAxisTopLabelNode.centerX = this.axesPath.centerX;
-    horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
-    horizontalAxisBottomLabelNode.centerX = this.axesPath.centerX;
-    horizontalAxisLabelNode.centerY = this.axesPath.bottom + 59;
+      // Set layout of labels relative to axes, these objects are static
+      // Remaining object layouts are set in update() below
+      this.horizontalTickLabelZero.top = this.axesPath.bottom;
+      this.horizontalTickLabelZero.right = this.axesPath.left;
+      this.horizontalTickLabelMax.top = this.axesPath.bottom;
+      this.horizontalTickLabelMax.left = this.axesPath.right;
+      verticalAxisLabelNode.centerX = this.axesPath.left - 90;
+      verticalAxisLabelNode.centerY = this.axesPath.centerY;
+      horizontalAxisTopLabelNode.centerX = this.axesPath.centerX;
+      horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
+      horizontalAxisBottomLabelNode.centerX = this.axesPath.centerX;
+      horizontalAxisLabelNode.centerY = this.axesPath.bottom + 59;
 
-    // Adds children in rendering order
-    this.addChild( verticalAxisLabelNode );
-    this.addChild( horizontalAxisLabelNode );
-    this.addChild( this.horizontalTickLabelZero );
-    this.addChild( this.horizontalTickLabelMax );
-    this.addChild( this.verticalTickLabelMax );
-    this.addChild( this.axesPath );
-    this.addChild( this.horizontalTicksPath );
-    this.addChild( this.electromagneticSpectrumAxisPath );
-    this.addChild( this.electromagneticSpectrumTicksPath );
-    this.addChild( this.electromagneticSpectrumLabelTexts );
-  }
+      // Adds children in rendering order
+      this.addChild( verticalAxisLabelNode );
+      this.addChild( horizontalAxisLabelNode );
+      this.addChild( this.horizontalTickLabelZero );
+      this.addChild( this.horizontalTickLabelMax );
+      this.addChild( this.verticalTickLabelMax );
+      this.addChild( this.axesPath );
+      this.addChild( this.horizontalTicksPath );
+      this.addChild( this.electromagneticSpectrumAxisPath );
+      this.addChild( this.electromagneticSpectrumTicksPath );
+      this.addChild( this.electromagneticSpectrumLabelTexts );
+    }
 
     /**
      * Resets the axes to their default state
@@ -427,6 +428,6 @@ define( require => {
     }
 
   }
-  
+
   return blackbodySpectrum.register( 'ZoomableAxesView', ZoomableAxesView );
 } );
