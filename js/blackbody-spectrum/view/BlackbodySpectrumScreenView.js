@@ -37,7 +37,7 @@ define( require => {
   const TEMPERATURE_COLOR = blackbodyColorProfile.temperatureTextProperty;
   const INSET = 10;
   const TEMPERATURE_LABEL_SPACING = 5;
-  
+
   class BlackbodySpectrumScreenView extends ScreenView {
 
     /**
@@ -126,6 +126,6 @@ define( require => {
       this.addChild( resetAllButton );
     }
   }
-  
+
   return blackbodySpectrum.register( 'BlackbodySpectrumScreenView', BlackbodySpectrumScreenView );
 } );

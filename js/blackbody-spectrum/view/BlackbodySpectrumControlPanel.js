@@ -222,6 +222,6 @@ define( require => {
 
     }
   }
-  
+
   return blackbodySpectrum.register( 'BlackbodySpectrumControlPanel', BlackbodySpectrumControlPanel );
 } );

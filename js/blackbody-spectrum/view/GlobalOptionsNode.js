@@ -15,7 +15,7 @@ define( require => {
   const OptionsDialog = require( 'JOIST/OptionsDialog' );
   const ProjectorModeCheckbox = require( 'JOIST/ProjectorModeCheckbox' );
   const VBox = require( 'SCENERY/nodes/VBox' );
-  
+
   class GlobalOptionsNode extends VBox {
 
     /**

@@ -110,6 +110,6 @@ define( require => {
       } );
     }
   }
-  
+
   return blackbodySpectrum.register( 'BGRAndStarDisplay', BGRAndStarDisplay );
 } );

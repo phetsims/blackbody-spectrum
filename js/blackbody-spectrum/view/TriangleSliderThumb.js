@@ -52,7 +52,7 @@ define( require => {
         .lineTo( -arrowHalfWidth, arrowHalfLength )
         .lineTo( arrowHalfWidth, arrowHalfLength )
         .close();
-      
+
       super( shape, options );
 
       // @private dashed lines to visibly anchor the triangle slider to the thermometer
@@ -72,7 +72,7 @@ define( require => {
         children: [ new ArrowNode( 15, 0, 40, 0, ARROW_OPTIONS ), new ArrowNode( -15, 0, -40, 0, ARROW_OPTIONS ) ],
         tandem: options.tandem.createTandem( 'cueingArrows' )
       } );
-      
+
       // Highlight thumb on pointer over and remove arrows on first click
       this.addInputListener( new ButtonListener( {
         over: () => {

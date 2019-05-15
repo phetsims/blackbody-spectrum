@@ -27,121 +27,121 @@ define( require => {
   const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
   const Util = require( 'DOT/Util' );
-  
+
   class GraphValuesPointNode extends Node {
 
-  /**
-   * Constructs the GraphValuesPointNode given the body to follow and the axes that will handle coordinate conversions.
-   * Alignment isn't handled in constructor, but is rather done in the update method due to the non-static nature of
-   * this view.
-   * @param {BlackbodyBodyModel} body
-   * @param {ZoomableAxesView} axes
-   * @param {Object} options
-   */
-  constructor( body, axes, options ) {
+    /**
+     * Constructs the GraphValuesPointNode given the body to follow and the axes that will handle coordinate conversions.
+     * Alignment isn't handled in constructor, but is rather done in the update method due to the non-static nature of
+     * this view.
+     * @param {BlackbodyBodyModel} body
+     * @param {ZoomableAxesView} axes
+     * @param {Object} options
+     */
+    constructor( body, axes, options ) {
 
-    options = _.extend( {
-      circleOptions: {
-        radius: 5,
-        fill: blackbodyColorProfile.graphValuesPointProperty
-      },
-      dashedLineOptions: {
-        stroke: blackbodyColorProfile.graphValuesDashedLineProperty,
-        lineDash: [ 4, 4 ]
-      },
-      valueTextOptions: {
-        fill: blackbodyColorProfile.graphValuesLabelsProperty,
-        font: new PhetFont( 18 )
-      },
-      arrowSpacing: 30,
-      arrowLength: 25,
-      arrowOptions: {
-        fill: '#64dc64',
-        headHeight: 15,
-        headWidth: 15,
-        tailWidth: 7
-      },
-      labelOffset: 5,
-      cursor: 'ew-resize',
-      tandem: Tandem.required
-    }, options );
+      options = _.extend( {
+        circleOptions: {
+          radius: 5,
+          fill: blackbodyColorProfile.graphValuesPointProperty
+        },
+        dashedLineOptions: {
+          stroke: blackbodyColorProfile.graphValuesDashedLineProperty,
+          lineDash: [ 4, 4 ]
+        },
+        valueTextOptions: {
+          fill: blackbodyColorProfile.graphValuesLabelsProperty,
+          font: new PhetFont( 18 )
+        },
+        arrowSpacing: 30,
+        arrowLength: 25,
+        arrowOptions: {
+          fill: '#64dc64',
+          headHeight: 15,
+          headWidth: 15,
+          tailWidth: 7
+        },
+        labelOffset: 5,
+        cursor: 'ew-resize',
+        tandem: Tandem.required
+      }, options );
 
-    super( options );
+      super( options );
 
-    // @private
-    this.body = body;
-    this.axes = axes;
-    this.graphPointCircle = new Node( { size: new Dimension2( 80, 20 ) } );
-    this.dashedVerticalLinePath = new Path( null, options.dashedLineOptions );
-    this.dashedHorizontalLinePath = new Path( null, options.dashedLineOptions );
-    this.wavelengthValueText = new Text( '', options.valueTextOptions );
-    this.spectralRadianceValueText = new RichText( '', options.valueTextOptions );
-    this.labelOffset = options.labelOffset;
+      // @private
+      this.body = body;
+      this.axes = axes;
+      this.graphPointCircle = new Node( { size: new Dimension2( 80, 20 ) } );
+      this.dashedVerticalLinePath = new Path( null, options.dashedLineOptions );
+      this.dashedHorizontalLinePath = new Path( null, options.dashedLineOptions );
+      this.wavelengthValueText = new Text( '', options.valueTextOptions );
+      this.spectralRadianceValueText = new RichText( '', options.valueTextOptions );
+      this.labelOffset = options.labelOffset;
 
-    const halfArrowSpacing = options.arrowSpacing / 2;
-    const arrowTip = halfArrowSpacing + options.arrowLength;
-    this.cueingArrows = new Node( {
-      children: [
-        new ArrowNode( halfArrowSpacing, 0, arrowTip, 0, options.arrowOptions ),
-        new ArrowNode( -halfArrowSpacing, 0, -arrowTip, 0, options.arrowOptions )
-      ],
-      tandem: options.tandem.createTandem( 'cueingArrows' )
-    } );
+      const halfArrowSpacing = options.arrowSpacing / 2;
+      const arrowTip = halfArrowSpacing + options.arrowLength;
+      this.cueingArrows = new Node( {
+        children: [
+          new ArrowNode( halfArrowSpacing, 0, arrowTip, 0, options.arrowOptions ),
+          new ArrowNode( -halfArrowSpacing, 0, -arrowTip, 0, options.arrowOptions )
+        ],
+        tandem: options.tandem.createTandem( 'cueingArrows' )
+      } );
 
-    // Links cueing arrows and circle to a single draggable node
-    const circle = new Circle( options.circleOptions );
-    circle.mouseArea = circle.localBounds.dilated( 4 );
-    this.graphPointCircle.addChild( circle );
-    this.graphPointCircle.addChild( this.cueingArrows );
+      // Links cueing arrows and circle to a single draggable node
+      const circle = new Circle( options.circleOptions );
+      circle.mouseArea = circle.localBounds.dilated( 4 );
+      this.graphPointCircle.addChild( circle );
+      this.graphPointCircle.addChild( this.cueingArrows );
 
-    // @public {Property.<number>}
-    this.wavelengthProperty = new NumberProperty( this.body.peakWavelength, {
-      range: new Range( 0, BlackbodyConstants.maxHorizontalZoom )
-    } );
+      // @public {Property.<number>}
+      this.wavelengthProperty = new NumberProperty( this.body.peakWavelength, {
+        range: new Range( 0, BlackbodyConstants.maxHorizontalZoom )
+      } );
 
-    // Links a change in the body's temperature to always set the wavelength to the peak wavelength
-    this.body.temperatureProperty.link( () => {
-
-      // Clamp to make sure wavelength Property is within graph bounds
-      this.wavelengthProperty.value = this.body.peakWavelength;
-      this.update();
-    } );
-
-    // Sets up the drag handler for the point circle and vertical dashed line
-    let clickXOffset;
-    const graphValueDragHandler = new SimpleDragHandler( {
-      start: event => {
-        clickXOffset = this.graphPointCircle.globalToParentPoint( event.pointer.point ).x - this.graphPointCircle.x;
-      },
-      drag: event => {
-        const x = this.graphPointCircle.globalToParentPoint( event.pointer.point ).x - clickXOffset;
+      // Links a change in the body's temperature to always set the wavelength to the peak wavelength
+      this.body.temperatureProperty.link( () => {
 
         // Clamp to make sure wavelength Property is within graph bounds
-        this.wavelengthProperty.value = Util.clamp(
-          this.axes.viewXToWavelength( x ),
-          0,
-          this.axes.viewXToWavelength( this.axes.horizontalAxisLength )
-        );
+        this.wavelengthProperty.value = this.body.peakWavelength;
         this.update();
-      },
-      end: () => {
-        this.cueingArrows.visible = false;
-      },
-      allowTouchSnag: true,
-      dragCursor: 'ew-resize',
-      tandem: options.tandem.createTandem( 'dragListener' )
-    } );
+      } );
 
-    this.graphPointCircle.addInputListener( graphValueDragHandler );
-    this.dashedVerticalLinePath.addInputListener( graphValueDragHandler );
+      // Sets up the drag handler for the point circle and vertical dashed line
+      let clickXOffset;
+      const graphValueDragHandler = new SimpleDragHandler( {
+        start: event => {
+          clickXOffset = this.graphPointCircle.globalToParentPoint( event.pointer.point ).x - this.graphPointCircle.x;
+        },
+        drag: event => {
+          const x = this.graphPointCircle.globalToParentPoint( event.pointer.point ).x - clickXOffset;
 
-    // Adds children in rendering order
-    this.addChild( this.dashedVerticalLinePath );
-    this.addChild( this.dashedHorizontalLinePath );
-    this.addChild( this.graphPointCircle );
-    this.addChild( this.wavelengthValueText );
-    this.addChild( this.spectralRadianceValueText );
-  }
+          // Clamp to make sure wavelength Property is within graph bounds
+          this.wavelengthProperty.value = Util.clamp(
+            this.axes.viewXToWavelength( x ),
+            0,
+            this.axes.viewXToWavelength( this.axes.horizontalAxisLength )
+          );
+          this.update();
+        },
+        end: () => {
+          this.cueingArrows.visible = false;
+        },
+        allowTouchSnag: true,
+        dragCursor: 'ew-resize',
+        tandem: options.tandem.createTandem( 'dragListener' )
+      } );
+
+      this.graphPointCircle.addInputListener( graphValueDragHandler );
+      this.dashedVerticalLinePath.addInputListener( graphValueDragHandler );
+
+      // Adds children in rendering order
+      this.addChild( this.dashedVerticalLinePath );
+      this.addChild( this.dashedHorizontalLinePath );
+      this.addChild( this.graphPointCircle );
+      this.addChild( this.wavelengthValueText );
+      this.addChild( this.spectralRadianceValueText );
+    }
 
     /**
      * Puts this node back at the peak of the graph
@@ -242,6 +242,6 @@ define( require => {
     }
 
   }
-  
+
   return blackbodySpectrum.register( 'GraphValuesPointNode', GraphValuesPointNode );
 } );

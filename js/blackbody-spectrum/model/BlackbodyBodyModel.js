@@ -90,6 +90,7 @@ define( require => {
         POWER_EXPONENT
       );
     }
+
     get renormalizedTemperature() { return this.getRenormalizedTemperature(); }
 
     /**
@@ -121,6 +122,7 @@ define( require => {
       const STEFAN_BOLTZMANN_CONSTANT = 5.670373e-8; // is equal to sigma in units of watts/(m^2*K^4)
       return STEFAN_BOLTZMANN_CONSTANT * Math.pow( this.temperatureProperty.value, 4 );
     }
+
     get totalIntensity() { return this.getTotalIntensity(); }
 
     /**
@@ -134,6 +136,7 @@ define( require => {
       const WIEN_CONSTANT = 2.897773e-3; // is equal to b in units of meters-kelvin
       return 1e9 * WIEN_CONSTANT / this.temperatureProperty.value;
     }
+
     get peakWavelength() { return this.getPeakWavelength(); }
 
     /**
@@ -145,6 +148,7 @@ define( require => {
       const colorIntensity = this.getRenormalizedColorIntensity( RED_WAVELENGTH );
       return new Color( colorIntensity, 0, 0, 1 );
     }
+
     get redColor() { return this.getRedColor(); }
 
     /**
@@ -156,6 +160,7 @@ define( require => {
       const colorIntensity = this.getRenormalizedColorIntensity( BLUE_WAVELENGTH );
       return new Color( 0, 0, colorIntensity, 1 );
     }
+
     get blueColor() { return this.getBlueColor(); }
 
     /**
@@ -167,6 +172,7 @@ define( require => {
       const colorIntensity = this.getRenormalizedColorIntensity( GREEN_WAVELENGTH );
       return new Color( 0, colorIntensity, 0, 1 );
     }
+
     get greenColor() { return this.getGreenColor(); }
 
     /**
@@ -184,6 +190,7 @@ define( require => {
         this.renormalizedTemperature
       );
     }
+
     get glowingStarHaloRadius() { return this.getGlowingStarHaloRadius(); }
 
     /**
@@ -196,6 +203,7 @@ define( require => {
       const alpha = Util.linear( 0, 1, 0, 0.3, this.renormalizedTemperature ); // temperature -> transparency
       return this.starColor.withAlpha( alpha );
     }
+
     get glowingStarHaloColor() { return this.getGlowingStarHaloColor(); }
 
     /**
@@ -210,6 +218,7 @@ define( require => {
       const blue = this.getRenormalizedColorIntensity( BLUE_WAVELENGTH );
       return new Color( red, green, blue, 1 );
     }
+
     get starColor() { return this.getStarColor(); }
 
   }

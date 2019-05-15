@@ -12,7 +12,7 @@ define( require => {
   // modules
   const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   const Shape = require( 'KITE/Shape' );
-  
+
   class GenericCurveShape extends Shape {
 
     /**

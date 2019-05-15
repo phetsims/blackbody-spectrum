@@ -21,7 +21,7 @@ define( require => {
   const Text = require( 'SCENERY/nodes/Text' );
   const Util = require( 'DOT/Util' );
   const VBox = require( 'SCENERY/nodes/VBox' );
-  
+
   class SavedGraphInformationPanel extends Panel {
 
     /**
