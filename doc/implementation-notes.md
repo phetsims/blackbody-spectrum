@@ -1,18 +1,21 @@
 # Blackbody Spectrum - implementation notes
 
-This document contains notes related to the implementation of Blackbody Spectrum. This is not an exhaustive description of the implementation.  The intention is to provide a high-level overview, and to supplement the internal documentation (source code comments) and external documentation (design document).
+This document contains notes related to the implementation of Blackbody Spectrum. This is not an exhaustive description
+of the implementation.  The intention is to provide a high-level overview, and to supplement the internal documentation
+(source code comments) and external documentation (design document).
 
-The audience for this document is software developers who are familiar with JavaScript and PhET simulation development, as described in [PhET Development Overview](http://bit.ly/phet-html5-development-overview).  The reader should also be familiar with general design patterns used in PhET simulations.
+The audience for this document is software developers who are familiar with JavaScript and PhET simulation development,
+as described in [PhET Development Overview](http://bit.ly/phet-html5-development-overview).  The reader should also be
+familiar with general design patterns used in PhET simulations.
 
-Before reading this document, see [model.md](https://github.com/phetsims/blackbody-spectrum/tree/master/doc/model.md), which provides a high-level description of the simulation model.
+Before reading this document, see [model.md](https://github.com/phetsims/blackbody-spectrum/tree/master/doc/model.md),
+which provides a high-level description of the simulation model.
 
 You may also wish to review the [Blackbody Spectrum design document](https://docs.google.com/document/d/12s243GhPT8Z17XoYPJmXVNNEWDIhRQkqhsAP8Oi7Twk/edit).
 
 ## Terminology
 
-This section defines terminology that you'll see used throughout the internal and external documentation.  There's no need to memorize this section; skim it once, refer back to it as you explore the implementation.
-
-Standard terminology:
+This section defines terminology that you'll see used throughout the internal and external documentation:
 
 * intensity - the amount of light emitted in a projected area (for all wavelengths), measure in Watts per meter<sup>2</sup>
 * Plank's law - see [model.md](https://github.com/phetsims/blackbody-spectrum/tree/master/doc/model.md)
