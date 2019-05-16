@@ -295,6 +295,7 @@ define( require => {
       for ( let i = 0; i < labelBounds.length - 1; i++ ) {
         const lowerBound = labelBounds[ i ];
         const upperBound = labelBounds[ i + 1 ];
+        assert && assert( upperBound > lowerBound, 'Label tick locations are not in order' );
         const regionLabel = this.electromagneticSpectrumLabelTexts.children[ i ];
         if ( upperBound - lowerBound < regionLabel.width ) {
           continue;
