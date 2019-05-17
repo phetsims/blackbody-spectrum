@@ -42,10 +42,10 @@ define( require => {
 
   // Max wavelengths for each region of the electromagnetic spectrum in nm, type Object
   const ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS = {};
-  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ xRayString ] = 10;
-  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ ultravioletString ] = 400;
-  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ visibleString ] = 700;
-  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ infraredString ] = 100000;
+  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ xRayString ] = BlackbodyConstants.xRayWavelength;
+  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ ultravioletString ] = BlackbodyConstants.ultravioletWavelength;
+  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ visibleString ] = BlackbodyConstants.visibleWavelength;
+  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ infraredString ] = BlackbodyConstants.infraredWavelength;
 
   class ZoomableAxesView extends Node {
 
