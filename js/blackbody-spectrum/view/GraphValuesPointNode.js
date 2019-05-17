@@ -234,8 +234,6 @@ define( require => {
 
       this.dashedVerticalLinePath.visible = this.graphPointCircle.centerX < this.axes.horizontalAxisLength;
 
-      this.spectralRadianceValueText.visible = spectralRadianceOfPoint * 1e33 < this.axes.verticalZoomProperty.value;
-
       this.dashedVerticalLinePath.touchArea = this.dashedVerticalLinePath.localBounds.dilated( 4 );
       this.dashedVerticalLinePath.mouseArea = this.dashedVerticalLinePath.localBounds.dilated( 4 );
       this.graphPointCircle.touchArea = this.graphPointCircle.localBounds.dilated( 4 );
