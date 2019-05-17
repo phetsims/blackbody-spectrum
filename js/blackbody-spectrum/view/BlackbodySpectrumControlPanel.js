@@ -48,7 +48,7 @@ define( require => {
   const CHECKBOX_DEFAULT_WIDTH = 140;
   const INTENSITY_TEXT_OPTIONS = {
     font: new PhetFont( 18 ),
-    fill: blackbodyColorProfile.panelTextProperty
+    fill: 'white'
   };
   const INTENSITY_TEXT_BOX_STROKE = 'red';
   const INTENSITY_TEXT_BOX_FILL = 'gray';
