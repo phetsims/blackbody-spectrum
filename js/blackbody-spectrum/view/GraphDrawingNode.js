@@ -131,11 +131,13 @@ define( require => {
 
       // Links the GraphDrawingNode to update whenever any tracked Property changes
       const updateAllProcedure = () => { this.update(); };
-
       model.mainBody.temperatureProperty.link( updateAllProcedure );
       this.axes.horizontalZoomProperty.link( updateAllProcedure );
       this.axes.verticalZoomProperty.link( updateAllProcedure );
-      this.model.savedBodies.lengthProperty.link( updateAllProcedure );
+
+      // Link the saved graph to only update on its specific Property
+      const updateSavedGraphsProcedure = () => { this.updateSavedGraphPaths(); };
+      this.model.savedBodies.lengthProperty.link( updateSavedGraphsProcedure );
 
       // Sets layout of graph node elements to be all ultimately relative to the axes
       const axesPath = this.axes.axesPath;
@@ -207,6 +209,7 @@ define( require => {
       // Updates the main graph
       const updatedGraphShape = this.shapeOfBody( this.model.mainBody );
       this.mainGraph.shape = updatedGraphShape;
+      this.mainGraph.moveToFront();
 
       // Easiest way to implement intensity shape is to copy graph shape and bring down to x-axis
       this.intensityPath.shape = updatedGraphShape.copy();
@@ -219,6 +222,16 @@ define( require => {
       // at low temperatures
       const clipShape = Shape.rectangle( 0, 1, this.axes.horizontalAxisLength, -this.axes.verticalAxisLength );
       this.mainGraph.shape = this.mainGraph.shape.shapeClip( clipShape );
+    }
+
+    /**
+     * Updates the saved graph paths
+     * @private
+     */
+    updateSavedGraphPaths() {
+      // Clips the paths to the axes bounds, pushed shape down 1 pixel to prevent performance degradation when clipping
+      // at low temperatures
+      const clipShape = Shape.rectangle( 0, 1, this.axes.horizontalAxisLength, -this.axes.verticalAxisLength );
 
       // Updates the saved graph(s)
       const numberOfSavedBodies = this.model.savedBodies.length;
@@ -230,6 +243,8 @@ define( require => {
         if ( numberOfSavedBodies === 2 ) {
           this.secondarySavedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( 0 ) ).shapeClip( clipShape );
         }
+
+        this.primarySavedGraph.moveToFront();
       }
     }
 
