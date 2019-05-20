@@ -212,6 +212,7 @@ define( require => {
       const updatedGraphShape = this.shapeOfBody( this.model.mainBody );
       this.mainGraph.shape = updatedGraphShape;
       this.mainGraph.moveToFront();
+      this.draggablePointNode.moveToFront();
 
       // Easiest way to implement intensity shape is to copy graph shape and bring down to x-axis
       this.intensityPath.shape = updatedGraphShape.copy();
