@@ -116,6 +116,10 @@ define( require => {
         options.axesPathOptions
       );
 
+      // @public Clipping shape for keeping elements inside graph axes - clips the paths to the axes bounds, pushed
+      // shape down 1 pixel to prevent performance degradation when clipping at low temperatures
+      this.clipShape = Shape.rectangle( 0, 1, this.horizontalAxisLength, -this.verticalAxisLength - 1 );
+
       // @private Path for the horizontal axes ticks
       this.horizontalTicksPath = new Path( null, options.ticksPathOptions );
 

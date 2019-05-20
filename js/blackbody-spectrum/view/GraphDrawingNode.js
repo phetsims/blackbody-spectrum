@@ -135,9 +135,11 @@ define( require => {
       this.axes.horizontalZoomProperty.link( updateAllProcedure );
       this.axes.verticalZoomProperty.link( updateAllProcedure );
 
-      // Link the saved graph to only update on its specific Property
+      // Link the saved graph to only update on its Property, and axis zoom buttons
       const updateSavedGraphsProcedure = () => { this.updateSavedGraphPaths(); };
       this.model.savedBodies.lengthProperty.link( updateSavedGraphsProcedure );
+      this.axes.horizontalZoomProperty.link( updateSavedGraphsProcedure );
+      this.axes.verticalZoomProperty.link( updateSavedGraphsProcedure );
 
       // Sets layout of graph node elements to be all ultimately relative to the axes
       const axesPath = this.axes.axesPath;
@@ -183,7 +185,7 @@ define( require => {
       const graphShape = new Shape();
       const deltaWavelength = this.model.wavelengthMax / ( GRAPH_NUMBER_POINTS - 1 );
       const pointsXOffset = this.axes.horizontalAxisLength / ( GRAPH_NUMBER_POINTS - 1 );
-      const yCutoff = this.axes.verticalAxisLength + 1;
+      const yCutoff = this.axes.verticalAxisLength + this.mainGraph.lineWidth;
       const peakWavelength = body.peakWavelength;
       let findingPeak = true;
       graphShape.moveTo( 0, 0 );
@@ -218,10 +220,7 @@ define( require => {
         this.intensityPath.shape.lineToPoint( newPoint );
       }
 
-      // Clips the paths to the axes bounds, pushed shape down 1 pixel to prevent performance degradation when clipping
-      // at low temperatures
-      const clipShape = Shape.rectangle( 0, 1, this.axes.horizontalAxisLength, -this.axes.verticalAxisLength );
-      this.mainGraph.shape = this.mainGraph.shape.shapeClip( clipShape );
+      this.mainGraph.clipArea = this.axes.clipShape;
     }
 
     /**
@@ -229,19 +228,17 @@ define( require => {
      * @private
      */
     updateSavedGraphPaths() {
-      // Clips the paths to the axes bounds, pushed shape down 1 pixel to prevent performance degradation when clipping
-      // at low temperatures
-      const clipShape = Shape.rectangle( 0, 1, this.axes.horizontalAxisLength, -this.axes.verticalAxisLength );
-
       // Updates the saved graph(s)
       const numberOfSavedBodies = this.model.savedBodies.length;
+      const clipShape = this.axes.clipShape;
       this.primarySavedGraph.shape = null;
       this.secondarySavedGraph.shape = null;
       if ( numberOfSavedBodies > 0 ) {
-        this.primarySavedGraph.shape =
-          this.shapeOfBody( this.model.savedBodies.get( numberOfSavedBodies - 1 ) ).shapeClip( clipShape );
+        this.primarySavedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( numberOfSavedBodies - 1 ) );
+        this.primarySavedGraph.clipArea = clipShape;
         if ( numberOfSavedBodies === 2 ) {
-          this.secondarySavedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( 0 ) ).shapeClip( clipShape );
+          this.secondarySavedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( 0 ) );
+          this.secondarySavedGraph.clipArea = clipShape;
         }
 
         this.primarySavedGraph.moveToFront();
