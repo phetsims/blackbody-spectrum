@@ -1,5 +1,5 @@
 {
-  "comment": "# blackbody-spectrum 1.0.0-dev.15 Tue May 21 2019 15:36:23 GMT-0600 (MDT)",
+  "comment": "# blackbody-spectrum 1.0.0-dev.16 Tue May 21 2019 15:45:16 GMT-0600 (MDT)",
   "assert": {
     "sha": "d8a2e8992420327ff72a6fc4bb93ec76549ded0e",
     "branch": "master"
@@ -9,7 +9,7 @@
     "branch": "master"
   },
   "blackbody-spectrum": {
-    "sha": "3e954121bd2567dcfb39d1c00766c79d6c681c03",
+    "sha": "2057ee6ccfb09167c7d3a8e8369884c2d7c592a2",
     "branch": "master"
   },
   "brand": {
