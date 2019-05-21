@@ -17,6 +17,7 @@ define( require => {
   const Dimension2 = require( 'DOT/Dimension2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberProperty = require( 'AXON/NumberProperty' );
+  const Panel = require( 'SUN/Panel' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Range = require( 'DOT/Range' );
@@ -74,8 +75,14 @@ define( require => {
       this.graphPointCircle = new Node( { size: new Dimension2( 80, 20 ) } );
       this.dashedVerticalLinePath = new Path( null, options.dashedLineOptions );
       this.dashedHorizontalLinePath = new Path( null, options.dashedLineOptions );
-      this.wavelengthValueText = new Text( '', options.valueTextOptions );
+      this.wavelengthValueText = new Text( '123', options.valueTextOptions );
       this.spectralRadianceValueText = new RichText( '', options.valueTextOptions );
+      this.spectralRadianceNode = new Panel( this.spectralRadianceValueText, {
+        fill: blackbodyColorProfile.backgroundProperty,
+        stroke: blackbodyColorProfile.backgroundProperty,
+        xMargin: 1,
+        yMargin: 0
+      } );
       this.labelOffset = options.labelOffset;
 
       const halfArrowSpacing = options.arrowSpacing / 2;
@@ -140,7 +147,7 @@ define( require => {
       this.addChild( this.dashedHorizontalLinePath );
       this.addChild( this.graphPointCircle );
       this.addChild( this.wavelengthValueText );
-      this.addChild( this.spectralRadianceValueText );
+      this.addChild( this.spectralRadianceNode );
     }
 
     /**
@@ -190,8 +197,8 @@ define( require => {
       // Updates value labels' positioning
       this.wavelengthValueText.centerX = this.graphPointCircle.centerX;
       this.wavelengthValueText.top = this.labelOffset;
-      this.spectralRadianceValueText.centerY = this.graphPointCircle.centerY;
-      this.spectralRadianceValueText.right = -this.labelOffset;
+      this.spectralRadianceNode.centerY = this.graphPointCircle.centerY;
+      this.spectralRadianceNode.right = -this.labelOffset;
 
       // Clamps label positions so that they don't go off the graph
       if ( this.wavelengthValueText.right > this.axes.horizontalAxisLength - this.labelOffset ) {
@@ -200,11 +207,11 @@ define( require => {
       else if ( this.wavelengthValueText.left < this.labelOffset ) {
         this.wavelengthValueText.left = this.labelOffset;
       }
-      if ( this.spectralRadianceValueText.top < -this.axes.verticalAxisLength + this.labelOffset ) {
-        this.spectralRadianceValueText.top = -this.axes.verticalAxisLength + this.labelOffset;
+      if ( this.spectralRadianceNode.top < -this.axes.verticalAxisLength + this.labelOffset ) {
+        this.spectralRadianceNode.top = -this.axes.verticalAxisLength + this.labelOffset;
       }
-      else if ( this.spectralRadianceValueText.bottom > this.labelOffset ) {
-        this.spectralRadianceValueText.bottom = this.labelOffset;
+      else if ( this.spectralRadianceNode.bottom > this.labelOffset ) {
+        this.spectralRadianceNode.bottom = this.labelOffset;
       }
 
       // Updates dashed lines to follow graph point circle
