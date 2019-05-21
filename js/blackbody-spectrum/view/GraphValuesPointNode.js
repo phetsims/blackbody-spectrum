@@ -52,7 +52,8 @@ define( require => {
         },
         valueTextOptions: {
           fill: blackbodyColorProfile.graphValuesLabelsProperty,
-          font: new PhetFont( 18 )
+          font: new PhetFont( 18 ),
+          maxWidth: 50
         },
         arrowSpacing: 30,
         arrowLength: 25,
@@ -75,7 +76,7 @@ define( require => {
       this.graphPointCircle = new Node( { size: new Dimension2( 80, 20 ) } );
       this.dashedVerticalLinePath = new Path( null, options.dashedLineOptions );
       this.dashedHorizontalLinePath = new Path( null, options.dashedLineOptions );
-      this.wavelengthValueText = new Text( '123', options.valueTextOptions );
+      this.wavelengthValueText = new Text( '', options.valueTextOptions );
       this.spectralRadianceValueText = new RichText( '', options.valueTextOptions );
       this.spectralRadianceNode = new Panel( this.spectralRadianceValueText, {
         fill: blackbodyColorProfile.backgroundProperty,
