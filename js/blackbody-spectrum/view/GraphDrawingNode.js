@@ -222,6 +222,7 @@ define( require => {
       }
 
       this.mainGraph.clipArea = this.axes.clipShape;
+      this.intensityPath.clipArea = this.axes.clipShape;
     }
 
     /**
