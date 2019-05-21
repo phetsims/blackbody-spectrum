@@ -187,7 +187,9 @@ define( require => {
         } );
         let formattedString = notationObject.mantissa;
         if ( notationObject.exponent !== '0' ) {
-          formattedString += ` X 10<sup>${notationObject.exponent}</sup>`;
+
+          // Using unicode Thin Space and Hair Space to reduce distance between numbers and "X" in notation
+          formattedString += `\u2009X\u200A10<sup>${notationObject.exponent}</sup>`;
         }
         this.spectralRadianceValueText.text = formattedString;
       }
