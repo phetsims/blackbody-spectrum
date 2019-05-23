@@ -56,12 +56,12 @@ define( require => {
           maxWidth: 50
         },
         arrowSpacing: 30,
-        arrowLength: 25,
+        arrowLength: 20,
         arrowOptions: {
           fill: '#64dc64',
-          headHeight: 15,
-          headWidth: 15,
-          tailWidth: 7
+          headHeight: 13,
+          headWidth: 12,
+          tailWidth: 6
         },
         labelOffset: 5,
         cursor: 'ew-resize',
