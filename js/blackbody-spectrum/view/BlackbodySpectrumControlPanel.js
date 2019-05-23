@@ -151,7 +151,7 @@ define( require => {
         } );
         let formattedString = notationObject.mantissa;
         if ( notationObject.exponent !== '0' ) {
-          formattedString += ` X 10<sup>${notationObject.exponent}</sup>`;
+          formattedString += ` \u00D7 10<sup>${notationObject.exponent}</sup>`;
         }
         intensityText.text = StringUtils.fillIn( intensityUnitsLabelString, { intensity: formattedString } );
 

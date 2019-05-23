@@ -189,7 +189,7 @@ define( require => {
         if ( notationObject.exponent !== '0' ) {
 
           // Using unicode Thin Space and Hair Space to reduce distance between numbers and "X" in notation
-          formattedString += `\u2009X\u200A10<sup>${notationObject.exponent}</sup>`;
+          formattedString += `\u2009\u00D7\u200A10<sup>${notationObject.exponent}</sup>`;
         }
         this.spectralRadianceValueText.text = formattedString;
       }
