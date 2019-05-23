@@ -30,6 +30,7 @@ define( require => {
 
   // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
   const SPECTRAL_RADIANCE_CONVERSION_FACTOR = 1e33;
+  const ELECTROMAGNETIC_SPECTRUM_LABEL_CUTOFF = 20;
 
   // strings
   const wavelengthLabelString = require( 'string!BLACKBODY_SPECTRUM/wavelengthLabel' );
@@ -301,10 +302,11 @@ define( require => {
         const upperBound = labelBounds[ i + 1 ];
         assert && assert( upperBound > lowerBound, 'Label tick locations are not in order' );
         const regionLabel = this.electromagneticSpectrumLabelTexts.children[ i ];
-        if ( upperBound - lowerBound < regionLabel.width ) {
+        if ( upperBound - lowerBound < ELECTROMAGNETIC_SPECTRUM_LABEL_CUTOFF ) {
           continue;
         }
         regionLabel.visible = true;
+        regionLabel.maxWidth = upperBound - lowerBound;
         regionLabel.centerX = ( upperBound + lowerBound ) / 2;
       }
     }
