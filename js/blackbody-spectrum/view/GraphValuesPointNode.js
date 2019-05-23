@@ -242,7 +242,7 @@ define( require => {
         this.dashedHorizontalLinePath.visible = false;
       }
 
-      this.dashedVerticalLinePath.visible = this.graphPointCircle.centerX < this.axes.horizontalAxisLength;
+      this.dashedVerticalLinePath.visible = this.graphPointCircle.centerX <= this.axes.horizontalAxisLength;
 
       this.dashedVerticalLinePath.touchArea = this.dashedVerticalLinePath.localBounds.dilated( 4 );
       this.dashedVerticalLinePath.mouseArea = this.dashedVerticalLinePath.localBounds.dilated( 4 );
