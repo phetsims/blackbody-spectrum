@@ -141,6 +141,13 @@ define( require => {
       this.axes.horizontalZoomProperty.link( updateSavedGraphsProcedure );
       this.axes.verticalZoomProperty.link( updateSavedGraphsProcedure );
 
+      // Link changes in layout to changes in temperature and addition/removal of saved graphs only
+      const updateMainGraphLayout = () => { this.moveMainGraphToFront(); };
+      const updateSavedGraphLayout = () => { this.moveSavedGraphToFront(); };
+      model.mainBody.temperatureProperty.link( updateMainGraphLayout );
+      this.model.savedBodies.lengthProperty.link( updateSavedGraphLayout );
+
+
       // Sets layout of graph node elements to be all ultimately relative to the axes
       const axesPath = this.axes.axesPath;
       this.horizontalZoomInButton.left = this.horizontalZoomOutButton.right + ZOOM_BUTTON_SPACING;
@@ -211,8 +218,6 @@ define( require => {
       // Updates the main graph
       const updatedGraphShape = this.shapeOfBody( this.model.mainBody );
       this.mainGraph.shape = updatedGraphShape;
-      this.mainGraph.moveToFront();
-      this.draggablePointNode.moveToFront();
 
       // Easiest way to implement intensity shape is to copy graph shape and bring down to x-axis
       this.intensityPath.shape = updatedGraphShape.copy();
@@ -223,6 +228,15 @@ define( require => {
 
       this.mainGraph.clipArea = this.axes.clipShape;
       this.intensityPath.clipArea = this.axes.clipShape;
+    }
+
+    /**
+     * Move the main graph to the front of the scene
+     * @private
+     */
+    moveMainGraphToFront() {
+      this.mainGraph.moveToFront();
+      this.draggablePointNode.moveToFront();
     }
 
     /**
@@ -242,9 +256,15 @@ define( require => {
           this.secondarySavedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( 0 ) );
           this.secondarySavedGraph.clipArea = clipShape;
         }
-
-        this.primarySavedGraph.moveToFront();
       }
+    }
+
+    /**
+     * Move the latest saved graph to the front of the scene
+     * @private
+     */
+    moveSavedGraphToFront() {
+      this.primarySavedGraph.moveToFront();
     }
 
     /**
