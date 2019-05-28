@@ -129,24 +129,23 @@ define( require => {
         tandem: options.tandem.createTandem( 'wavelengthSpectrumNode' )
       } );
 
-      // Links the GraphDrawingNode to update whenever any tracked Property changes
-      const updateAllProcedure = () => { this.update(); };
-      model.mainBody.temperatureProperty.link( updateAllProcedure );
-      this.axes.horizontalZoomProperty.link( updateAllProcedure );
-      this.axes.verticalZoomProperty.link( updateAllProcedure );
-
-      // Link the saved graph to only update on its Property, and axis zoom buttons
-      const updateSavedGraphsProcedure = () => { this.updateSavedGraphPaths(); };
-      this.model.savedBodies.lengthProperty.link( updateSavedGraphsProcedure );
-      this.axes.horizontalZoomProperty.link( updateSavedGraphsProcedure );
-      this.axes.verticalZoomProperty.link( updateSavedGraphsProcedure );
-
-      // Link changes in layout to changes in temperature and addition/removal of saved graphs only
-      const updateMainGraphLayout = () => { this.moveMainGraphToFront(); };
-      const updateSavedGraphLayout = () => { this.moveSavedGraphToFront(); };
-      model.mainBody.temperatureProperty.link( updateMainGraphLayout );
-      this.model.savedBodies.lengthProperty.link( updateSavedGraphLayout );
-
+      // Links different parts of GraphDrawingNode to update whenever specified tracked Properties change
+      const updateMainGraphAndLayout = () => {
+        this.update();
+        this.moveMainGraphToFront();
+      };
+      const updateSavedGraphAndLayout = () => {
+        this.updateSavedGraphPaths();
+        this.moveSavedGraphToFront();
+      };
+      const updateAllGraphs = () => {
+        this.update();
+        this.updateSavedGraphPaths();
+      };
+      model.mainBody.temperatureProperty.link( updateMainGraphAndLayout );
+      model.savedBodies.lengthProperty.link( updateSavedGraphAndLayout );
+      this.axes.horizontalZoomProperty.link( updateAllGraphs );
+      this.axes.verticalZoomProperty.link( updateAllGraphs );
 
       // Sets layout of graph node elements to be all ultimately relative to the axes
       const axesPath = this.axes.axesPath;
