@@ -122,7 +122,7 @@ define( require => {
 
       // @private Color spectrum for visible light
       this.wavelengthSpectrumNode = new WavelengthSpectrumNode( {
-        size: new Dimension2( Math.ceil( spectrumWidth ), this.axes.verticalAxisLength ),
+        size: new Dimension2( spectrumWidth, this.axes.verticalAxisLength ),
         minWavelength: BlackbodyConstants.ultravioletWavelength,
         maxWavelength: BlackbodyConstants.visibleWavelength,
         opacity: 0.9,
