@@ -81,7 +81,8 @@ define( require => {
       this.spectralRadianceNode = new Panel( this.spectralRadianceValueText, {
         fill: blackbodyColorProfile.backgroundProperty,
         stroke: blackbodyColorProfile.backgroundProperty,
-        xMargin: 1,
+        cornerRadius: 0,
+        xMargin: options.labelOffset,
         yMargin: 0
       } );
       this.labelOffset = options.labelOffset;
@@ -201,7 +202,7 @@ define( require => {
       this.wavelengthValueText.centerX = this.graphPointCircle.centerX;
       this.wavelengthValueText.top = this.labelOffset;
       this.spectralRadianceNode.centerY = this.graphPointCircle.centerY;
-      this.spectralRadianceNode.right = -this.labelOffset;
+      this.spectralRadianceNode.right = -2;
 
       // Clamps label positions so that they don't go off the graph
       if ( this.wavelengthValueText.right > this.axes.horizontalAxisLength - this.labelOffset ) {
