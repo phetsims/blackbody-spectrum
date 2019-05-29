@@ -42,11 +42,24 @@ define( require => {
   const infraredString = require( 'string!BLACKBODY_SPECTRUM/infrared' );
 
   // Max wavelengths for each region of the electromagnetic spectrum in nm, type Object
-  const ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS = {};
-  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ xRayString ] = BlackbodyConstants.xRayWavelength;
-  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ ultravioletString ] = BlackbodyConstants.ultravioletWavelength;
-  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ visibleString ] = BlackbodyConstants.visibleWavelength;
-  ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS[ infraredString ] = BlackbodyConstants.infraredWavelength;
+  const ELECTROMAGNETIC_SPECTRUM_LABEL_VALUES = {
+    xray: {
+      label: xRayString,
+      maxWavelength: BlackbodyConstants.xRayWavelength
+    },
+    ultraviolet: {
+      label: ultravioletString,
+      maxWavelength: BlackbodyConstants.ultravioletWavelength
+    },
+    visible: {
+      label: visibleString,
+      maxWavelength: BlackbodyConstants.visibleWavelength
+    },
+    infrared: {
+      label: infraredString,
+      maxWavelength: BlackbodyConstants.infraredWavelength
+    }
+  };
 
   class ZoomableAxesView extends Node {
 
@@ -131,8 +144,8 @@ define( require => {
       );
       this.electromagneticSpectrumTicksPath = new Path( null, options.ticksPathOptions );
       this.electromagneticSpectrumLabelTexts = new Node( {
-        children: Object.keys( ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS ).map( labelText => {
-          const regionLabel = new Text( labelText, options.electromagneticSpectrumLabelTextOptions );
+        children: _.values( ELECTROMAGNETIC_SPECTRUM_LABEL_VALUES ).map( config => {
+          const regionLabel = new Text( config.label, options.electromagneticSpectrumLabelTextOptions );
           regionLabel.bottom = this.electromagneticSpectrumAxisPath.top;
           return regionLabel;
         } )
@@ -279,10 +292,10 @@ define( require => {
 
       // Makes the ticks for demarcating regions of the electromagnetic spectrum
       const labelsTickShape = new Shape();
-      const tickLocations = _.values( ELECTROMAGNETIC_SPECTRUM_MAX_WAVELENGTHS ).filter( wavelength => {
-        return wavelength <= this.model.wavelengthMax;
-      } ).map( wavelength => {
-        return this.wavelengthToViewX( wavelength );
+      const tickLocations = _.values( ELECTROMAGNETIC_SPECTRUM_LABEL_VALUES ).filter( config => {
+        return config.maxWavelength <= this.model.wavelengthMax;
+      } ).map( config => {
+        return this.wavelengthToViewX( config.maxWavelength );
       } );
       tickLocations.forEach( x => {
         const bottomY = -this.verticalAxisLength + this.minorTickLength / 2;
