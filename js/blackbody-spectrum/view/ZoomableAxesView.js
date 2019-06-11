@@ -217,9 +217,9 @@ define( require => {
       } );
 
       // @private Labels for axes bounds
-      this.horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 32 ), fill: options.axisBoundsLabelColor } );
+      this.horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 24 ), fill: options.axisBoundsLabelColor } );
       this.horizontalTickLabelMax = new Text( model.wavelengthMax / 1000, {
-        font: new PhetFont( 32 ),
+        font: new PhetFont( 24 ),
         fill: options.axisBoundsLabelColor
       } );
       this.verticalTickLabelMax = new RichText( this.truncateNum( this.verticalZoomProperty.value, 3, 5 ), {
