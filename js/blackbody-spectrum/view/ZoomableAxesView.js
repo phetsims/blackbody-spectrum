@@ -422,7 +422,7 @@ define( require => {
         } );
         let formattedString = notationObject.mantissa;
         if ( notationObject.exponent !== '0' ) {
-          formattedString += ` \u00D7 10<sup>${notationObject.exponent}</sup>`;
+          formattedString += `\u2009\u00D7\u200A10<sup>${notationObject.exponent}</sup>`;
         }
         this.verticalTickLabelMax.text = formattedString;
       }
