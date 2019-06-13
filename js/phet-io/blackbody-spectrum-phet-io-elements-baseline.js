@@ -213,7 +213,7 @@ window.phet.phetio.phetioElementsBaseline =
     "blackbodySpectrum.blackbodySpectrumScreen.view.controlPanel.graphValuesCheckbox.enabledProperty": {
       "phetioDocumentation": "When disabled, the checkbox is grayed out and cannot be pressed.",
       "phetioEventType": "model",
-      "phetioFeatured": true,
+      "phetioFeatured": false,
       "phetioHighFrequency": false,
       "phetioPlayback": false,
       "phetioReadOnly": false,
@@ -290,7 +290,7 @@ window.phet.phetio.phetioElementsBaseline =
     "blackbodySpectrum.blackbodySpectrumScreen.view.controlPanel.intensityCheckbox.enabledProperty": {
       "phetioDocumentation": "When disabled, the checkbox is grayed out and cannot be pressed.",
       "phetioEventType": "model",
-      "phetioFeatured": true,
+      "phetioFeatured": false,
       "phetioHighFrequency": false,
       "phetioPlayback": false,
       "phetioReadOnly": false,
@@ -367,7 +367,7 @@ window.phet.phetio.phetioElementsBaseline =
     "blackbodySpectrum.blackbodySpectrumScreen.view.controlPanel.labelsCheckbox.enabledProperty": {
       "phetioDocumentation": "When disabled, the checkbox is grayed out and cannot be pressed.",
       "phetioEventType": "model",
-      "phetioFeatured": true,
+      "phetioFeatured": false,
       "phetioHighFrequency": false,
       "phetioPlayback": false,
       "phetioReadOnly": false,
@@ -2358,7 +2358,7 @@ window.phet.phetio.phetioElementsBaseline =
     "blackbodySpectrum.globals.options.projectorModeCheckbox.enabledProperty": {
       "phetioDocumentation": "When disabled, the checkbox is grayed out and cannot be pressed.",
       "phetioEventType": "model",
-      "phetioFeatured": true,
+      "phetioFeatured": false,
       "phetioHighFrequency": false,
       "phetioPlayback": false,
       "phetioReadOnly": false,
@@ -2435,7 +2435,7 @@ window.phet.phetio.phetioElementsBaseline =
     "blackbodySpectrum.navigationBar.phetButton.enabledProperty": {
       "phetioDocumentation": "When disabled, the button is grayed out and cannot be pressed",
       "phetioEventType": "model",
-      "phetioFeatured": false,
+      "phetioFeatured": true,
       "phetioHighFrequency": false,
       "phetioPlayback": false,
       "phetioReadOnly": false,
