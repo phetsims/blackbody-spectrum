@@ -182,7 +182,7 @@ define( require => {
     getGlowingStarHaloRadius() {
       return Util.linear(
         0,
-        1,
+        2,
         GLOWING_STAR_HALO_MINIMUM_RADIUS,
         GLOWING_STAR_HALO_MAXIMUM_RADIUS,
         this.renormalizedTemperature
