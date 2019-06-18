@@ -83,12 +83,13 @@ define( require => {
     getRenormalizedTemperature() {
       assert && assert( this.temperatureProperty.value >= BlackbodyConstants.minTemperature,
         'Temperature set lower than minimum: ' + BlackbodyConstants.minTemperature );
-      const POWER_EXPONENT = 0.7; // used to create a more significant difference in normalized temperature near minimum
-      return Math.pow(
-        ( this.temperatureProperty.value - BlackbodyConstants.minTemperature ) /
-        ( BlackbodyConstants.maxTemperature - BlackbodyConstants.minTemperature ),
-        POWER_EXPONENT
+      const POWER_EXPONENT = 0.5; // used to minimize scaling of halo at high temperatures
+      const linearRenormalized = Math.max(
+        ( this.temperatureProperty.value - BlackbodyConstants.earthTemperature ) /
+        ( BlackbodyConstants.lightBulbTemperature - BlackbodyConstants.earthTemperature ),
+        0
       );
+      return Math.pow( linearRenormalized, POWER_EXPONENT );
     }
 
     get renormalizedTemperature() { return this.getRenormalizedTemperature(); }
@@ -105,10 +106,7 @@ define( require => {
       const blue = this.getSpectralRadianceAt( BLUE_WAVELENGTH );
       const largestColorIntensity = Math.max( red, green, blue );
       const colorIntensity = this.getSpectralRadianceAt( wavelength );
-
-      // Scaled renormalizedTemperature by 1.5 to make colors more visible and opaque
-      const boundedRenormalizedTemp = Math.min( this.renormalizedTemperature * 1.5, 1 );
-
+      const boundedRenormalizedTemp = Math.min( this.renormalizedTemperature, 1 );
       return Math.floor( 255 * boundedRenormalizedTemp * colorIntensity / largestColorIntensity );
     }
 
