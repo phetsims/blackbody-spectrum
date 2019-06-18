@@ -64,6 +64,7 @@ define( require => {
       const temperatureText = new Text( '?', {
         font: TEMPERATURE_FONT,
         fill: TEMPERATURE_COLOR,
+        maxWidth: 130,
         tandem: tandem.createTandem( 'temperatureText' )
       } );
 
