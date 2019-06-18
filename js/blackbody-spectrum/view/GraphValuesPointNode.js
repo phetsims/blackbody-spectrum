@@ -14,7 +14,6 @@ define( require => {
   const BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
   const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   const Circle = require( 'SCENERY/nodes/Circle' );
-  const Dimension2 = require( 'DOT/Dimension2' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Panel = require( 'SUN/Panel' );
@@ -73,7 +72,7 @@ define( require => {
       // @private
       this.body = body;
       this.axes = axes;
-      this.graphPointCircle = new Node( { size: new Dimension2( 80, 20 ) } );
+      this.graphPointCircle = new Circle( options.circleOptions );
       this.dashedVerticalLinePath = new Path( null, options.dashedLineOptions );
       this.dashedHorizontalLinePath = new Path( null, options.dashedLineOptions );
       this.wavelengthValueText = new Text( '', options.valueTextOptions );
@@ -96,12 +95,11 @@ define( require => {
         ],
         tandem: options.tandem.createTandem( 'cueingArrows' )
       } );
+      this.arrowsVisible = true;
 
-      // Links cueing arrows and circle to a single draggable node
-      const circle = new Circle( options.circleOptions );
-      circle.mouseArea = circle.localBounds.dilated( 4 );
-      this.graphPointCircle.addChild( circle );
-      this.graphPointCircle.addChild( this.cueingArrows );
+      // Extend bounds of point and cuing arrows
+      this.graphPointCircle.mouseArea = this.graphPointCircle.localBounds.dilated( 4 );
+      this.graphPointCircle.touchArea = this.cueingArrows.localBounds.dilated( 4 );
 
       // @public {Property.<number>}
       this.wavelengthProperty = new NumberProperty( this.body.peakWavelength, {
@@ -135,6 +133,7 @@ define( require => {
         },
         end: () => {
           this.cueingArrows.visible = false;
+          this.arrowsVisible = false;
         },
         allowTouchSnag: true,
         dragCursor: 'ew-resize',
@@ -142,14 +141,16 @@ define( require => {
       } );
 
       this.graphPointCircle.addInputListener( graphValueDragHandler );
+      this.cueingArrows.addInputListener( graphValueDragHandler );
       this.dashedVerticalLinePath.addInputListener( graphValueDragHandler );
 
       // Adds children in rendering order
       this.addChild( this.dashedVerticalLinePath );
       this.addChild( this.dashedHorizontalLinePath );
-      this.addChild( this.graphPointCircle );
+      this.addChild( this.cueingArrows );
       this.addChild( this.wavelengthValueText );
       this.addChild( this.spectralRadianceNode );
+      this.addChild( this.graphPointCircle );
     }
 
     /**
@@ -158,7 +159,7 @@ define( require => {
      */
     reset() {
       this.wavelengthProperty.value = this.body.peakWavelength;
-      this.cueingArrows.visible = true;
+      this.arrowsVisible = true;
       this.update();
     }
 
@@ -176,6 +177,10 @@ define( require => {
       this.graphPointCircle.centerY = this.axes.spectralRadianceToViewY( spectralRadianceOfPoint );
       this.graphPointCircle.visible = this.graphPointCircle.centerX <= this.axes.horizontalAxisLength &&
                                       this.graphPointCircle.centerY >= -this.axes.verticalAxisLength;
+
+      // Update cueing arrows to line up with graph point circle
+      this.cueingArrows.center = this.graphPointCircle.center;
+      this.cueingArrows.visible = this.arrowsVisible && this.graphPointCircle.visible;
 
       // Updates value labels' text
       this.wavelengthValueText.text = Util.toFixed( this.wavelengthProperty.value / 1000.0, 3 ); // nm to microns
@@ -245,9 +250,15 @@ define( require => {
 
       this.dashedVerticalLinePath.visible = this.graphPointCircle.centerX <= this.axes.horizontalAxisLength;
 
-      this.dashedVerticalLinePath.touchArea = this.dashedVerticalLinePath.localBounds.dilated( 4 );
-      this.dashedVerticalLinePath.mouseArea = this.dashedVerticalLinePath.localBounds.dilated( 4 );
-      this.graphPointCircle.touchArea = this.graphPointCircle.localBounds.dilated( 4 );
+      // Don't extend touch/mouse areas when distance is so small, avoids errors when showing pointer areas
+      if ( this.graphPointCircle.centerY < -1e-8 ) {
+        this.dashedVerticalLinePath.touchArea = this.dashedVerticalLinePath.localBounds.dilated( 4 );
+        this.dashedVerticalLinePath.mouseArea = this.dashedVerticalLinePath.localBounds.dilated( 4 );
+      }
+      else {
+        this.dashedVerticalLinePath.touchArea = null;
+        this.dashedVerticalLinePath.mouseArea = null;
+      }
     }
 
   }
