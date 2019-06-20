@@ -26,8 +26,8 @@ define( require => {
 
     // Wavelength Label Values
     xRayWavelength: 10,
-    ultravioletWavelength: 400,
-    visibleWavelength: 700,
+    ultravioletWavelength: 380,
+    visibleWavelength: 780,
     infraredWavelength: 100000,
 
     // Axes Values
