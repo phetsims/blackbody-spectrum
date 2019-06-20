@@ -61,7 +61,13 @@ define( require => {
       // @private The axes with the ticks and EM spectrum labels
       this.axes = new ZoomableAxesView( model, { tandem: options.tandem.createTandem( 'axesView' ) } );
 
-      // @private paths for the main and saved graphs
+      // @private Intermediary nodes containing elements within axes to allow for easier clipping
+      this.innerGraphUnderAxes = new Node();
+      this.innerGraphOverAxes = new Node();
+      this.innerGraphUnderAxes.clipArea = this.axes.clipShape;
+      this.innerGraphOverAxes.clipArea = this.axes.clipShape;
+
+      // @private Paths for the main and saved graphs
       this.mainGraph = new Path( null, options.graphPathOptions );
       this.primarySavedGraph = new Path( null, _.extend( options.graphPathOptions, {
         stroke: options.savedGraphPathColor,
@@ -91,6 +97,24 @@ define( require => {
         this.draggablePointNode.visible = graphValuesVisible;
       } );
 
+      // Node for that displays the rainbow for the visible portion of the electromagnetic spectrum
+      const infraredPosition = this.axes.wavelengthToViewX( BlackbodyConstants.visibleWavelength );
+      const ultravioletPosition = this.axes.wavelengthToViewX( BlackbodyConstants.ultravioletWavelength );
+      const spectrumWidth = infraredPosition - ultravioletPosition;
+
+      // @private Color spectrum for visible light
+      this.wavelengthSpectrumNode = new WavelengthSpectrumNode( {
+        size: new Dimension2( spectrumWidth, this.axes.verticalAxisLength ),
+        opacity: 0.9,
+        tandem: options.tandem.createTandem( 'wavelengthSpectrumNode' )
+      } );
+
+      this.innerGraphUnderAxes.addChild( this.wavelengthSpectrumNode );
+      this.innerGraphUnderAxes.addChild( this.intensityPath );
+      this.innerGraphOverAxes.addChild( this.mainGraph );
+      this.innerGraphOverAxes.addChild( this.primarySavedGraph );
+      this.innerGraphOverAxes.addChild( this.secondarySavedGraph );
+
       // @private Zoom Buttons
       this.horizontalZoomInButton = createZoomButton(
         true,
@@ -114,20 +138,6 @@ define( require => {
       );
       const horizontalZoomButtons = new Node( { children: [ this.horizontalZoomOutButton, this.horizontalZoomInButton ] } );
       const verticalZoomButtons = new Node( { children: [ this.verticalZoomOutButton, this.verticalZoomInButton ] } );
-
-      // Node for that displays the rainbow for the visible portion of the electromagnetic spectrum
-      const infraredPosition = this.axes.wavelengthToViewX( BlackbodyConstants.visibleWavelength );
-      const ultravioletPosition = this.axes.wavelengthToViewX( BlackbodyConstants.ultravioletWavelength );
-      const spectrumWidth = infraredPosition - ultravioletPosition;
-
-      // @private Color spectrum for visible light
-      this.wavelengthSpectrumNode = new WavelengthSpectrumNode( {
-        size: new Dimension2( spectrumWidth, this.axes.verticalAxisLength ),
-        minWavelength: BlackbodyConstants.ultravioletWavelength,
-        maxWavelength: BlackbodyConstants.visibleWavelength,
-        opacity: 0.9,
-        tandem: options.tandem.createTandem( 'wavelengthSpectrumNode' )
-      } );
 
       // Links different parts of GraphDrawingNode to update whenever specified tracked Properties change
       const updateMainGraphAndLayout = () => {
@@ -161,14 +171,11 @@ define( require => {
       this.wavelengthSpectrumNode.left = ultravioletPosition;
 
       // Adds children in rendering order
-      this.addChild( this.wavelengthSpectrumNode );
-      this.addChild( this.intensityPath );
+      this.addChild( this.innerGraphUnderAxes );
       this.addChild( this.axes );
       this.addChild( horizontalZoomButtons );
       this.addChild( verticalZoomButtons );
-      this.addChild( this.mainGraph );
-      this.addChild( this.primarySavedGraph );
-      this.addChild( this.secondarySavedGraph );
+      this.addChild( this.innerGraphOverAxes );
       this.addChild( this.draggablePointNode );
     }
 
@@ -224,9 +231,6 @@ define( require => {
       if ( this.intensityPath.shape.getLastPoint().minus( newPoint ).magnitude > 0 ) {
         this.intensityPath.shape.lineToPoint( newPoint );
       }
-
-      this.mainGraph.clipArea = this.axes.clipShape;
-      this.intensityPath.clipArea = this.axes.clipShape;
     }
 
     /**
@@ -245,15 +249,12 @@ define( require => {
     updateSavedGraphPaths() {
       // Updates the saved graph(s)
       const numberOfSavedBodies = this.model.savedBodies.length;
-      const clipShape = this.axes.clipShape;
       this.primarySavedGraph.shape = null;
       this.secondarySavedGraph.shape = null;
       if ( numberOfSavedBodies > 0 ) {
         this.primarySavedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( numberOfSavedBodies - 1 ) );
-        this.primarySavedGraph.clipArea = clipShape;
         if ( numberOfSavedBodies === 2 ) {
           this.secondarySavedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( 0 ) );
-          this.secondarySavedGraph.clipArea = clipShape;
         }
       }
     }
@@ -286,9 +287,9 @@ define( require => {
       const verticalZoom = this.axes.verticalZoomProperty.value;
       const horizontalZoom = this.axes.horizontalZoomProperty.value;
       this.updateGraphPaths();
-      this.updateVisibleSpectrumNode();
       this.draggablePointNode.update();
       this.axes.update();
+      this.updateVisibleSpectrumNode();
       this.horizontalZoomInButton.enabled = horizontalZoom > BlackbodyConstants.minHorizontalZoom;
       this.horizontalZoomOutButton.enabled = horizontalZoom < BlackbodyConstants.maxHorizontalZoom;
       this.verticalZoomInButton.enabled = verticalZoom > BlackbodyConstants.minVerticalZoom;
