@@ -112,7 +112,8 @@ define( require => {
 
     /**
      * Function that returns the total intensity (area under the curve) of the blackbody
-     * Equation in use is the Stefan–Boltzmann Law
+     * Equation in use is the Stefan–Boltzmann Law: Intensity = σT^4
+     * σ is the Stefan-Boltzmann constant, T is the temperature
      * @public
      * @returns {number}
      */
@@ -125,7 +126,8 @@ define( require => {
 
     /**
      * Function that returns the peak wavelength (in nanometers) of the blackbody
-     * Equation in use is Wien's displacement Law
+     * Equation in use is Wien's displacement Law: Peak wavelength = b / T
+     * b is Wien's displacement constant, T is the temperature
      * @public
      * @returns {number}
      */
