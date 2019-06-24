@@ -43,7 +43,7 @@ define( require => {
   const CONTROL_PANEL_FILL = 'rgba( 0, 0, 0, 0 )';
   const CHECKBOX_COLOR = blackbodyColorProfile.panelStrokeProperty;
   const CHECKBOX_TOUCH_DILATION = 6;
-  const BUTTON_ICON_WIDTH = 35;
+  const BUTTON_ICON_WIDTH = 60;
   const BUTTON_TOUCH_DILATION = 6;
   const CHECKBOX_DEFAULT_WIDTH = 140;
   const INTENSITY_TEXT_OPTIONS = {
@@ -86,6 +86,7 @@ define( require => {
       // Save button
       const saveButton = new RectangularPushButton( {
         content: new FontAwesomeNode( 'camera', { maxWidth: BUTTON_ICON_WIDTH } ),
+        maxWidth: BUTTON_ICON_WIDTH,
         baseColor: PhetColorScheme.BUTTON_YELLOW,
         touchAreaXDilation: BUTTON_TOUCH_DILATION,
         touchAreaYDilation: BUTTON_TOUCH_DILATION,
@@ -98,6 +99,7 @@ define( require => {
       // Erase button
       const eraseButton = new EraserButton( {
         iconWidth: BUTTON_ICON_WIDTH,
+        maxWidth: BUTTON_ICON_WIDTH,
         touchAreaXDilation: BUTTON_TOUCH_DILATION,
         touchAreaYDilation: BUTTON_TOUCH_DILATION,
         listener: () => {
@@ -156,7 +158,9 @@ define( require => {
         intensityText.text = StringUtils.fillIn( intensityUnitsLabelString, { intensity: formattedString } );
 
         // Updates positions and sizes
-        intensityTextBox.setRect( 0, 0, intensityText.width + 20, intensityText.height + 10, 0, 0 );
+        const textWidth = CHECKBOX_DEFAULT_WIDTH > intensityText.width + 20 ?
+                          CHECKBOX_DEFAULT_WIDTH : intensityText.width + 20;
+        intensityTextBox.setRect( 0, 0, textWidth, intensityText.height + 10, 0, 0 );
         intensityText.center = intensityTextBox.center;
       } );
 
@@ -167,7 +171,7 @@ define( require => {
           eraseButton
         ],
         align: 'center',
-        spacing: spacing
+        spacing: CHECKBOX_DEFAULT_WIDTH - ( BUTTON_ICON_WIDTH ) * 2
       } );
       const checkboxes = new VBox( {
         children: [
@@ -193,7 +197,7 @@ define( require => {
           new HSeparator( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
           buttons
         ],
-        align: 'center',
+        align: 'left',
         spacing: spacing,
         resize: true
       } );
