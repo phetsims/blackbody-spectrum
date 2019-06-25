@@ -1,6 +1,6 @@
 # Blackbody Spectrum - model description
 
-The model uses three equations for calculate components of the graph:
+The model uses three equations for calculating components of the graph:
 
 + [Planck's Law](https://en.wikipedia.org/wiki/Planck%27s_law), which returns a spectral radiance of a Blackbody given a temperature and wavelength, to map the main blackbody radiation graph.
 + [Stefan–Boltzmann Law](https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_law), which returns the total intensity of the blackbody, to calculate the area under the blackbody curve.
