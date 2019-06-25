@@ -31,6 +31,8 @@ define( require => {
   const ZOOM_BUTTON_ICON_RADIUS = 8; // size of zoom buttons
   const ZOOM_BUTTON_SPACING = 10; // spacing between + and - zoom buttons
   const ZOOM_BUTTON_AXES_MARGIN = 35; // spacing between zoom buttons and axes
+  const DEFAULT_LINE_WIDTH = 5; // regular line width for graph paths
+  const OVERLAID_LINE_WIDTH = 3; // line width when saved graphs are initially created
 
   class GraphDrawingNode extends Node {
 
@@ -46,7 +48,7 @@ define( require => {
         intensityPathFillColor: 'rgba(100,100,100,0.75)',
         graphPathOptions: {
           stroke: PhetColorScheme.RED_COLORBLIND,
-          lineWidth: 5,
+          lineWidth: DEFAULT_LINE_WIDTH,
           lineJoin: 'round',
           lineCap: 'round'
         },
@@ -70,12 +72,10 @@ define( require => {
       // @private Paths for the main and saved graphs
       this.mainGraph = new Path( null, options.graphPathOptions );
       this.primarySavedGraph = new Path( null, _.extend( options.graphPathOptions, {
-        stroke: options.savedGraphPathColor,
-        lineWidth: 4
+        stroke: options.savedGraphPathColor
       } ) );
       this.secondarySavedGraph = new Path( null, _.extend( options.graphPathOptions, {
         stroke: options.savedGraphPathColor,
-        lineWidth: 4,
         lineDash: [ 5, 5 ],
         lineCap: 'butt'
       } ) );
@@ -240,6 +240,10 @@ define( require => {
     moveMainGraphToFront() {
       this.mainGraph.moveToFront();
       this.draggablePointNode.moveToFront();
+
+      // Reset saved graphs back to default width
+      this.primarySavedGraph.lineWidth = DEFAULT_LINE_WIDTH;
+      this.secondarySavedGraph.lineWidth = DEFAULT_LINE_WIDTH;
     }
 
     /**
@@ -265,6 +269,9 @@ define( require => {
      */
     moveSavedGraphToFront() {
       this.primarySavedGraph.moveToFront();
+
+      // Also set newly created graph to smaller size to be visible in front of main graph
+      this.primarySavedGraph.lineWidth = OVERLAID_LINE_WIDTH;
     }
 
     /**
