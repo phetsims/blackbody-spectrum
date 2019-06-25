@@ -4,6 +4,7 @@
  * Main entry point for the sim.
  *
  * @author Martin Veillette (Berea College)
+ * @author Arnab Purkayastha
  */
 define( require => {
   'use strict';
@@ -24,7 +25,7 @@ define( require => {
       leadDesign: 'Michael Dubson, Diana L\u00f3pez Tavares',
       softwareDevelopment: 'Arnab Purkayastha, Saurabh Totey, Martin Veillette',
       team: 'Wendy Adams, John Blanco, Ariel Paul, Kathy Perkins',
-      qualityAssurance: 'Katie Woessner',
+      qualityAssurance: 'Liam Mulhall, Jacob Romero, Ethan Ward, Kathryn Woessner',
       graphicArts: '',
       thanks: ''
     },

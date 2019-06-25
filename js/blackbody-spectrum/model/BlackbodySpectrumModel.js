@@ -6,6 +6,7 @@
  *
  * @author Martin Veillette (Berea College)
  * @author Saurabh Totey
+ * @author Arnab Purkayastha
  */
 define( require => {
   'use strict';
