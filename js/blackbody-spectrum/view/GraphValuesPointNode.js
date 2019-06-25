@@ -4,6 +4,7 @@
  * The class that handles showing a draggable point that follows a graph and shows its x and y values
  *
  * @author Saurabh Totey
+ * @author Arnab Purkayastha
  */
 define( require => {
   'use strict';
