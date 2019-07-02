@@ -22,6 +22,9 @@ define( require => {
   const Util = require( 'DOT/Util' );
   const VBox = require( 'SCENERY/nodes/VBox' );
 
+  // strings
+  const kelvinUnitsString = require( 'string!BLACKBODY_SPECTRUM/kelvinUnits' );
+
   class SavedGraphInformationPanel extends Panel {
 
     /**
@@ -109,7 +112,7 @@ define( require => {
        * @returns {string}
        * @private
        */
-      const formatTemperature = temperature => `${Util.toFixed( temperature, 0 )} K`;
+      const formatTemperature = temperature => `${Util.toFixed( temperature, 0 )} ` + kelvinUnitsString;
 
       // Link's the main body's temperature to the primaryTemperatureLabel
       mainBody.temperatureProperty.link( temperature => {
