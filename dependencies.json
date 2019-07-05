@@ -1,5 +1,5 @@
 {
-  "comment": "# blackbody-spectrum 1.0.0 Fri Jul 05 2019 11:41:38 GMT-0600 (MDT)",
+  "comment": "# blackbody-spectrum 1.0.0 Fri Jul 05 2019 14:08:57 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "d8a2e8992420327ff72a6fc4bb93ec76549ded0e",
     "branch": "HEAD"
@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "blackbody-spectrum": {
-    "sha": "62f4d6d6cd347fed1bccb25464db1698ca8274bf",
+    "sha": "4ecbcade8d110f9a06c38b520ec718fa3ce9fd34",
     "branch": "1.0"
   },
   "brand": {
@@ -45,8 +45,8 @@
     "branch": "HEAD"
   },
   "phetcommon": {
-    "sha": "ea3bd75fec8a3ba5afe2f6df23cf4be18d767cec",
-    "branch": "HEAD"
+    "sha": "27a275c8b0c804f7faa130deafef6befbec9c7d7",
+    "branch": "blackbody-spectrum-1.0"
   },
   "phetmarks": {
     "sha": "01cbbd71ad4ca7d29bf68de518e0d3215acf3528",
