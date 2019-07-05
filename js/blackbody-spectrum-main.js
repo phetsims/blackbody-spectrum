@@ -25,7 +25,7 @@ define( require => {
       leadDesign: 'Michael Dubson, Diana L\u00f3pez Tavares',
       softwareDevelopment: 'Arnab Purkayastha, Saurabh Totey, Martin Veillette',
       team: 'Wendy Adams, John Blanco, Ariel Paul, Kathy Perkins',
-      qualityAssurance: 'Liam Mulhall, Jacob Romero, Ethan Ward, Kathryn Woessner',
+      qualityAssurance: 'Steele Dalton, Liam Mulhall, Jacob Romero, Ethan Ward, Kathryn Woessner',
       graphicArts: '',
       thanks: ''
     },
