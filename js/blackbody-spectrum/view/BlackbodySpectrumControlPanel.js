@@ -178,7 +178,7 @@ define( require => {
           intensityCheckbox
         ],
         align: 'left',
-        spacing: spacing,
+        spacing: spacing
       } );
 
       // Create panel to allow left alignment on checkboxes while keeping center alignment for buttons
