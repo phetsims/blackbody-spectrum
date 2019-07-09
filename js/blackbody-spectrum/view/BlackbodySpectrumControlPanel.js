@@ -43,7 +43,7 @@ define( require => {
   const CONTROL_PANEL_FILL = 'rgba( 0, 0, 0, 0 )';
   const CHECKBOX_COLOR = blackbodyColorProfile.panelStrokeProperty;
   const CHECKBOX_TOUCH_DILATION = 6;
-  const BUTTON_ICON_WIDTH = 60;
+  const BUTTON_ICON_WIDTH = 50;
   const BUTTON_TOUCH_DILATION = 6;
   const CHECKBOX_DEFAULT_WIDTH = 140;
   const INTENSITY_TEXT_OPTIONS = {
@@ -70,7 +70,6 @@ define( require => {
         fill: CONTROL_PANEL_FILL,
         resize: true,
         stroke: blackbodyColorProfile.panelStrokeProperty,
-        minWidth: CHECKBOX_DEFAULT_WIDTH,
         maxWidth: CHECKBOX_DEFAULT_WIDTH,
 
         // phet-io
@@ -170,8 +169,7 @@ define( require => {
           saveButton,
           eraseButton
         ],
-        align: 'center',
-        spacing: CHECKBOX_DEFAULT_WIDTH - ( BUTTON_ICON_WIDTH ) * 2
+        spacing: spacing
       } );
       const checkboxes = new VBox( {
         children: [
@@ -181,7 +179,13 @@ define( require => {
         ],
         align: 'left',
         spacing: spacing,
-        resize: false
+      } );
+
+      // Create panel to allow left alignment on checkboxes while keeping center alignment for buttons
+      const checkboxPanel = new Panel( checkboxes, {
+        fill: blackbodyColorProfile.backgroundProperty,
+        stroke: blackbodyColorProfile.backgroundProperty,
+        minWidth: CHECKBOX_DEFAULT_WIDTH
       } );
 
       const intensityDisplay = new Node( {
@@ -192,12 +196,12 @@ define( require => {
 
       const content = new VBox( {
         children: [
-          checkboxes,
+          checkboxPanel,
           intensityDisplay,
           new HSeparator( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
           buttons
         ],
-        align: 'left',
+        align: 'center',
         spacing: spacing,
         resize: true
       } );
@@ -209,14 +213,14 @@ define( require => {
         intensityDisplay.visible = intensityVisible;
         if ( !intensityVisible ) {
           content.setChildren( [
-            checkboxes,
+            checkboxPanel,
             new HSeparator( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
             buttons
           ] );
         }
         else {
           content.setChildren( [
-            checkboxes,
+            checkboxPanel,
             intensityDisplay,
             new HSeparator( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
             buttons
