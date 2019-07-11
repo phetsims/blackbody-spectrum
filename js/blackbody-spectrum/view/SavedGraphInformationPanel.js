@@ -37,6 +37,7 @@ define( require => {
       options = _.extend( {
         panelFill: 'rgba( 0, 0, 0, 0 )',
         panelStroke: blackbodyColorProfile.panelStrokeProperty,
+        minWidth: 140,
         maxWidth: 140,
         spacing: 10,
         curveWidth: 50,
@@ -98,6 +99,7 @@ define( require => {
       super( content, {
         fill: 'rgba( 0, 0, 0, 0 )',
         stroke: options.panelStroke,
+        minWidth: options.minWidth,
         maxWidth: options.maxWidth,
         align: 'left',
         yMargin: 10,
