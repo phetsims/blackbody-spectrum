@@ -10,7 +10,6 @@ define( require => {
   'use strict';
 
   // modules
-  const BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
   const BlackbodySpectrumScreen = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/BlackbodySpectrumScreen' );
   const GlobalOptionsNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GlobalOptionsNode' );
   const Sim = require( 'JOIST/Sim' );
@@ -29,7 +28,7 @@ define( require => {
       graphicArts: '',
       thanks: ''
     },
-    optionsNode: new GlobalOptionsNode( BlackbodyConstants.GLOBALS_TANDEM.createTandem( 'options' ) )
+    optionsNode: new GlobalOptionsNode( Tandem.globalTandem.createTandem( 'options' ) )
   };
 
   SimLauncher.launch( () => {

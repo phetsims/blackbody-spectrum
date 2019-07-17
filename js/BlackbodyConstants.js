@@ -12,7 +12,6 @@ define( require => {
   // modules
   const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
-  const Tandem = require( 'TANDEM/Tandem' );
 
   const BlackbodyConstants = {
 
@@ -36,9 +35,7 @@ define( require => {
     minVerticalZoom: 0.000014336,
     maxVerticalZoom: 700,
 
-    LABEL_FONT: new PhetFont( 22 ),
-
-    GLOBALS_TANDEM: Tandem.rootTandem.createTandem( 'globals' ) // A static tandem that all globals can be created under.
+    LABEL_FONT: new PhetFont( 22 )
   };
 
   return blackbodySpectrum.register( 'BlackbodyConstants', BlackbodyConstants );
