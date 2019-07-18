@@ -16,12 +16,12 @@ define( require => {
   const BlackbodyConstants = {
 
     // Thermometer Temperature Values
-    minTemperature: 270,
+    minTemperature: 200,
     maxTemperature: 11000,
-    earthTemperature: 300,
+    earthTemperature: 250,
     lightBulbTemperature: 3000,
-    sunTemperature: 5778,
-    siriusATemperature: 9940,
+    sunTemperature: 5800,
+    siriusATemperature: 9950,
 
     // Wavelength Label Values
     xRayWavelength: 10,
