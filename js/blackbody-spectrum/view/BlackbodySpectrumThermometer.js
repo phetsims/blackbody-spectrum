@@ -33,10 +33,10 @@ define( require => {
 
   // constants
   const TICK_MARKS = [
-    { text: siriusAString, temperature: 9940 },
-    { text: sunString, temperature: 5778 },
-    { text: lightBulbString, temperature: 3000 },
-    { text: earthString, temperature: 300 }
+    { text: siriusAString, temperature: BlackbodyConstants.siriusATemperature },
+    { text: sunString, temperature: BlackbodyConstants.sunTemperature },
+    { text: lightBulbString, temperature: BlackbodyConstants.lightBulbTemperature },
+    { text: earthString, temperature: BlackbodyConstants.earthTemperature }
   ];
 
   class BlackbodySpectrumThermometer extends ThermometerNode {
@@ -59,10 +59,11 @@ define( require => {
         glassThickness: 3,
         lineWidth: 3,
         outlineStroke: blackbodyColorProfile.thermometerTubeStrokeProperty,
-        tickSpacing: 20,
+        tickSpacingTemperature: 500,
         tickLabelFont: new PhetFont( { size: 18 } ),
         tickLabelColor: blackbodyColorProfile.thermometerTubeStrokeProperty,
         tickLabelWidth: 100,
+        snapInterval: 50,
         zeroLevel: 'bulbTop',
         thumbSize: 25,
 
@@ -96,7 +97,7 @@ define( require => {
 
           // Clamp to make sure temperature Property is within graph bounds
           temperatureProperty.value = Util.clamp(
-            this.yPosToTemperature( -y ),
+            Util.roundToInterval( this.yPosToTemperature( -y ), options.snapInterval ),
             options.minTemperature,
             options.maxTemperature
           );
@@ -164,7 +165,7 @@ define( require => {
 
     /**
      * Updates the location of the thumb
-     * @param {Property.<number>}
+     * @param {Property.<number>} [temperatureProperty]
      * @param {Object} [options]
      * @public
      */
