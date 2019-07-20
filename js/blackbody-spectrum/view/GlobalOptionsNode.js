@@ -24,14 +24,8 @@ define( require => {
     constructor( tandem ) {
 
       // add support for setting projector mode
-      const projectorModeCheckbox = new ProjectorModeCheckbox( { tandem: tandem.createTandem( 'projectorModeCheckbox' ) } );
-      projectorModeCheckbox.projectorModeEnabledProperty.link( projectorMode => {
-        if ( projectorMode ) {
-          blackbodyColorProfile.profileNameProperty.set( 'projector' );
-        }
-        else {
-          blackbodyColorProfile.profileNameProperty.set( 'default' );
-        }
+      const projectorModeCheckbox = new ProjectorModeCheckbox( blackbodyColorProfile, {
+        tandem: tandem.createTandem( 'projectorModeCheckbox' )
       } );
 
       // VBox is used to make it easy to add additional options
