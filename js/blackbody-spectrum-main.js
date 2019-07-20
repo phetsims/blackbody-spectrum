@@ -28,7 +28,9 @@ define( require => {
       graphicArts: '',
       thanks: ''
     },
-    optionsNode: new GlobalOptionsNode( Tandem.globalTandem.createTandem( 'options' ) )
+
+    // Creates content for the Options dialog
+    createOptionsDialogContent: tandem => new GlobalOptionsNode( tandem )
   };
 
   SimLauncher.launch( () => {
