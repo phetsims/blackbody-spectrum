@@ -1,5 +1,5 @@
 {
-  "comment": "# blackbody-spectrum 1.0.1 Tue Jul 16 2019 23:49:25 GMT-0600 (MDT)",
+  "comment": "# blackbody-spectrum 1.0.1 Tue Jul 23 2019 16:15:37 GMT-0600 (MDT)",
   "assert": {
     "sha": "d8a2e8992420327ff72a6fc4bb93ec76549ded0e",
     "branch": "HEAD"
@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "blackbody-spectrum": {
-    "sha": "5dafa18f39f149eed9a8f3a5d150fdadb8443332",
+    "sha": "ae11d1706fe65485541851d04231491f60073ea2",
     "branch": "1.0"
   },
   "brand": {
@@ -61,8 +61,8 @@
     "branch": "HEAD"
   },
   "scenery-phet": {
-    "sha": "b6d5b5683a3c4585deee388f839627d2fb62e687",
-    "branch": "HEAD"
+    "sha": "7e14217563e3c14e82ac0b93b43fb2869c2be30d",
+    "branch": "blackbody-spectrum-1.0"
   },
   "sherpa": {
     "sha": "2a32165bfe80cf50a85af442ff7073333418bd70",
