@@ -83,13 +83,12 @@ define( require => {
     getRenormalizedTemperature() {
       assert && assert( this.temperatureProperty.value >= BlackbodyConstants.minTemperature,
         'Temperature set lower than minimum: ' + BlackbodyConstants.minTemperature );
-      const POWER_EXPONENT = 0.5; // used to minimize scaling of halo at high temperatures
-      const linearRenormalized = Math.max(
-        ( this.temperatureProperty.value - BlackbodyConstants.earthTemperature ) /
-        ( BlackbodyConstants.lightBulbTemperature - BlackbodyConstants.earthTemperature ),
-        0
-      );
-      return Math.pow( linearRenormalized, POWER_EXPONENT );
+      const powerExponent = 0.5; // used to minimize scaling of halo at high temperatures
+      const draperPoint = 798; // in Kelvin
+      const normalizationScaling = 0.02; // determined empirically
+
+      const relativeTemp = Math.max( this.temperatureProperty.value, draperPoint ) - draperPoint;
+      return normalizationScaling * Math.pow( relativeTemp, powerExponent );
     }
 
     get renormalizedTemperature() { return this.getRenormalizedTemperature(); }
