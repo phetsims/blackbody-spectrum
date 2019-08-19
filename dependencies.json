@@ -1,5 +1,5 @@
 {
-  "comment": "# blackbody-spectrum 1.0.2 Mon Aug 05 2019 14:46:49 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# blackbody-spectrum 1.0.2 Mon Aug 19 2019 12:50:25 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "d8a2e8992420327ff72a6fc4bb93ec76549ded0e",
     "branch": "HEAD"
@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "blackbody-spectrum": {
-    "sha": "a97959d872933c30b2e4ad70a59cc210cb635a90",
+    "sha": "bbcecd32ad7144bc3afe67a3e06f488909198c1f",
     "branch": "1.0"
   },
   "brand": {
@@ -25,8 +25,8 @@
     "branch": "HEAD"
   },
   "joist": {
-    "sha": "d777f0116a958c24fc0dde0e7a0a4becfc422f53",
-    "branch": "HEAD"
+    "sha": "678a0010985579c4d5a5bd264991bbdfba06cc04",
+    "branch": "blackbody-spectrum-1.0"
   },
   "kite": {
     "sha": "4ec082deba698c64bba483ba6cfb9a6adcf70150",
@@ -57,12 +57,12 @@
     "branch": "HEAD"
   },
   "scenery": {
-    "sha": "d199bce1708a9041a99a23813cbe37a44e36c77f",
-    "branch": "HEAD"
+    "sha": "8efed0858905974ed70dbd91d0b2eef6e85baacd",
+    "branch": "blackbody-spectrum-1.0"
   },
   "scenery-phet": {
-    "sha": "7e14217563e3c14e82ac0b93b43fb2869c2be30d",
-    "branch": "HEAD"
+    "sha": "4d72f248c3013dafb3e0cdcb3fe80d3867ccd6d8",
+    "branch": "blackbody-spectrum-1.0"
   },
   "sherpa": {
     "sha": "2a32165bfe80cf50a85af442ff7073333418bd70",
