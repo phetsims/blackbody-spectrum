@@ -21,7 +21,6 @@ define( require => {
   class BlackbodySpectrumModel {
 
     /**
-     * Main constructor for BlackbodySpectrumModel, which contains the general model logic for the sim screen.
      * @param {Tandem} tandem
      */
     constructor( tandem ) {
