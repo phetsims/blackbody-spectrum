@@ -207,11 +207,11 @@ define( require => {
         if ( deltaWavelength * i > peakWavelength && findingPeak ) {
 
           // Force peak wavelength point to be added
-          const yMax = this.axes.spectralRadianceToViewY( body.getSpectralRadianceAt( peakWavelength ) );
+          const yMax = this.axes.spectralPowerDensityToViewY( body.getSpectralPowerDensityAt( peakWavelength ) );
           graphShape.lineTo( this.axes.wavelengthToViewX( peakWavelength ), yMax < -yCutoff ? -yCutoff : yMax );
           findingPeak = false;
         }
-        const y = this.axes.spectralRadianceToViewY( body.getSpectralRadianceAt( deltaWavelength * i ) );
+        const y = this.axes.spectralPowerDensityToViewY( body.getSpectralPowerDensityAt( deltaWavelength * i ) );
         graphShape.lineTo( pointsXOffset * i, y < -yCutoff ? -yCutoff : y );
       }
       return graphShape;

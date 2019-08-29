@@ -77,8 +77,8 @@ define( require => {
       this.dashedVerticalLinePath = new Path( null, options.dashedLineOptions );
       this.dashedHorizontalLinePath = new Path( null, options.dashedLineOptions );
       this.wavelengthValueText = new Text( '', options.valueTextOptions );
-      this.spectralRadianceValueText = new RichText( '', options.valueTextOptions );
-      this.spectralRadianceNode = new Panel( this.spectralRadianceValueText, {
+      this.spectralPowerDensityValueText = new RichText( '', options.valueTextOptions );
+      this.spectralPowerDensityNode = new Panel( this.spectralPowerDensityValueText, {
         fill: blackbodyColorProfile.backgroundProperty,
         stroke: blackbodyColorProfile.backgroundProperty,
         cornerRadius: 0,
@@ -150,7 +150,7 @@ define( require => {
       this.addChild( this.dashedHorizontalLinePath );
       this.addChild( this.cueingArrows );
       this.addChild( this.wavelengthValueText );
-      this.addChild( this.spectralRadianceNode );
+      this.addChild( this.spectralPowerDensityNode );
       this.addChild( this.graphPointCircle );
     }
 
@@ -170,12 +170,12 @@ define( require => {
      */
     update() {
 
-      // Update spectral radiance for changes in wavelength
-      const spectralRadianceOfPoint = this.body.getSpectralRadianceAt( this.wavelengthProperty.value );
+      // Update spectral power density for changes in wavelength
+      const spectralPowerDensityOfPoint = this.body.getSpectralPowerDensityAt( this.wavelengthProperty.value );
 
       // Updates location of graph point circle in view
       this.graphPointCircle.centerX = this.axes.wavelengthToViewX( this.wavelengthProperty.value );
-      this.graphPointCircle.centerY = this.axes.spectralRadianceToViewY( spectralRadianceOfPoint );
+      this.graphPointCircle.centerY = this.axes.spectralPowerDensityToViewY( spectralPowerDensityOfPoint );
       this.graphPointCircle.visible = this.graphPointCircle.centerX <= this.axes.horizontalAxisLength &&
                                       this.graphPointCircle.centerY >= -this.axes.verticalAxisLength;
 
@@ -186,10 +186,10 @@ define( require => {
       // Updates value labels' text
       this.wavelengthValueText.text = Util.toFixed( this.wavelengthProperty.value / 1000.0, 3 ); // nm to microns
 
-      // Spectral Radiance is given special case for scientific notation
-      const spectralRadianceValue = spectralRadianceOfPoint * 1e33; // multiplier is to match y axis
-      if ( spectralRadianceValue < 0.01 && spectralRadianceValue !== 0 ) {
-        const notationObject = ScientificNotationNode.toScientificNotation( spectralRadianceValue, {
+      // Spectral Power Density is given special case for scientific notation
+      const spectralPowerDensityValue = spectralPowerDensityOfPoint * 1e33; // multiplier is to match y axis
+      if ( spectralPowerDensityValue < 0.01 && spectralPowerDensityValue !== 0 ) {
+        const notationObject = ScientificNotationNode.toScientificNotation( spectralPowerDensityValue, {
           mantissaDecimalPlaces: 0
         } );
         let formattedString = notationObject.mantissa;
@@ -198,17 +198,17 @@ define( require => {
           // Using unicode Thin Space and Hair Space to reduce distance between numbers and "X" in notation
           formattedString += `\u2009\u00D7\u200A10<sup>${notationObject.exponent}</sup>`;
         }
-        this.spectralRadianceValueText.text = formattedString;
+        this.spectralPowerDensityValueText.text = formattedString;
       }
       else {
-        this.spectralRadianceValueText.text = Util.toFixed( spectralRadianceValue, 2 );
+        this.spectralPowerDensityValueText.text = Util.toFixed( spectralPowerDensityValue, 2 );
       }
 
       // Updates value labels' positioning
       this.wavelengthValueText.centerX = this.graphPointCircle.centerX;
       this.wavelengthValueText.top = this.labelOffset;
-      this.spectralRadianceNode.centerY = this.graphPointCircle.centerY;
-      this.spectralRadianceNode.right = -2;
+      this.spectralPowerDensityNode.centerY = this.graphPointCircle.centerY;
+      this.spectralPowerDensityNode.right = -2;
 
       // Clamps label positions so that they don't go off the graph
       if ( this.wavelengthValueText.right > this.axes.horizontalAxisLength - this.labelOffset ) {
@@ -217,11 +217,11 @@ define( require => {
       else if ( this.wavelengthValueText.left < this.labelOffset ) {
         this.wavelengthValueText.left = this.labelOffset;
       }
-      if ( this.spectralRadianceNode.top < -this.axes.verticalAxisLength + this.labelOffset ) {
-        this.spectralRadianceNode.top = -this.axes.verticalAxisLength + this.labelOffset;
+      if ( this.spectralPowerDensityNode.top < -this.axes.verticalAxisLength + this.labelOffset ) {
+        this.spectralPowerDensityNode.top = -this.axes.verticalAxisLength + this.labelOffset;
       }
-      else if ( this.spectralRadianceNode.bottom > this.labelOffset ) {
-        this.spectralRadianceNode.bottom = this.labelOffset;
+      else if ( this.spectralPowerDensityNode.bottom > this.labelOffset ) {
+        this.spectralPowerDensityNode.bottom = this.labelOffset;
       }
 
       // Updates dashed lines to follow graph point circle
