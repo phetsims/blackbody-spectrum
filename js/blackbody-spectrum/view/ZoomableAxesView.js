@@ -29,13 +29,13 @@ define( require => {
   const Util = require( 'DOT/Util' );
 
   // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
-  const SPECTRAL_RADIANCE_CONVERSION_FACTOR = 1e33;
+  const SPECTRAL_POWER_DENSITY_CONVERSION_FACTOR = 1e33;
   const ELECTROMAGNETIC_SPECTRUM_LABEL_CUTOFF = 20;
 
   // strings
   const wavelengthLabelString = require( 'string!BLACKBODY_SPECTRUM/wavelengthLabel' );
   const subtitleLabelString = require( 'string!BLACKBODY_SPECTRUM/subtitleLabel' );
-  const spectralRadianceLabelString = require( 'string!BLACKBODY_SPECTRUM/spectralRadianceLabel' );
+  const spectralPowerDensityLabelString = require( 'string!BLACKBODY_SPECTRUM/spectralPowerDensityLabel' );
   const xRayString = require( 'string!BLACKBODY_SPECTRUM/xRay' );
   const ultravioletString = require( 'string!BLACKBODY_SPECTRUM/ultraviolet' );
   const visibleString = require( 'string!BLACKBODY_SPECTRUM/visible' );
@@ -159,8 +159,8 @@ define( require => {
       this.minorTickMaxHorizontalZoom = options.minorTickMaxHorizontalZoom;
 
       // Labels for the axes
-      const verticalAxisLabelNode = new Text( spectralRadianceLabelString, {
-        font: new PhetFont( 26 ),
+      const verticalAxisLabelNode = new Text( spectralPowerDensityLabelString, {
+        font: BlackbodyConstants.LABEL_FONT,
         fill: options.axisLabelColor,
         rotation: -Math.PI / 2,
         maxWidth: options.axesHeight
@@ -168,7 +168,7 @@ define( require => {
 
       const axesWidth = options.axesWidth * 0.8;
       const horizontalAxisTopLabelNode = new Text( wavelengthLabelString, {
-        font: new PhetFont( 24 ),
+        font: BlackbodyConstants.LABEL_FONT,
         fill: options.axisLabelColor,
         maxWidth: axesWidth
       } );
@@ -217,13 +217,16 @@ define( require => {
       } );
 
       // @private Labels for axes bounds
-      this.horizontalTickLabelZero = new Text( '0', { font: new PhetFont( 24 ), fill: options.axisBoundsLabelColor } );
+      this.horizontalTickLabelZero = new Text( '0', {
+        font: BlackbodyConstants.LABEL_FONT,
+        fill: options.axisBoundsLabelColor
+      } );
       this.horizontalTickLabelMax = new Text( model.wavelengthMax / 1000, {
-        font: new PhetFont( 24 ),
+        font: BlackbodyConstants.LABEL_FONT,
         fill: options.axisBoundsLabelColor
       } );
       this.verticalTickLabelMax = new RichText( this.truncateNum( this.verticalZoomProperty.value, 3, 5 ), {
-        font: new PhetFont( 24 ),
+        font: BlackbodyConstants.LABEL_FONT,
         fill: options.axisBoundsLabelColor,
         maxWidth: 60
       } );
@@ -345,25 +348,25 @@ define( require => {
     }
 
     /**
-     * Converts a given spectral radiance to a y distance along the view
-     * @param {number} spectralRadiance
+     * Converts a given spectral power density to a y distance along the view
+     * @param {number} spectralPowerDensity
      * @returns {number}
      * @public
      */
-    spectralRadianceToViewY( spectralRadiance ) {
-      return -SPECTRAL_RADIANCE_CONVERSION_FACTOR *
-             Util.linear( 0, this.verticalZoomProperty.value, 0, this.verticalAxisLength, spectralRadiance );
+    spectralPowerDensityToViewY( spectralPowerDensity ) {
+      return -SPECTRAL_POWER_DENSITY_CONVERSION_FACTOR *
+             Util.linear( 0, this.verticalZoomProperty.value, 0, this.verticalAxisLength, spectralPowerDensity );
     }
 
     /**
-     * Converts a given y distance along the view to a spectral radiance
+     * Converts a given y distance along the view to a spectral power density
      * @param {number} viewY
      * @returns {number}
      * @public
      */
-    viewYToSpectralRadiance( viewY ) {
+    viewYToSpectralPowerDensity( viewY ) {
       return Util.linear( 0, this.verticalAxisLength, 0, this.verticalZoomProperty.value, viewY ) /
-             -SPECTRAL_RADIANCE_CONVERSION_FACTOR;
+             -SPECTRAL_POWER_DENSITY_CONVERSION_FACTOR;
     }
 
     /**

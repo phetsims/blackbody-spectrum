@@ -19,7 +19,7 @@ This section defines terminology that you'll see used throughout the internal an
 
 * intensity - the amount of light emitted in a projected area (for all wavelengths), measured in Watts per meter<sup>2</sup>
 * Plank's law - see [model.md](https://github.com/phetsims/blackbody-spectrum/tree/master/doc/model.md)
-* radiance - the amount of light emitted in a projected area for a given wavelength, measured in megaWatts per meter<sup>2</sup> per micrometer
+* spectral power density - the amount of light emitted in a projected area for a given wavelength, measured in megaWatts per meter<sup>2</sup> per micrometer
 * Stefan–Boltzmann law - see [model.md](https://github.com/phetsims/blackbody-spectrum/tree/master/doc/model.md)
 * Wien's displacement Law - see [model.md](https://github.com/phetsims/blackbody-spectrum/tree/master/doc/model.md)
 
@@ -27,7 +27,7 @@ This section defines terminology that you'll see used throughout the internal an
 
 This section provides an overview of the most important model components.
 
-[BlackbodyBodyModel](https://github.com/phetsims/blackbody-spectrum/blob/master/js/blackbody-spectrum/model/BlackbodyBodyModel.js) is the primary model component. It instantiates the main temperature property and provides all methods for retrieving radiance, intensity, and peak wavelength.
+[BlackbodyBodyModel](https://github.com/phetsims/blackbody-spectrum/blob/master/js/blackbody-spectrum/model/BlackbodyBodyModel.js) is the primary model component. It instantiates the main temperature property and provides all methods for retrieving power density, intensity, and peak wavelength.
 
 ## View
 

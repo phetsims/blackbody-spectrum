@@ -52,23 +52,24 @@ define( require => {
     }
 
     /**
-     * Function that returns the spectral radiance at a given wavelength (in nm)
-     * The units of spectral radiance are in megaWatts per meter^2 per micrometer
+     * Function that returns the spectral power density at a given wavelength (in nm)
+     * The units of spectral power density are in megaWatts per meter^2 per micrometer
      * Equation in use is Planck's Law which returns a spectral radiance of a Blackbody given a temperature and wavelength
      * Planck's law is that spectral radiance = 2hc^2 / ( l^5 * ( e^( hc / lkt ) - 1 ) )
+     * This spectral radiance is multiplied by pi to retrieve the spectral power density
      * h is Planck's constant, c is the speed of light, l is wavelength, k is the Boltzmann constant, and t is the temperature
      * @public
      * @param {number} wavelength
      * @returns {number}
      */
-    getSpectralRadianceAt( wavelength ) {
+    getSpectralPowerDensityAt( wavelength ) {
 
       // Avoiding division by 0
       if ( wavelength === 0 ) {
         return 0;
       }
 
-      const A = 3.74192e-16; // is 2hc^2 in units of watts*m^2
+      const A = 3.74192e-16; // is 2πhc^2 in units of watts*m^2
       const B = 1.438770e7; // is hc/k in units of nanometer-kelvin
       return A / ( Math.pow( wavelength, 5 ) * ( Math.exp( B / ( wavelength * this.temperatureProperty.value ) ) - 1 ) );
     }
@@ -100,11 +101,11 @@ define( require => {
      * @returns {number}
      */
     getRenormalizedColorIntensity( wavelength ) {
-      const red = this.getSpectralRadianceAt( RED_WAVELENGTH ); // intensity as a function of wavelength in nm
-      const green = this.getSpectralRadianceAt( GREEN_WAVELENGTH );
-      const blue = this.getSpectralRadianceAt( BLUE_WAVELENGTH );
+      const red = this.getSpectralPowerDensityAt( RED_WAVELENGTH ); // intensity as a function of wavelength in nm
+      const green = this.getSpectralPowerDensityAt( GREEN_WAVELENGTH );
+      const blue = this.getSpectralPowerDensityAt( BLUE_WAVELENGTH );
       const largestColorIntensity = Math.max( red, green, blue );
-      const colorIntensity = this.getSpectralRadianceAt( wavelength );
+      const colorIntensity = this.getSpectralPowerDensityAt( wavelength );
       const boundedRenormalizedTemp = Math.min( this.renormalizedTemperature, 1 );
       return Math.floor( 255 * boundedRenormalizedTemp * colorIntensity / largestColorIntensity );
     }

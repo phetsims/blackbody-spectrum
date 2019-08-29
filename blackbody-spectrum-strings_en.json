@@ -2,8 +2,8 @@
   "blackbody-spectrum.title": {
     "value": "Blackbody Spectrum"
   },
-  "spectralRadianceLabel": {
-    "value": "Spectral Radiance (MW/m²/µm)"
+  "spectralPowerDensityLabel": {
+    "value": "Spectral Power Density (MW/m²/µm)"
   },
   "wavelengthLabel": {
     "value": "Wavelength (µm)"
