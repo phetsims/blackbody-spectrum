@@ -68,7 +68,7 @@ define( require => {
         return 0;
       }
 
-      const A = 1.191042e-16; // is 2hc^2 in units of watts*m^2/steradian
+      const A = 3.74192e-16; // is 2hc^2 in units of watts*m^2
       const B = 1.438770e7; // is hc/k in units of nanometer-kelvin
       return A / ( Math.pow( wavelength, 5 ) * ( Math.exp( B / ( wavelength * this.temperatureProperty.value ) ) - 1 ) );
     }
