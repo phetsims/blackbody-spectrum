@@ -34,7 +34,7 @@ define( require => {
     minHorizontalZoom: 750,
     maxHorizontalZoom: 48000,
     minVerticalZoom: 0.000014336,
-    maxVerticalZoom: 700,
+    maxVerticalZoom: 3500,
 
     LABEL_FONT: new PhetFont( 22 ),
 
