@@ -1,5 +1,5 @@
 {
-  "comment": "# blackbody-spectrum 1.0.3 Fri Aug 23 2019 12:39:12 GMT-0600 (Mountain Daylight Time)",
+  "comment": "# blackbody-spectrum 1.0.4-rc.1 Tue Sep 03 2019 15:31:04 GMT-0600 (Mountain Daylight Time)",
   "assert": {
     "sha": "d8a2e8992420327ff72a6fc4bb93ec76549ded0e",
     "branch": "HEAD"
@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "blackbody-spectrum": {
-    "sha": "50de6d8065df804a632218744433a41b2ff9172c",
+    "sha": "c63748e13bb9530f4bdfc7250c0ed228444acf6e",
     "branch": "1.0"
   },
   "brand": {
