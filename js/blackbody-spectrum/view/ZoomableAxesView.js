@@ -93,7 +93,7 @@ define( require => {
         horizontalZoomFactor: 2,
         verticalZoomFactor: 5,
         defaultHorizontalZoom: model.wavelengthMax,
-        defaultVerticalZoom: 140.0,
+        defaultVerticalZoom: 100.0,
         minorTickMaxHorizontalZoom: 12000,
         axisBoundsLabelColor: blackbodyColorProfile.titlesTextProperty,
         axisLabelColor: blackbodyColorProfile.titlesTextProperty,

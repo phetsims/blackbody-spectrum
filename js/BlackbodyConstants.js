@@ -32,8 +32,8 @@ define( require => {
     // Axes Values
     minHorizontalZoom: 750,
     maxHorizontalZoom: 48000,
-    minVerticalZoom: 0.000014336,
-    maxVerticalZoom: 3500,
+    minVerticalZoom: 0.00001024,
+    maxVerticalZoom: 2500,
 
     LABEL_FONT: new PhetFont( 22 )
   };
