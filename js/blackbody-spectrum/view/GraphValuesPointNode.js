@@ -201,7 +201,7 @@ define( require => {
         this.spectralPowerDensityValueText.text = formattedString;
       }
       else {
-        this.spectralPowerDensityValueText.text = Util.toFixed( spectralPowerDensityValue, 2 );
+        this.spectralPowerDensityValueText.text = spectralPowerDensityValue.toPrecision( 4 );
       }
 
       // Updates value labels' positioning
