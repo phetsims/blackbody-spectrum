@@ -10,7 +10,6 @@
     "grunt": "~1.0.0"
   },
   "phet": {
-    "automatedTestEnabled": true,
     "requirejsNamespace": "BLACKBODY_SPECTRUM",
     "runnable": true,
     "simulation": true,
