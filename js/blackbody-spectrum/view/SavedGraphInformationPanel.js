@@ -13,6 +13,7 @@ define( require => {
   const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   const GenericCurveShape = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GenericCurveShape' );
   const HBox = require( 'SCENERY/nodes/HBox' );
+  const merge = require( 'PHET_CORE/merge' );
   const Panel = require( 'SUN/Panel' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
@@ -34,7 +35,7 @@ define( require => {
      */
     constructor( mainBody, savedBodies, options ) {
 
-      options = _.extend( {
+      options = merge( {
         panelFill: 'rgba( 0, 0, 0, 0 )',
         panelStroke: blackbodyColorProfile.panelStrokeProperty,
         minWidth: 140,

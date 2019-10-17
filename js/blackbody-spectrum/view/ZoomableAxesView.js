@@ -16,6 +16,7 @@ define( require => {
   const blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
   const BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
   const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Path = require( 'SCENERY/nodes/Path' );
@@ -33,13 +34,13 @@ define( require => {
   const ELECTROMAGNETIC_SPECTRUM_LABEL_CUTOFF = 20;
 
   // strings
-  const wavelengthLabelString = require( 'string!BLACKBODY_SPECTRUM/wavelengthLabel' );
-  const subtitleLabelString = require( 'string!BLACKBODY_SPECTRUM/subtitleLabel' );
+  const infraredString = require( 'string!BLACKBODY_SPECTRUM/infrared' );
   const spectralPowerDensityLabelString = require( 'string!BLACKBODY_SPECTRUM/spectralPowerDensityLabel' );
-  const xRayString = require( 'string!BLACKBODY_SPECTRUM/xRay' );
+  const subtitleLabelString = require( 'string!BLACKBODY_SPECTRUM/subtitleLabel' );
   const ultravioletString = require( 'string!BLACKBODY_SPECTRUM/ultraviolet' );
   const visibleString = require( 'string!BLACKBODY_SPECTRUM/visible' );
-  const infraredString = require( 'string!BLACKBODY_SPECTRUM/infrared' );
+  const wavelengthLabelString = require( 'string!BLACKBODY_SPECTRUM/wavelengthLabel' );
+  const xRayString = require( 'string!BLACKBODY_SPECTRUM/xRay' );
 
   // Max wavelengths for each region of the electromagnetic spectrum in nm, type Object
   const ELECTROMAGNETIC_SPECTRUM_LABEL_VALUES = {
@@ -71,7 +72,7 @@ define( require => {
     constructor( model, options ) {
 
       // Default options
-      options = _.extend( {
+      options = merge( {
         axesWidth: 550,
         axesHeight: 400,
         axesPathOptions: {
@@ -140,7 +141,7 @@ define( require => {
       // @private Components for the electromagnetic spectrum labels
       this.electromagneticSpectrumAxisPath = new Path(
         new Shape().moveTo( 0, -this.verticalAxisLength ).lineTo( this.horizontalAxisLength, -this.verticalAxisLength ),
-        _.extend( options.axesPathOptions, { lineWidth: 1 } )
+        merge( options.axesPathOptions, { lineWidth: 1 } )
       );
       this.electromagneticSpectrumTicksPath = new Path( null, options.ticksPathOptions );
       this.electromagneticSpectrumLabelTexts = new Node( {

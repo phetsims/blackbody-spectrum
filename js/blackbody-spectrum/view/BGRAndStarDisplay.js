@@ -12,10 +12,11 @@ define( require => {
   'use strict';
 
   // modules
-  const Circle = require( 'SCENERY/nodes/Circle' );
   const blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
   const BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
   const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
+  const Circle = require( 'SCENERY/nodes/Circle' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const StarShape = require( 'SCENERY_PHET/StarShape' );
@@ -43,7 +44,7 @@ define( require => {
      */
     constructor( mainBody, options ) {
 
-      options = _.extend( {
+      options = merge( {
         tandem: Tandem.required
       }, options );
 

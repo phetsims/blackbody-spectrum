@@ -17,6 +17,7 @@ define( require => {
   const ColorConstants = require( 'SUN/ColorConstants' );
   const Dimension2 = require( 'DOT/Dimension2' );
   const GraphValuesPointNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GraphValuesPointNode' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
@@ -44,7 +45,7 @@ define( require => {
      */
     constructor( model, options ) {
 
-      options = _.extend( {
+      options = merge( {
         savedGraphPathColor: 'gray',
         intensityPathFillColor: 'rgba(100,100,100,0.75)',
         graphPathOptions: {
@@ -72,10 +73,10 @@ define( require => {
 
       // @private Paths for the main and saved graphs
       this.mainGraph = new Path( null, options.graphPathOptions );
-      this.primarySavedGraph = new Path( null, _.extend( options.graphPathOptions, {
+      this.primarySavedGraph = new Path( null, merge( options.graphPathOptions, {
         stroke: options.savedGraphPathColor
       } ) );
-      this.secondarySavedGraph = new Path( null, _.extend( options.graphPathOptions, {
+      this.secondarySavedGraph = new Path( null, merge( options.graphPathOptions, {
         stroke: options.savedGraphPathColor,
         lineDash: [ 5, 5 ],
         lineCap: 'butt'

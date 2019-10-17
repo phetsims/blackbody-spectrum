@@ -17,6 +17,7 @@ define( require => {
   const FontAwesomeNode = require( 'SUN/FontAwesomeNode' );
   const HBox = require( 'SCENERY/nodes/HBox' );
   const HSeparator = require( 'SUN/HSeparator' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Panel = require( 'SUN/Panel' );
   const PhetColorScheme = require( 'SCENERY_PHET/PhetColorScheme' );
@@ -32,8 +33,8 @@ define( require => {
 
   // strings
   const graphValuesString = require( 'string!BLACKBODY_SPECTRUM/graphValues' );
-  const intensityUnitsLabelString = require( 'string!BLACKBODY_SPECTRUM/intensityUnitsLabel' );
   const intensityString = require( 'string!BLACKBODY_SPECTRUM/intensity' );
+  const intensityUnitsLabelString = require( 'string!BLACKBODY_SPECTRUM/intensityUnitsLabel' );
   const labelsString = require( 'string!BLACKBODY_SPECTRUM/labels' );
 
   // constants
@@ -63,7 +64,7 @@ define( require => {
      */
     constructor( model, options ) {
 
-      options = _.extend( {
+      options = merge( {
         xMargin: 15,
         yMargin: 15,
         lineWidth: 1,

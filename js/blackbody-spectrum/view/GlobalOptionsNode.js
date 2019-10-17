@@ -29,11 +29,11 @@ define( require => {
       } );
 
       // VBox is used to make it easy to add additional options
-      super( _.extend( {
+      super( {
         children: [ projectorModeCheckbox ],
         spacing: OptionsDialog.DEFAULT_SPACING,
         align: 'left'
-      } ) );
+      } );
     }
   }
 

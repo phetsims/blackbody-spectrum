@@ -14,6 +14,7 @@ define( require => {
   const BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
   const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   const Dimension2 = require( 'DOT/Dimension2' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
@@ -48,7 +49,7 @@ define( require => {
      */
     constructor( temperatureProperty, options ) {
 
-      options = _.extend( {
+      options = merge( {
         minTemperature: BlackbodyConstants.minTemperature,
         maxTemperature: BlackbodyConstants.maxTemperature,
         bulbDiameter: 35,

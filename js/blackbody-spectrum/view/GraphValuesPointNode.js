@@ -15,6 +15,7 @@ define( require => {
   const BlackbodyConstants = require( 'BLACKBODY_SPECTRUM/BlackbodyConstants' );
   const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   const Circle = require( 'SCENERY/nodes/Circle' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Panel = require( 'SUN/Panel' );
@@ -41,7 +42,7 @@ define( require => {
      */
     constructor( body, axes, options ) {
 
-      options = _.extend( {
+      options = merge( {
         circleOptions: {
           radius: 5,
           fill: blackbodyColorProfile.graphValuesPointProperty

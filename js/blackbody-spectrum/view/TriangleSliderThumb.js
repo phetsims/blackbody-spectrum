@@ -15,6 +15,7 @@ define( require => {
   const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
   const ButtonListener = require( 'SCENERY/input/ButtonListener' );
   const Dimension2 = require( 'DOT/Dimension2' );
+  const merge = require( 'PHET_CORE/merge' );
   const Node = require( 'SCENERY/nodes/Node' );
   const Path = require( 'SCENERY/nodes/Path' );
   const Shape = require( 'KITE/Shape' );
@@ -29,7 +30,7 @@ define( require => {
      */
     constructor( options ) {
 
-      options = _.extend( {
+      options = merge( {
         size: new Dimension2( 15, 15 ),
         stroke: blackbodyColorProfile.triangleStrokeProperty,
         lineWidth: 1,
