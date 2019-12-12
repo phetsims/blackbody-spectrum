@@ -3888,7 +3888,7 @@ window.phet.phetio.phetioElementsBaseline = assert &&
       "phetioStudioControl": true,
       "phetioTypeName": "NumberPropertyIO"
     },
-    "blackbodySpectrum.general.soundEnabledProperty": {
+    "blackbodySpectrum.general.soundManager.enabledProperty": {
       "phetioDocumentation": "",
       "phetioDynamicElement": false,
       "phetioDynamicElementArchetype": false,
