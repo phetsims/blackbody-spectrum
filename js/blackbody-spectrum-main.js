@@ -35,7 +35,7 @@ define( require => {
 
   SimLauncher.launch( () => {
     const sim = new Sim( blackbodySpectrumTitleString, [
-      new BlackbodySpectrumScreen( Tandem.rootTandem.createTandem( 'blackbodySpectrumScreen' ) )
+      new BlackbodySpectrumScreen( Tandem.ROOT.createTandem( 'blackbodySpectrumScreen' ) )
     ], simOptions );
     sim.start();
   } );

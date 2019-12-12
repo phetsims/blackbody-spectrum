@@ -41,7 +41,7 @@ define( require => {
           lineDash: [ 3, 3 ]
         },
         cursor: 'pointer',
-        tandem: Tandem.required
+        tandem: Tandem.REQUIRED
       }, options );
 
       // Draw the thumb shape starting at the bottom corner, moving up to the top left

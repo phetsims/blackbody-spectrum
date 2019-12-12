@@ -66,7 +66,7 @@ define( require => {
         },
         labelOffset: 5,
         cursor: 'ew-resize',
-        tandem: Tandem.required
+        tandem: Tandem.REQUIRED
       }, options );
 
       super( options );

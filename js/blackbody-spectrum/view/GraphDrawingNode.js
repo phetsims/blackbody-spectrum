@@ -54,7 +54,7 @@ define( require => {
           lineJoin: 'round',
           lineCap: 'round'
         },
-        tandem: Tandem.required
+        tandem: Tandem.REQUIRED
       }, options );
 
       super();

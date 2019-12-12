@@ -45,7 +45,7 @@ define( require => {
     constructor( mainBody, options ) {
 
       options = merge( {
-        tandem: Tandem.required
+        tandem: Tandem.REQUIRED
       }, options );
 
       super( options );

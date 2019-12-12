@@ -68,7 +68,7 @@ define( require => {
         zeroLevel: 'bulbTop',
         thumbSize: 25,
 
-        tandem: Tandem.required
+        tandem: Tandem.REQUIRED
       }, options );
 
       super( options.minTemperature, options.maxTemperature, temperatureProperty, options );

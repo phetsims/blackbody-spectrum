@@ -102,7 +102,7 @@ define( require => {
           font: new PhetFont( 14 ),
           fill: blackbodyColorProfile.titlesTextProperty
         },
-        tandem: Tandem.required
+        tandem: Tandem.REQUIRED
       }, options );
 
       // Call to node superconstructor: no options passed in

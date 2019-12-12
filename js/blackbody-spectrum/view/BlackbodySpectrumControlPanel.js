@@ -74,7 +74,7 @@ define( require => {
         maxWidth: CHECKBOX_DEFAULT_WIDTH,
 
         // phet-io
-        tandem: Tandem.required
+        tandem: Tandem.REQUIRED
       }, options );
 
       // create the text nodes
