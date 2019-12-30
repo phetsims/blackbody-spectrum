@@ -25,7 +25,7 @@ define( require => {
   const SavedGraphInformationPanel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/SavedGraphInformationPanel' );
   const ScreenView = require( 'JOIST/ScreenView' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   // strings
   const blackbodyTemperatureString = require( 'string!BLACKBODY_SPECTRUM/blackbodyTemperature' );
@@ -75,7 +75,7 @@ define( require => {
 
       // Links the current temperature to the temperature text above the thermometer
       model.mainBody.temperatureProperty.link( temperature => {
-        temperatureText.text = Util.toFixed( temperature, 0 ) + ' ' + kelvinUnitsString;
+        temperatureText.text = Utils.toFixed( temperature, 0 ) + ' ' + kelvinUnitsString;
         temperatureText.centerX = thermometerLabel.centerX; // In case the size of the temperature text changes
       } );
 

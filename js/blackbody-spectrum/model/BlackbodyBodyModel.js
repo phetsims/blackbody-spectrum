@@ -16,7 +16,7 @@ define( require => {
   const Color = require( 'SCENERY/util/Color' );
   const NumberProperty = require( 'AXON/NumberProperty' );
   const Range = require( 'DOT/Range' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   // constants
   // colors used for glowing star and circles
@@ -182,7 +182,7 @@ define( require => {
      * @returns {number}
      */
     getGlowingStarHaloRadius() {
-      return Util.linear(
+      return Utils.linear(
         0,
         2,
         GLOWING_STAR_HALO_MINIMUM_RADIUS,
@@ -200,7 +200,7 @@ define( require => {
      * @returns {Color}
      */
     getGlowingStarHaloColor() {
-      const alpha = Util.linear( 0, 1, 0, 0.3, this.renormalizedTemperature ); // temperature -> transparency
+      const alpha = Utils.linear( 0, 1, 0, 0.3, this.renormalizedTemperature ); // temperature -> transparency
       return this.starColor.withAlpha( alpha );
     }
 

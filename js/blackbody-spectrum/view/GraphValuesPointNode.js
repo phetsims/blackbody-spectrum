@@ -28,7 +28,7 @@ define( require => {
   const SimpleDragHandler = require( 'SCENERY/input/SimpleDragHandler' );
   const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   class GraphValuesPointNode extends Node {
 
@@ -126,7 +126,7 @@ define( require => {
           const x = this.graphPointCircle.globalToParentPoint( event.pointer.point ).x - clickXOffset;
 
           // Clamp to make sure wavelength Property is within graph bounds
-          this.wavelengthProperty.value = Util.clamp(
+          this.wavelengthProperty.value = Utils.clamp(
             this.axes.viewXToWavelength( x ),
             0,
             this.axes.viewXToWavelength( this.axes.horizontalAxisLength )
@@ -185,7 +185,7 @@ define( require => {
       this.cueingArrows.visible = this.arrowsVisible && this.graphPointCircle.visible;
 
       // Updates value labels' text
-      this.wavelengthValueText.text = Util.toFixed( this.wavelengthProperty.value / 1000.0, 3 ); // nm to microns
+      this.wavelengthValueText.text = Utils.toFixed( this.wavelengthProperty.value / 1000.0, 3 ); // nm to microns
 
       // Spectral Power Density is given special case for scientific notation
       const spectralPowerDensityValue = spectralPowerDensityOfPoint * 1e33; // multiplier is to match y axis

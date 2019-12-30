@@ -27,7 +27,7 @@ define( require => {
   const Shape = require( 'KITE/Shape' );
   const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
   const SPECTRAL_POWER_DENSITY_CONVERSION_FACTOR = 1e33;
@@ -335,7 +335,7 @@ define( require => {
      * @public
      */
     wavelengthToViewX( wavelength ) {
-      return Util.linear( 0, this.model.wavelengthMax, 0, this.horizontalAxisLength, wavelength );
+      return Utils.linear( 0, this.model.wavelengthMax, 0, this.horizontalAxisLength, wavelength );
     }
 
     /**
@@ -345,7 +345,7 @@ define( require => {
      * @public
      */
     viewXToWavelength( viewX ) {
-      return Util.linear( 0, this.horizontalAxisLength, 0, this.model.wavelengthMax, viewX );
+      return Utils.linear( 0, this.horizontalAxisLength, 0, this.model.wavelengthMax, viewX );
     }
 
     /**
@@ -356,7 +356,7 @@ define( require => {
      */
     spectralPowerDensityToViewY( spectralPowerDensity ) {
       return -SPECTRAL_POWER_DENSITY_CONVERSION_FACTOR *
-             Util.linear( 0, this.verticalZoomProperty.value, 0, this.verticalAxisLength, spectralPowerDensity );
+             Utils.linear( 0, this.verticalZoomProperty.value, 0, this.verticalAxisLength, spectralPowerDensity );
     }
 
     /**
@@ -366,7 +366,7 @@ define( require => {
      * @public
      */
     viewYToSpectralPowerDensity( viewY ) {
-      return Util.linear( 0, this.verticalAxisLength, 0, this.verticalZoomProperty.value, viewY ) /
+      return Utils.linear( 0, this.verticalAxisLength, 0, this.verticalZoomProperty.value, viewY ) /
              -SPECTRAL_POWER_DENSITY_CONVERSION_FACTOR;
     }
 
@@ -375,7 +375,7 @@ define( require => {
      * @public
      */
     zoomInHorizontal() {
-      this.horizontalZoomProperty.value = Util.clamp( this.horizontalZoomProperty.value / this.horizontalZoomScale,
+      this.horizontalZoomProperty.value = Utils.clamp( this.horizontalZoomProperty.value / this.horizontalZoomScale,
         this.minHorizontalZoom,
         this.maxHorizontalZoom
       );
@@ -386,7 +386,7 @@ define( require => {
      * @public
      */
     zoomOutHorizontal() {
-      this.horizontalZoomProperty.value = Util.clamp( this.horizontalZoomProperty.value * this.horizontalZoomScale,
+      this.horizontalZoomProperty.value = Utils.clamp( this.horizontalZoomProperty.value * this.horizontalZoomScale,
         this.minHorizontalZoom,
         this.maxHorizontalZoom
       );
@@ -397,7 +397,7 @@ define( require => {
      * @public
      */
     zoomInVertical() {
-      this.verticalZoomProperty.value = Util.clamp( this.verticalZoomProperty.value / this.verticalZoomScale,
+      this.verticalZoomProperty.value = Utils.clamp( this.verticalZoomProperty.value / this.verticalZoomScale,
         this.minVerticalZoom,
         this.maxVerticalZoom
       );
@@ -408,7 +408,7 @@ define( require => {
      * @public
      */
     zoomOutVertical() {
-      this.verticalZoomProperty.value = Util.clamp( this.verticalZoomProperty.value * this.verticalZoomScale,
+      this.verticalZoomProperty.value = Utils.clamp( this.verticalZoomProperty.value * this.verticalZoomScale,
         this.minVerticalZoom,
         this.maxVerticalZoom
       );
@@ -448,7 +448,7 @@ define( require => {
      */
     truncateNum( value, significantFigures, decimals ) {
       const sfNumber = parseFloat( value.toPrecision( significantFigures ) );
-      return ( Util.numberOfDecimalPlaces( sfNumber ) > decimals ) ? Util.toFixed( sfNumber, decimals ) : sfNumber.toString();
+      return ( Utils.numberOfDecimalPlaces( sfNumber ) > decimals ) ? Utils.toFixed( sfNumber, decimals ) : sfNumber.toString();
     }
 
   }

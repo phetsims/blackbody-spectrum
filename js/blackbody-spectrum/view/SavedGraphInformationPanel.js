@@ -20,7 +20,7 @@ define( require => {
   const PhetFont = require( 'SCENERY_PHET/PhetFont' );
   const Tandem = require( 'TANDEM/Tandem' );
   const Text = require( 'SCENERY/nodes/Text' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const VBox = require( 'SCENERY/nodes/VBox' );
 
   // strings
@@ -115,7 +115,7 @@ define( require => {
        * @returns {string}
        * @private
        */
-      const formatTemperature = temperature => `${Util.toFixed( temperature, 0 )} ` + kelvinUnitsString;
+      const formatTemperature = temperature => `${Utils.toFixed( temperature, 0 )} ` + kelvinUnitsString;
 
       // Link's the main body's temperature to the primaryTemperatureLabel
       mainBody.temperatureProperty.link( temperature => {

@@ -24,7 +24,7 @@ define( require => {
   const Text = require( 'SCENERY/nodes/Text' );
   const ThermometerNode = require( 'SCENERY_PHET/ThermometerNode' );
   const TriangleSliderThumb = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/TriangleSliderThumb' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   // string
   const earthString = require( 'string!BLACKBODY_SPECTRUM/earth' );
@@ -97,8 +97,8 @@ define( require => {
           const y = this.triangleNode.globalToParentPoint( event.pointer.point ).y - clickYOffset;
 
           // Clamp to make sure temperature Property is within graph bounds
-          temperatureProperty.value = Util.clamp(
-            Util.roundToInterval( this.yPosToTemperature( -y ), options.snapInterval ),
+          temperatureProperty.value = Utils.clamp(
+            Utils.roundToInterval( this.yPosToTemperature( -y ), options.snapInterval ),
             options.minTemperature,
             options.maxTemperature
           );
