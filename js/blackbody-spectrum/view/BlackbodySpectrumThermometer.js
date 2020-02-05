@@ -131,7 +131,7 @@ define( require => {
     /**
      * Creates a labeled tick mark.
      * @param {number} tickMarkIndex
-     * @param {Object} options - options that were provided to BlackbodySpectrumThermometer constructor
+     * @param {Object} [options] - options that were provided to BlackbodySpectrumThermometer constructor
      * @returns {Node}
      * @private
      */

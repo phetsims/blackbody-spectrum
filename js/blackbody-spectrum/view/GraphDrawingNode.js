@@ -41,7 +41,7 @@ define( require => {
     /**
      * The node that handles keeping all of the graph elements together and working
      * @param {BlackbodySpectrumModel} model - model for the entire screen
-     * @param {Object} options
+     * @param {Object} [options]
      */
     constructor( model, options ) {
 

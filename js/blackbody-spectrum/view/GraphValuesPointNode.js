@@ -38,7 +38,7 @@ define( require => {
      * this view.
      * @param {BlackbodyBodyModel} body
      * @param {ZoomableAxesView} axes
-     * @param {Object} options
+     * @param {Object} [options]
      */
     constructor( body, axes, options ) {
 
