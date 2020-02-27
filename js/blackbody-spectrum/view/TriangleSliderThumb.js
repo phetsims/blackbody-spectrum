@@ -6,100 +6,97 @@
  *
  * @author Arnab Purkayastha
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const ArrowNode = require( 'SCENERY_PHET/ArrowNode' );
-  const blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
-  const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  const ButtonListener = require( 'SCENERY/input/ButtonListener' );
-  const Dimension2 = require( 'DOT/Dimension2' );
-  const merge = require( 'PHET_CORE/merge' );
-  const Node = require( 'SCENERY/nodes/Node' );
-  const Path = require( 'SCENERY/nodes/Path' );
-  const Shape = require( 'KITE/Shape' );
-  const Tandem = require( 'TANDEM/Tandem' );
+import Dimension2 from '../../../../dot/js/Dimension2.js';
+import Shape from '../../../../kite/js/Shape.js';
+import merge from '../../../../phet-core/js/merge.js';
+import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
+import ButtonListener from '../../../../scenery/js/input/ButtonListener.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
+import blackbodySpectrum from '../../blackbodySpectrum.js';
+import blackbodyColorProfile from './blackbodyColorProfile.js';
 
-  class TriangleSliderThumb extends Path {
+class TriangleSliderThumb extends Path {
 
-    /**
-     * Creates the triangle thumb slider
-     * Triangle points down in just logical coordinates because this node eventually gets rotated for actual display
-     * @param {Object} [options]
-     */
-    constructor( options ) {
+  /**
+   * Creates the triangle thumb slider
+   * Triangle points down in just logical coordinates because this node eventually gets rotated for actual display
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-      options = merge( {
-        size: new Dimension2( 15, 15 ),
+    options = merge( {
+      size: new Dimension2( 15, 15 ),
+      stroke: blackbodyColorProfile.triangleStrokeProperty,
+      lineWidth: 1,
+      fill: 'rgb( 50, 145, 184 )',
+      fillHighlighted: 'rgb( 71, 207, 255 )',
+      dashedLineOptions: {
         stroke: blackbodyColorProfile.triangleStrokeProperty,
-        lineWidth: 1,
-        fill: 'rgb( 50, 145, 184 )',
-        fillHighlighted: 'rgb( 71, 207, 255 )',
-        dashedLineOptions: {
-          stroke: blackbodyColorProfile.triangleStrokeProperty,
-          lineDash: [ 3, 3 ]
-        },
-        cursor: 'pointer',
-        tandem: Tandem.REQUIRED
-      }, options );
+        lineDash: [ 3, 3 ]
+      },
+      cursor: 'pointer',
+      tandem: Tandem.REQUIRED
+    }, options );
 
-      // Draw the thumb shape starting at the bottom corner, moving up to the top left
-      // then moving right and connecting back, all relative to a horizontal track
-      const arrowHalfLength = options.size.width / 2;
-      const arrowHalfWidth = options.size.width / 2;
-      const shape = new Shape()
-        .moveTo( 0, -arrowHalfLength )
-        .lineTo( -arrowHalfWidth, arrowHalfLength )
-        .lineTo( arrowHalfWidth, arrowHalfLength )
-        .close();
+    // Draw the thumb shape starting at the bottom corner, moving up to the top left
+    // then moving right and connecting back, all relative to a horizontal track
+    const arrowHalfLength = options.size.width / 2;
+    const arrowHalfWidth = options.size.width / 2;
+    const shape = new Shape()
+      .moveTo( 0, -arrowHalfLength )
+      .lineTo( -arrowHalfWidth, arrowHalfLength )
+      .lineTo( arrowHalfWidth, arrowHalfLength )
+      .close();
 
-      super( shape, options );
+    super( shape, options );
 
-      // @private dashed lines to visibly anchor the triangle slider to the thermometer
-      this.dashedLinesPath = new Path( null, options.dashedLineOptions );
-      this.dashedLinesPath.shape = new Shape()
-        .moveTo( 0, -arrowHalfLength )
-        .lineTo( 0, -2.5 * arrowHalfLength );
+    // @private dashed lines to visibly anchor the triangle slider to the thermometer
+    this.dashedLinesPath = new Path( null, options.dashedLineOptions );
+    this.dashedLinesPath.shape = new Shape()
+      .moveTo( 0, -arrowHalfLength )
+      .lineTo( 0, -2.5 * arrowHalfLength );
 
-      // @private Arrows that will disappear after first click
-      const ARROW_OPTIONS = {
-        fill: '#64dc64',
-        headHeight: 15,
-        headWidth: 15,
-        tailWidth: 7
-      };
-      this.cueingArrows = new Node( {
-        children: [ new ArrowNode( 15, 0, 40, 0, ARROW_OPTIONS ), new ArrowNode( -15, 0, -40, 0, ARROW_OPTIONS ) ],
-        tandem: options.tandem.createTandem( 'cueingArrows' )
-      } );
+    // @private Arrows that will disappear after first click
+    const ARROW_OPTIONS = {
+      fill: '#64dc64',
+      headHeight: 15,
+      headWidth: 15,
+      tailWidth: 7
+    };
+    this.cueingArrows = new Node( {
+      children: [ new ArrowNode( 15, 0, 40, 0, ARROW_OPTIONS ), new ArrowNode( -15, 0, -40, 0, ARROW_OPTIONS ) ],
+      tandem: options.tandem.createTandem( 'cueingArrows' )
+    } );
 
-      // Highlight thumb on pointer over and remove arrows on first click
-      this.addInputListener( new ButtonListener( {
-        over: () => {
-          this.fill = options.fillHighlighted;
-        },
-        up: () => {
-          this.fill = options.fill;
-        },
-        down: () => {
-          this.cueingArrows.visible = false;
-        }
-      } ) );
+    // Highlight thumb on pointer over and remove arrows on first click
+    this.addInputListener( new ButtonListener( {
+      over: () => {
+        this.fill = options.fillHighlighted;
+      },
+      up: () => {
+        this.fill = options.fill;
+      },
+      down: () => {
+        this.cueingArrows.visible = false;
+      }
+    } ) );
 
-      this.addChild( this.cueingArrows );
-      this.addChild( this.dashedLinesPath );
-    }
-
-    /**
-     * Reset Properties associated with this Node
-     * @public
-     */
-    reset() {
-      this.cueingArrows.visible = true;
-    }
-
+    this.addChild( this.cueingArrows );
+    this.addChild( this.dashedLinesPath );
   }
 
-  return blackbodySpectrum.register( 'TriangleSliderThumb', TriangleSliderThumb );
-} );
+  /**
+   * Reset Properties associated with this Node
+   * @public
+   */
+  reset() {
+    this.cueingArrows.visible = true;
+  }
+
+}
+
+blackbodySpectrum.register( 'TriangleSliderThumb', TriangleSliderThumb );
+export default TriangleSliderThumb;

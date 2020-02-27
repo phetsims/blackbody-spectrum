@@ -8,69 +8,65 @@
  * @author Arnab Purkayastha
  * @author Siddhartha Chinthapally (Actual Concepts)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  const Color = require( 'SCENERY/util/Color' );
-  const ColorProfile = require( 'SCENERY_PHET/ColorProfile' );
+import ColorProfile from '../../../../scenery-phet/js/ColorProfile.js';
+import Color from '../../../../scenery/js/util/Color.js';
+import blackbodySpectrum from '../../blackbodySpectrum.js';
 
-  const blackbodyColorProfile = new ColorProfile( [ 'default', 'projector' ], {
-    background: {
-      default: 'black',
-      projector: 'white'
-    },
-    panelStroke: {
-      default: 'white',
-      projector: 'black'
-    },
-    panelText: {
-      default: 'white',
-      projector: 'black'
-    },
-    graphAxesStroke: {
-      default: 'white',
-      projector: 'black'
-    },
-    graphValuesDashedLine: {
-      default: 'yellow',
-      projector: 'deeppink'
-    },
-    graphValuesLabels: {
-      default: 'yellow',
-      projector: 'deeppink'
-    },
-    graphValuesPoint: {
-      default: 'white',
-      projector: 'black'
-    },
-    titlesText: {
-      default: 'white',
-      projector: 'black'
-    },
-    thermometerTubeStroke: {
-      default: 'white',
-      projector: 'black'
-    },
-    thermometerTrack: {
-      default: 'black',
-      projector: 'white'
-    },
-    temperatureText: {
-      default: Color.YELLOW,
-      projector: Color.BLUE
-    },
-    triangleStroke: {
-      default: 'white',
-      projector: 'black'
-    },
-    starStroke: {
-      default: 'rgba( 0, 0, 0, 0 )',
-      projector: 'black'
-    }
-  } );
-
-  return blackbodySpectrum.register( 'blackbodyColorProfile', blackbodyColorProfile );
+const blackbodyColorProfile = new ColorProfile( [ 'default', 'projector' ], {
+  background: {
+    default: 'black',
+    projector: 'white'
+  },
+  panelStroke: {
+    default: 'white',
+    projector: 'black'
+  },
+  panelText: {
+    default: 'white',
+    projector: 'black'
+  },
+  graphAxesStroke: {
+    default: 'white',
+    projector: 'black'
+  },
+  graphValuesDashedLine: {
+    default: 'yellow',
+    projector: 'deeppink'
+  },
+  graphValuesLabels: {
+    default: 'yellow',
+    projector: 'deeppink'
+  },
+  graphValuesPoint: {
+    default: 'white',
+    projector: 'black'
+  },
+  titlesText: {
+    default: 'white',
+    projector: 'black'
+  },
+  thermometerTubeStroke: {
+    default: 'white',
+    projector: 'black'
+  },
+  thermometerTrack: {
+    default: 'black',
+    projector: 'white'
+  },
+  temperatureText: {
+    default: Color.YELLOW,
+    projector: Color.BLUE
+  },
+  triangleStroke: {
+    default: 'white',
+    projector: 'black'
+  },
+  starStroke: {
+    default: 'rgba( 0, 0, 0, 0 )',
+    projector: 'black'
+  }
 } );
 
+blackbodySpectrum.register( 'blackbodyColorProfile', blackbodyColorProfile );
+export default blackbodyColorProfile;

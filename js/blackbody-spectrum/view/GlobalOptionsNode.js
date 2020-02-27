@@ -6,36 +6,33 @@
  * @author Arnab Purkayastha
  * @author Siddhartha Chinthapally (Actual Concepts)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
-  const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  const OptionsDialog = require( 'JOIST/OptionsDialog' );
-  const ProjectorModeCheckbox = require( 'JOIST/ProjectorModeCheckbox' );
-  const VBox = require( 'SCENERY/nodes/VBox' );
+import OptionsDialog from '../../../../joist/js/OptionsDialog.js';
+import ProjectorModeCheckbox from '../../../../joist/js/ProjectorModeCheckbox.js';
+import VBox from '../../../../scenery/js/nodes/VBox.js';
+import blackbodySpectrum from '../../blackbodySpectrum.js';
+import blackbodyColorProfile from './blackbodyColorProfile.js';
 
-  class GlobalOptionsNode extends VBox {
+class GlobalOptionsNode extends VBox {
 
-    /**
-     * @param {Tandem} tandem
-     */
-    constructor( tandem ) {
+  /**
+   * @param {Tandem} tandem
+   */
+  constructor( tandem ) {
 
-      // add support for setting projector mode
-      const projectorModeCheckbox = new ProjectorModeCheckbox( blackbodyColorProfile, {
-        tandem: tandem.createTandem( 'projectorModeCheckbox' )
-      } );
+    // add support for setting projector mode
+    const projectorModeCheckbox = new ProjectorModeCheckbox( blackbodyColorProfile, {
+      tandem: tandem.createTandem( 'projectorModeCheckbox' )
+    } );
 
-      // VBox is used to make it easy to add additional options
-      super( {
-        children: [ projectorModeCheckbox ],
-        spacing: OptionsDialog.DEFAULT_SPACING,
-        align: 'left'
-      } );
-    }
+    // VBox is used to make it easy to add additional options
+    super( {
+      children: [ projectorModeCheckbox ],
+      spacing: OptionsDialog.DEFAULT_SPACING,
+      align: 'left'
+    } );
   }
+}
 
-  return blackbodySpectrum.register( 'GlobalOptionsNode', GlobalOptionsNode );
-} );
+blackbodySpectrum.register( 'GlobalOptionsNode', GlobalOptionsNode );
+export default GlobalOptionsNode;

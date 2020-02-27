@@ -5,30 +5,27 @@
  *
  * @author Martin Veillette (Berea College)
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const blackbodyColorProfile = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/blackbodyColorProfile' );
-  const blackbodySpectrum = require( 'BLACKBODY_SPECTRUM/blackbodySpectrum' );
-  const BlackbodySpectrumModel = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/model/BlackbodySpectrumModel' );
-  const BlackbodySpectrumScreenView = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/BlackbodySpectrumScreenView' );
-  const Screen = require( 'JOIST/Screen' );
+import Screen from '../../../joist/js/Screen.js';
+import blackbodySpectrum from '../blackbodySpectrum.js';
+import BlackbodySpectrumModel from './model/BlackbodySpectrumModel.js';
+import blackbodyColorProfile from './view/blackbodyColorProfile.js';
+import BlackbodySpectrumScreenView from './view/BlackbodySpectrumScreenView.js';
 
-  class BlackbodySpectrumScreen extends Screen {
+class BlackbodySpectrumScreen extends Screen {
 
-    /**
-     * @param {Tandem} tandem
-     */
-    constructor( tandem ) {
-      super( () => new BlackbodySpectrumModel( tandem.createTandem( 'model' ) ),
-        model => new BlackbodySpectrumScreenView( model, tandem.createTandem( 'view' ) ), {
-          backgroundColorProperty: blackbodyColorProfile.backgroundProperty,
-          tandem: tandem
-        }
-      );
-    }
+  /**
+   * @param {Tandem} tandem
+   */
+  constructor( tandem ) {
+    super( () => new BlackbodySpectrumModel( tandem.createTandem( 'model' ) ),
+      model => new BlackbodySpectrumScreenView( model, tandem.createTandem( 'view' ) ), {
+        backgroundColorProperty: blackbodyColorProfile.backgroundProperty,
+        tandem: tandem
+      }
+    );
   }
+}
 
-  return blackbodySpectrum.register( 'BlackbodySpectrumScreen', BlackbodySpectrumScreen );
-} );
+blackbodySpectrum.register( 'BlackbodySpectrumScreen', BlackbodySpectrumScreen );
+export default BlackbodySpectrumScreen;

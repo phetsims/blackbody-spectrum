@@ -6,37 +6,33 @@
  * @author Martin Veillette (Berea College)
  * @author Arnab Purkayastha
  */
-define( require => {
-  'use strict';
 
-  // modules
-  const BlackbodySpectrumScreen = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/BlackbodySpectrumScreen' );
-  const GlobalOptionsNode = require( 'BLACKBODY_SPECTRUM/blackbody-spectrum/view/GlobalOptionsNode' );
-  const Sim = require( 'JOIST/Sim' );
-  const SimLauncher = require( 'JOIST/SimLauncher' );
-  const Tandem = require( 'TANDEM/Tandem' );
+import Sim from '../../joist/js/Sim.js';
+import SimLauncher from '../../joist/js/SimLauncher.js';
+import Tandem from '../../tandem/js/Tandem.js';
+import blackbodySpectrumStrings from './blackbody-spectrum-strings.js';
+import BlackbodySpectrumScreen from './blackbody-spectrum/BlackbodySpectrumScreen.js';
+import GlobalOptionsNode from './blackbody-spectrum/view/GlobalOptionsNode.js';
 
-  // strings
-  const blackbodySpectrumTitleString = require( 'string!BLACKBODY_SPECTRUM/blackbody-spectrum.title' );
+const blackbodySpectrumTitleString = blackbodySpectrumStrings[ 'blackbody-spectrum' ].title;
 
-  const simOptions = {
-    credits: {
-      leadDesign: 'Michael Dubson, Diana L\u00f3pez Tavares',
-      softwareDevelopment: 'Arnab Purkayastha, Saurabh Totey, Martin Veillette',
-      team: 'Wendy Adams, John Blanco, Ariel Paul, Kathy Perkins',
-      qualityAssurance: 'Steele Dalton, Liam Mulhall, Jacob Romero, Ethan Ward, Kathryn Woessner',
-      graphicArts: '',
-      thanks: ''
-    },
+const simOptions = {
+  credits: {
+    leadDesign: 'Michael Dubson, Diana L\u00f3pez Tavares',
+    softwareDevelopment: 'Arnab Purkayastha, Saurabh Totey, Martin Veillette',
+    team: 'Wendy Adams, John Blanco, Ariel Paul, Kathy Perkins',
+    qualityAssurance: 'Steele Dalton, Liam Mulhall, Jacob Romero, Ethan Ward, Kathryn Woessner',
+    graphicArts: '',
+    thanks: ''
+  },
 
-    // Creates content for the Options dialog
-    createOptionsDialogContent: tandem => new GlobalOptionsNode( tandem )
-  };
+  // Creates content for the Options dialog
+  createOptionsDialogContent: tandem => new GlobalOptionsNode( tandem )
+};
 
-  SimLauncher.launch( () => {
-    const sim = new Sim( blackbodySpectrumTitleString, [
-      new BlackbodySpectrumScreen( Tandem.ROOT.createTandem( 'blackbodySpectrumScreen' ) )
-    ], simOptions );
-    sim.start();
-  } );
+SimLauncher.launch( () => {
+  const sim = new Sim( blackbodySpectrumTitleString, [
+    new BlackbodySpectrumScreen( Tandem.ROOT.createTandem( 'blackbodySpectrumScreen' ) )
+  ], simOptions );
+  sim.start();
 } );
