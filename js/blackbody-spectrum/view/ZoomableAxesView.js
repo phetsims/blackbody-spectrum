@@ -293,12 +293,12 @@ class ZoomableAxesView extends Node {
 
     // Makes the ticks for demarcating regions of the electromagnetic spectrum
     const labelsTickShape = new Shape();
-    const tickLocations = _.values( ELECTROMAGNETIC_SPECTRUM_LABEL_VALUES ).filter( config => {
+    const tickPositions = _.values( ELECTROMAGNETIC_SPECTRUM_LABEL_VALUES ).filter( config => {
       return config.maxWavelength <= this.model.wavelengthMax;
     } ).map( config => {
       return this.wavelengthToViewX( config.maxWavelength );
     } );
-    tickLocations.forEach( x => {
+    tickPositions.forEach( x => {
       const bottomY = -this.verticalAxisLength + this.minorTickLength / 2;
       labelsTickShape.moveTo( x, bottomY ).lineTo( x, bottomY - this.minorTickLength );
     } );
@@ -309,12 +309,12 @@ class ZoomableAxesView extends Node {
       regionLabel.visible = false;
     } );
 
-    // Using the locations for tick placement, updates location of electromagnetic spectrum text labels
-    const labelBounds = [ 0 ].concat( tickLocations ).concat( this.horizontalAxisLength );
+    // Using the positions for tick placement, updates positions of electromagnetic spectrum text labels
+    const labelBounds = [ 0 ].concat( tickPositions ).concat( this.horizontalAxisLength );
     for ( let i = 0; i < labelBounds.length - 1; i++ ) {
       const lowerBound = labelBounds[ i ];
       const upperBound = labelBounds[ i + 1 ];
-      assert && assert( upperBound > lowerBound, 'Label tick locations are not in order' );
+      assert && assert( upperBound > lowerBound, 'Label tick positions are not in order' );
       const regionLabel = this.electromagneticSpectrumLabelTexts.children[ i ];
       if ( upperBound - lowerBound < ELECTROMAGNETIC_SPECTRUM_LABEL_CUTOFF ) {
         continue;

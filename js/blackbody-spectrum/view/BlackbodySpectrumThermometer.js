@@ -113,7 +113,7 @@ class BlackbodySpectrumThermometer extends ThermometerNode {
     this.addChild( tickContainer );
     this.addChild( this.triangleNode );
 
-    // @private location of the center of the thermometer (not the whole node) relative to the right of the node
+    // @private position of the center of the thermometer (not the whole node) relative to the right of the node
     this._thermometerCenterXFromRight = -this.triangleNode.width - options.tubeWidth / 2;
   }
 
@@ -163,7 +163,7 @@ class BlackbodySpectrumThermometer extends ThermometerNode {
   }
 
   /**
-   * Updates the location of the thumb
+   * Updates the position of the thumb
    * @param {Property.<number>} [temperatureProperty]
    * @param {Object} [options]
    * @public
@@ -177,7 +177,7 @@ class BlackbodySpectrumThermometer extends ThermometerNode {
   }
 
   /**
-   * Get horizontal location of thermometer center relative to centerX of the node
+   * Get horizontal position of thermometer center relative to centerX of the node
    * @returns {number}
    * @public
    */

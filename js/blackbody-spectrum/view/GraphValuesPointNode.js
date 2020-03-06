@@ -163,7 +163,7 @@ class GraphValuesPointNode extends Node {
   }
 
   /**
-   * Updates the location of the circle and the dashed lines of this graphValuesPointNode
+   * Updates the position of the circle and the dashed lines of this graphValuesPointNode
    * @public
    */
   update() {
@@ -171,7 +171,7 @@ class GraphValuesPointNode extends Node {
     // Update spectral power density for changes in wavelength
     const spectralPowerDensityOfPoint = this.body.getSpectralPowerDensityAt( this.wavelengthProperty.value );
 
-    // Updates location of graph point circle in view
+    // Updates position of graph point circle in view
     this.graphPointCircle.centerX = this.axes.wavelengthToViewX( this.wavelengthProperty.value );
     this.graphPointCircle.centerY = this.axes.spectralPowerDensityToViewY( spectralPowerDensityOfPoint );
     this.graphPointCircle.visible = this.graphPointCircle.centerX <= this.axes.horizontalAxisLength &&
