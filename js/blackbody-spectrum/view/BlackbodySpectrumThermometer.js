@@ -55,7 +55,7 @@ class BlackbodySpectrumThermometer extends ThermometerNode {
       tubeHeight: 400,
       majorTickLength: 10,
       minorTickLength: 5,
-      glassThickness: 3,
+      glassThickness: 5,
       lineWidth: 3,
       outlineStroke: blackbodyColorProfile.thermometerTubeStrokeProperty,
       tickSpacingTemperature: 500,
