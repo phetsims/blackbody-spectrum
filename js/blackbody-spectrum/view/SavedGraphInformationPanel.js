@@ -16,7 +16,7 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import blackbodySpectrumStrings from '../../blackbody-spectrum-strings.js';
+import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
 import blackbodyColorProfile from './blackbodyColorProfile.js';
 import GenericCurveShape from './GenericCurveShape.js';

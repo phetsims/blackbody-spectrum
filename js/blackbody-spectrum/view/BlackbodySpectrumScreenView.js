@@ -15,7 +15,7 @@ import ResetAllButton from '../../../../scenery-phet/js/buttons/ResetAllButton.j
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
-import blackbodySpectrumStrings from '../../blackbody-spectrum-strings.js';
+import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
 import BGRAndStarDisplay from './BGRAndStarDisplay.js';

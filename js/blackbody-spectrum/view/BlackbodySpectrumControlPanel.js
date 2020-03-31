@@ -25,7 +25,7 @@ import FontAwesomeNode from '../../../../sun/js/FontAwesomeNode.js';
 import HSeparator from '../../../../sun/js/HSeparator.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import blackbodySpectrumStrings from '../../blackbody-spectrum-strings.js';
+import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
 import blackbodyColorProfile from './blackbodyColorProfile.js';
 

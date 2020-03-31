@@ -10,7 +10,7 @@
 import Sim from '../../joist/js/Sim.js';
 import SimLauncher from '../../joist/js/SimLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
-import blackbodySpectrumStrings from './blackbody-spectrum-strings.js';
+import blackbodySpectrumStrings from './blackbodySpectrumStrings.js';
 import BlackbodySpectrumScreen from './blackbody-spectrum/BlackbodySpectrumScreen.js';
 import GlobalOptionsNode from './blackbody-spectrum/view/GlobalOptionsNode.js';
 
