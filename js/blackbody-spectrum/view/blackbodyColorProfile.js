@@ -11,6 +11,7 @@
 
 import ColorProfile from '../../../../scenery-phet/js/ColorProfile.js';
 import Color from '../../../../scenery/js/util/Color.js';
+import Tandem from '../../../../tandem/js/Tandem.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
 
 const blackbodyColorProfile = new ColorProfile( [ 'default', 'projector' ], {
@@ -66,6 +67,8 @@ const blackbodyColorProfile = new ColorProfile( [ 'default', 'projector' ], {
     default: 'rgba( 0, 0, 0, 0 )',
     projector: 'black'
   }
+}, {
+  tandem: Tandem.GLOBAL.createTandem( 'colorProfile' )
 } );
 
 blackbodySpectrum.register( 'blackbodyColorProfile', blackbodyColorProfile );
