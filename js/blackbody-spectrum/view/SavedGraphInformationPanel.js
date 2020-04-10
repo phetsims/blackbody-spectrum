@@ -91,7 +91,8 @@ class SavedGraphInformationPanel extends Panel {
     const content = new VBox( {
       children: [ primaryTemperatureBox, primarySavedTemperatureBox, secondarySavedTemperatureBox ],
       spacing: options.spacing,
-      align: 'left'
+      align: 'left',
+      excludeInvisibleChildrenFromBounds: true
     } );
 
     super( content, {
