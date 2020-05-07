@@ -8,7 +8,7 @@
  */
 
 import Sim from '../../joist/js/Sim.js';
-import SimLauncher from '../../joist/js/SimLauncher.js';
+import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import blackbodySpectrumStrings from './blackbodySpectrumStrings.js';
 import BlackbodySpectrumScreen from './blackbody-spectrum/BlackbodySpectrumScreen.js';
@@ -30,7 +30,7 @@ const simOptions = {
   createOptionsDialogContent: tandem => new GlobalOptionsNode( tandem )
 };
 
-SimLauncher.launch( () => {
+simLauncher.launch( () => {
   const sim = new Sim( blackbodySpectrumTitleString, [
     new BlackbodySpectrumScreen( Tandem.ROOT.createTandem( 'blackbodySpectrumScreen' ) )
   ], simOptions );
