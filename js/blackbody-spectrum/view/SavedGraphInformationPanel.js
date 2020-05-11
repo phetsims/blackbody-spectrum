@@ -16,8 +16,8 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
+import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
 import blackbodyColorProfile from './blackbodyColorProfile.js';
 import GenericCurveShape from './GenericCurveShape.js';
 
@@ -27,10 +27,10 @@ class SavedGraphInformationPanel extends Panel {
 
   /**
    * Makes a SavedGraphInformationPanel given a model that has saved bodies
-   * @param {BlackbodySpectrumModel} model
+   * @param {BlackbodyModel} model
    * @param {Object} [options]
    */
-  constructor( mainBody, savedBodies, options ) {
+  constructor( model, options ) {
 
     options = merge( {
       panelFill: 'rgba( 0, 0, 0, 0 )',
@@ -109,35 +109,26 @@ class SavedGraphInformationPanel extends Panel {
 
     /**
      * Local function for temperature formatting
-     * @param {number} temperature
+     * @param {number|null} temperature
      * @returns {string}
      * @private
      */
-    const formatTemperature = temperature => `${Utils.toFixed( temperature, 0 )} ` + kelvinUnitsString;
+    const formatTemperature = temperature => {
+      return temperature !== null ? `${Utils.toFixed( temperature, 0 )} ` + kelvinUnitsString : '';
+    };
 
-    // Link's the main body's temperature to the primaryTemperatureLabel
-    mainBody.temperatureProperty.link( temperature => {
+    // link temperatures to their labels
+    model.mainBody.temperatureProperty.link( temperature => {
       primaryTemperatureLabel.text = formatTemperature( temperature );
     } );
-
-    // Links the saved bodies to the saved temperature boxes' visibility and text
-    savedBodies.lengthProperty.link( numberOfSavedBodies => {
-      const oldCenterX = this.centerX;
-      this.visible = numberOfSavedBodies > 0;
-      secondarySavedTemperatureBox.visible = numberOfSavedBodies > 1;
-      if ( numberOfSavedBodies > 0 ) {
-        primarySavedTemperatureLabel.text = formatTemperature(
-          savedBodies.get( numberOfSavedBodies - 1 ).temperatureProperty.value
-        );
-
-        // text is set, but this label isn't necessarily visible
-        secondarySavedTemperatureLabel.text = formatTemperature(
-          savedBodies.get( 0 ).temperatureProperty.value
-        );
-      }
-      this.centerX = oldCenterX;
+    model.savedBodyOne.temperatureProperty.link( temperature => {
+      this.visible = temperature !== null;
+      primarySavedTemperatureLabel.text = formatTemperature( temperature );
     } );
-
+    model.savedBodyTwo.temperatureProperty.link( temperature => {
+      secondarySavedTemperatureBox.visible = temperature !== null;
+      secondarySavedTemperatureLabel.text = formatTemperature( temperature );
+    } );
   }
 }
 

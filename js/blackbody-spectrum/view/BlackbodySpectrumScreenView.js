@@ -93,7 +93,7 @@ class BlackbodySpectrumScreenView extends ScreenView {
     const controlPanel = new BlackbodySpectrumControlPanel( model, {
       tandem: tandem.createTandem( 'controlPanel' )
     } );
-    const savedInformationPanel = new SavedGraphInformationPanel( model.mainBody, model.savedBodies, {
+    const savedInformationPanel = new SavedGraphInformationPanel( model, {
       minWidth: controlPanel.width,
       tandem: tandem.createTandem( 'savedGraphsPanel' )
     } );

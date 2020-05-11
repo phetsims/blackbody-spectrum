@@ -152,7 +152,8 @@ class GraphDrawingNode extends Node {
       this.updateSavedGraphPaths();
     };
     model.mainBody.temperatureProperty.link( updateMainGraphAndLayout );
-    model.savedBodies.lengthProperty.link( updateSavedGraphAndLayout );
+    model.savedBodyOne.temperatureProperty.link( updateSavedGraphAndLayout );
+    model.savedBodyTwo.temperatureProperty.link( updateSavedGraphAndLayout );
     this.axes.horizontalZoomProperty.link( updateAllGraphs );
     this.axes.verticalZoomProperty.link( updateAllGraphs );
 
@@ -251,13 +252,12 @@ class GraphDrawingNode extends Node {
    */
   updateSavedGraphPaths() {
     // Updates the saved graph(s)
-    const numberOfSavedBodies = this.model.savedBodies.length;
     this.primarySavedGraph.shape = null;
     this.secondarySavedGraph.shape = null;
-    if ( numberOfSavedBodies > 0 ) {
-      this.primarySavedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( numberOfSavedBodies - 1 ) );
-      if ( numberOfSavedBodies === 2 ) {
-        this.secondarySavedGraph.shape = this.shapeOfBody( this.model.savedBodies.get( 0 ) );
+    if ( this.model.savedBodyOne.temperatureProperty.value !== null ) {
+      this.primarySavedGraph.shape = this.shapeOfBody( this.model.savedBodyOne );
+      if ( this.model.savedBodyTwo.temperatureProperty.value !== null ) {
+        this.secondarySavedGraph.shape = this.shapeOfBody( this.model.savedBodyTwo );
       }
     }
   }

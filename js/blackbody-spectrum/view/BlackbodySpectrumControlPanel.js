@@ -105,9 +105,10 @@ class BlackbodySpectrumControlPanel extends Panel {
       tandem: options.tandem.createTandem( 'eraseButton' )
     } );
 
-    // Makes the eraseButton enabled when there is a saved graph to clear, and disabled when there is no graph to clear
-    model.savedBodies.lengthProperty.link( length => {
-      eraseButton.enabled = length !== 0;
+    // Makes the eraseButton enabled when there is a saved graph to clear, and disabled when there is no graph to clear.
+    // This assumes that there cannot be a savedBodyTwo without a savedBodyOne.
+    model.savedBodyOne.temperatureProperty.link( temperature => {
+      eraseButton.enabled = temperature !== null;
     } );
 
     // 3 checkboxes: Peak Values, Intensity, Labels

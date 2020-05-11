@@ -10,7 +10,6 @@
  */
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
-import ObservableArray from '../../../../axon/js/ObservableArray.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
 import BlackbodyBodyModel from './BlackbodyBodyModel.js';
@@ -40,23 +39,17 @@ class BlackbodySpectrumModel {
       phetioDocumentation: 'whether the graph labels should be visible'
     } );
 
-    // @public {BlackbodyBodyModel} the main body for the simulation
-    this.mainBody = new BlackbodyBodyModel(
-      BlackbodyConstants.sunTemperature,
-      tandem.createTandem( 'blackbodyBodyModel' )
-    );
+    // @public {BlackbodyBodyModel} - the main body for the simulation
+    this.mainBody = new BlackbodyBodyModel( BlackbodyConstants.sunTemperature, tandem.createTandem( 'mainBody' ) );
 
-    // @private
-    this.savedBodiesGroupTandem = tandem.createGroupTandem( 'savedBlackbodyBodyModel' );
+    // @public {BlackbodyBodyModel} - the primary saved body
+    this.savedBodyOne = new BlackbodyBodyModel( null, tandem.createTandem( 'savedBodyOne' ) );
 
-    // @public {ObservableArray.<BlackbodyBodyModel>} a property for the user's saved blackbodies
-    this.savedBodies = new ObservableArray();
+    // @public {BlackbodyBodyModel} - the secondary saved body
+    this.savedBodyTwo = new BlackbodyBodyModel( null, tandem.createTandem( 'savedBodyTwo' ) );
 
     // @public {number} max wavelength in nanometers
     this.wavelengthMax = 3000;
-
-    // @private {number} maximum number of allowed saved graphs
-    this.maxSavedGraphs = 2;
   }
 
   /**
@@ -72,17 +65,12 @@ class BlackbodySpectrumModel {
   }
 
   /**
-   * Saves the main body
+   * Shifts savedBodyOne to savedBodyTwo and saves the main body to savedBodyOne
    * @public
    */
   saveMainBody() {
-    this.savedBodies.add( new BlackbodyBodyModel(
-      this.mainBody.temperatureProperty.value,
-      this.savedBodiesGroupTandem.createNextTandem()
-    ) );
-    while ( this.savedBodies.length > this.maxSavedGraphs ) {
-      this.savedBodies.shift();
-    }
+    this.savedBodyTwo.temperatureProperty.value = this.savedBodyOne.temperatureProperty.value;
+    this.savedBodyOne.temperatureProperty.value = this.mainBody.temperatureProperty.value;
   }
 
   /**
@@ -90,7 +78,8 @@ class BlackbodySpectrumModel {
    * @public
    */
   clearSavedGraphs() {
-    this.savedBodies.clear();
+    this.savedBodyOne.reset();
+    this.savedBodyTwo.reset();
   }
 }
 

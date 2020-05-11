@@ -8,10 +8,13 @@
  * @author Arnab Purkayastha
  */
 
-import NumberProperty from '../../../../axon/js/NumberProperty.js';
+import Property from '../../../../axon/js/Property.js';
+import PropertyIO from '../../../../axon/js/PropertyIO.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Color from '../../../../scenery/js/util/Color.js';
+import NullableIO from '../../../../tandem/js/types/NullableIO.js';
+import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
 
@@ -27,17 +30,29 @@ class BlackbodyBodyModel {
 
   /**
    * Constructs a Blackbody body at the given temperature
-   * @param {number} temperature
+   * @param {number|null} temperature
    * @param {Tandem} tandem
    */
   constructor( temperature, tandem ) {
 
-    // @public {Property.<number>}
-    this.temperatureProperty = new NumberProperty( temperature, {
-      range: new Range( BlackbodyConstants.minTemperature, BlackbodyConstants.maxTemperature ),
+    // @public {Property.<number|null>}
+    this.temperatureProperty = new Property( temperature, {
       tandem: tandem.createTandem( 'temperatureProperty' ),
-      phetioDocumentation: 'blackbody temperature'
+      phetioType: PropertyIO( NullableIO( NumberIO ) ),
+      phetioDocumentation: 'Determines the temperature of the blackbody. Saved bodies have a null temperature when ' +
+                           'they don\'t exist in the simulation.'
     } );
+
+    // guard for performance
+    if ( assert ) {
+      const validTemperatureRange = new Range( BlackbodyConstants.minTemperature, BlackbodyConstants.maxTemperature );
+
+      // validate the temperature since we can't use NumberProperty validation
+      this.temperatureProperty.link( temperature => {
+        temperature !== null &&
+        assert( validTemperatureRange.contains( temperature ), 'temperature out of range: ' + temperature );
+      } );
+    }
   }
 
   /**
