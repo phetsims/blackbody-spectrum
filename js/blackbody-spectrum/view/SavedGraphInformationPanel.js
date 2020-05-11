@@ -27,7 +27,7 @@ class SavedGraphInformationPanel extends Panel {
 
   /**
    * Makes a SavedGraphInformationPanel given a model that has saved bodies
-   * @param {BlackbodyModel} model
+   * @param {BlackbodySpectrumModel} model
    * @param {Object} [options]
    */
   constructor( model, options ) {
