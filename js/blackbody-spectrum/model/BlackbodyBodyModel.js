@@ -9,7 +9,6 @@
  */
 
 import Property from '../../../../axon/js/Property.js';
-import PropertyIO from '../../../../axon/js/PropertyIO.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
 import Color from '../../../../scenery/js/util/Color.js';
@@ -38,7 +37,7 @@ class BlackbodyBodyModel {
     // @public {Property.<number|null>}
     this.temperatureProperty = new Property( temperature, {
       tandem: tandem.createTandem( 'temperatureProperty' ),
-      phetioType: PropertyIO( NullableIO( NumberIO ) ),
+      phetioType: Property.PropertyIO( NullableIO( NumberIO ) ),
       phetioDocumentation: 'Determines the temperature of the blackbody. Saved bodies have a null temperature when ' +
                            'they don\'t exist in the simulation.'
     } );
