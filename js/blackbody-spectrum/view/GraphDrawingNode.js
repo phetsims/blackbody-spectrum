@@ -315,7 +315,7 @@ class GraphDrawingNode extends Node {
 function createZoomButton( type, listener, tandem ) {
   return new ZoomButton( {
     in: type,
-    radius: ZOOM_BUTTON_ICON_RADIUS,
+    magnifyingGlassRadius: ZOOM_BUTTON_ICON_RADIUS,
     touchAreaXDilation: 5,
     touchAreaYDilation: 5,
     baseColor: ColorConstants.LIGHT_BLUE,
