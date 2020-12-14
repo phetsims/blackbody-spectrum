@@ -309,13 +309,16 @@ class GraphDrawingNode extends Node {
  * Template for new ZoomButton objects
  * @param {boolean} type - indicates whether button is for zoom in
  * @param {function} listener
+ * @param {Tandem} tandem
  * @returns {ZoomButton}
  * @private
  */
 function createZoomButton( type, listener, tandem ) {
   return new ZoomButton( {
     in: type,
-    magnifyingGlassRadius: ZOOM_BUTTON_ICON_RADIUS,
+    magnifyingGlassOptions: {
+      glassRadius: ZOOM_BUTTON_ICON_RADIUS
+    },
     touchAreaXDilation: 5,
     touchAreaYDilation: 5,
     baseColor: ColorConstants.LIGHT_BLUE,
