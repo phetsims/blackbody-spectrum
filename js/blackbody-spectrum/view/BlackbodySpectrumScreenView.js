@@ -43,7 +43,9 @@ class BlackbodySpectrumScreenView extends ScreenView {
    * @param {Tandem} tandem
    */
   constructor( model, tandem ) {
-    super();
+    super( {
+      tandem: tandem
+    } );
 
     const thermometer = new BlackbodySpectrumThermometer( model.mainBody.temperatureProperty, {
       tandem: tandem.createTandem( 'thermometerNode' )
