@@ -19,9 +19,9 @@ import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
+import Camera from '../../../../sherpa/js/fontawesome-5/solid/Camera.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
-import FontAwesomeNode from '../../../../sun/js/FontAwesomeNode.js';
 import HSeparator from '../../../../sun/js/HSeparator.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
@@ -82,7 +82,7 @@ class BlackbodySpectrumControlPanel extends Panel {
 
     // Save button
     const saveButton = new RectangularPushButton( {
-      content: new FontAwesomeNode( 'camera', { maxWidth: BUTTON_ICON_WIDTH } ),
+      content: new Camera( { maxWidth: BUTTON_ICON_WIDTH, fill: 'black' } ),
       maxWidth: BUTTON_ICON_WIDTH,
       baseColor: PhetColorScheme.BUTTON_YELLOW,
       touchAreaXDilation: BUTTON_TOUCH_DILATION,
