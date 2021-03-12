@@ -49,7 +49,7 @@ class BlackbodyBodyModel {
       // validate the temperature since we can't use NumberProperty validation
       this.temperatureProperty.link( temperature => {
         temperature !== null &&
-        assert( validTemperatureRange.contains( temperature ), 'temperature out of range: ' + temperature );
+        assert( validTemperatureRange.contains( temperature ), `temperature out of range: ${temperature}` );
       } );
     }
   }
@@ -94,7 +94,7 @@ class BlackbodyBodyModel {
    */
   getRenormalizedTemperature() {
     assert && assert( this.temperatureProperty.value >= BlackbodyConstants.minTemperature,
-      'Temperature set lower than minimum: ' + BlackbodyConstants.minTemperature );
+      `Temperature set lower than minimum: ${BlackbodyConstants.minTemperature}` );
     const powerExponent = 0.5; // used to minimize scaling of halo at high temperatures
     const draperPoint = 798; // in Kelvin
     const normalizationScaling = 0.02; // determined empirically

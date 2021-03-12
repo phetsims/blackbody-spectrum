@@ -114,7 +114,7 @@ class SavedGraphInformationPanel extends Panel {
      * @private
      */
     const formatTemperature = temperature => {
-      return temperature !== null ? `${Utils.toFixed( temperature, 0 )} ` + kelvinUnitsString : '';
+      return temperature !== null ? `${Utils.toFixed( temperature, 0 )} ${kelvinUnitsString}` : '';
     };
 
     // link temperatures to their labels
