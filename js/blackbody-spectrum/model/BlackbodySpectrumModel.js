@@ -42,7 +42,8 @@ class BlackbodySpectrumModel {
     // @public {BlackbodyBodyModel} - the main body for the simulation
     this.mainBody = new BlackbodyBodyModel( BlackbodyConstants.sunTemperature, tandem.createTandem( 'mainBody' ) );
 
-    // @public {BlackbodyBodyModel} - the primary saved body
+    // @public {BlackbodyBodyModel} - the primary saved body. There are two separate saved bodies instead of an array
+    // for simplicity with phet-io, see https://github.com/phetsims/blackbody-spectrum/issues/117
     this.savedBodyOne = new BlackbodyBodyModel( null, tandem.createTandem( 'savedBodyOne' ) );
 
     // @public {BlackbodyBodyModel} - the secondary saved body
