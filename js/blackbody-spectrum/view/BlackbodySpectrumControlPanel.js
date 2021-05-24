@@ -37,7 +37,7 @@ const labelsString = blackbodySpectrumStrings.labels;
 // constants
 const DISPLAY_FONT = new PhetFont( 18 );
 const CHECKBOX_TEXT_FILL = blackbodyColorProfile.panelTextProperty;
-const CHECKBOX_TEXT_WIDTH = 100;
+const CHECKBOX_TEXT_WIDTH = 110;
 const CONTROL_PANEL_FILL = 'rgba( 0, 0, 0, 0 )';
 const CHECKBOX_COLOR = blackbodyColorProfile.panelStrokeProperty;
 const CHECKBOX_TOUCH_DILATION = 6;
@@ -62,7 +62,7 @@ class BlackbodySpectrumControlPanel extends Panel {
   constructor( model, options ) {
 
     options = merge( {
-      xMargin: 15,
+      xMargin: 10,
       yMargin: 15,
       lineWidth: 1,
       fill: CONTROL_PANEL_FILL,
@@ -111,7 +111,7 @@ class BlackbodySpectrumControlPanel extends Panel {
       eraseButton.enabled = temperature !== null;
     } );
 
-    // 3 checkboxes: Peak Values, Intensity, Labels
+    // checkboxes
     const checkboxOptions = {
       checkboxColorBackground: CONTROL_PANEL_FILL,
       checkboxColor: CHECKBOX_COLOR
