@@ -55,7 +55,7 @@ define( require => {
       const circleRed = new Circle( CIRCLE_RADIUS );
 
       const circleLabelOptions = {
-        font: BlackbodyConstants.LABEL_FONT, fill: CIRCLE_LABEL_COLOR, maxWidth: 20
+        font: BlackbodyConstants.LABEL_FONT, fill: CIRCLE_LABEL_COLOR, maxWidth: 36
       };
       const circleBlueLabel = new Text( bString, circleLabelOptions );
       const circleGreenLabel = new Text( gString, circleLabelOptions );
