@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2018-2021, University of Colorado Boulder
 
 /**
  * Triangular slider thumb that points down on a horizontal slider

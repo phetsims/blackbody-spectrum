@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2018-2021, University of Colorado Boulder
 
 /**
  * A shape that appears similarly to a Blackbody Spectrum curve

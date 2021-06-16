@@ -1,4 +1,4 @@
-[object Promise]
+// Copyright 2014-2021, University of Colorado Boulder
 
 /**
  * Model that holds and calculates all the numerical data for a Blackbody spectrum at a given temperature
