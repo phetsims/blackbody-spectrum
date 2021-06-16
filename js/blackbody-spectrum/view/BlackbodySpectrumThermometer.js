@@ -1,4 +1,4 @@
-// Copyright 2014-2020, University of Colorado Boulder
+[object Promise]
 
 /**
  * Scenery Node that displays a thermometer with labels attached to the left hand side of the thermometer

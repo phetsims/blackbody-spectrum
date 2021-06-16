@@ -1,4 +1,4 @@
-// Copyright 2019-2020, University of Colorado Boulder
+[object Promise]
 
 /**
  * This class is a collection of constants that configure global properties. If you change something here, it will

@@ -1,4 +1,4 @@
-// Copyright 2018-2020, University of Colorado Boulder
+[object Promise]
 
 /**
  * An object that contains the colors used for various major components of the Blackbody simulation.  This
