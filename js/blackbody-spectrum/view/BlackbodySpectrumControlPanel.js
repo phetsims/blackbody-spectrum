@@ -15,11 +15,12 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ScientificNotationNode from '../../../../scenery-phet/js/ScientificNotationNode.js';
 import HBox from '../../../../scenery/js/nodes/HBox.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
 import Rectangle from '../../../../scenery/js/nodes/Rectangle.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
-import Camera from '../../../../sherpa/js/fontawesome-5/solid/Camera.js';
+import cameraSolidShape from '../../../../sherpa/js/fontawesome-5/cameraSolidShape.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import HSeparator from '../../../../sun/js/HSeparator.js';
@@ -82,7 +83,7 @@ class BlackbodySpectrumControlPanel extends Panel {
 
     // Save button
     const saveButton = new RectangularPushButton( {
-      content: new Camera( { maxWidth: BUTTON_ICON_WIDTH, fill: 'black' } ),
+      content: new Path( cameraSolidShape, { maxWidth: BUTTON_ICON_WIDTH, fill: 'black' } ),
       maxWidth: BUTTON_ICON_WIDTH,
       baseColor: PhetColorScheme.BUTTON_YELLOW,
       touchAreaXDilation: BUTTON_TOUCH_DILATION,
