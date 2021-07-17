@@ -10,6 +10,7 @@
     "grunt": "~1.4.0"
   },
   "phet": {
+    "colorProfiles": [ "default", "projector" ],
     "requirejsNamespace": "BLACKBODY_SPECTRUM",
     "runnable": true,
     "simulation": true,
