@@ -11,7 +11,6 @@ import OptionsDialog from '../../../../joist/js/OptionsDialog.js';
 import ProjectorModeCheckbox from '../../../../joist/js/ProjectorModeCheckbox.js';
 import VBox from '../../../../scenery/js/nodes/VBox.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
-import blackbodyColorProfile from './blackbodyColorProfile.js';
 
 class GlobalOptionsNode extends VBox {
 
@@ -21,7 +20,7 @@ class GlobalOptionsNode extends VBox {
   constructor( tandem ) {
 
     // add support for setting projector mode
-    const projectorModeCheckbox = new ProjectorModeCheckbox( blackbodyColorProfile, {
+    const projectorModeCheckbox = new ProjectorModeCheckbox( null, {
       tandem: tandem.createTandem( 'projectorModeCheckbox' )
     } );
 
