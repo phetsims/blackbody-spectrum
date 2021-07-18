@@ -13,67 +13,62 @@ import Color from '../../../../scenery/js/util/Color.js';
 import ProfileColorProperty from '../../../../scenery/js/util/ProfileColorProperty.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
 
-class BlackbodyColorProfile {
+const blackbodyColorProfile = {
 
-  constructor() {
-
-    // @public {ProfileColorProperty}
-    this.backgroundProperty = new ProfileColorProperty( 'background', {
-      default: 'black',
-      projector: 'white'
-    } );
-    this.panelStrokeProperty = new ProfileColorProperty( 'panelStroke', {
-      default: 'white',
-      projector: 'black'
-    } );
-    this.panelTextProperty = new ProfileColorProperty( 'panelText', {
-      default: 'white',
-      projector: 'black'
-    } );
-    this.graphAxesStrokeProperty = new ProfileColorProperty( 'graphAxesStroke', {
-      default: 'white',
-      projector: 'black'
-    } );
-    this.graphValuesDashedLineProperty = new ProfileColorProperty( 'graphValuesDashedLine', {
-      default: 'yellow',
-      projector: 'deeppink'
-    } );
-    this.graphValuesLabelsProperty = new ProfileColorProperty( 'graphValuesLabels', {
-      default: 'yellow',
-      projector: 'deeppink'
-    } );
-    this.graphValuesPointProperty = new ProfileColorProperty( 'graphValuesPoint', {
-      default: 'white',
-      projector: 'black'
-    } );
-    this.titlesTextProperty = new ProfileColorProperty( 'titlesText', {
-      default: 'white',
-      projector: 'black'
-    } );
-    this.thermometerTubeStrokeProperty = new ProfileColorProperty( 'thermometerTubeStroke', {
-      default: 'white',
-      projector: 'black'
-    } );
-    this.thermometerTrackProperty = new ProfileColorProperty( 'thermometerTrack', {
-      default: 'black',
-      projector: 'white'
-    } );
-    this.temperatureTextProperty = new ProfileColorProperty( 'temperatureText', {
-      default: Color.YELLOW,
-      projector: Color.BLUE
-    } );
-    this.triangleStrokeProperty = new ProfileColorProperty( 'triangleStroke', {
-      default: 'white',
-      projector: 'black'
-    } );
-    this.starStrokeProperty = new ProfileColorProperty( 'starStroke', {
-      default: 'rgba( 0, 0, 0, 0 )',
-      projector: 'black'
-    } );
-  }
-}
-
-const blackbodyColorProfile = new BlackbodyColorProfile();
+  // @public {ProfileColorProperty}
+  backgroundProperty: new ProfileColorProperty( 'background', {
+    default: 'black',
+    projector: 'white'
+  } ),
+  panelStrokeProperty: new ProfileColorProperty( 'panelStroke', {
+    default: 'white',
+    projector: 'black'
+  } ),
+  panelTextProperty: new ProfileColorProperty( 'panelText', {
+    default: 'white',
+    projector: 'black'
+  } ),
+  graphAxesStrokeProperty: new ProfileColorProperty( 'graphAxesStroke', {
+    default: 'white',
+    projector: 'black'
+  } ),
+  graphValuesDashedLineProperty: new ProfileColorProperty( 'graphValuesDashedLine', {
+    default: 'yellow',
+    projector: 'deeppink'
+  } ),
+  graphValuesLabelsProperty: new ProfileColorProperty( 'graphValuesLabels', {
+    default: 'yellow',
+    projector: 'deeppink'
+  } ),
+  graphValuesPointProperty: new ProfileColorProperty( 'graphValuesPoint', {
+    default: 'white',
+    projector: 'black'
+  } ),
+  titlesTextProperty: new ProfileColorProperty( 'titlesText', {
+    default: 'white',
+    projector: 'black'
+  } ),
+  thermometerTubeStrokeProperty: new ProfileColorProperty( 'thermometerTubeStroke', {
+    default: 'white',
+    projector: 'black'
+  } ),
+  thermometerTrackProperty: new ProfileColorProperty( 'thermometerTrack', {
+    default: 'black',
+    projector: 'white'
+  } ),
+  temperatureTextProperty: new ProfileColorProperty( 'temperatureText', {
+    default: Color.YELLOW,
+    projector: Color.BLUE
+  } ),
+  triangleStrokeProperty: new ProfileColorProperty( 'triangleStroke', {
+    default: 'white',
+    projector: 'black'
+  } ),
+  starStrokeProperty: new ProfileColorProperty( 'starStroke', {
+    default: 'rgba( 0, 0, 0, 0 )',
+    projector: 'black'
+  } )
+};
 
 blackbodySpectrum.register( 'blackbodyColorProfile', blackbodyColorProfile );
 export default blackbodyColorProfile;
