@@ -10,63 +10,63 @@
  */
 
 import Color from '../../../../scenery/js/util/Color.js';
-import ColorProfileProperty from '../../../../scenery/js/util/ColorProfileProperty.js';
+import ProfileColorProperty from '../../../../scenery/js/util/ProfileColorProperty.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
 
 class BlackbodyColorProfile {
 
   constructor() {
 
-    // @public {ColorProfileProperty}
-    this.backgroundProperty = new ColorProfileProperty( 'background', {
+    // @public {ProfileColorProperty}
+    this.backgroundProperty = new ProfileColorProperty( 'background', {
       default: 'black',
       projector: 'white'
     } );
-    this.panelStrokeProperty = new ColorProfileProperty( 'panelStroke', {
+    this.panelStrokeProperty = new ProfileColorProperty( 'panelStroke', {
       default: 'white',
       projector: 'black'
     } );
-    this.panelTextProperty = new ColorProfileProperty( 'panelText', {
+    this.panelTextProperty = new ProfileColorProperty( 'panelText', {
       default: 'white',
       projector: 'black'
     } );
-    this.graphAxesStrokeProperty = new ColorProfileProperty( 'graphAxesStroke', {
+    this.graphAxesStrokeProperty = new ProfileColorProperty( 'graphAxesStroke', {
       default: 'white',
       projector: 'black'
     } );
-    this.graphValuesDashedLineProperty = new ColorProfileProperty( 'graphValuesDashedLine', {
+    this.graphValuesDashedLineProperty = new ProfileColorProperty( 'graphValuesDashedLine', {
       default: 'yellow',
       projector: 'deeppink'
     } );
-    this.graphValuesLabelsProperty = new ColorProfileProperty( 'graphValuesLabels', {
+    this.graphValuesLabelsProperty = new ProfileColorProperty( 'graphValuesLabels', {
       default: 'yellow',
       projector: 'deeppink'
     } );
-    this.graphValuesPointProperty = new ColorProfileProperty( 'graphValuesPoint', {
+    this.graphValuesPointProperty = new ProfileColorProperty( 'graphValuesPoint', {
       default: 'white',
       projector: 'black'
     } );
-    this.titlesTextProperty = new ColorProfileProperty( 'titlesText', {
+    this.titlesTextProperty = new ProfileColorProperty( 'titlesText', {
       default: 'white',
       projector: 'black'
     } );
-    this.thermometerTubeStrokeProperty = new ColorProfileProperty( 'thermometerTubeStroke', {
+    this.thermometerTubeStrokeProperty = new ProfileColorProperty( 'thermometerTubeStroke', {
       default: 'white',
       projector: 'black'
     } );
-    this.thermometerTrackProperty = new ColorProfileProperty( 'thermometerTrack', {
+    this.thermometerTrackProperty = new ProfileColorProperty( 'thermometerTrack', {
       default: 'black',
       projector: 'white'
     } );
-    this.temperatureTextProperty = new ColorProfileProperty( 'temperatureText', {
+    this.temperatureTextProperty = new ProfileColorProperty( 'temperatureText', {
       default: Color.YELLOW,
       projector: Color.BLUE
     } );
-    this.triangleStrokeProperty = new ColorProfileProperty( 'triangleStroke', {
+    this.triangleStrokeProperty = new ProfileColorProperty( 'triangleStroke', {
       default: 'white',
       projector: 'black'
     } );
-    this.starStrokeProperty = new ColorProfileProperty( 'starStroke', {
+    this.starStrokeProperty = new ProfileColorProperty( 'starStroke', {
       default: 'rgba( 0, 0, 0, 0 )',
       projector: 'black'
     } );
