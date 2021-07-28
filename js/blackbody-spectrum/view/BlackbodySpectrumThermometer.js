@@ -21,7 +21,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
-import blackbodyColorProfile from './blackbodyColorProfile.js';
+import BlackbodyColors from './BlackbodyColors.js';
 import TriangleSliderThumb from './TriangleSliderThumb.js';
 
 // string
@@ -57,10 +57,10 @@ class BlackbodySpectrumThermometer extends ThermometerNode {
       minorTickLength: 5,
       glassThickness: 5,
       lineWidth: 3,
-      outlineStroke: blackbodyColorProfile.thermometerTubeStrokeProperty,
+      outlineStroke: BlackbodyColors.thermometerTubeStrokeProperty,
       tickSpacingTemperature: 500,
       tickLabelFont: new PhetFont( { size: 18 } ),
-      tickLabelColor: blackbodyColorProfile.thermometerTubeStrokeProperty,
+      tickLabelColor: BlackbodyColors.thermometerTubeStrokeProperty,
       tickLabelWidth: 100,
       snapInterval: 50,
       zeroLevel: 'bulbTop',

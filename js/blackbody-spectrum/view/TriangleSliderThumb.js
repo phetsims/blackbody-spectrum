@@ -16,7 +16,7 @@ import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
-import blackbodyColorProfile from './blackbodyColorProfile.js';
+import BlackbodyColors from './BlackbodyColors.js';
 
 class TriangleSliderThumb extends Path {
 
@@ -29,12 +29,12 @@ class TriangleSliderThumb extends Path {
 
     options = merge( {
       size: new Dimension2( 15, 15 ),
-      stroke: blackbodyColorProfile.triangleStrokeProperty,
+      stroke: BlackbodyColors.triangleStrokeProperty,
       lineWidth: 1,
       fill: 'rgb( 50, 145, 184 )',
       fillHighlighted: 'rgb( 71, 207, 255 )',
       dashedLineOptions: {
-        stroke: blackbodyColorProfile.triangleStrokeProperty,
+        stroke: BlackbodyColors.triangleStrokeProperty,
         lineDash: [ 3, 3 ]
       },
       cursor: 'pointer',

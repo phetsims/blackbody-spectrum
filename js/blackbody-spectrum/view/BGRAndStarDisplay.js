@@ -19,14 +19,14 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
-import blackbodyColorProfile from './blackbodyColorProfile.js';
+import BlackbodyColors from './BlackbodyColors.js';
 
 const bString = blackbodySpectrumStrings.b;
 const gString = blackbodySpectrumStrings.g;
 const rString = blackbodySpectrumStrings.r;
 
 // constants
-const CIRCLE_LABEL_COLOR = blackbodyColorProfile.titlesTextProperty;
+const CIRCLE_LABEL_COLOR = BlackbodyColors.titlesTextProperty;
 const CIRCLE_RADIUS = 15;
 const STAR_INNER_RADIUS = 20;
 const STAR_OUTER_RADIUS = 35;
@@ -68,7 +68,7 @@ class BGRAndStarDisplay extends Node {
       } ), {
         lineWidth: 1.5,
         lineJoin: 'round',
-        stroke: blackbodyColorProfile.starStrokeProperty
+        stroke: BlackbodyColors.starStrokeProperty
       }
     );
 

@@ -28,7 +28,7 @@ import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
-import blackbodyColorProfile from './blackbodyColorProfile.js';
+import BlackbodyColors from './BlackbodyColors.js';
 
 const graphValuesString = blackbodySpectrumStrings.graphValues;
 const intensityString = blackbodySpectrumStrings.intensity;
@@ -37,10 +37,10 @@ const labelsString = blackbodySpectrumStrings.labels;
 
 // constants
 const DISPLAY_FONT = new PhetFont( 18 );
-const CHECKBOX_TEXT_FILL = blackbodyColorProfile.panelTextProperty;
+const CHECKBOX_TEXT_FILL = BlackbodyColors.panelTextProperty;
 const CHECKBOX_TEXT_WIDTH = 110;
 const CONTROL_PANEL_FILL = 'rgba( 0, 0, 0, 0 )';
-const CHECKBOX_COLOR = blackbodyColorProfile.panelStrokeProperty;
+const CHECKBOX_COLOR = BlackbodyColors.panelStrokeProperty;
 const CHECKBOX_TOUCH_DILATION = 6;
 const BUTTON_ICON_WIDTH = 50;
 const BUTTON_TOUCH_DILATION = 6;
@@ -68,7 +68,7 @@ class BlackbodySpectrumControlPanel extends Panel {
       lineWidth: 1,
       fill: CONTROL_PANEL_FILL,
       resize: true,
-      stroke: blackbodyColorProfile.panelStrokeProperty,
+      stroke: BlackbodyColors.panelStrokeProperty,
       maxWidth: CHECKBOX_DEFAULT_WIDTH,
 
       // phet-io
@@ -183,8 +183,8 @@ class BlackbodySpectrumControlPanel extends Panel {
 
     // Create panel to allow left alignment on checkboxes while keeping center alignment for buttons
     const checkboxPanel = new Panel( checkboxes, {
-      fill: blackbodyColorProfile.backgroundProperty,
-      stroke: blackbodyColorProfile.backgroundProperty,
+      fill: BlackbodyColors.backgroundProperty,
+      stroke: BlackbodyColors.backgroundProperty,
       minWidth: CHECKBOX_DEFAULT_WIDTH
     } );
 

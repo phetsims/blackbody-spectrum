@@ -13,7 +13,7 @@ import Color from '../../../../scenery/js/util/Color.js';
 import ProfileColorProperty from '../../../../scenery/js/util/ProfileColorProperty.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
 
-const blackbodyColorProfile = {
+const BlackbodyColors = {
 
   // @public {ProfileColorProperty}
   backgroundProperty: new ProfileColorProperty( 'background', {
@@ -70,5 +70,5 @@ const blackbodyColorProfile = {
   } )
 };
 
-blackbodySpectrum.register( 'blackbodyColorProfile', blackbodyColorProfile );
-export default blackbodyColorProfile;
+blackbodySpectrum.register( 'BlackbodyColors', BlackbodyColors );
+export default BlackbodyColors;

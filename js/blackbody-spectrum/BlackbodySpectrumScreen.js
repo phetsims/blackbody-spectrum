@@ -9,7 +9,7 @@
 import Screen from '../../../joist/js/Screen.js';
 import blackbodySpectrum from '../blackbodySpectrum.js';
 import BlackbodySpectrumModel from './model/BlackbodySpectrumModel.js';
-import blackbodyColorProfile from './view/blackbodyColorProfile.js';
+import BlackbodyColors from './view/BlackbodyColors.js';
 import BlackbodySpectrumScreenView from './view/BlackbodySpectrumScreenView.js';
 
 class BlackbodySpectrumScreen extends Screen {
@@ -20,7 +20,7 @@ class BlackbodySpectrumScreen extends Screen {
   constructor( tandem ) {
     super( () => new BlackbodySpectrumModel( tandem.createTandem( 'model' ) ),
       model => new BlackbodySpectrumScreenView( model, tandem.createTandem( 'view' ) ), {
-        backgroundColorProperty: blackbodyColorProfile.backgroundProperty,
+        backgroundColorProperty: BlackbodyColors.backgroundProperty,
         tandem: tandem
       }
     );

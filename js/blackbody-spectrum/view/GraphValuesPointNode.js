@@ -25,7 +25,7 @@ import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
-import blackbodyColorProfile from './blackbodyColorProfile.js';
+import BlackbodyColors from './BlackbodyColors.js';
 
 class GraphValuesPointNode extends Node {
 
@@ -42,14 +42,14 @@ class GraphValuesPointNode extends Node {
     options = merge( {
       circleOptions: {
         radius: 5,
-        fill: blackbodyColorProfile.graphValuesPointProperty
+        fill: BlackbodyColors.graphValuesPointProperty
       },
       dashedLineOptions: {
-        stroke: blackbodyColorProfile.graphValuesDashedLineProperty,
+        stroke: BlackbodyColors.graphValuesDashedLineProperty,
         lineDash: [ 4, 4 ]
       },
       valueTextOptions: {
-        fill: blackbodyColorProfile.graphValuesLabelsProperty,
+        fill: BlackbodyColors.graphValuesLabelsProperty,
         font: new PhetFont( 18 ),
         maxWidth: 50
       },
@@ -77,8 +77,8 @@ class GraphValuesPointNode extends Node {
     this.wavelengthValueText = new Text( '', options.valueTextOptions );
     this.spectralPowerDensityValueText = new RichText( '', options.valueTextOptions );
     this.spectralPowerDensityNode = new Panel( this.spectralPowerDensityValueText, {
-      fill: blackbodyColorProfile.backgroundProperty,
-      stroke: blackbodyColorProfile.backgroundProperty,
+      fill: BlackbodyColors.backgroundProperty,
+      stroke: BlackbodyColors.backgroundProperty,
       cornerRadius: 0,
       xMargin: options.labelOffset,
       yMargin: 0

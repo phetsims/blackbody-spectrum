@@ -19,7 +19,7 @@ import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
 import BGRAndStarDisplay from './BGRAndStarDisplay.js';
-import blackbodyColorProfile from './blackbodyColorProfile.js';
+import BlackbodyColors from './BlackbodyColors.js';
 import BlackbodySpectrumControlPanel from './BlackbodySpectrumControlPanel.js';
 import BlackbodySpectrumThermometer from './BlackbodySpectrumThermometer.js';
 import GraphDrawingNode from './GraphDrawingNode.js';
@@ -30,8 +30,8 @@ const kelvinUnitsString = blackbodySpectrumStrings.kelvinUnits;
 
 // constants
 const TEMPERATURE_FONT = new PhetFont( { size: 22, weight: 'bold' } );
-const TITLE_COLOR = blackbodyColorProfile.titlesTextProperty;
-const TEMPERATURE_COLOR = blackbodyColorProfile.temperatureTextProperty;
+const TITLE_COLOR = BlackbodyColors.titlesTextProperty;
+const TEMPERATURE_COLOR = BlackbodyColors.temperatureTextProperty;
 const INSET = 10;
 const TEMPERATURE_LABEL_SPACING = 5;
 

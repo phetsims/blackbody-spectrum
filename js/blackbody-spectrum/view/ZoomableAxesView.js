@@ -25,7 +25,7 @@ import Tandem from '../../../../tandem/js/Tandem.js';
 import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
-import blackbodyColorProfile from './blackbodyColorProfile.js';
+import BlackbodyColors from './BlackbodyColors.js';
 
 // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
 const SPECTRAL_POWER_DENSITY_CONVERSION_FACTOR = 1e33;
@@ -73,13 +73,13 @@ class ZoomableAxesView extends Node {
       axesWidth: 550,
       axesHeight: 400,
       axesPathOptions: {
-        stroke: blackbodyColorProfile.graphAxesStrokeProperty,
+        stroke: BlackbodyColors.graphAxesStrokeProperty,
         lineWidth: 3,
         lineCap: 'round',
         lineJoin: 'round'
       },
       ticksPathOptions: {
-        stroke: blackbodyColorProfile.graphAxesStrokeProperty,
+        stroke: BlackbodyColors.graphAxesStrokeProperty,
         lineWidth: 1,
         lineCap: 'butt',
         lineJoin: 'bevel'
@@ -93,11 +93,11 @@ class ZoomableAxesView extends Node {
       defaultHorizontalZoom: model.wavelengthMax,
       defaultVerticalZoom: 100.0,
       minorTickMaxHorizontalZoom: 12000,
-      axisBoundsLabelColor: blackbodyColorProfile.titlesTextProperty,
-      axisLabelColor: blackbodyColorProfile.titlesTextProperty,
+      axisBoundsLabelColor: BlackbodyColors.titlesTextProperty,
+      axisLabelColor: BlackbodyColors.titlesTextProperty,
       electromagneticSpectrumLabelTextOptions: {
         font: new PhetFont( 14 ),
-        fill: blackbodyColorProfile.titlesTextProperty
+        fill: BlackbodyColors.titlesTextProperty
       },
       tandem: Tandem.REQUIRED
     }, options );
