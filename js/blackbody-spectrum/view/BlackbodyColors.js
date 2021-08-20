@@ -16,55 +16,55 @@ import blackbodySpectrum from '../../blackbodySpectrum.js';
 const BlackbodyColors = {
 
   // @public {ProfileColorProperty}
-  backgroundProperty: new ProfileColorProperty( 'background', {
+  backgroundProperty: new ProfileColorProperty( blackbodySpectrum, 'background', {
     default: 'black',
     projector: 'white'
   } ),
-  panelStrokeProperty: new ProfileColorProperty( 'panelStroke', {
+  panelStrokeProperty: new ProfileColorProperty( blackbodySpectrum, 'panelStroke', {
     default: 'white',
     projector: 'black'
   } ),
-  panelTextProperty: new ProfileColorProperty( 'panelText', {
+  panelTextProperty: new ProfileColorProperty( blackbodySpectrum, 'panelText', {
     default: 'white',
     projector: 'black'
   } ),
-  graphAxesStrokeProperty: new ProfileColorProperty( 'graphAxesStroke', {
+  graphAxesStrokeProperty: new ProfileColorProperty( blackbodySpectrum, 'graphAxesStroke', {
     default: 'white',
     projector: 'black'
   } ),
-  graphValuesDashedLineProperty: new ProfileColorProperty( 'graphValuesDashedLine', {
+  graphValuesDashedLineProperty: new ProfileColorProperty( blackbodySpectrum, 'graphValuesDashedLine', {
     default: 'yellow',
     projector: 'deeppink'
   } ),
-  graphValuesLabelsProperty: new ProfileColorProperty( 'graphValuesLabels', {
+  graphValuesLabelsProperty: new ProfileColorProperty( blackbodySpectrum, 'graphValuesLabels', {
     default: 'yellow',
     projector: 'deeppink'
   } ),
-  graphValuesPointProperty: new ProfileColorProperty( 'graphValuesPoint', {
+  graphValuesPointProperty: new ProfileColorProperty( blackbodySpectrum, 'graphValuesPoint', {
     default: 'white',
     projector: 'black'
   } ),
-  titlesTextProperty: new ProfileColorProperty( 'titlesText', {
+  titlesTextProperty: new ProfileColorProperty( blackbodySpectrum, 'titlesText', {
     default: 'white',
     projector: 'black'
   } ),
-  thermometerTubeStrokeProperty: new ProfileColorProperty( 'thermometerTubeStroke', {
+  thermometerTubeStrokeProperty: new ProfileColorProperty( blackbodySpectrum, 'thermometerTubeStroke', {
     default: 'white',
     projector: 'black'
   } ),
-  thermometerTrackProperty: new ProfileColorProperty( 'thermometerTrack', {
+  thermometerTrackProperty: new ProfileColorProperty( blackbodySpectrum, 'thermometerTrack', {
     default: 'black',
     projector: 'white'
   } ),
-  temperatureTextProperty: new ProfileColorProperty( 'temperatureText', {
+  temperatureTextProperty: new ProfileColorProperty( blackbodySpectrum, 'temperatureText', {
     default: Color.YELLOW,
     projector: Color.BLUE
   } ),
-  triangleStrokeProperty: new ProfileColorProperty( 'triangleStroke', {
+  triangleStrokeProperty: new ProfileColorProperty( blackbodySpectrum, 'triangleStroke', {
     default: 'white',
     projector: 'black'
   } ),
-  starStrokeProperty: new ProfileColorProperty( 'starStroke', {
+  starStrokeProperty: new ProfileColorProperty( blackbodySpectrum, 'starStroke', {
     default: 'rgba( 0, 0, 0, 0 )',
     projector: 'black'
   } )
