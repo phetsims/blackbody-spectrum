@@ -11,7 +11,7 @@
 import Property from '../../../../axon/js/Property.js';
 import Range from '../../../../dot/js/Range.js';
 import Utils from '../../../../dot/js/Utils.js';
-import Color from '../../../../scenery/js/util/Color.js';
+import { Color } from '../../../../scenery/js/imports.js';
 import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';

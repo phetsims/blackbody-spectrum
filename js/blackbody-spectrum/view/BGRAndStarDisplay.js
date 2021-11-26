@@ -11,10 +11,10 @@
 
 import merge from '../../../../phet-core/js/merge.js';
 import StarShape from '../../../../scenery-phet/js/StarShape.js';
-import Circle from '../../../../scenery/js/nodes/Circle.js';
-import Node from '../../../../scenery/js/nodes/Node.js';
-import Path from '../../../../scenery/js/nodes/Path.js';
-import Text from '../../../../scenery/js/nodes/Text.js';
+import { Circle } from '../../../../scenery/js/imports.js';
+import { Node } from '../../../../scenery/js/imports.js';
+import { Path } from '../../../../scenery/js/imports.js';
+import { Text } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
