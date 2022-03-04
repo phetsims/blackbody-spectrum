@@ -7,7 +7,7 @@
  * @author Saurabh Totey
  */
 
-import Shape from '../../../../kite/js/Shape.js';
+import { Shape } from '../../../../kite/js/imports.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
 
 class GenericCurveShape extends Shape {
