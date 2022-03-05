@@ -1,4 +1,4 @@
-// Copyright 2018-2021, University of Colorado Boulder
+// Copyright 2018-2022, University of Colorado Boulder
 
 /**
  * A shape that appears similarly to a Blackbody Spectrum curve
