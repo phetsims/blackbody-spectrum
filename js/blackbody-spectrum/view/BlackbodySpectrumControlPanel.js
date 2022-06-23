@@ -117,15 +117,9 @@ class BlackbodySpectrumControlPanel extends Panel {
       checkboxColorBackground: CONTROL_PANEL_FILL,
       checkboxColor: CHECKBOX_COLOR
     };
-    const valuesCheckbox = new Checkbox( valuesCheckboxText, model.graphValuesVisibleProperty,
-      _.assign( checkboxOptions, { tandem: options.tandem.createTandem( 'graphValuesCheckbox' ) } )
-    );
-    const intensityCheckbox = new Checkbox( intensityCheckboxText, model.intensityVisibleProperty,
-      _.assign( checkboxOptions, { tandem: options.tandem.createTandem( 'intensityCheckbox' ) } )
-    );
-    const labelsCheckbox = new Checkbox( labelsCheckboxText, model.labelsVisibleProperty,
-      _.assign( checkboxOptions, { tandem: options.tandem.createTandem( 'labelsCheckbox' ) } )
-    );
+    const valuesCheckbox = new Checkbox( model.graphValuesVisibleProperty, valuesCheckboxText, _.assign( checkboxOptions, { tandem: options.tandem.createTandem( 'graphValuesCheckbox' ) } ) );
+    const intensityCheckbox = new Checkbox( model.intensityVisibleProperty, intensityCheckboxText, _.assign( checkboxOptions, { tandem: options.tandem.createTandem( 'intensityCheckbox' ) } ) );
+    const labelsCheckbox = new Checkbox( model.labelsVisibleProperty, labelsCheckboxText, _.assign( checkboxOptions, { tandem: options.tandem.createTandem( 'labelsCheckbox' ) } ) );
 
     valuesCheckbox.touchArea = valuesCheckbox.localBounds.dilated( CHECKBOX_TOUCH_DILATION );
     intensityCheckbox.touchArea = intensityCheckbox.localBounds.dilated( CHECKBOX_TOUCH_DILATION );
