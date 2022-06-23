@@ -69,7 +69,7 @@ class BlackbodySpectrumThermometer extends ThermometerNode {
       tandem: Tandem.REQUIRED
     }, options );
 
-    super( options.minTemperature, options.maxTemperature, temperatureProperty, options );
+    super( temperatureProperty, options.minTemperature, options.maxTemperature, options );
 
     // labeled tick marks
     const tickContainer = new Node( {
