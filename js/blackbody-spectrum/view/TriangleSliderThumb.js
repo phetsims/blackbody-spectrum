@@ -11,14 +11,13 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
-import { ButtonListener } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Path } from '../../../../scenery/js/imports.js';
+import TriangleNode from '../../../../scenery-phet/js/TriangleNode.js';
+import { ButtonListener, Node, Path } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
 import BlackbodyColors from './BlackbodyColors.js';
 
-class TriangleSliderThumb extends Path {
+class TriangleSliderThumb extends Node {
 
   /**
    * Creates the triangle thumb slider
@@ -28,9 +27,8 @@ class TriangleSliderThumb extends Path {
   constructor( options ) {
 
     options = merge( {
-      size: new Dimension2( 15, 15 ),
+      size: new Dimension2( 30, 15 ),
       stroke: BlackbodyColors.triangleStrokeProperty,
-      lineWidth: 1,
       fill: 'rgb( 50, 145, 184 )',
       fillHighlighted: 'rgb( 71, 207, 255 )',
       dashedLineOptions: {
@@ -43,21 +41,15 @@ class TriangleSliderThumb extends Path {
 
     // Draw the thumb shape starting at the bottom corner, moving up to the top left
     // then moving right and connecting back, all relative to a horizontal track
-    const arrowHalfLength = options.size.width / 2;
-    const arrowHalfWidth = options.size.width / 2;
-    const shape = new Shape()
-      .moveTo( 0, -arrowHalfLength )
-      .lineTo( -arrowHalfWidth, arrowHalfLength )
-      .lineTo( arrowHalfWidth, arrowHalfLength )
-      .close();
-
-    super( shape, options );
-
+    const triangleHalfWidth = options.size.width / 2;
+    const triangleHalfHeight = options.size.height / 2;
+    const triangle = new TriangleNode( { triangleWidth: options.size.width, triangleHeight: options.size.height, stroke: options.stroke, fill: options.fill, tandem: Tandem.REQUIRED } );
     // @private dashed lines to visibly anchor the triangle slider to the thermometer
-    this.dashedLinesPath = new Path( null, options.dashedLineOptions );
-    this.dashedLinesPath.shape = new Shape()
-      .moveTo( 0, -arrowHalfLength )
-      .lineTo( 0, -2.5 * arrowHalfLength );
+    const dashedLinesShape = new Shape()
+      .moveTo( triangleHalfHeight, -triangleHalfWidth )
+      .lineTo( triangleHalfHeight, -2.5 * triangleHalfWidth );
+
+    const dashedLinesPath = new Path( dashedLinesShape, options.dashedLineOptions );
 
     // @private Arrows that will disappear after first click
     const ARROW_OPTIONS = {
@@ -66,26 +58,28 @@ class TriangleSliderThumb extends Path {
       headWidth: 15,
       tailWidth: 7
     };
-    this.cueingArrows = new Node( {
+    const cueingArrows = new Node( {
       children: [ new ArrowNode( 15, 0, 40, 0, ARROW_OPTIONS ), new ArrowNode( -15, 0, -40, 0, ARROW_OPTIONS ) ],
       tandem: options.tandem.createTandem( 'cueingArrows' )
     } );
 
+    super( { children: [ cueingArrows, dashedLinesPath, triangle ] } );
+
+    triangle.centerX = this.centerX;
+    triangle.top = -triangleHalfWidth;
+    dashedLinesPath.centerX = this.centerX;
     // Highlight thumb on pointer over and remove arrows on first click
     this.addInputListener( new ButtonListener( {
       over: () => {
-        this.fill = options.fillHighlighted;
+        triangle.fill = options.fillHighlighted;
       },
       up: () => {
-        this.fill = options.fill;
+        triangle.fill = options.fill;
       },
       down: () => {
-        this.cueingArrows.visible = false;
+        cueingArrows.visible = false;
       }
     } ) );
-
-    this.addChild( this.cueingArrows );
-    this.addChild( this.dashedLinesPath );
   }
 
   /**
