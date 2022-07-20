@@ -13,14 +13,11 @@ import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ThermometerNode from '../../../../scenery-phet/js/ThermometerNode.js';
-import { SimpleDragHandler } from '../../../../scenery/js/imports.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Path } from '../../../../scenery/js/imports.js';
-import { Text } from '../../../../scenery/js/imports.js';
+import { Node, Path, SimpleDragHandler, Text } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
+import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
 import BlackbodyColors from './BlackbodyColors.js';
 import TriangleSliderThumb from './TriangleSliderThumb.js';
 

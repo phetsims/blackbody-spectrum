@@ -17,14 +17,11 @@ import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ScientificNotationNode from '../../../../scenery-phet/js/ScientificNotationNode.js';
-import { Node } from '../../../../scenery/js/imports.js';
-import { Path } from '../../../../scenery/js/imports.js';
-import { RichText } from '../../../../scenery/js/imports.js';
-import { Text } from '../../../../scenery/js/imports.js';
+import { Node, Path, RichText, Text } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
+import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
 import BlackbodyColors from './BlackbodyColors.js';
 
 // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
