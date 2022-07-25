@@ -80,6 +80,9 @@ class TriangleSliderThumb extends Node {
         cueingArrows.visible = false;
       }
     } ) );
+
+    // @private
+    this.cueingArrows = cueingArrows;
   }
 
   /**
