@@ -43,7 +43,7 @@ class TriangleSliderThumb extends Node {
     // then moving right and connecting back, all relative to a horizontal track
     const triangleHalfWidth = options.size.width / 2;
     const triangleHalfHeight = options.size.height / 2;
-    const triangle = new TriangleNode( { triangleWidth: options.size.width, triangleHeight: options.size.height, stroke: options.stroke, fill: options.fill, tandem: Tandem.REQUIRED } );
+    const triangle = new TriangleNode( { triangleWidth: options.size.width, triangleHeight: options.size.height, stroke: options.stroke, fill: options.fill, tandem: options.tandem.createTandem( 'triangle' ) } );
     // @private dashed lines to visibly anchor the triangle slider to the thermometer
     const dashedLinesShape = new Shape()
       .moveTo( triangleHalfHeight, -triangleHalfWidth )
