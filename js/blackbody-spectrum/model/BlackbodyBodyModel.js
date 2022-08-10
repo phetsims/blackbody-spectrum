@@ -37,7 +37,7 @@ class BlackbodyBodyModel {
     // @public {Property.<number|null>}
     this.temperatureProperty = new Property( temperature, {
       tandem: tandem.createTandem( 'temperatureProperty' ),
-      phetioType: Property.PropertyIO( NullableIO( NumberIO ) ),
+      phetioValueType: NullableIO( NumberIO ),
       phetioDocumentation: 'Determines the temperature of the blackbody. Saved bodies have a null temperature when ' +
                            'they don\'t exist in the simulation.'
     } );
