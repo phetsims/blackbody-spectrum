@@ -7,11 +7,11 @@
  * @author Arnab Purkayastha
  */
 
+import PreferencesModel from '../../joist/js/preferences/PreferencesModel.js';
 import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import BlackbodySpectrumScreen from './blackbody-spectrum/BlackbodySpectrumScreen.js';
-import GlobalOptionsNode from './blackbody-spectrum/view/GlobalOptionsNode.js';
 import blackbodySpectrumStrings from './blackbodySpectrumStrings.js';
 
 const blackbodySpectrumTitleString = blackbodySpectrumStrings[ 'blackbody-spectrum' ].title;
@@ -26,8 +26,11 @@ const simOptions = {
     thanks: ''
   },
 
-  // Creates content for the Options dialog
-  createOptionsDialogContent: tandem => new GlobalOptionsNode( tandem )
+  preferencesModel: new PreferencesModel( {
+    visualOptions: {
+      supportsProjectorMode: true
+    }
+  } )
 };
 
 simLauncher.launch( () => {
