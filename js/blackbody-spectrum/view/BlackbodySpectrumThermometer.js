@@ -13,7 +13,7 @@ import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ThermometerNode from '../../../../scenery-phet/js/ThermometerNode.js';
-import { Node, Path, SimpleDragHandler, Text } from '../../../../scenery/js/imports.js';
+import { DragListener, Node, Path, Text } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
@@ -84,7 +84,7 @@ class BlackbodySpectrumThermometer extends ThermometerNode {
     this.triangleNode.touchArea = this.triangleNode.localBounds.dilatedXY( 10, 10 );
 
     let clickYOffset;
-    this.triangleNode.addInputListener( new SimpleDragHandler( {
+    this.triangleNode.addInputListener( new DragListener( {
       start: event => {
         clickYOffset = this.triangleNode.globalToParentPoint( event.pointer.point ).y - this.triangleNode.y;
       },
