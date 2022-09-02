@@ -14,7 +14,7 @@ import Tandem from '../../tandem/js/Tandem.js';
 import BlackbodySpectrumScreen from './blackbody-spectrum/BlackbodySpectrumScreen.js';
 import blackbodySpectrumStrings from './blackbodySpectrumStrings.js';
 
-const blackbodySpectrumTitleString = blackbodySpectrumStrings[ 'blackbody-spectrum' ].title;
+const blackbodySpectrumTitleStringProperty = blackbodySpectrumStrings[ 'blackbody-spectrum' ].titleStringProperty;
 
 const simOptions = {
   credits: {
@@ -34,7 +34,7 @@ const simOptions = {
 };
 
 simLauncher.launch( () => {
-  const sim = new Sim( blackbodySpectrumTitleString, [
+  const sim = new Sim( blackbodySpectrumTitleStringProperty, [
     new BlackbodySpectrumScreen( Tandem.ROOT.createTandem( 'blackbodySpectrumScreen' ) )
   ], simOptions );
   sim.start();
