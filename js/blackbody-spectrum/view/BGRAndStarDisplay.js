@@ -15,12 +15,12 @@ import { Circle, Node, Path, Text } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
-import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
+import BlackbodySpectrumStrings from '../../BlackbodySpectrumStrings.js';
 import BlackbodyColors from './BlackbodyColors.js';
 
-const bString = blackbodySpectrumStrings.b;
-const gString = blackbodySpectrumStrings.g;
-const rString = blackbodySpectrumStrings.r;
+const bString = BlackbodySpectrumStrings.b;
+const gString = BlackbodySpectrumStrings.g;
+const rString = BlackbodySpectrumStrings.r;
 
 // constants
 const CIRCLE_LABEL_COLOR = BlackbodyColors.titlesTextProperty;

@@ -21,13 +21,13 @@ import HSeparator from '../../../../sun/js/HSeparator.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
-import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
+import BlackbodySpectrumStrings from '../../BlackbodySpectrumStrings.js';
 import BlackbodyColors from './BlackbodyColors.js';
 
-const graphValuesString = blackbodySpectrumStrings.graphValues;
-const intensityString = blackbodySpectrumStrings.intensity;
-const intensityUnitsLabelString = blackbodySpectrumStrings.intensityUnitsLabel;
-const labelsString = blackbodySpectrumStrings.labels;
+const graphValuesString = BlackbodySpectrumStrings.graphValues;
+const intensityString = BlackbodySpectrumStrings.intensity;
+const intensityUnitsLabelString = BlackbodySpectrumStrings.intensityUnitsLabel;
+const labelsString = BlackbodySpectrumStrings.labels;
 
 // constants
 const DISPLAY_FONT = new PhetFont( 18 );

@@ -21,20 +21,20 @@ import { Node, Path, RichText, Text } from '../../../../scenery/js/imports.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
-import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
+import BlackbodySpectrumStrings from '../../BlackbodySpectrumStrings.js';
 import BlackbodyColors from './BlackbodyColors.js';
 
 // from nm to m to the fifth power (1e45) and Mega/micron (1e-12)
 const SPECTRAL_POWER_DENSITY_CONVERSION_FACTOR = 1e33;
 const ELECTROMAGNETIC_SPECTRUM_LABEL_CUTOFF = 20;
 
-const infraredString = blackbodySpectrumStrings.infrared;
-const spectralPowerDensityLabelString = blackbodySpectrumStrings.spectralPowerDensityLabel;
-const subtitleLabelString = blackbodySpectrumStrings.subtitleLabel;
-const ultravioletString = blackbodySpectrumStrings.ultraviolet;
-const visibleString = blackbodySpectrumStrings.visible;
-const wavelengthLabelString = blackbodySpectrumStrings.wavelengthLabel;
-const xRayString = blackbodySpectrumStrings.xRay;
+const infraredString = BlackbodySpectrumStrings.infrared;
+const spectralPowerDensityLabelString = BlackbodySpectrumStrings.spectralPowerDensityLabel;
+const subtitleLabelString = BlackbodySpectrumStrings.subtitleLabel;
+const ultravioletString = BlackbodySpectrumStrings.ultraviolet;
+const visibleString = BlackbodySpectrumStrings.visible;
+const wavelengthLabelString = BlackbodySpectrumStrings.wavelengthLabel;
+const xRayString = BlackbodySpectrumStrings.xRay;
 
 // Max wavelengths for each region of the electromagnetic spectrum in nm, type Object
 const ELECTROMAGNETIC_SPECTRUM_LABEL_VALUES = {

@@ -12,9 +12,9 @@ import Sim from '../../joist/js/Sim.js';
 import simLauncher from '../../joist/js/simLauncher.js';
 import Tandem from '../../tandem/js/Tandem.js';
 import BlackbodySpectrumScreen from './blackbody-spectrum/BlackbodySpectrumScreen.js';
-import blackbodySpectrumStrings from './blackbodySpectrumStrings.js';
+import BlackbodySpectrumStrings from './BlackbodySpectrumStrings.js';
 
-const blackbodySpectrumTitleStringProperty = blackbodySpectrumStrings[ 'blackbody-spectrum' ].titleStringProperty;
+const blackbodySpectrumTitleStringProperty = BlackbodySpectrumStrings[ 'blackbody-spectrum' ].titleStringProperty;
 
 const simOptions = {
   credits: {

@@ -16,7 +16,7 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import { RichText, Text } from '../../../../scenery/js/imports.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
-import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
+import BlackbodySpectrumStrings from '../../BlackbodySpectrumStrings.js';
 import BGRAndStarDisplay from './BGRAndStarDisplay.js';
 import BlackbodyColors from './BlackbodyColors.js';
 import BlackbodySpectrumControlPanel from './BlackbodySpectrumControlPanel.js';
@@ -24,8 +24,8 @@ import BlackbodySpectrumThermometer from './BlackbodySpectrumThermometer.js';
 import GraphDrawingNode from './GraphDrawingNode.js';
 import SavedGraphInformationPanel from './SavedGraphInformationPanel.js';
 
-const blackbodyTemperatureString = blackbodySpectrumStrings.blackbodyTemperature;
-const kelvinUnitsString = blackbodySpectrumStrings.kelvinUnits;
+const blackbodyTemperatureString = BlackbodySpectrumStrings.blackbodyTemperature;
+const kelvinUnitsString = BlackbodySpectrumStrings.kelvinUnits;
 
 // constants
 const TEMPERATURE_FONT = new PhetFont( { size: 22, weight: 'bold' } );

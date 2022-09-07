@@ -14,11 +14,11 @@ import { HBox, Path, Text, VBox } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
-import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
+import BlackbodySpectrumStrings from '../../BlackbodySpectrumStrings.js';
 import BlackbodyColors from './BlackbodyColors.js';
 import GenericCurveShape from './GenericCurveShape.js';
 
-const kelvinUnitsString = blackbodySpectrumStrings.kelvinUnits;
+const kelvinUnitsString = BlackbodySpectrumStrings.kelvinUnits;
 
 class SavedGraphInformationPanel extends Panel {
 

@@ -55,8 +55,8 @@ type StringsType = {
   'infraredStringProperty': TReadOnlyProperty<string>;
 };
 
-const blackbodySpectrumStrings = getStringModule( 'BLACKBODY_SPECTRUM' ) as StringsType;
+const BlackbodySpectrumStrings = getStringModule( 'BLACKBODY_SPECTRUM' ) as StringsType;
 
-blackbodySpectrum.register( 'blackbodySpectrumStrings', blackbodySpectrumStrings );
+blackbodySpectrum.register( 'BlackbodySpectrumStrings', BlackbodySpectrumStrings );
 
-export default blackbodySpectrumStrings;
+export default BlackbodySpectrumStrings;

@@ -17,15 +17,15 @@ import { DragListener, Node, Path, Text } from '../../../../scenery/js/imports.j
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
-import blackbodySpectrumStrings from '../../blackbodySpectrumStrings.js';
+import BlackbodySpectrumStrings from '../../BlackbodySpectrumStrings.js';
 import BlackbodyColors from './BlackbodyColors.js';
 import TriangleSliderThumb from './TriangleSliderThumb.js';
 
 // string
-const earthString = blackbodySpectrumStrings.earth;
-const lightBulbString = blackbodySpectrumStrings.lightBulb;
-const siriusAString = blackbodySpectrumStrings.siriusA;
-const sunString = blackbodySpectrumStrings.sun;
+const earthString = BlackbodySpectrumStrings.earth;
+const lightBulbString = BlackbodySpectrumStrings.lightBulb;
+const siriusAString = BlackbodySpectrumStrings.siriusA;
+const sunString = BlackbodySpectrumStrings.sun;
 
 // constants
 const TICK_MARKS = [
