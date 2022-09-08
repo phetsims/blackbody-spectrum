@@ -15,7 +15,7 @@ import merge from '../../../../phet-core/js/merge.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ScientificNotationNode from '../../../../scenery-phet/js/ScientificNotationNode.js';
-import { Circle, Node, Path, RichText, SimpleDragHandler, Text } from '../../../../scenery/js/imports.js';
+import { Circle, DragListener, Node, Path, RichText, Text } from '../../../../scenery/js/imports.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
@@ -110,7 +110,7 @@ class GraphValuesPointNode extends Node {
 
     // Sets up the drag handler for the point circle and vertical dashed line
     let clickXOffset;
-    const graphValueDragHandler = new SimpleDragHandler( {
+    const graphValueDragHandler = new DragListener( {
       start: event => {
         clickXOffset = this.graphPointCircle.globalToParentPoint( event.pointer.point ).x - this.graphPointCircle.x;
       },
