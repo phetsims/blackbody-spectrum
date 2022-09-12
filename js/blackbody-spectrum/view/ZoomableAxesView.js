@@ -167,14 +167,14 @@ class ZoomableAxesView extends Node {
       fill: options.axisLabelColor,
       maxWidth: axesWidth
     } );
-    const horizontalAxisBottomLabelNode = new Text( subtitleLabelString, {
+    const horizontalAxisBottomLabelText = new Text( subtitleLabelString, {
       font: new PhetFont( 16 ),
       fill: options.axisLabelColor,
       maxWidth: axesWidth,
-      tandem: options.tandem.createTandem( 'horizontalAxisSubtitleLabel' )
+      tandem: options.tandem.createTandem( 'horizontalAxisSubtitleLabelText' )
     } );
     const horizontalAxisLabelNode = new Node( {
-      children: [ horizontalAxisTopLabelNode, horizontalAxisBottomLabelNode ]
+      children: [ horizontalAxisTopLabelNode, horizontalAxisBottomLabelText ]
     } );
 
     // @public {Property.<number>} current zoom values
@@ -235,8 +235,8 @@ class ZoomableAxesView extends Node {
     verticalAxisLabelNode.centerX = this.axesPath.left - 90;
     verticalAxisLabelNode.centerY = this.axesPath.centerY;
     horizontalAxisTopLabelNode.centerX = this.axesPath.centerX;
-    horizontalAxisBottomLabelNode.top = horizontalAxisTopLabelNode.bottom + 5;
-    horizontalAxisBottomLabelNode.centerX = this.axesPath.centerX;
+    horizontalAxisBottomLabelText.top = horizontalAxisTopLabelNode.bottom + 5;
+    horizontalAxisBottomLabelText.centerX = this.axesPath.centerX;
     horizontalAxisLabelNode.centerY = this.axesPath.bottom + 59;
 
     // Adds children in rendering order

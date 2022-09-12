@@ -50,12 +50,12 @@ class BlackbodySpectrumScreenView extends ScreenView {
       tandem: tandem.createTandem( 'thermometerNode' )
     } );
 
-    const thermometerLabel = new RichText( blackbodyTemperatureString, {
+    const thermometerText = new RichText( blackbodyTemperatureString, {
       font: BlackbodyConstants.LABEL_FONT,
       fill: TITLE_COLOR,
       align: 'center',
       maxWidth: 130,
-      tandem: tandem.createTandem( 'thermometerLabel' )
+      tandem: tandem.createTandem( 'thermometerText' )
     } );
 
     // A text node that reflects the temperature of the slider or main model
@@ -74,7 +74,7 @@ class BlackbodySpectrumScreenView extends ScreenView {
     // Links the current temperature to the temperature text above the thermometer
     model.mainBody.temperatureProperty.link( temperature => {
       temperatureText.text = `${Utils.toFixed( temperature, 0 )} ${kelvinUnitsString}`;
-      temperatureText.centerX = thermometerLabel.centerX; // In case the size of the temperature text changes
+      temperatureText.centerX = thermometerText.centerX; // In case the size of the temperature text changes
     } );
 
     // create graph with zoom buttons
@@ -104,13 +104,13 @@ class BlackbodySpectrumScreenView extends ScreenView {
     resetAllButton.right = this.layoutBounds.maxX - INSET;
     resetAllButton.bottom = this.layoutBounds.maxY - INSET;
     thermometer.right = this.layoutBounds.maxX - INSET;
-    thermometerLabel.centerX = thermometer.right + thermometer.thermometerCenterXFromRight;
-    temperatureText.centerX = thermometerLabel.centerX;
-    thermometerLabel.top = INSET + TEMPERATURE_LABEL_SPACING;
-    temperatureText.top = thermometerLabel.bottom + TEMPERATURE_LABEL_SPACING;
+    thermometerText.centerX = thermometer.right + thermometer.thermometerCenterXFromRight;
+    temperatureText.centerX = thermometerText.centerX;
+    thermometerText.top = INSET + TEMPERATURE_LABEL_SPACING;
+    temperatureText.top = thermometerText.bottom + TEMPERATURE_LABEL_SPACING;
     thermometer.top = temperatureText.bottom + TEMPERATURE_LABEL_SPACING;
     controlPanel.right = thermometer.left - 20;
-    controlPanel.top = thermometerLabel.centerY;
+    controlPanel.top = thermometerText.centerY;
     savedInformationPanel.centerX = controlPanel.centerX;
     savedInformationPanel.top = controlPanel.bottom + 55;
     bgrAndStarDisplay.left = 225; // Layout empirically determined
@@ -119,7 +119,7 @@ class BlackbodySpectrumScreenView extends ScreenView {
     this.addChild( controlPanel );
     this.addChild( savedInformationPanel );
     this.addChild( thermometer );
-    this.addChild( thermometerLabel );
+    this.addChild( thermometerText );
     this.addChild( temperatureText );
     this.addChild( bgrAndStarDisplay );
     this.addChild( resetAllButton );
