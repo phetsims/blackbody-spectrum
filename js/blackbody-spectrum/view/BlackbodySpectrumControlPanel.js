@@ -17,7 +17,7 @@ import { HBox, Node, Path, Rectangle, RichText, Text, VBox } from '../../../../s
 import cameraSolidShape from '../../../../sherpa/js/fontawesome-5/cameraSolidShape.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
-import HSeparator from '../../../../sun/js/HSeparator.js';
+import HSeparatorDeprecated from '../../../../sun/js/HSeparatorDeprecated.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
@@ -186,7 +186,7 @@ class BlackbodySpectrumControlPanel extends Panel {
       children: [
         checkboxPanel,
         intensityDisplay,
-        new HSeparator( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
+        new HSeparatorDeprecated( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
         buttons
       ],
       align: 'center',
@@ -202,7 +202,7 @@ class BlackbodySpectrumControlPanel extends Panel {
       if ( !intensityVisible ) {
         content.setChildren( [
           checkboxPanel,
-          new HSeparator( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
+          new HSeparatorDeprecated( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
           buttons
         ] );
       }
@@ -210,7 +210,7 @@ class BlackbodySpectrumControlPanel extends Panel {
         content.setChildren( [
           checkboxPanel,
           intensityDisplay,
-          new HSeparator( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
+          new HSeparatorDeprecated( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
           buttons
         ] );
       }
