@@ -154,8 +154,8 @@ class BlackbodySpectrumControlPanel extends Panel {
     const spacing = 15;
     const buttons = new HBox( {
       children: [
-        saveButton,
-        eraseButton
+        new Node( { children: [ saveButton ] } ),
+        new Node( { children: [ eraseButton ] } )
       ],
       spacing: spacing
     } );
