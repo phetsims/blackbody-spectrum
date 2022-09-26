@@ -5,54 +5,54 @@
  */
 /* eslint-disable */
 import getStringModule from '../../chipper/js/getStringModule.js';
-import TReadOnlyProperty from '../../axon/js/TReadOnlyProperty.js';
+import LinkableProperty from '../../axon/js/LinkableProperty.js';
 import blackbodySpectrum from './blackbodySpectrum.js';
 
 type StringsType = {
   'blackbody-spectrum': {
     'title': string;
-    'titleStringProperty': TReadOnlyProperty<string>;
+    'titleStringProperty': LinkableProperty<string>;
   };
   'spectralPowerDensityLabel': string;
-  'spectralPowerDensityLabelStringProperty': TReadOnlyProperty<string>;
+  'spectralPowerDensityLabelStringProperty': LinkableProperty<string>;
   'wavelengthLabel': string;
-  'wavelengthLabelStringProperty': TReadOnlyProperty<string>;
+  'wavelengthLabelStringProperty': LinkableProperty<string>;
   'subtitleLabel': string;
-  'subtitleLabelStringProperty': TReadOnlyProperty<string>;
+  'subtitleLabelStringProperty': LinkableProperty<string>;
   'b': string;
-  'bStringProperty': TReadOnlyProperty<string>;
+  'bStringProperty': LinkableProperty<string>;
   'g': string;
-  'gStringProperty': TReadOnlyProperty<string>;
+  'gStringProperty': LinkableProperty<string>;
   'r': string;
-  'rStringProperty': TReadOnlyProperty<string>;
+  'rStringProperty': LinkableProperty<string>;
   'siriusA': string;
-  'siriusAStringProperty': TReadOnlyProperty<string>;
+  'siriusAStringProperty': LinkableProperty<string>;
   'sun': string;
-  'sunStringProperty': TReadOnlyProperty<string>;
+  'sunStringProperty': LinkableProperty<string>;
   'lightBulb': string;
-  'lightBulbStringProperty': TReadOnlyProperty<string>;
+  'lightBulbStringProperty': LinkableProperty<string>;
   'earth': string;
-  'earthStringProperty': TReadOnlyProperty<string>;
+  'earthStringProperty': LinkableProperty<string>;
   'blackbodyTemperature': string;
-  'blackbodyTemperatureStringProperty': TReadOnlyProperty<string>;
+  'blackbodyTemperatureStringProperty': LinkableProperty<string>;
   'kelvinUnits': string;
-  'kelvinUnitsStringProperty': TReadOnlyProperty<string>;
+  'kelvinUnitsStringProperty': LinkableProperty<string>;
   'graphValues': string;
-  'graphValuesStringProperty': TReadOnlyProperty<string>;
+  'graphValuesStringProperty': LinkableProperty<string>;
   'intensity': string;
-  'intensityStringProperty': TReadOnlyProperty<string>;
+  'intensityStringProperty': LinkableProperty<string>;
   'labels': string;
-  'labelsStringProperty': TReadOnlyProperty<string>;
+  'labelsStringProperty': LinkableProperty<string>;
   'intensityUnitsLabel': string;
-  'intensityUnitsLabelStringProperty': TReadOnlyProperty<string>;
+  'intensityUnitsLabelStringProperty': LinkableProperty<string>;
   'xRay': string;
-  'xRayStringProperty': TReadOnlyProperty<string>;
+  'xRayStringProperty': LinkableProperty<string>;
   'ultraviolet': string;
-  'ultravioletStringProperty': TReadOnlyProperty<string>;
+  'ultravioletStringProperty': LinkableProperty<string>;
   'visible': string;
-  'visibleStringProperty': TReadOnlyProperty<string>;
+  'visibleStringProperty': LinkableProperty<string>;
   'infrared': string;
-  'infraredStringProperty': TReadOnlyProperty<string>;
+  'infraredStringProperty': LinkableProperty<string>;
 };
 
 const BlackbodySpectrumStrings = getStringModule( 'BLACKBODY_SPECTRUM' ) as StringsType;
