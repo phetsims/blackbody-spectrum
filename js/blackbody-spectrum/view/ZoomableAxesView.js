@@ -110,7 +110,7 @@ class ZoomableAxesView extends Node {
     this.horizontalAxisLength = options.axesWidth;
     this.verticalAxisLength = options.axesHeight;
 
-    // @private How each axis scales
+    // @public (read-only) - How each axis scales
     this.horizontalZoomScale = options.horizontalZoomFactor;
     this.verticalZoomScale = options.verticalZoomFactor;
 

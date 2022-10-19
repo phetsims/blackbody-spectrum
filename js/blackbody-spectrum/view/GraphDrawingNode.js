@@ -13,7 +13,7 @@ import Dimension2 from '../../../../dot/js/Dimension2.js';
 import Vector2 from '../../../../dot/js/Vector2.js';
 import { Shape } from '../../../../kite/js/imports.js';
 import merge from '../../../../phet-core/js/merge.js';
-import ZoomButton from '../../../../scenery-phet/js/buttons/ZoomButton.js';
+import MagnifyingGlassZoomButtonGroup from '../../../../scenery-phet/js/MagnifyingGlassZoomButtonGroup.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import WavelengthSpectrumNode from '../../../../scenery-phet/js/WavelengthSpectrumNode.js';
 import { Node, Path } from '../../../../scenery/js/imports.js';
@@ -113,29 +113,35 @@ class GraphDrawingNode extends Node {
     this.innerGraphOverAxes.addChild( this.primarySavedGraph );
     this.innerGraphOverAxes.addChild( this.secondarySavedGraph );
 
-    // @private Zoom Buttons
-    this.horizontalZoomInButton = createZoomButton(
-      true,
-      () => { this.axes.zoomInHorizontal(); },
-      options.tandem.createTandem( 'horizontalZoomInButton' )
-    );
-    this.horizontalZoomOutButton = createZoomButton(
-      false,
-      () => { this.axes.zoomOutHorizontal(); },
-      options.tandem.createTandem( 'horizontalZoomOutButton' )
-    );
-    this.verticalZoomInButton = createZoomButton(
-      true,
-      () => { this.axes.zoomInVertical(); },
-      options.tandem.createTandem( 'verticalZoomInButton' )
-    );
-    this.verticalZoomOutButton = createZoomButton(
-      false,
-      () => { this.axes.zoomOutVertical(); },
-      options.tandem.createTandem( 'verticalZoomOutButton' )
-    );
-    const horizontalZoomButtons = new Node( { children: [ this.horizontalZoomOutButton, this.horizontalZoomInButton ] } );
-    const verticalZoomButtons = new Node( { children: [ this.verticalZoomOutButton, this.verticalZoomInButton ] } );
+    // @private {MagnifyingGlassZoomButtonGroup} - horizontal zoom buttons
+    const horizontalZoomButtons = new MagnifyingGlassZoomButtonGroup( this.axes.horizontalZoomProperty, {
+      applyZoomIn: zoom => zoom / this.axes.horizontalZoomScale,
+      applyZoomOut: zoom => zoom * this.axes.horizontalZoomScale,
+      spacing: ZOOM_BUTTON_SPACING,
+      buttonOptions: {
+        baseColor: ColorConstants.LIGHT_BLUE,
+        touchAreaXDilation: 5,
+        touchAreaYDilation: 5
+      },
+      magnifyingGlassNodeOptions: {
+        glassRadius: ZOOM_BUTTON_ICON_RADIUS
+      }
+    } );
+
+    // @private {MagnifyingGlassZoomButtonGroup} - vertical zoom buttons
+    const verticalZoomButtons = new MagnifyingGlassZoomButtonGroup( this.axes.verticalZoomProperty, {
+      applyZoomIn: zoom => zoom / this.axes.verticalZoomScale,
+      applyZoomOut: zoom => zoom * this.axes.verticalZoomScale,
+      spacing: ZOOM_BUTTON_SPACING,
+      buttonOptions: {
+        baseColor: ColorConstants.LIGHT_BLUE,
+        touchAreaXDilation: 5,
+        touchAreaYDilation: 5
+      },
+      magnifyingGlassNodeOptions: {
+        glassRadius: ZOOM_BUTTON_ICON_RADIUS
+      }
+    } );
 
     // Links different parts of GraphDrawingNode to update whenever specified tracked Properties change
     const updateMainGraphAndLayout = () => {
@@ -158,12 +164,8 @@ class GraphDrawingNode extends Node {
 
     // Sets layout of graph node elements to be all ultimately relative to the axes
     const axesPath = this.axes.axesPath;
-    this.horizontalZoomInButton.left = this.horizontalZoomOutButton.right + ZOOM_BUTTON_SPACING;
-    this.horizontalZoomInButton.centerY = this.horizontalZoomOutButton.centerY;
     horizontalZoomButtons.centerX = axesPath.right + ZOOM_BUTTON_ICON_RADIUS;
     horizontalZoomButtons.top = axesPath.bottom + ZOOM_BUTTON_AXES_MARGIN;
-    this.verticalZoomInButton.centerY = this.verticalZoomOutButton.centerY;
-    this.verticalZoomInButton.left = this.verticalZoomOutButton.right + ZOOM_BUTTON_SPACING;
     verticalZoomButtons.centerX = axesPath.left - ZOOM_BUTTON_ICON_RADIUS * 2;
     verticalZoomButtons.bottom = axesPath.top - ZOOM_BUTTON_AXES_MARGIN;
     this.wavelengthSpectrumNode.centerY = axesPath.centerY;
@@ -289,41 +291,11 @@ class GraphDrawingNode extends Node {
    * @private
    */
   update() {
-    const verticalZoom = this.axes.verticalZoomProperty.value;
-    const horizontalZoom = this.axes.horizontalZoomProperty.value;
     this.updateGraphPaths();
     this.draggablePointNode.update();
     this.axes.update();
     this.updateVisibleSpectrumNode();
-    this.horizontalZoomInButton.enabled = horizontalZoom > BlackbodyConstants.minHorizontalZoom;
-    this.horizontalZoomOutButton.enabled = horizontalZoom < BlackbodyConstants.maxHorizontalZoom;
-    this.verticalZoomInButton.enabled = verticalZoom > BlackbodyConstants.minVerticalZoom;
-    this.verticalZoomOutButton.enabled = verticalZoom < BlackbodyConstants.maxVerticalZoom;
   }
-
-}
-
-/**
- * Helper function for creating zoom buttons with repeated options
- * Template for new ZoomButton objects
- * @param {boolean} type - indicates whether button is for zoom in
- * @param {function} listener
- * @param {Tandem} tandem
- * @returns {ZoomButton}
- * @private
- */
-function createZoomButton( type, listener, tandem ) {
-  return new ZoomButton( {
-    in: type,
-    magnifyingGlassOptions: {
-      glassRadius: ZOOM_BUTTON_ICON_RADIUS
-    },
-    touchAreaXDilation: 5,
-    touchAreaYDilation: 5,
-    baseColor: ColorConstants.LIGHT_BLUE,
-    listener: listener,
-    tandem: tandem
-  } );
 }
 
 blackbodySpectrum.register( 'GraphDrawingNode', GraphDrawingNode );
