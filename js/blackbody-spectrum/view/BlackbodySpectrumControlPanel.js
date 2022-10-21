@@ -13,11 +13,10 @@ import EraserButton from '../../../../scenery-phet/js/buttons/EraserButton.js';
 import PhetColorScheme from '../../../../scenery-phet/js/PhetColorScheme.js';
 import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import ScientificNotationNode from '../../../../scenery-phet/js/ScientificNotationNode.js';
-import { HBox, Node, Path, Rectangle, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
+import { HBox, HSeparator, Node, Path, Rectangle, RichText, Text, VBox } from '../../../../scenery/js/imports.js';
 import cameraSolidShape from '../../../../sherpa/js/fontawesome-5/cameraSolidShape.js';
 import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushButton.js';
 import Checkbox from '../../../../sun/js/Checkbox.js';
-import HSeparatorDeprecated from '../../../../sun/js/HSeparatorDeprecated.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
@@ -177,6 +176,7 @@ class BlackbodySpectrumControlPanel extends Panel {
     } );
 
     const intensityDisplay = new Node( {
+      visibleProperty: model.intensityVisibleProperty,
       children: [ intensityTextBox ],
       maxWidth: CHECKBOX_DEFAULT_WIDTH
     } );
@@ -186,7 +186,7 @@ class BlackbodySpectrumControlPanel extends Panel {
       children: [
         checkboxPanel,
         intensityDisplay,
-        new HSeparatorDeprecated( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
+        new HSeparator( { stroke: SEPARATOR_COLOR } ),
         buttons
       ],
       align: 'center',
@@ -195,27 +195,6 @@ class BlackbodySpectrumControlPanel extends Panel {
     } );
 
     super( content, options );
-
-    // The label and the box containing the intensity value text have the same visibility as the model's intensityVisibleProperty
-    model.intensityVisibleProperty.link( intensityVisible => {
-      intensityDisplay.visible = intensityVisible;
-      if ( !intensityVisible ) {
-        content.setChildren( [
-          checkboxPanel,
-          new HSeparatorDeprecated( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
-          buttons
-        ] );
-      }
-      else {
-        content.setChildren( [
-          checkboxPanel,
-          intensityDisplay,
-          new HSeparatorDeprecated( CHECKBOX_DEFAULT_WIDTH, { stroke: SEPARATOR_COLOR } ),
-          buttons
-        ] );
-      }
-    } );
-
   }
 }
 
