@@ -114,7 +114,7 @@ class GraphDrawingNode extends Node {
     this.innerGraphOverAxes.addChild( this.secondarySavedGraph );
 
     // @private {MagnifyingGlassZoomButtonGroup} - horizontal zoom buttons
-    const horizontalZoomButtons = new MagnifyingGlassZoomButtonGroup( this.axes.horizontalZoomProperty, {
+    const horizontalZoomButtonGroup = new MagnifyingGlassZoomButtonGroup( this.axes.horizontalZoomProperty, {
       applyZoomIn: zoom => zoom / this.axes.horizontalZoomScale,
       applyZoomOut: zoom => zoom * this.axes.horizontalZoomScale,
       spacing: ZOOM_BUTTON_SPACING,
@@ -125,11 +125,12 @@ class GraphDrawingNode extends Node {
       },
       magnifyingGlassNodeOptions: {
         glassRadius: ZOOM_BUTTON_ICON_RADIUS
-      }
+      },
+      tandem: options.tandem.createTandem( 'horizontalZoomButtonGroup' )
     } );
 
     // @private {MagnifyingGlassZoomButtonGroup} - vertical zoom buttons
-    const verticalZoomButtons = new MagnifyingGlassZoomButtonGroup( this.axes.verticalZoomProperty, {
+    const verticalZoomButtonGroup = new MagnifyingGlassZoomButtonGroup( this.axes.verticalZoomProperty, {
       applyZoomIn: zoom => zoom / this.axes.verticalZoomScale,
       applyZoomOut: zoom => zoom * this.axes.verticalZoomScale,
       spacing: ZOOM_BUTTON_SPACING,
@@ -140,7 +141,10 @@ class GraphDrawingNode extends Node {
       },
       magnifyingGlassNodeOptions: {
         glassRadius: ZOOM_BUTTON_ICON_RADIUS
-      }
+      },
+
+      // phet-io
+      tandem: options.tandem.createTandem( 'verticalZoomButtonGroup' )
     } );
 
     // Links different parts of GraphDrawingNode to update whenever specified tracked Properties change
@@ -164,18 +168,18 @@ class GraphDrawingNode extends Node {
 
     // Sets layout of graph node elements to be all ultimately relative to the axes
     const axesPath = this.axes.axesPath;
-    horizontalZoomButtons.centerX = axesPath.right + ZOOM_BUTTON_ICON_RADIUS;
-    horizontalZoomButtons.top = axesPath.bottom + ZOOM_BUTTON_AXES_MARGIN;
-    verticalZoomButtons.centerX = axesPath.left - ZOOM_BUTTON_ICON_RADIUS * 2;
-    verticalZoomButtons.bottom = axesPath.top - ZOOM_BUTTON_AXES_MARGIN;
+    horizontalZoomButtonGroup.centerX = axesPath.right + ZOOM_BUTTON_ICON_RADIUS;
+    horizontalZoomButtonGroup.top = axesPath.bottom + ZOOM_BUTTON_AXES_MARGIN;
+    verticalZoomButtonGroup.centerX = axesPath.left - ZOOM_BUTTON_ICON_RADIUS * 2;
+    verticalZoomButtonGroup.bottom = axesPath.top - ZOOM_BUTTON_AXES_MARGIN;
     this.wavelengthSpectrumNode.centerY = axesPath.centerY;
     this.wavelengthSpectrumNode.left = ultravioletPosition;
 
     // Adds children in rendering order
     this.addChild( this.innerGraphUnderAxes );
     this.addChild( this.axes );
-    this.addChild( horizontalZoomButtons );
-    this.addChild( verticalZoomButtons );
+    this.addChild( horizontalZoomButtonGroup );
+    this.addChild( verticalZoomButtonGroup );
     this.addChild( this.innerGraphOverAxes );
     this.addChild( this.draggablePointNode );
   }
