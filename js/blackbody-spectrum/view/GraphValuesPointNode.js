@@ -191,10 +191,10 @@ class GraphValuesPointNode extends Node {
         // Using unicode Thin Space and Hair Space to reduce distance between numbers and "X" in notation
         formattedString += `\u2009\u00D7\u200A10<sup>${notationObject.exponent}</sup>`;
       }
-      this.spectralPowerDensityValueText.text = formattedString;
+      this.spectralPowerDensityValueText.string = formattedString;
     }
     else {
-      this.spectralPowerDensityValueText.text = spectralPowerDensityValue.toPrecision( 4 );
+      this.spectralPowerDensityValueText.string = spectralPowerDensityValue.toPrecision( 4 );
     }
 
     // Updates value labels' positioning

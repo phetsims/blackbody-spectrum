@@ -422,10 +422,10 @@ class ZoomableAxesView extends Node {
       if ( notationObject.exponent !== '0' ) {
         formattedString += `\u2009\u00D7\u200A10<sup>${notationObject.exponent}</sup>`;
       }
-      this.verticalTickLabelMax.text = formattedString;
+      this.verticalTickLabelMax.string = formattedString;
     }
     else {
-      this.verticalTickLabelMax.text = this.truncateNum( this.verticalZoomProperty.value, 2, 2 );
+      this.verticalTickLabelMax.string = this.truncateNum( this.verticalZoomProperty.value, 2, 2 );
     }
 
     this.verticalTickLabelMax.right = this.axesPath.left;

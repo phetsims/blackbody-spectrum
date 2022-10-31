@@ -141,7 +141,7 @@ class BlackbodySpectrumControlPanel extends Panel {
       if ( notationObject.exponent !== '0' ) {
         formattedString += ` \u00D7 10<sup>${notationObject.exponent}</sup>`;
       }
-      intensityText.text = StringUtils.fillIn( intensityUnitsLabelString, { intensity: formattedString } );
+      intensityText.string = StringUtils.fillIn( intensityUnitsLabelString, { intensity: formattedString } );
 
       // Updates positions and sizes
       const textWidth = CHECKBOX_DEFAULT_WIDTH > intensityText.width + 20 ?
