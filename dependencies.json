@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "blackbody-spectrum": {
-    "sha": "afedb46334af9e0bee8a23f4288710f368be6b77",
+    "sha": "9fe34d12a9b1f767c1b31227d0c3578f518556ba",
     "branch": "1.0"
   },
   "brand": {
@@ -17,7 +17,7 @@
     "branch": "HEAD"
   },
   "chipper": {
-    "sha": "0e5fd6e4d787a7a37d51d82652e255a6cb5045b2",
+    "sha": "aa3794ea1f732b132d6dd652c099141b346e114c",
     "branch": "HEAD"
   },
   "dot": {
