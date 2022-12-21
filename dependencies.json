@@ -1,5 +1,5 @@
 {
-  "comment": "# blackbody-spectrum 1.0.11 Wed Dec 14 2022 09:52:23 GMT-0700 (Mountain Standard Time)",
+  "comment": "# blackbody-spectrum 1.0.12-rc.1 Tue Dec 20 2022 19:50:39 GMT-0700 (Mountain Standard Time)",
   "assert": {
     "sha": "d8a2e8992420327ff72a6fc4bb93ec76549ded0e",
     "branch": "HEAD"
@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "blackbody-spectrum": {
-    "sha": "36cc0b7072dfd38115aa5e16db79eb0ec2482cd7",
+    "sha": "d56395430eabb8db7a9674d383555ffe0ff7e90b",
     "branch": "1.0"
   },
   "brand": {
