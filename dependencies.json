@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "blackbody-spectrum": {
-    "sha": "b8ae5a0c8824cd7c5de36a4b0afed1a0b33f1517",
+    "sha": "651e790ea8975cde2a4611a3bacc4b228e77e016",
     "branch": "1.0"
   },
   "brand": {
@@ -45,7 +45,7 @@
     "branch": "HEAD"
   },
   "phetcommon": {
-    "sha": "8f65638ee822cab47be8fd99334e720cf4da812a",
+    "sha": "54d0fade510e9790c0a977c9eac15086560a8d91",
     "branch": "HEAD"
   },
   "phetmarks": {
