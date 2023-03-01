@@ -116,15 +116,15 @@ class SavedGraphInformationPanel extends Panel {
 
     // link temperatures to their labels
     model.mainBody.temperatureProperty.link( temperature => {
-      primaryTemperatureLabel.text = formatTemperature( temperature );
+      primaryTemperatureLabel.string = formatTemperature( temperature );
     } );
     model.savedBodyOne.temperatureProperty.link( temperature => {
       this.visible = temperature !== null;
-      primarySavedTemperatureLabel.text = formatTemperature( temperature );
+      primarySavedTemperatureLabel.string = formatTemperature( temperature );
     } );
     model.savedBodyTwo.temperatureProperty.link( temperature => {
       secondarySavedTemperatureBox.visible = temperature !== null;
-      secondarySavedTemperatureLabel.text = formatTemperature( temperature );
+      secondarySavedTemperatureLabel.string = formatTemperature( temperature );
     } );
   }
 }

@@ -73,7 +73,7 @@ class BlackbodySpectrumScreenView extends ScreenView {
 
     // Links the current temperature to the temperature text above the thermometer
     model.mainBody.temperatureProperty.link( temperature => {
-      temperatureText.text = `${Utils.toFixed( temperature, 0 )} ${kelvinUnitsString}`;
+      temperatureText.string = `${Utils.toFixed( temperature, 0 )} ${kelvinUnitsString}`;
       temperatureText.centerX = thermometerText.centerX; // In case the size of the temperature text changes
     } );
 

@@ -413,7 +413,7 @@ class ZoomableAxesView extends Node {
    * @public
    */
   update() {
-    this.horizontalTickLabelMax.text = this.model.wavelengthMax / 1000; // Conversion from nm to microns
+    this.horizontalTickLabelMax.string = this.model.wavelengthMax / 1000; // Conversion from nm to microns
     if ( this.verticalZoomProperty.value < 0.01 ) {
       const notationObject = ScientificNotationNode.toScientificNotation( this.verticalZoomProperty.value, {
         mantissaDecimalPlaces: 0

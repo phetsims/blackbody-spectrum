@@ -177,7 +177,7 @@ class GraphValuesPointNode extends Node {
     this.cueingArrows.visible = this.arrowsVisible && this.graphPointCircle.visible;
 
     // Updates value labels' text
-    this.wavelengthValueText.text = Utils.toFixed( this.wavelengthProperty.value / 1000.0, 3 ); // nm to microns
+    this.wavelengthValueText.string = Utils.toFixed( this.wavelengthProperty.value / 1000.0, 3 ); // nm to microns
 
     // Spectral Power Density is given special case for scientific notation
     const spectralPowerDensityValue = spectralPowerDensityOfPoint * 1e33; // multiplier is to match y axis
