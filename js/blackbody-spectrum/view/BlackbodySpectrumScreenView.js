@@ -2,7 +2,7 @@
 
 /**
  * Main view for the BlackbodySpectrum simulation
- * Handles or contains all of the main graphical logic of the sim
+ * Handles or contains all the main graphical logic of the sim
  *
  * @author Martin Veillette (Berea College)
  * @author Saurabh Totey
@@ -46,7 +46,7 @@ class BlackbodySpectrumScreenView extends ScreenView {
       tandem: tandem
     } );
 
-    const thermometer = new BlackbodySpectrumThermometer( model.mainBody.temperatureProperty, {
+    const thermometerNode = new BlackbodySpectrumThermometer( model.mainBody.temperatureProperty, {
       tandem: tandem.createTandem( 'thermometerNode' )
     } );
 
@@ -78,14 +78,14 @@ class BlackbodySpectrumScreenView extends ScreenView {
     } );
 
     // create graph with zoom buttons
-    const graphNode = new GraphDrawingNode( model, { tandem: tandem.createTandem( 'graphDrawingNode' ) } );
+    const graphDrawingNode = new GraphDrawingNode( model, { tandem: tandem.createTandem( 'graphDrawingNode' ) } );
 
     // create the Reset All Button in the bottom right
     const resetAllButton = new ResetAllButton( {
       listener: () => {
         model.reset();
-        graphNode.reset();
-        thermometer.reset();
+        graphDrawingNode.reset();
+        thermometerNode.reset();
       },
       tandem: tandem.createTandem( 'resetAllButton' ),
       phetioDocumentation: 'button that resets the screen to its initial state'
@@ -94,31 +94,31 @@ class BlackbodySpectrumScreenView extends ScreenView {
     const controlPanel = new BlackbodySpectrumControlPanel( model, {
       tandem: tandem.createTandem( 'controlPanel' )
     } );
-    const savedInformationPanel = new SavedGraphInformationPanel( model, {
+    const savedGraphsPanel = new SavedGraphInformationPanel( model, {
       minWidth: controlPanel.width,
       tandem: tandem.createTandem( 'savedGraphsPanel' )
     } );
 
-    graphNode.left = INSET;
-    graphNode.bottom = this.layoutBounds.maxY - INSET;
+    graphDrawingNode.left = INSET;
+    graphDrawingNode.bottom = this.layoutBounds.maxY - INSET;
     resetAllButton.right = this.layoutBounds.maxX - INSET;
     resetAllButton.bottom = this.layoutBounds.maxY - INSET;
-    thermometer.right = this.layoutBounds.maxX - INSET;
-    thermometerText.centerX = thermometer.right + thermometer.thermometerCenterXFromRight;
+    thermometerNode.right = this.layoutBounds.maxX - INSET;
+    thermometerText.centerX = thermometerNode.right + thermometerNode.thermometerCenterXFromRight;
     temperatureText.centerX = thermometerText.centerX;
     thermometerText.top = INSET + TEMPERATURE_LABEL_SPACING;
     temperatureText.top = thermometerText.bottom + TEMPERATURE_LABEL_SPACING;
-    thermometer.top = temperatureText.bottom + TEMPERATURE_LABEL_SPACING;
-    controlPanel.right = thermometer.left - 20;
+    thermometerNode.top = temperatureText.bottom + TEMPERATURE_LABEL_SPACING;
+    controlPanel.right = thermometerNode.left - 20;
     controlPanel.top = thermometerText.centerY;
-    savedInformationPanel.centerX = controlPanel.centerX;
-    savedInformationPanel.top = controlPanel.bottom + 55;
+    savedGraphsPanel.centerX = controlPanel.centerX;
+    savedGraphsPanel.top = controlPanel.bottom + 55;
     bgrAndStarDisplay.left = 225; // Layout empirically determined
 
-    this.addChild( graphNode );
+    this.addChild( graphDrawingNode );
     this.addChild( controlPanel );
-    this.addChild( savedInformationPanel );
-    this.addChild( thermometer );
+    this.addChild( savedGraphsPanel );
+    this.addChild( thermometerNode );
     this.addChild( thermometerText );
     this.addChild( temperatureText );
     this.addChild( bgrAndStarDisplay );
