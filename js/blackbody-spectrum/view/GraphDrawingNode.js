@@ -59,6 +59,7 @@ class GraphDrawingNode extends Node {
     this.model = model;
 
     // @private The axes with the ticks and EM spectrum labels
+    // eslint-disable-next-line tandem-name-should-match
     this.axes = new ZoomableAxesView( model, { tandem: options.tandem.createTandem( 'axesView' ) } );
 
     // @private Intermediary nodes containing elements within axes to allow for easier clipping
@@ -85,6 +86,7 @@ class GraphDrawingNode extends Node {
     } );
 
     // @private The point node that can be dragged to find out graph values
+    // eslint-disable-next-line tandem-name-should-match
     this.draggablePointNode = new GraphValuesPointNode( model.mainBody, this.axes, {
       tandem: options.tandem.createTandem( 'graphValuesPointNode' )
     } );

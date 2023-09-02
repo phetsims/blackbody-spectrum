@@ -69,7 +69,7 @@ class BlackbodySpectrumThermometer extends ThermometerNode {
     super( temperatureProperty, options.minTemperature, options.maxTemperature, options );
 
     // labeled tick marks
-    const tickContainer = new Node( {
+    const labelsNode = new Node( {
       children: _.range( 0, TICK_MARKS.length ).map( i => this.createLabeledTick( i, options ) ),
       tandem: options.tandem.createTandem( 'labelsNode' )
     } );
@@ -77,6 +77,7 @@ class BlackbodySpectrumThermometer extends ThermometerNode {
     const thumbDimension = new Dimension2( options.thumbSize, options.thumbSize );
 
     // @private thumb node thermometer's slider
+    // eslint-disable-next-line tandem-name-should-match
     this.triangleNode = new TriangleSliderThumb( {
       size: thumbDimension,
       tandem: options.tandem.createTandem( 'slider' )
@@ -107,7 +108,7 @@ class BlackbodySpectrumThermometer extends ThermometerNode {
     this.triangleNode.left = options.tubeWidth / 2;
     this.triangleNode.centerY = -this.temperatureToYPos( TICK_MARKS[ 1 ].temperature );
 
-    this.addChild( tickContainer );
+    this.addChild( labelsNode );
     this.addChild( this.triangleNode );
 
     // @private position of the center of the thermometer (not the whole node) relative to the right of the node

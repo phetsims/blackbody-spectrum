@@ -110,7 +110,7 @@ class GraphValuesPointNode extends Node {
 
     // Sets up the drag handler for the point circle and vertical dashed line
     let clickXOffset;
-    const graphValueDragHandler = new DragListener( {
+    const dragListener = new DragListener( {
       start: event => {
         clickXOffset = this.graphPointCircle.globalToParentPoint( event.pointer.point ).x - this.graphPointCircle.x;
       },
@@ -134,9 +134,9 @@ class GraphValuesPointNode extends Node {
       tandem: options.tandem.createTandem( 'dragListener' )
     } );
 
-    this.graphPointCircle.addInputListener( graphValueDragHandler );
-    this.cueingArrows.addInputListener( graphValueDragHandler );
-    this.dashedVerticalLinePath.addInputListener( graphValueDragHandler );
+    this.graphPointCircle.addInputListener( dragListener );
+    this.cueingArrows.addInputListener( dragListener );
+    this.dashedVerticalLinePath.addInputListener( dragListener );
 
     // Adds children in rendering order
     this.addChild( this.dashedVerticalLinePath );
