@@ -59,6 +59,7 @@ class GraphDrawingNode extends Node {
     this.model = model;
 
     // @private The axes with the ticks and EM spectrum labels
+    // TODO: Disable line below should be removed, see https://github.com/phetsims/phet-io/issues/1959
     // eslint-disable-next-line tandem-name-should-match
     this.axes = new ZoomableAxesView( model, { tandem: options.tandem.createTandem( 'axesView' ) } );
 
@@ -86,6 +87,7 @@ class GraphDrawingNode extends Node {
     } );
 
     // @private The point node that can be dragged to find out graph values
+    // TODO: Disable line below should be removed, see https://github.com/phetsims/phet-io/issues/1959
     // eslint-disable-next-line tandem-name-should-match
     this.draggablePointNode = new GraphValuesPointNode( model.mainBody, this.axes, {
       tandem: options.tandem.createTandem( 'graphValuesPointNode' )

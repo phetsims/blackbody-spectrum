@@ -77,6 +77,7 @@ class BlackbodySpectrumThermometer extends ThermometerNode {
     const thumbDimension = new Dimension2( options.thumbSize, options.thumbSize );
 
     // @private thumb node thermometer's slider
+    // TODO: Disable line below should be removed, see https://github.com/phetsims/phet-io/issues/1959
     // eslint-disable-next-line tandem-name-should-match
     this.triangleNode = new TriangleSliderThumb( {
       size: thumbDimension,
