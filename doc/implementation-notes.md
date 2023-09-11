@@ -7,8 +7,7 @@ of the implementation. The intention is to provide a high-level overview, and to
 The audience for this document is software developers who are familiar with JavaScript and PhET simulation development,
 as described
 in [PhET Development Overview](https://github.com/phetsims/phet-info/blob/main/doc/phet-development-overview.md). The
-reader should also be
-familiar with general design patterns used in PhET simulations.
+reader should also be familiar with general design patterns used in PhET simulations.
 
 Before reading this document, see [model.md](https://github.com/phetsims/blackbody-spectrum/tree/main/doc/model.md),
 which provides a high-level description of the simulation model.
