@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "blackbody-spectrum": {
-    "sha": "1987d37e295f68c92d7172b584b27aa5042d7d97",
+    "sha": "6bc791af604ad38e828f051f7bb2fc2b1097dbd9",
     "branch": "1.0"
   },
   "brand": {
@@ -57,7 +57,7 @@
     "branch": "HEAD"
   },
   "scenery": {
-    "sha": "c95971efe52b1d785dbdd421882455e597a41d7d",
+    "sha": "9b1fe8c2b27dc4b027a082e9c16475778a6c8ffc",
     "branch": "HEAD"
   },
   "scenery-phet": {
