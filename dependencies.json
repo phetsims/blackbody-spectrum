@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "blackbody-spectrum": {
-    "sha": "4ef5ee492044667b57f86d86b3e5a37bcc642a83",
+    "sha": "eaeab12071f8dc8ad489c2b95f64c600cdba78c0",
     "branch": "1.0"
   },
   "brand": {
@@ -17,7 +17,7 @@
     "branch": "HEAD"
   },
   "chipper": {
-    "sha": "bb2563c12ade226643e8945fb4df965f23db75a3",
+    "sha": "f153ffa7a7c3fa643689a819e7e9e5eb2d4bb0c3",
     "branch": "HEAD"
   },
   "dot": {
@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "joist": {
-    "sha": "0e6403ed6a49f750c0e872a22dcf52ed3a9c0bc6",
+    "sha": "6f84c4bcd2cd3472c0c33461d47f020071a7a0e7",
     "branch": "HEAD"
   },
   "kite": {
