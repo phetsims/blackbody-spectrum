@@ -24,18 +24,21 @@ class BlackbodySpectrumModel {
     // @public {Property.<boolean>}
     this.graphValuesVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'graphValuesVisibleProperty' ),
+      phetioFeatured: true,
       phetioDocumentation: 'whether the graph values should be visible'
     } );
 
     // @public {Property.<boolean>}
     this.intensityVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'intensityVisibleProperty' ),
+      phetioFeatured: true,
       phetioDocumentation: 'whether the intensity (area under the curve) of the graph should be visible'
     } );
 
     // @public {Property.<boolean>}
     this.labelsVisibleProperty = new BooleanProperty( false, {
       tandem: tandem.createTandem( 'labelsVisibleProperty' ),
+      phetioFeatured: true,
       phetioDocumentation: 'whether the graph labels should be visible'
     } );
 
