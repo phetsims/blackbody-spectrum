@@ -8,11 +8,13 @@
  */
 
 import Dimension2 from '../../../../dot/js/Dimension2.js';
-import { Shape } from '../../../../kite/js/imports.js';
+import Shape from '../../../../kite/js/Shape.js';
 import merge from '../../../../phet-core/js/merge.js';
 import ArrowNode from '../../../../scenery-phet/js/ArrowNode.js';
 import TriangleNode from '../../../../scenery-phet/js/TriangleNode.js';
-import { ButtonListener, Node, Path } from '../../../../scenery/js/imports.js';
+import ButtonListener from '../../../../scenery/js/input/ButtonListener.js';
+import Node from '../../../../scenery/js/nodes/Node.js';
+import Path from '../../../../scenery/js/nodes/Path.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import blackbodySpectrum from '../../blackbodySpectrum.js';
 import BlackbodyColors from './BlackbodyColors.js';
