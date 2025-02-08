@@ -1,4 +1,4 @@
-// Copyright 2018-2022, University of Colorado Boulder
+// Copyright 2018-2025, University of Colorado Boulder
 
 /**
  * An object that contains the colors used for various major components of the Blackbody simulation.  This
