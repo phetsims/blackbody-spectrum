@@ -16,7 +16,6 @@ import PhetFont from '../../../../scenery-phet/js/PhetFont.js';
 import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
-import blackbodySpectrum from '../../blackbodySpectrum.js';
 import BlackbodySpectrumStrings from '../../BlackbodySpectrumStrings.js';
 import BGRAndStarDisplay from './BGRAndStarDisplay.js';
 import BlackbodyColors from './BlackbodyColors.js';
@@ -127,5 +126,4 @@ class BlackbodySpectrumScreenView extends ScreenView {
   }
 }
 
-blackbodySpectrum.register( 'BlackbodySpectrumScreenView', BlackbodySpectrumScreenView );
 export default BlackbodySpectrumScreenView;

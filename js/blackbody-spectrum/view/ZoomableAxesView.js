@@ -23,7 +23,6 @@ import RichText from '../../../../scenery/js/nodes/RichText.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
-import blackbodySpectrum from '../../blackbodySpectrum.js';
 import BlackbodySpectrumStrings from '../../BlackbodySpectrumStrings.js';
 import BlackbodyColors from './BlackbodyColors.js';
 
@@ -450,5 +449,4 @@ class ZoomableAxesView extends Node {
 
 }
 
-blackbodySpectrum.register( 'ZoomableAxesView', ZoomableAxesView );
 export default ZoomableAxesView;

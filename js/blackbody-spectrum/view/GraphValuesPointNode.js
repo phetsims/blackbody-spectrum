@@ -24,7 +24,6 @@ import Text from '../../../../scenery/js/nodes/Text.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
-import blackbodySpectrum from '../../blackbodySpectrum.js';
 import BlackbodyColors from './BlackbodyColors.js';
 
 class GraphValuesPointNode extends Node {
@@ -262,5 +261,4 @@ class GraphValuesPointNode extends Node {
 
 }
 
-blackbodySpectrum.register( 'GraphValuesPointNode', GraphValuesPointNode );
 export default GraphValuesPointNode;

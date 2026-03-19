@@ -8,7 +8,6 @@
  */
 
 import Shape from '../../../../kite/js/Shape.js';
-import blackbodySpectrum from '../../blackbodySpectrum.js';
 
 class GenericCurveShape extends Shape {
 
@@ -24,5 +23,4 @@ class GenericCurveShape extends Shape {
   }
 }
 
-blackbodySpectrum.register( 'GenericCurveShape', GenericCurveShape );
 export default GenericCurveShape;

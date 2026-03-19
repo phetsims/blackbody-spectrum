@@ -16,7 +16,6 @@ import ButtonListener from '../../../../scenery/js/input/ButtonListener.js';
 import Node from '../../../../scenery/js/nodes/Node.js';
 import Path from '../../../../scenery/js/nodes/Path.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import blackbodySpectrum from '../../blackbodySpectrum.js';
 import BlackbodyColors from './BlackbodyColors.js';
 
 class TriangleSliderThumb extends Node {
@@ -97,5 +96,4 @@ class TriangleSliderThumb extends Node {
 
 }
 
-blackbodySpectrum.register( 'TriangleSliderThumb', TriangleSliderThumb );
 export default TriangleSliderThumb;

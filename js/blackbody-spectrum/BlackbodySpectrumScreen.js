@@ -7,7 +7,6 @@
  */
 
 import Screen from '../../../joist/js/Screen.js';
-import blackbodySpectrum from '../blackbodySpectrum.js';
 import BlackbodySpectrumModel from './model/BlackbodySpectrumModel.js';
 import BlackbodyColors from './view/BlackbodyColors.js';
 import BlackbodySpectrumScreenView from './view/BlackbodySpectrumScreenView.js';
@@ -27,5 +26,4 @@ class BlackbodySpectrumScreen extends Screen {
   }
 }
 
-blackbodySpectrum.register( 'BlackbodySpectrumScreen', BlackbodySpectrumScreen );
 export default BlackbodySpectrumScreen;

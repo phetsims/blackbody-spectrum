@@ -15,7 +15,6 @@ import Color from '../../../../scenery/js/util/Color.js';
 import NullableIO from '../../../../tandem/js/types/NullableIO.js';
 import NumberIO from '../../../../tandem/js/types/NumberIO.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
-import blackbodySpectrum from '../../blackbodySpectrum.js';
 
 // constants
 // colors used for glowing star and circles
@@ -234,5 +233,4 @@ class BlackbodyBodyModel {
 
 }
 
-blackbodySpectrum.register( 'BlackbodyBodyModel', BlackbodyBodyModel );
 export default BlackbodyBodyModel;

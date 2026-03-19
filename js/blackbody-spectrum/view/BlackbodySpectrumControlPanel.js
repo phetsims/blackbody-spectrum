@@ -26,7 +26,6 @@ import RectangularPushButton from '../../../../sun/js/buttons/RectangularPushBut
 import Checkbox from '../../../../sun/js/Checkbox.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import blackbodySpectrum from '../../blackbodySpectrum.js';
 import BlackbodySpectrumStrings from '../../BlackbodySpectrumStrings.js';
 import BlackbodyColors from './BlackbodyColors.js';
 
@@ -205,5 +204,4 @@ class BlackbodySpectrumControlPanel extends Panel {
   }
 }
 
-blackbodySpectrum.register( 'BlackbodySpectrumControlPanel', BlackbodySpectrumControlPanel );
 export default BlackbodySpectrumControlPanel;

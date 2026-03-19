@@ -11,7 +11,6 @@
 
 import BooleanProperty from '../../../../axon/js/BooleanProperty.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
-import blackbodySpectrum from '../../blackbodySpectrum.js';
 import BlackbodyBodyModel from './BlackbodyBodyModel.js';
 
 class BlackbodySpectrumModel {
@@ -87,5 +86,4 @@ class BlackbodySpectrumModel {
   }
 }
 
-blackbodySpectrum.register( 'BlackbodySpectrumModel', BlackbodySpectrumModel );
 export default BlackbodySpectrumModel;

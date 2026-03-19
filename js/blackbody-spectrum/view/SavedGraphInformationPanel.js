@@ -16,7 +16,6 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Panel from '../../../../sun/js/Panel.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
-import blackbodySpectrum from '../../blackbodySpectrum.js';
 import BlackbodySpectrumStrings from '../../BlackbodySpectrumStrings.js';
 import BlackbodyColors from './BlackbodyColors.js';
 import GenericCurveShape from './GenericCurveShape.js';
@@ -132,5 +131,4 @@ class SavedGraphInformationPanel extends Panel {
   }
 }
 
-blackbodySpectrum.register( 'SavedGraphInformationPanel', SavedGraphInformationPanel );
 export default SavedGraphInformationPanel;

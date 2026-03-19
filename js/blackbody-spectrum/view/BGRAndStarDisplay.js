@@ -17,7 +17,6 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import Text from '../../../../scenery/js/nodes/Text.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
-import blackbodySpectrum from '../../blackbodySpectrum.js';
 import BlackbodySpectrumStrings from '../../BlackbodySpectrumStrings.js';
 import BlackbodyColors from './BlackbodyColors.js';
 
@@ -109,5 +108,4 @@ class BGRAndStarDisplay extends Node {
   }
 }
 
-blackbodySpectrum.register( 'BGRAndStarDisplay', BGRAndStarDisplay );
 export default BGRAndStarDisplay;

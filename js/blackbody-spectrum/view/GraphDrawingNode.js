@@ -21,7 +21,6 @@ import Path from '../../../../scenery/js/nodes/Path.js';
 import ColorConstants from '../../../../sun/js/ColorConstants.js';
 import Tandem from '../../../../tandem/js/Tandem.js';
 import BlackbodyConstants from '../../BlackbodyConstants.js';
-import blackbodySpectrum from '../../blackbodySpectrum.js';
 import GraphValuesPointNode from './GraphValuesPointNode.js';
 import ZoomableAxesView from './ZoomableAxesView.js';
 
@@ -307,5 +306,4 @@ class GraphDrawingNode extends Node {
   }
 }
 
-blackbodySpectrum.register( 'GraphDrawingNode', GraphDrawingNode );
 export default GraphDrawingNode;

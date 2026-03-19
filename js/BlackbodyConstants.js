@@ -8,7 +8,6 @@
  */
 
 import PhetFont from '../../scenery-phet/js/PhetFont.js';
-import blackbodySpectrum from './blackbodySpectrum.js';
 
 const BlackbodyConstants = {
 
@@ -35,5 +34,4 @@ const BlackbodyConstants = {
   LABEL_FONT: new PhetFont( 22 )
 };
 
-blackbodySpectrum.register( 'BlackbodyConstants', BlackbodyConstants );
 export default BlackbodyConstants;

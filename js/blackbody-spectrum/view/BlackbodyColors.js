@@ -70,5 +70,4 @@ const BlackbodyColors = {
   } )
 };
 
-blackbodySpectrum.register( 'BlackbodyColors', BlackbodyColors );
 export default BlackbodyColors;
