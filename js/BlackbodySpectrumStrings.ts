@@ -60,4 +60,6 @@ type StringsType = {
 
 const BlackbodySpectrumStrings = getStringModule( 'BLACKBODY_SPECTRUM' ) as StringsType;
 
+blackbodySpectrum.register( 'BlackbodySpectrumStrings', BlackbodySpectrumStrings );
+
 export default BlackbodySpectrumStrings;
