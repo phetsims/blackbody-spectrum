@@ -1,4 +1,4 @@
-// Copyright 2014-2021, University of Colorado Boulder
+// Copyright 2014-2026, University of Colorado Boulder
 
 /**
  * The 'Blackbody Spectrum' screen, which shows everything in that screen.
