@@ -9,7 +9,7 @@
     "branch": "HEAD"
   },
   "blackbody-spectrum": {
-    "sha": "7f7d8573cc19c45d2c796d0e2cf772486037c126",
+    "sha": "e5b744c69c64137c0dd5474d6881fd2592cc6152",
     "branch": "1.0"
   },
   "brand": {
@@ -25,7 +25,7 @@
     "branch": "HEAD"
   },
   "joist": {
-    "sha": "a50f34fcfa69578b556ba6140f9235e59c696ec3",
+    "sha": "393da11f75211439492dc61889e1640ad3f01b90",
     "branch": "HEAD"
   },
   "kite": {
