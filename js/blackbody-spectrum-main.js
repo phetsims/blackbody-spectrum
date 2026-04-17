@@ -18,7 +18,7 @@ const blackbodySpectrumTitleStringProperty = BlackbodySpectrumStrings[ 'blackbod
 
 const simOptions = {
   credits: {
-    leadDesign: 'Michael Dubson, Diana L\u00f3pez Tavares',
+    leadDesign: 'Michael Dubson, Diana López Tavares',
     softwareDevelopment: 'Arnab Purkayastha, Saurabh Totey, Martin Veillette',
     team: 'Wendy Adams, John Blanco, Ariel Paul, Kathy Perkins',
     qualityAssurance: 'Steele Dalton, Liam Mulhall, Jacob Romero, Ethan Ward, Kathryn Woessner',
